@@ -1,0 +1,18 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - Board",
+            "request": "launch",
+            "mainClass": "Board",
+            "projectName": "JumpIN"
+        }
+        // {
+        //     "type": "java",
+        //     "name": "CodeLens (Launch) - JumpIN",
+        //     "request": "launch",
+        //     "mainClass": "JumpIN",
+        //     "projectName": "JumpIN"
+        // }
+    ]
+}
