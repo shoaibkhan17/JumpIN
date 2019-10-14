@@ -1,4 +1,3 @@
-import java.io.IOException;
 import java.util.Scanner;
 
 /**
@@ -36,7 +35,7 @@ public class Board {
         squares[4][4].setPiece(new Hole());
     }
 
-    //prints out board 
+    //prints out a single line of the board
     public void printBoardLine() {
         System.out.print("\n  ");
         for (int i = 0; i < 21; i++) {
@@ -45,6 +44,7 @@ public class Board {
         System.out.println();
     }
 
+    // Prints out the entire board's state
     public void printBoard() {
         System.out.print("    A   B   C   D   E");
         for (int y = 0; y < Board.BOARD_SIZE; y++) {
@@ -68,27 +68,36 @@ public class Board {
         Scanner scanner = new Scanner(System.in);
         boolean valid = false;
 
+        String input="";
         while (!valid) {
             this.printBoard();
             System.out.print(moveText);
-            String input = scanner.nextLine();
+            input = scanner.nextLine();
             if (input.length() == 2) {
                 valid = true;
             } else {
                 System.out.println(invalidText);
             }
         }
-//        scanner.close();
+
+       // char firstChar = input.charAt(0);
+        //char secondChar = input.charAt(1);
+        
+        
+        
+        //squares[][]
     }
+    
+    
 
     /**
      * Allows the user to enter which piece they would like to move and the location
      */
     public void moveText() {
-        this.moveValidator("What piece would you like to move: ", "\nPlease enter a valid piece \n");
+        moveValidator("What piece would you like to move: ", "\nPlease enter a valid piece \n");
 
         // Some issues with the scanner currently.
-        this.moveValidator("Where would you like to move this piece: ", "\nPlease enter a valid location \n");
+        moveValidator("Where would you like to move this piece: ", "\nPlease enter a valid location \n");
     }
 
     /**

@@ -29,6 +29,8 @@ public class Square {
 
         return null;
     }
+    
+    
 
     public String printSquare() {
         return piece == null ? " " : piece.toString();
