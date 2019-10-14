@@ -131,5 +131,18 @@ public class Board {
 
         Board testingBoard = new Board();
         testingBoard.playGame();
+	public String toString() {
+		String board = "    A   B   C   D   E";
+		for (int y = 0; y < Board.BOARD_SIZE; y++) {
+			// this.printBoardLine();
+			board += boardLine() + "\n";
+			board += (y + 1 + " ");
+			for (int x = 0; x < Board.BOARD_SIZE; x++) {
+				board += (boardPrintChar + " " + squares[x][y].toString() + " ");
+			}
+			board += (Board.boardPrintChar);
+		}
+		board += boardLine();
+		return board;
 	}
 }
