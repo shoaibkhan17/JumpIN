@@ -16,6 +16,7 @@ public class Board {
         }
     }
 
+    //initialize board
     public void initBoard() {
         // Create and add pieces into the board
         squares[0][0].setPiece(new Hole());
