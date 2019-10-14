@@ -1,6 +1,11 @@
 import java.io.IOException;
 import java.util.Scanner;
 
+/**
+ * Class that initializes the board of the game along with board size and squares
+ * Checks whether each move is valid or not and allows the user to play the game by initializing the game
+ * 
+ */
 public class Board {
     private Square[][] squares;
     private static final int BOARD_SIZE = 5;
@@ -18,7 +23,8 @@ public class Board {
 
     //initialize board
     public void initBoard() {
-        // Create and add pieces into the board
+        
+    	// Create and add pieces into the board
         squares[0][0].setPiece(new Hole());
         squares[1][0].setPiece(new Mushroom());
         squares[2][0].setPiece(new Mushroom());
@@ -53,7 +59,11 @@ public class Board {
         System.out.println();
     }
 
-    // validates move
+    /**
+     * 
+     * @param moveText
+     * @param invalidText
+     */
     public void moveValidator(String moveText, String invalidText) {
         Scanner scanner = new Scanner(System.in);
         boolean valid = false;
@@ -68,18 +78,22 @@ public class Board {
                 System.out.println(invalidText);
             }
         }
-        scanner.close();
+//        scanner.close();
     }
 
-    
+    /**
+     * Allows the user to enter which piece they would like to move and the location
+     */
     public void moveText() {
-        this.moveValidator("What peice would you like to move: ", "\nPlease enter a valid peice \n");
+        this.moveValidator("What piece would you like to move: ", "\nPlease enter a valid piece \n");
 
         // Some issues with the scanner currently.
-        this.moveValidator("Where would you like to move this peice: ", "\nPlease enter a valid location \n");
+        this.moveValidator("Where would you like to move this piece: ", "\nPlease enter a valid location \n");
     }
 
-
+    /**
+     * Method that allows the user to play the game
+     */
     public void playGame() {
         // TODO move this into a while loop
         this.initBoard();
@@ -87,7 +101,7 @@ public class Board {
     }
 
     /**
-     * For testing
+     * Main method for testing the game
      */
     public static void main(String[] args) {
         System.out.println("In board class");
