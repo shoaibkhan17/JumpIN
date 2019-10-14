@@ -6,7 +6,7 @@ import java.util.Scanner;
  * 
  */
 public class Board {
-	private Square[][] squares;
+	public Square[][] squares;
 	private static final int BOARD_SIZE = 5;
 	private static final char boardPrintChar = '*';
 
@@ -19,6 +19,8 @@ public class Board {
 			}
 		}
 	}
+	
+	
 
 	public void initBoard() {
 		// Create and add pieces into the board
@@ -57,24 +59,5 @@ public class Board {
 		return board;
 	}
     
-	public int charToInt(char c) {
-		switch (c) {
 
-		case 'A':
-			return 0;
-		case 'B':
-			return 1;
-		case 'C':
-			return 2;
-		case 'D':
-			return 3;
-		case 'E':
-			return 4;
-
-		default:
-			break;
-		}
-
-		return 0;
-	}
 }
