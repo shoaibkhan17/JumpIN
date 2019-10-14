@@ -69,7 +69,8 @@ public class Board {
         scanner.close();
     }
 
-    // Test BY shakiri
+    // Test BY shakiri,
+    // Test BY khalil Aalab
     public void moveText() {
         this.moveValidator("What peice would you like to move: ", "\nPlease enter a valid peice \n");
 
