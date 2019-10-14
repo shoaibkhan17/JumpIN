@@ -60,12 +60,6 @@ public class JumpInGame {
 			// Some issues with the scanner currently.
 			this.moveValidator("Where would you like to move this peice: ", "\nPlease enter a valid location \n");
 		}
-
-//		public void playGame() {
-//			// TODO move this into a while loop
-//			this.initBoard();
-//			this.moveText();
-//		}
 		
 		public int charToInt(char c) {
 			switch (c) {
