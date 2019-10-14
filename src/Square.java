@@ -30,6 +30,10 @@ public class Square {
         return null;
     }
 
+    public String toString() {
+    	return piece == null ? " " : piece.toString();
+    }
+    
     public String printSquare() {
         return piece == null ? " " : piece.toString();
     }
