@@ -15,50 +15,73 @@ public class JumpInGame {
          
         //game loop  
         while(gameOn) { 
-        	//testingBoard.playGame(); 
-        	//1.print board 
             System.out.println(game1.testingBoard.toString()); 
-            game1.moveValidator("What piece would you like to move: ", "\nPlease enter a valid piece \n");
-            game1.moveValidator("Where would you like to move this piece: ", "\nPlease enter a valid location \n");
+            int[] oldLocation = game1.getOldLocation();
+            int[] newLocation = game1.getNewLocation();
+            
+            game1.testingBoard.squares[oldLocation[0]][oldLocation[1]].removePiece();
+            game1.testingBoard.squares[newLocation[0]][newLocation[1]].setPiece(new Rabbit());
+            
+            //1.print board 
             //2.checkBoardState 
             //3.getMove 
             //4.validateMove 
             //5.if valid apply move and reprint board 
             //6.Check game status 
-            //7.Resume or break loop 
-        	 
+            //7.Resume or break loop
         } 
 	} 
 	 
-	// validates move
-		public void moveValidator(String moveText, String invalidText) {
-			Scanner scanner = new Scanner(System.in);
+		public boolean locationValidator(String userInput) {
 			boolean valid = false;
-			String input="";
-			while (!valid) {
-				//System.out.println(this.toString());
-				System.out.println(moveText);
-				input = scanner.nextLine();
-				if (input.length() == 2) {
-					valid = true;
-				} else {
-					System.out.println(invalidText);
-				}
+			
+			if(userInput.length() == 2) {
+				return true;
 			}
-			// scanner.close();
-			
-			int column = charToInt(input.charAt(0));
-			int row = Character.getNumericValue(input.charAt(1)-1);
-			
-		 testingBoard.squares[column][row].setPiece(new Rabbit());
-			
+			else {
+				return false;
+			}
 		}
 
-		public void moveText() {
-			this.moveValidator("What peice would you like to move: ", "\nPlease enter a valid peice \n");
+		public int[] getOldLocation() {
+			Scanner scanner = new Scanner(System.in);
+			System.out.println("What piece would you like to move: ");
+			String input = "";
+			
+			input = scanner.next();
+			
+			int oldColumn = -1;
+			int oldRow = -1;
+			
+			if(locationValidator(input)) {
+				
+				oldColumn = charToInt(input.charAt(0));
+				oldRow = Character.getNumericValue(input.charAt(1) - 1);
+				
+			}
+			
+			int[] oldCoordinates = new int[2];
+			oldCoordinates[0] = oldColumn;
+			oldCoordinates[1] = oldRow;
+			
+			return oldCoordinates;
+		}
+		
+		
+		public int[] getNewLocation() {
+			int [] newLocation = new int[2];
+			Scanner scanner = new Scanner(System.in);
+			System.out.println("Where would you like to move: ");
+			
+			String input = scanner.next();
+			int newColumn = charToInt(input.charAt(0));
+			int newRow = Character.getNumericValue(input.charAt(1) - 1);
+			
+			newLocation[0] = newColumn;
+			newLocation[1]  = newRow;
+			
 
-			// Some issues with the scanner currently.
-			this.moveValidator("Where would you like to move this peice: ", "\nPlease enter a valid location \n");
+			return newLocation;
 		}
 		
 		public int charToInt(char c) {
@@ -84,7 +107,8 @@ public class JumpInGame {
 		
 		public boolean isGameOver() {
 			if(true)//check win condition
-					return true;
+			
+			return true;
 			return false;
 		}
  

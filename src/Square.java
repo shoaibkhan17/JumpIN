@@ -17,7 +17,11 @@ public class Square {
     public void setPiece(Piece piece) {
         this.piece = piece;
     }
-
+    
+    public void removePiece() {
+    	this.piece = null;
+    }
+    
     /**
      * @return Piece if the piece is found.
      * @return null if no piece is found
