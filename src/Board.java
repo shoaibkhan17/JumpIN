@@ -31,27 +31,26 @@ public class Board {
     }
 
     //prints out board 
-    public String printBoardLine() {
-        String boardLine = "\n  ";
+    public void printBoardLine() {
+        System.out.print("\n  ");
         for (int i = 0; i < 21; i++) {
-            boardLine += boardPrintChar;
+            System.out.print(Board.boardPrintChar);
         }
-        return boardLine;
+        System.out.println();
     }
 
-    public String printBoard() {
-        String board = "    A   B   C   D   E";
+    public void printBoard() {
+        System.out.print("    A   B   C   D   E");
         for (int y = 0; y < Board.BOARD_SIZE; y++) {
-            //this.printBoardLine();
-        	board += printBoardLine() + "\n";
-            board += (y + 1 + " ");
+            this.printBoardLine();
+            System.out.print(y + 1 + " ");
             for (int x = 0; x < Board.BOARD_SIZE; x++) {
-                board += (boardPrintChar + " " + squares[x][y].toString() + " ");
+                System.out.print(Board.boardPrintChar + " " + squares[x][y].printSquare() + " ");
             }
-            board += (Board.boardPrintChar);
+            System.out.print(Board.boardPrintChar);
         }
-        board += printBoardLine();
-        return board;
+        this.printBoardLine();
+        System.out.println();
     }
 
     // validates move
@@ -60,8 +59,8 @@ public class Board {
         boolean valid = false;
 
         while (!valid) {
-        	 System.out.println(this.printBoard());
-            System.out.println(moveText);
+            this.printBoard();
+            System.out.print(moveText);
             String input = scanner.nextLine();
             if (input.length() == 2) {
                 valid = true;
@@ -69,7 +68,7 @@ public class Board {
                 System.out.println(invalidText);
             }
         }
-//        scanner.close();
+        scanner.close();
     }
 
     
@@ -86,4 +85,15 @@ public class Board {
         this.initBoard();
         this.moveText();
     }
+
+    /**
+     * For testing
+     */
+    public static void main(String[] args) {
+        System.out.println("In board class");
+        System.out.println("---> Printing board <--- \n");
+
+        Board testingBoard = new Board();
+        testingBoard.playGame();
+	}
 }
