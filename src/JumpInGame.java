@@ -48,9 +48,9 @@ public class JumpInGame {
 			// scanner.close();
 			
 			int column = charToInt(input.charAt(0));
-			int row = Character.getNumericValue(input.charAt(1));
+			int row = Character.getNumericValue(input.charAt(1)-1);
 			
-		 testingBoard.squares[row][column].setPiece(new Rabbit());
+		 testingBoard.squares[column][row].setPiece(new Rabbit());
 			
 		}
 
