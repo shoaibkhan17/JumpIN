@@ -1,6 +1,10 @@
-import java.io.IOException;
 import java.util.Scanner;
 
+/**
+ * Class that initializes the board of the game along with board size and squares
+ * Checks whether each move is valid or not and allows the user to play the game by initializing the game
+ * 
+ */
 public class Board {
 	private Square[][] squares;
 	private static final int BOARD_SIZE = 5;

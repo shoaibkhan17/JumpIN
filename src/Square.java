@@ -19,7 +19,7 @@ public class Square {
     }
 
     /**
-     * @return Peice if the piece is found.
+     * @return Piece if the piece is found.
      * @return null if no piece is found
      */
     public Piece getPiece() {
