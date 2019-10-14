@@ -1,4 +1,9 @@
-
+/**
+ * Fox is a subclass of Animal class
+ * Its movement is different than Rabbit since it requires two space in the board
+ * 
+ */
+		
 public class Fox extends Animal{
 
     // TODO change 2 different classes head and tail
