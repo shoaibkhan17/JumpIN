@@ -42,45 +42,20 @@ public class Board {
 		return boardLine;
 	}
 
-    // Prints out the entire board's state
-    public void printBoard() {
-        System.out.print("    A   B   C   D   E");
-        for (int y = 0; y < Board.BOARD_SIZE; y++) {
-            this.printBoardLine();
-            System.out.print(y + 1 + " ");
-            for (int x = 0; x < Board.BOARD_SIZE; x++) {
-                System.out.print(Board.boardPrintChar + " " + squares[x][y].printSquare() + " ");
-            }
-            System.out.print(Board.boardPrintChar);
-        }
-        this.printBoardLine();
-        System.out.println();
-    }
-
-    /**
-     * 
-     * @param moveText
-     * @param invalidText
-     */
-    public void moveValidator(String moveText, String invalidText) {
-        Scanner scanner = new Scanner(System.in);
-        boolean valid = false;
-
-        String input="";
-        while (!valid) {
-            this.printBoard();
-            System.out.print(moveText);
-            input = scanner.nextLine();
-            if (input.length() == 2) {
-                valid = true;
-            } else {
-                System.out.println(invalidText);
-            }
-        }
-        
-        char firstChar = input.charAt(0); //gets the first character of the input that the user inputs
-        int secondNum = input.indexOf(1); //gets the second number of the input
-    }
+	public String toString() {
+		String board = "    A   B   C   D   E";
+		for (int y = 0; y < Board.BOARD_SIZE; y++) {
+			// this.printBoardLine();
+			board += boardLine() + "\n";
+			board += (y + 1 + " ");
+			for (int x = 0; x < Board.BOARD_SIZE; x++) {
+				board += (boardPrintChar + " " + squares[x][y].toString() + " ");
+			}
+			board += (Board.boardPrintChar);
+		}
+		board += boardLine();
+		return board;
+	}
     
 	public int charToInt(char c) {
 		switch (c) {
@@ -101,48 +76,5 @@ public class Board {
 		}
 
 		return 0;
-	}
-
-    /**
-     * Allows the user to enter which piece they would like to move and the location
-     */
-    public void moveText() {
-        moveValidator("What piece would you like to move: ", "\nPlease enter a valid piece \n");
-
-        // Some issues with the scanner currently.
-        moveValidator("Where would you like to move this piece: ", "\nPlease enter a valid location \n");
-    }
-
-    /**
-     * Method that allows the user to play the game
-     */
-    public void playGame() {
-        // TODO move this into a while loop
-        this.initBoard();
-        this.moveText();
-    }
-
-    /**
-     * Main method for testing the game
-     */
-    public static void main(String[] args) {
-        System.out.println("In board class");
-        System.out.println("---> Printing board <--- \n");
-
-        Board testingBoard = new Board();
-        testingBoard.playGame();
-	public String toString() {
-		String board = "    A   B   C   D   E";
-		for (int y = 0; y < Board.BOARD_SIZE; y++) {
-			// this.printBoardLine();
-			board += boardLine() + "\n";
-			board += (y + 1 + " ");
-			for (int x = 0; x < Board.BOARD_SIZE; x++) {
-				board += (boardPrintChar + " " + squares[x][y].toString() + " ");
-			}
-			board += (Board.boardPrintChar);
-		}
-		board += boardLine();
-		return board;
 	}
 }
