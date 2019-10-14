@@ -51,6 +51,7 @@ public class Board {
         System.out.println();
     }
 
+    // validates move
     public void moveValidator(String moveText, String invalidText) {
         Scanner scanner = new Scanner(System.in);
         boolean valid = false;
