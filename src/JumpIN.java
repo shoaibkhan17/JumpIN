@@ -1,8 +1,12 @@
 
 public class JumpIN {
 
+	private Board board;
+	
+	
+	
 	public static void main(String[] args) {
-		System.out.println("JumpIn game here");
+		
 	}
 
 }
