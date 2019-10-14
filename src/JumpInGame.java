@@ -45,12 +45,11 @@ public class JumpInGame {
 					System.out.println(invalidText);
 				}
 			}
-			// scanner.close();
 			
 			int column = charToInt(input.charAt(0));
-			int row = Character.getNumericValue(input.charAt(1)-1);
+			int row = Character.getNumericValue(input.charAt(1) - 1);
 			
-		 testingBoard.squares[column][row].setPiece(new Rabbit());
+			testingBoard.squares[column][row].setPiece(new Rabbit());
 			
 		}
 
