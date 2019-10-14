@@ -29,6 +29,7 @@ public class Board {
         squares[4][4].setPiece(new Hole());
     }
 
+    //prints out board 
     public void printBoardLine() {
         System.out.print("\n  ");
         for (int i = 0; i < 21; i++) {
