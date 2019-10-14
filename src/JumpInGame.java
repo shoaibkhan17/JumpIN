@@ -1,5 +1,5 @@
 
-public class JumpIN {
+public class JumpInGame {
 
 	private Board board;
 	

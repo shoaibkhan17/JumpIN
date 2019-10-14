@@ -3,7 +3,7 @@ public abstract class Animal extends Piece{
 
 	
 	public Animal(char type) {
-		super(type);
+		super(type, true);
 		// TODO Auto-generated constructor stub
 	}
 
