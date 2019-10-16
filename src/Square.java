@@ -1,4 +1,7 @@
-
+/**
+ * Square class contains pieces
+ *
+ */
 public class Square {
     private Piece piece;
 
@@ -17,9 +20,13 @@ public class Square {
     public void setPiece(Piece piece) {
         this.piece = piece;
     }
-
+    
+    public void removePiece() {
+    	this.piece = null;
+    }
+    
     /**
-     * @return Peice if the piece is found.
+     * @return Piece if the piece is found.
      * @return null if no piece is found
      */
     public Piece getPiece() {
@@ -29,8 +36,8 @@ public class Square {
 
         return null;
     }
-
-    public String printSquare() {
+    
+    public String toString() {
         return piece == null ? " " : piece.toString();
     }
 }
