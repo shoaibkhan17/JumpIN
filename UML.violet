@@ -338,7 +338,7 @@
    <object class="com.horstmann.violet.ClassNode" id="ClassNode9">
     <void property="attributes">
      <void property="text">
-      <string>-testingBoard: Board
+      <string>-board: Board
 </string>
      </void>
     </void>

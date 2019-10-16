@@ -2,7 +2,6 @@
  * Square class contains pieces
  *
  */
-
 public class Square {
     private Piece piece;
 
@@ -38,12 +37,7 @@ public class Square {
         return null;
     }
     
-    public String toString() { 
-    	return piece == null ? " " : piece.toString(); 
-    } 
-     
-
-    public String printSquare() {
+    public String toString() {
         return piece == null ? " " : piece.toString();
     }
 }
