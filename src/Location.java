@@ -35,4 +35,8 @@ public class Location {
     public boolean equals(Location location) {
         return x == location.getX() && y == location.getY();
     }
+
+    public String toString() {
+        return "(" + x + " , " + y + ")"; 
+    }
 }
