@@ -8,7 +8,8 @@ public class JumpInGame {
 	private Board board;
 	private Scanner scanner;
 	private Parser parser;
-	
+	 
+	// constructor
 	public JumpInGame(){
 		scanner = new Scanner(System.in);
 		parser = new Parser();
