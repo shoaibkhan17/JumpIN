@@ -65,6 +65,30 @@ public class Board {
 		squares[4][4].setPiece(new Hole());
 	}
 
+	public void printBoardLine() {
+		System.out.print("\n  "); 
+        for (int i = 0; i < 21; i++) { 
+            System.out.print(Board.BOARD_PRINT_CHAR); 
+        } 
+        System.out.println(); 
+	}
+
+	// Function to print the board. 
+	public void printBoard() {
+		System.out.print("\n    A   B   C   D   E");
+		for (int y = 0; y < Board.BOARD_SIZE; y++) {
+			this.printBoardLine();
+			// board += boardLine() + "\n";
+			System.out.print(y + 1 + " ");
+			for (int x = 0; x < Board.BOARD_SIZE; x++) {
+				System.out.print(BOARD_PRINT_CHAR + " " + squares[x][y].toString() + " ");
+			}
+			System.out.print(Board.BOARD_PRINT_CHAR);
+		}
+		this.printBoardLine();
+		System.out.println();
+	}
+
 	public boolean selectPiece(Location location) {
 		int x = location.getX();
 		int y = location.getY();
@@ -108,33 +132,5 @@ public class Board {
 		}
 
 		return false;
-	}
-
-	public String getBoardLine() {
-		String boardLine = "\n  ";
-        for (int i = 0; i < 21; i++) { 
-            boardLine += Board.BOARD_PRINT_CHAR; 
-		}
-		boardLine += "\n"; 
-		return boardLine;
-	}
-
-	public String toString() {
-		String board = "\n    A   B   C   D   E";
-		for (int y = 0; y < Board.BOARD_SIZE; y++) {
-			board += this.getBoardLine();
-			board += y + 1 + " ";
-			for (int x = 0; x < Board.BOARD_SIZE; x++) {
-				board += BOARD_PRINT_CHAR + " " + squares[x][y].toString() + " ";
-			}
-			board += Board.BOARD_PRINT_CHAR;
-		}
-		board += this.getBoardLine() + '\n';
-		return board;
-	}
-
-	// Function to print the board. 
-	public void printBoard() {
-		System.out.print(this.toString());
 	}
 }
