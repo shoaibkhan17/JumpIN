@@ -7,14 +7,13 @@
      <void property="text">
       <string>-square[][]: Square
 -&lt;u&gt; BOARD_SIZE: int
--&lt;u&gt; boardPrintChar: char</string>
+-&lt;u&gt; BOARD_PRINT_CHAR: char</string>
      </void>
     </void>
     <void property="methods">
      <void property="text">
       <string>+Board()
 +initBoard():void
-+printBoard():void
 +boardLine(): String
 +toString(): String</string>
      </void>
@@ -273,6 +272,7 @@
       <string>+Square(piece: Piece)
 +hasPiece(): boolean
 +setPiece(piece: Piece): void
++removePiece(): void
 +getPiece(): Piece 
 +toString(): String
 +printSquare(): String</string>
@@ -345,10 +345,9 @@
     <void property="methods">
      <void property="text">
       <string>+JumpInGame()
-+moveValidator(moveText:String, inValid:String):void
++locationValidator(userInput: String): boolean
 +getOldLocation(): int[]
 +getNewLocation(): int[]
-+moveText():void
 +charToInt(c: char): int
 +isGameOver(): boolean</string>
      </void>

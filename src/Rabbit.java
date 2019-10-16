@@ -1,6 +1,6 @@
 /**
  * Rabbit is subclass of Animal class 
- * Rabbits can only move if there is/are obstacles on their path
+ * Rabbits can only jump if there is/are obstacles on their path
  */
 public class Rabbit extends Animal {
 

@@ -1,5 +1,4 @@
 import java.util.Scanner;
-
 /**
  * Class that initializes the board of the game along with board size and squares
  * Checks whether each move is valid or not and allows the user to play the game by initializing the game
@@ -8,7 +7,7 @@ import java.util.Scanner;
 public class Board {
 	public Square[][] squares;
 	private static final int BOARD_SIZE = 5;
-	private static final char boardPrintChar = '*';
+	private static final char BOARD_PRINT_CHAR = '*';
 
 	// Default Constructor
 	public Board() {
@@ -39,7 +38,7 @@ public class Board {
 	public String boardLine() {
 		String boardLine = "\n  ";
 		for (int i = 0; i < 21; i++) {
-			boardLine += boardPrintChar;
+			boardLine += BOARD_PRINT_CHAR;
 		}
 		return boardLine;
 	}
@@ -51,9 +50,9 @@ public class Board {
 			board += boardLine() + "\n";
 			board += (y + 1 + " ");
 			for (int x = 0; x < Board.BOARD_SIZE; x++) {
-				board += (boardPrintChar + " " + squares[x][y].toString() + " ");
+				board += (BOARD_PRINT_CHAR + " " + squares[x][y].toString() + " ");
 			}
-			board += (Board.boardPrintChar);
+			board += (Board.BOARD_PRINT_CHAR);
 		}
 		board += boardLine();
 		return board;

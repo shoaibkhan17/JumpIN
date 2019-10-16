@@ -1,3 +1,7 @@
+/**
+ * Square class contains pieces
+ *
+ */
 
 public class Square {
     private Piece piece;

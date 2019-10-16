@@ -1,4 +1,7 @@
-
+/**
+ * Animal is an abstract, sub-class of Piece class 
+ *
+ */
 public abstract class Animal extends Piece{
 
 	

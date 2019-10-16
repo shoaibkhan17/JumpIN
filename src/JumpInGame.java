@@ -1,3 +1,6 @@
+/**
+ * JumpInGame uses multiple class to run the game
+ */
 import java.util.Scanner;
 
 public class JumpInGame {
