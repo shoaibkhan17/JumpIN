@@ -1,3 +1,4 @@
+import java.util.*;
 /**
  * Class that initializes the board of the game along with board size and squares
  * Checks whether each move is valid or not and allows the user to play the game by initializing the game
@@ -7,6 +8,8 @@ public class Board {
 	private Square[][] squares;
 	private Piece selectedPiece;
 	private Location selectedPieceLocation;
+	//An array of the hole squares initialized along with the board
+	private Square[] holeSquares;
 	private static final int BOARD_SIZE = 5;
 	private static final char BOARD_PRINT_CHAR = '*';
 
@@ -41,28 +44,42 @@ public class Board {
 	}
 
 	public void initToLevel1() {
-		squares[0][0].setPiece(new Hole());
+		squares[0][0] = (new Hole());
 		squares[1][0].setPiece(new Mushroom());
 		squares[2][0].setPiece(new Mushroom());
-		squares[4][0].setPiece(new Hole());
+		squares[4][0] = (new Hole());
 		squares[3][1].setPiece(new Mushroom());
-		squares[2][2].setPiece(new Hole());
+		squares[2][2] = (new Hole());
 		squares[3][2].setPiece(new Rabbit());
-		squares[0][4].setPiece(new Hole());
-		squares[4][4].setPiece(new Hole());
+		squares[0][4] = (new Hole());
+		squares[4][4] = (new Hole());
+		
+		holeSquares = new Square[5];
+		holeSquares[0] = (squares[0][0]);
+		holeSquares[1] = (squares[4][0]);
+		holeSquares[2] = (squares[2][2]);
+		holeSquares[3] = (squares[0][4]);
+		holeSquares[4] = (squares[4][0]);
 	}
 
 	public void initToLevel2() {
-		squares[0][0].setPiece(new Hole());
+		squares[0][0] = (new Hole());
 		squares[1][0].setPiece(new Rabbit());
 		squares[3][0].setPiece(new Mushroom());
-		squares[4][0].setPiece(new Hole());
+		squares[4][0] = (new Hole());
 		squares[2][1].setPiece(new Mushroom());
-		squares[2][2].setPiece(new Hole());
+		squares[2][2] = (new Hole());
 		squares[2][3].setPiece(new Mushroom());
-		squares[0][4].setPiece(new Hole());
+		squares[0][4] = (new Hole());
 		squares[2][4].setPiece(new Rabbit());
-		squares[4][4].setPiece(new Hole());
+		squares[4][4] = (new Hole());
+		
+		holeSquares = new Square[5];
+		holeSquares[0] = (squares[0][0]);
+		holeSquares[1] = (squares[4][0]);
+		holeSquares[2] = (squares[2][2]);
+		holeSquares[3] = (squares[0][4]);
+		holeSquares[4] = (squares[4][0]);
 	}
 
 	public boolean selectPiece(Location location) {
@@ -108,6 +125,10 @@ public class Board {
 		}
 
 		return false;
+	}
+	
+	public Square[] getHoleSquares() {
+		return holeSquares;
 	}
 
 	public String getBoardLine() {
