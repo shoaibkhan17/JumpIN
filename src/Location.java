@@ -47,6 +47,12 @@ public class Location {
     }
 
     public String toString() {
-        return "(" + x + " , " + y + ")"; 
+        if (x != -1 && y != -1) {
+            return "(" + Parser.PossibleRows.values()[x] + "," + (y + 1) + ")"; 
+        }
+
+        else {
+            return "not a valid location - (" + x + "," + y + ")";
+        }
     }
 }

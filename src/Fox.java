@@ -12,7 +12,7 @@ public class Fox extends Animal {
     }
 
 	@Override
-	public void move(int x, int y) {
-        // Do something
+	public boolean move(Location oldLocation, Location newLocation,  Board board) {
+        return true;
 	}
 }
