@@ -14,7 +14,7 @@ public class Board {
 	public Board(int level) {
 		squares = new Square[BOARD_SIZE][BOARD_SIZE];
 		selectedPiece = null;
-		selectedPieceLocation = new Location(-1, -1);
+		selectedPieceLocation = new Location();
 		for (int x = 0; x < Board.BOARD_SIZE; x++) {
 			for (int y = 0; y < Board.BOARD_SIZE; y++) {
 				this.squares[x][y] = new Square();
@@ -103,7 +103,7 @@ public class Board {
 		if (piece == null || piece.getType() == PieceType.HOLE || location.equals(selectedPieceLocation)) {
 			this.movePiece(selectedPieceLocation, location, selectedPiece);
 			selectedPiece = null;
-			selectedPieceLocation.setLocation(new Location(-1, -1));;
+			selectedPieceLocation.clear();
 			return true;
 		}
 

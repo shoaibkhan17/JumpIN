@@ -6,6 +6,11 @@ public class Location {
     private int x;
     private int y;
 
+    public Location() {
+        x = -1;
+        y = -1;
+    }
+
     public Location(int x, int y) {
         this.x = x;
         this.y = y;
@@ -25,6 +30,11 @@ public class Location {
 
     public void setY(int y) {
         this.y = y;
+    }
+
+    public void clear() {
+        x = -1;
+        y = -1;
     }
 
     public void setLocation(Location location) {

@@ -26,7 +26,6 @@ public class JumpInGame {
 			System.out.print(moveText);
 			String input = scanner.nextLine();
 			parser.setText(input);
-			parser.check();
 
 			if (parser.isValidLocation) {
 
