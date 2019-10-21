@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+import java.util.LinkedList;
 
 /**
  * Class that initializes the board of the game along with board size and
@@ -10,7 +10,7 @@ public class Board {
 	private Square[][] squares;
 	private Piece selectedPiece;
 	private Location selectedPieceLocation;
-	private ArrayList<Location> holeLocations; 
+	private LinkedList<Location> holeLocations; 
 	private int rabbitCount;
 	private static final int BOARD_SIZE = 5;
 	private static final char BOARD_PRINT_CHAR = '*';
@@ -20,7 +20,7 @@ public class Board {
 	 */
 	public Board(int level) {
 		squares = new Square[BOARD_SIZE][BOARD_SIZE];
-		holeLocations = new ArrayList<>();
+		holeLocations = new LinkedList<>();
 		selectedPiece = null;
 		selectedPieceLocation = new Location();
 		
@@ -66,7 +66,10 @@ public class Board {
 		
 	}
 
-	// Returns the number of rabbits in the board
+
+	/**
+	 * Returns the number of rabbits in the board
+	 */
 	public int countRabbits() {
 		int count = 0;
 		for (int i = 0; i <BOARD_SIZE; i++) {

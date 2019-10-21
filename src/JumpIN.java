@@ -88,7 +88,6 @@ public class JumpIN {
 		// While the game hasn't finished yet. 
 		this.printSeparator();
 
-		// TODO check for winning logic here.
 		while (!board.isGameWon()) {
 			this.printMoveText("What piece would you like to move: ", "\n-- PLEASE ENTER A VALID PIECE --", true); 
 			this.printSeparator();
