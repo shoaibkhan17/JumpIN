@@ -37,6 +37,10 @@ public class Square {
         return null;
     }
     
+    public PieceType getPieceType() {
+    	return piece.getType();
+    }
+    
     public String toString() {
         return piece == null ? " " : piece.toString();
     }
