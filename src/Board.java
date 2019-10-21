@@ -11,6 +11,7 @@ public class Board {
 	private Piece selectedPiece;
 	private Location selectedPieceLocation;
 	private ArrayList<Location> holeLocations; 
+	private int rabbitCount;
 	private static final int BOARD_SIZE = 5;
 	private static final char BOARD_PRINT_CHAR = '*';
 
@@ -69,6 +70,7 @@ public class Board {
 		holeLocations.add(new Location(2, 2));
 		holeLocations.add(new Location(0, 4));
 		holeLocations.add(new Location(4, 4));
+		rabbitCount = 1;
 	}
 
 	public void initToLevel2() {
@@ -88,6 +90,7 @@ public class Board {
 		holeLocations.add(new Location(2, 2));
 		holeLocations.add(new Location(0, 4));
 		holeLocations.add(new Location(4, 4));
+		rabbitCount = 2;
 	}
 
 	public void removePiece(Location location) {
@@ -198,7 +201,7 @@ public class Board {
 	public String toString() {
 		String board = "\n    A   B   C   D   E";
 		for (int y = 0; y < Board.BOARD_SIZE; y++) {
-			board += this.getBoardLine();
+			board += this.getBoardLine(); 
 			board += y + 1 + " ";
 
 			for (int x = 0; x < Board.BOARD_SIZE; x++) {
@@ -221,6 +224,24 @@ public class Board {
 		}
 
 		System.out.println();
+	}
+	
+	/*isGameWon checks all the holes on the board. If the number of rabbits
+	 * in the game (rabbitCount) is equal to the number of rabbits in the holes
+	 * the game is won and the method returns true
+	 */
+	public boolean isGameWon() {
+		int count = 0;
+		for (Location holeLocation: holeLocations) {
+			Hole hole = (Hole) squares[holeLocation.getX()][holeLocation.getY()].getPiece();
+			if(hole.isOccupied() && hole.getPieceType() == PieceType.RABBIT) {
+				count++;
+				if(count == rabbitCount) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	// Function to print the board. 

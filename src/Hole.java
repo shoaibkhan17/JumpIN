@@ -26,6 +26,10 @@ public class Hole extends Piece {
     public Piece getPiece() {
         return innerPiece;
     }
+    
+    public PieceType getPieceType() {
+    	return innerPiece.getType();
+    }
 
     public boolean isOccupied() {
         return innerPiece != null;
