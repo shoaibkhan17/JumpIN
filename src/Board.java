@@ -31,6 +31,7 @@ public class Board {
 		}
 
 		this.initBoard(level);
+		//rabbitCount = countRabbits();
 	}
 
 	/** 
@@ -59,6 +60,7 @@ public class Board {
 				this.initToLevel1();
 				break;
 		}
+		
 	}
 
 	/**
@@ -84,6 +86,20 @@ public class Board {
 		holeLocations.add(new Location(0, 4));
 		holeLocations.add(new Location(4, 4));
 		rabbitCount = 2;
+		
+	}
+	
+	// Returns the number of rabbits in the board
+	public int countRabbits() {
+		int count = 0;
+		for (int i = 0; i <BOARD_SIZE; i++) {
+			for (int j = 0; i <BOARD_SIZE; i++) {
+				if (squares[i][j].getPieceType() == PieceType.RABBIT) {
+					count++;
+				}
+			}
+		}
+		return count;
 	}
 
 	/**
@@ -106,6 +122,7 @@ public class Board {
 		holeLocations.add(new Location(2, 2));
 		holeLocations.add(new Location(0, 4));
 		holeLocations.add(new Location(4, 4));
+		
 		rabbitCount = 2;
 	}
 
