@@ -4,15 +4,14 @@
  * Fox can only move in the direction that it is facing. Fox cannot not jump
  */
 		
-public class Fox extends Animal {
+public abstract class Fox extends Animal {
 
+	private Direction direction;
 	
-	
-	
-    // TODO change 2 different classes head and tail
-    public Fox() {
-        super(PieceType.FOX);
-    }
+	public Fox(PieceType type, Direction direction) {
+		super(type);
+		this.direction = direction;
+	}
     
 	public boolean checkValid(int constNumber, boolean x, int number1, int number2, Square[][] squares) {
 		return true;
