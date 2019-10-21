@@ -31,6 +31,9 @@ public class Board {
 		}
 
 		this.initBoard(level);
+
+		// Hard coding the rabbit count.
+		// So this is not required.
 		//rabbitCount = countRabbits();
 	}
 
@@ -63,6 +66,19 @@ public class Board {
 		
 	}
 
+	// Returns the number of rabbits in the board
+	public int countRabbits() {
+		int count = 0;
+		for (int i = 0; i <BOARD_SIZE; i++) {
+			for (int j = 0; i <BOARD_SIZE; i++) {
+				if (squares[i][j].getPieceType() == PieceType.RABBIT) {
+					count++;
+				}
+			}
+		}
+		return count;
+	}
+
 	/**
 	 * Initialize the level1 of the game
 	 */
@@ -87,19 +103,6 @@ public class Board {
 		holeLocations.add(new Location(4, 4));
 		rabbitCount = 2;
 		
-	}
-	
-	// Returns the number of rabbits in the board
-	public int countRabbits() {
-		int count = 0;
-		for (int i = 0; i <BOARD_SIZE; i++) {
-			for (int j = 0; i <BOARD_SIZE; i++) {
-				if (squares[i][j].getPieceType() == PieceType.RABBIT) {
-					count++;
-				}
-			}
-		}
-		return count;
 	}
 
 	/**
@@ -199,11 +202,7 @@ public class Board {
 	private boolean canMove(Location oldLocation, Location newLocation, Piece piece) {
 
 		Animal animal = (Animal) selectedPiece;
-		if (animal.move(oldLocation, newLocation, this)) {
-			return true;
-		}
-
-		return false;
+		return animal.move(oldLocation, newLocation, this);
 	}
 
 	/**
@@ -304,14 +303,11 @@ public class Board {
 		int count = 0;
 		for (Location holeLocation: holeLocations) {
 			Hole hole = (Hole) squares[holeLocation.getX()][holeLocation.getY()].getPiece();
-			if(hole.isOccupied() && (hole.getPieceType() == PieceType.RABBIT)) {
+			if(hole.isOccupied() && hole.getPiece().getType() == PieceType.RABBIT) {
 				count++;
-				if(count == rabbitCount) {
-					return true;
-				}
 			}
 		}
-		return false;
+		return count == rabbitCount;
 	}
 	/**
 	 * Prints the board

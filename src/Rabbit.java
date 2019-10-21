@@ -1,4 +1,3 @@
-import java.util.*;
 /**
  * Rabbit is subclass of Animal class 
  * Rabbits can only jump if there is/are obstacles on their path
