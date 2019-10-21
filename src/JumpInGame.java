@@ -66,12 +66,13 @@ public class JumpInGame {
 		//7.Resume or break loop or switch level and restart
 
 		// While the game hasn't finished yet. 
-		 while (true) {
+		// while (true) {
 			this.printMoveText("What piece would you like to move: ", "\nPlease enter a valid piece.", true); 
 			this.printMoveText("Where would you like to move this piece: ", "\nPlease enter a valid location.", false);
-			
-		 }
-			
+
+			// For testing. TODO REMOVE THIS LATER
+			this.printMoveText("What piece would you like to move: ", "\nPlease enter a valid piece.", true); 
+		// }
 	}
  
 	public static void main(String[] args) {
