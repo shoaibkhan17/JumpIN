@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 /**
- * JumpInGame uses multiple class to run the game
+ *  Main class which contains the functionality of the game
  */
 public class JumpIN {
 	
@@ -9,14 +9,23 @@ public class JumpIN {
 	private Scanner scanner;
 	private Parser parser;
 
-	public JumpIN(){
-		scanner = new Scanner(System.in);
-		parser = new Parser();
+	/**
+	 * Default constructor which initializes instance variables
+	 */
+	public JumpIN() {
+		this.scanner = new Scanner(System.in);
+		this.parser = new Parser();
 
 		// Defaulting to level 1 for now
-		board = new Board(1);
+		this.board = new Board(1);
 	}
 
+	/**
+	 * method which prints out the text when a move is made, invalid text is entered or when a piece is being selected
+	 * @param moveText text printed out and prompts the user for input
+	 * @param invalidText text printed out saying invalid location if invalid location entered
+	 * @param selecting true when the user is selecting a piece, false if the piece is not being selected
+	 */
 	public void printMoveText(String moveText, String invalidText, boolean selecting) {
 		do {
 			board.printBoard();
@@ -44,7 +53,7 @@ public class JumpIN {
 					}
 				}
 			}
-			
+
 			else {
 				System.out.println(invalidText + "\n");
 			}
@@ -52,6 +61,9 @@ public class JumpIN {
 		} while (!parser.isValidLocation);
 	}
 
+	/**
+	 * prints a line gap on the board
+	 */
 	public void printLineGap() {
 		for (int i = 0; i < 45; i++) {
 			System.out.print('-');
@@ -59,22 +71,27 @@ public class JumpIN {
 		System.out.println();
 	}
 
+	/**
+	 * clears the screen
+	 */
 	public void clearScreen() {
 		try {
-			new ProcessBuilder("cmd","/c","cls").inheritIO().start().waitFor();
-		} catch(Exception E) {
+			new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+		} catch (Exception E) {
 			this.printLineGap();
 		}
 	}
 
+	/**
+	 * calls the print line gap method
+	 */
 	public void printSeparator() {
-		// The clear screen command only works on cmd consoles.
-		// Commenting it out. 
-		// this.clearScreen();
-
 		this.printLineGap();
 	}
 
+	/**
+	 * method for playing the game
+	 */
 	public void playGame() {
 
 		//1. print board 
@@ -89,15 +106,20 @@ public class JumpIN {
 		this.printSeparator();
 
 		while (!board.isGameWon()) {
-			this.printMoveText("What piece would you like to move: ", "\n-- PLEASE ENTER A VALID PIECE --", true); 
+			this.printMoveText("What piece would you like to move: ", "\n-- PLEASE ENTER A VALID PIECE --", true);
 			this.printSeparator();
-			this.printMoveText("Where would you like to move this piece: ", "\n-- PLEASE ENTER A VALID LOCATION --", false);
+			this.printMoveText("Where would you like to move this piece: ", "\n-- PLEASE ENTER A VALID LOCATION --",
+					false);
 			this.printSeparator();
 		}
 		System.out.println(board.toString());
 		System.out.println("Level Complete - Congratulations!");
 	}
- 
+	
+	/**
+	 * Main method used to create an instance of the JumpIN game object and
+	 * play the game
+	 */
 	public static void main(String[] args) {
 		JumpIN jumpIN = new JumpIN();
 		jumpIN.playGame(); 
