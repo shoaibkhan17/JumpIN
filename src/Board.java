@@ -63,7 +63,8 @@ public class Board {
 		squares[0][4].setPiece(new Hole());
 		squares[4][4].setPiece(new Hole());
 		squares[4][2].setPiece(new Rabbit());
-		squares[2][4].setPiece(new Fox());
+		squares[2][4].setPiece(new FoxHead(Direction.RIGHT));
+		squares[3][4].setPiece(new FoxTail(Direction.RIGHT));
 
 		holeLocations.add(new Location(0, 0));
 		holeLocations.add(new Location(4, 0));
