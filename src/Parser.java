@@ -1,5 +1,8 @@
 /**
  * Parser
+ * 
+ * The parser class is responsible for translating the user's input 
+ * into something the game logic can process
  */
 public class Parser {
 
