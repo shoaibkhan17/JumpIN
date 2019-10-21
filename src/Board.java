@@ -116,8 +116,7 @@ public class Board {
 		squares[3][0].setPiece(new Mushroom());
 		squares[4][0].setPiece(new Hole());
 		squares[1][1].setPiece(new Mushroom());
-		// squares[2][1].setPiece(new Rabbit());
-		squares[0][1].setPiece(new Rabbit());
+		squares[2][1].setPiece(new Rabbit());
 
 		// Add foxes here
 		squares[3][1].setPiece(new Fox(new Location(4, 1), true, false));
