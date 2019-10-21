@@ -10,37 +10,61 @@ public class Hole extends Piece {
     private static final boolean isSelectable = false;
     private Piece innerPiece;
 
+    /**
+     * 
+     */
     public Hole() {
         super(PieceType.HOLE, isMovable, isSelectable);
         innerPiece = null;
     }
 
+    /**
+     * @param piece
+     */
     public void setPiece(Piece piece) {
         this.innerPiece = piece;
     }
 
+    /**
+     * 
+     */
     public void removePiece() {
         innerPiece = null;
     }
 
+    /**
+     * @return
+     */
     public Piece getPiece() {
         return innerPiece;
     }
     
+    /**
+     * @return
+     */
     public PieceType getPieceType() {
     	return innerPiece.getType();
     }
 
+    /**
+     * @return
+     */
     public boolean isOccupied() {
         return innerPiece != null;
     }
 
+    /**
+     * @return
+     */
     public String getStatus() {
         String text = "Hole is ";
         text += isOccupied() ? "occupied by a " + innerPiece.getClass().getName() + "." : "not occupied.";
         return text;
     }
 
+    /**
+     *
+     */
     public String toString() {
         return isOccupied() ? this.innerPiece.toString() : super.toString();
     }

@@ -11,11 +11,17 @@ public class Parser {
     private String text; 
     private final Location location;
 
+    /**
+     * 
+     */
     public Parser() {
         location = new Location();
         isValidLocation = false;
     }
 
+    /**
+     * @param text
+     */
     public void setText(String text) {
         location.clear();
         isValidLocation = false;
@@ -23,6 +29,9 @@ public class Parser {
         this.check();
     }
 
+    /**
+     * 
+     */
     public void check() {
         if (text.length() == 2) {
             if (this.convertRowToInt(text.charAt(0)) && this.convertColumnToInt(text.charAt(1))) {
@@ -35,6 +44,10 @@ public class Parser {
         isValidLocation = false;
     }
 
+    /**
+     * @param text
+     * @return
+     */
     private boolean convertColumnToInt(char text) {
         try {
             int num = Integer.parseInt(text + "");
@@ -51,6 +64,10 @@ public class Parser {
         }
     }
 
+    /**
+     * @param text
+     * @return
+     */
     private boolean convertRowToInt(char text) {
         String check = text + "";
         for (PossibleRows r: PossibleRows.values()) {
@@ -62,6 +79,9 @@ public class Parser {
         return false;
     }
 
+    /**
+     * @return
+     */
     public Location getLocation() {
         return location;
     }

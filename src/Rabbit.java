@@ -9,9 +9,14 @@ public class Rabbit extends Animal {
         super(PieceType.RABBIT);
     }
 
-    /**
-     * checks whether the move is valid or not
-     */
+	/**
+	 * @param constNumber
+	 * @param x
+	 * @param number1
+	 * @param number2
+	 * @param squares
+	 * @return
+	 */
 	public boolean checkValid(int constNumber, boolean x, int number1, int number2, Square[][] squares) {
 		boolean pieceInMiddle = true;
 		int diff = Math.abs(number1 - number2) - 1;

@@ -11,6 +11,9 @@ public enum PieceType {
         this.type = type;
     }
 
+    /**
+     * @return
+     */
     public char getType() {
         return type;
     }

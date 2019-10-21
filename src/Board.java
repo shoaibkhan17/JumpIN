@@ -15,7 +15,9 @@ public class Board {
 	private static final int BOARD_SIZE = 5;
 	private static final char BOARD_PRINT_CHAR = '*';
 
-	// Default Constructor
+	/** Constructor to initialize the instance variables
+	 * @param level
+	 */
 	public Board(int level) {
 		squares = new Square[BOARD_SIZE][BOARD_SIZE];
 		holeLocations = new ArrayList<>();
@@ -31,10 +33,17 @@ public class Board {
 		this.initBoard(level);
 	}
 
+	/** 
+	 * @return squares
+	 */
 	public Square[][] getSquares() {
 		return squares;
 	}
 	
+	/**
+	 * Method which creates and add pieces onto the board
+	 * @param level of difficulty
+	 */
 	public void initBoard(int level) {
 		// Create and add pieces into the board
 		switch (level) {
@@ -52,6 +61,9 @@ public class Board {
 		}
 	}
 
+	/**
+	 * Initialize the level1 of the game
+	 */
 	public void initToLevel1() {
 		squares[0][0].setPiece(new Hole());
 		squares[1][0].setPiece(new Mushroom());
@@ -74,6 +86,9 @@ public class Board {
 		rabbitCount = 2;
 	}
 
+	/**
+	 * Initialize the level2 of the game
+	 */
 	public void initToLevel2() {
 		squares[0][0].setPiece(new Hole());
 		squares[1][0].setPiece(new Rabbit());
@@ -94,6 +109,10 @@ public class Board {
 		rabbitCount = 2;
 	}
 
+	/**
+	 * Removes the piece from a certain location
+	 * @param location of the piece
+	 */
 	public void removePiece(Location location) {
 		int x = location.getX();
 		int y = location.getY();
@@ -115,6 +134,11 @@ public class Board {
 		}
 	}
 
+	/**
+	 * Selects the piece 
+	 * @param location of the piece
+	 * @return true if the condition is satisfied
+	 */
 	public boolean selectPiece(Location location) {
 		int x = location.getX();
 		int y = location.getY();
@@ -148,6 +172,13 @@ public class Board {
 		return true;
 	}
 
+	/**
+	 * checks if the piece can move or not
+	 * @param oldLocation
+	 * @param newLocation
+	 * @param piece
+	 * @return false if the condition is not satisfied
+	 */
 	private boolean canMove(Location oldLocation, Location newLocation, Piece piece) {
 
 		Animal animal = (Animal) selectedPiece;
@@ -158,6 +189,12 @@ public class Board {
 		return false;
 	}
 
+	/**
+	 * Moving the pieces from old location to a new location
+	 * @param oldLocation
+	 * @param newLocation
+	 * @param piece
+	 */
 	public void movePiece(Location oldLocation, Location newLocation, Piece piece) {
 		int x = newLocation.getX();
 		int y = newLocation.getY();
@@ -179,6 +216,11 @@ public class Board {
 	}
 
 	// Generic move function
+	/**
+	 * selects the location of piece, make that location equal to null and clears the location
+	 * @param location
+	 * @return false if the condition is not satisfied
+	 */
 	public boolean move(Location location) {
 		if (this.canMove(selectedPieceLocation, location, selectedPiece)) {
 			selectedPiece = null;
@@ -189,6 +231,10 @@ public class Board {
 		return false;
 	}
 
+	/**
+	 * 
+	 * @return the board line
+	 */
 	public String getBoardLine() {
 		String boardLine = "\n  ";
         for (int i = 0; i < 21; i++) { 
@@ -199,6 +245,9 @@ public class Board {
 		return boardLine;
 	}
 
+	/**
+	 *
+	 */
 	public String toString() {
 		String board = "\n    A   B   C   D   E";
 		for (int y = 0; y < Board.BOARD_SIZE; y++) {
@@ -216,6 +265,9 @@ public class Board {
 		return board;
 	}
 
+	/**
+	 * 
+	 */
 	public void getHoleStatus() {
 		for (Location holeLocation: holeLocations) {
 			Hole hole = (Hole) squares[holeLocation.getX()][holeLocation.getY()].getPiece();
@@ -253,6 +305,9 @@ public class Board {
 	}
 
 	// Function to print the board. 
+	/**
+	 * 
+	 */
 	public void printBoard() {
 		if (selectedPiece != null) {
 			System.out.println("-- SELECTED PIECE " + selectedPiece + " at " + selectedPieceLocation + " --");
