@@ -231,8 +231,6 @@ public class Board {
 			}
 		}
 	}
-
-	// Generic move function
 	/**
 	 * selects the location of piece, make that location equal to null and clears the location
 	 * @param location
@@ -249,7 +247,7 @@ public class Board {
 	}
 
 	/**
-	 * 
+	 * Method gets the board line
 	 * @return the board line
 	 */
 	public String getBoardLine() {
@@ -263,7 +261,8 @@ public class Board {
 	}
 
 	/**
-	 *
+	 * method returns a string representation of the object.
+	 *@return board
 	 */
 	public String toString() {
 		String board = "\n    A   B   C   D   E";
@@ -283,7 +282,7 @@ public class Board {
 	}
 
 	/**
-	 * 
+	 * Gets the status of the game and prints the text
 	 */
 	public void getHoleStatus() {
 		for (Location holeLocation: holeLocations) {
@@ -295,12 +294,6 @@ public class Board {
 
 		System.out.println();
 	}
-	
-	/*isGameWon checks all the holes on the board. If the number of rabbits
-	 * in the game (rabbitCount) is equal to the number of rabbits in the holes
-	 * the game is won and the method returns true
-	 */
-	
 	/**
 	 * isGameWon checks all the holes on the board. If the number of rabbits in the game (rabbitCount)
 	 * is equal to the number of rabbits in the holes
@@ -320,16 +313,13 @@ public class Board {
 		}
 		return false;
 	}
-
-	// Function to print the board. 
 	/**
-	 * 
+	 * Prints the board
 	 */
 	public void printBoard() {
 		if (selectedPiece != null) {
 			System.out.println("-- SELECTED PIECE " + selectedPiece + " at " + selectedPieceLocation + " --");
 		}
-
 		System.out.print(this.toString());
 		this.getHoleStatus();
 	}
