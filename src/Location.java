@@ -1,5 +1,5 @@
 /**
- * Location
+ * Location class holding the location of the x and y coordinates
  */
 public class Location {
 
@@ -7,19 +7,14 @@ public class Location {
     private int y;
 
     /**
-     * 
+     * Default constructor initializes instance variables
      */
     public Location() {
-        x = -1;
-        y = -1;
+        this(-1, -1);
     }
 
     /**
-     * 
-     * @param x
-     * @param y
-     */
-    /**
+     * Overloaded constructor 
      * @param x
      * @param y
      */
@@ -29,13 +24,15 @@ public class Location {
     }
 
     /**
-     * @return
+     * gets the x coordinate
+     * @return x
      */
     public int getX() {
-        return x;
+        return this.x;
     }
 
     /**
+     * sets the x coordinate to param x
      * @param x
      */
     public void setX(int x) {
@@ -43,13 +40,15 @@ public class Location {
     }
 
     /**
-     * @return
+     * gets the y location coordinate
+     * @return the y coordinate
      */
     public int getY() {
-        return y;
+        return this.y;
     }
 
     /**
+     * sets the y coordinate to param y
      * @param y
      */
     public void setY(int y) {
@@ -57,7 +56,7 @@ public class Location {
     }
 
     /**
-     * 
+     * clear the x and y coordinates
      */
     public void clear() {
         x = -1;
@@ -65,6 +64,7 @@ public class Location {
     }
 
     /**
+     * method that sets location
      * @param location
      */
     public void setLocation(Location location) {
@@ -73,15 +73,17 @@ public class Location {
     }
 
     /**
-     * @param location
-     * @return
+     * equals method implemented
+     * @param location 
+     * @return boolean value
      */
     public boolean equals(Location location) {
         return x == location.getX() && y == location.getY();
     }
 
     /**
-     *
+     * toString method implemented
+     * @return String
      */
     public String toString() {
         if (x != -1 && y != -1) {
