@@ -2,7 +2,7 @@ public enum PieceType {
     RABBIT('R'), 
     FOX('F'), 
     MUSHROOM('M'), 
-    HOLE('H');
+    HOLE('O');
 
     private final char type; 
     PieceType(char type) {
