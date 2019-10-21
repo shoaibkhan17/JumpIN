@@ -49,13 +49,8 @@ public class Fox extends Animal {
 		}
 	}
 
-	public boolean moveItselfAndBody(Location oldLocation, Location newLocation, Board board) {
-		Square[][] squares = board.getSquares();
-		int x = otherPieceLocation.getX();
-		int y = otherPieceLocation.getY();
-		boolean oldLocationGreater = oldLocation.comparesTo(newLocation, horizontalMovement) == 1;
+	public boolean moveItselfAndBody(boolean oldLocationGreater, Location oldLocation, Location newLocation, Board board) {
 		Location tempLocation; 
-		
 		if (oldLocationGreater) {
 			if (horizontalMovement) {
 				tempLocation = new Location(newLocation.getX() + 1, newLocation.getY());
@@ -64,7 +59,6 @@ public class Fox extends Animal {
 			else {
 				tempLocation = new Location(newLocation.getX(), newLocation.getY() + 1);
 			}
-
 		}
 
 		else {
@@ -88,6 +82,23 @@ public class Fox extends Animal {
 		return false;
 	}
 
+	public boolean moveValidation(Location oldLocation, Location newLocation, Board board) {
+		Square[][] squares = board.getSquares();
+		int x = otherPieceLocation.getX();
+		int y = otherPieceLocation.getY();
+		boolean oldLocationGreater = oldLocation.comparesTo(newLocation, horizontalMovement) == 1;
+
+		if (!this.tail && newLocation.comparesTo(otherPieceLocation, horizontalMovement) == -1) {
+			return this.moveItselfAndBody(oldLocationGreater, oldLocation, newLocation, board);
+		}
+
+		else if (this.tail && newLocation.comparesTo(otherPieceLocation, horizontalMovement) == 1) {
+			return this.moveItselfAndBody(oldLocationGreater, oldLocation, newLocation, board);
+		}
+
+		return false;
+	}
+
 	@Override
 	public boolean move(Location oldLocation, Location newLocation, Board board) {
 		Square[][] squares = board.getSquares();
@@ -106,13 +117,13 @@ public class Fox extends Animal {
 
 		else if (horizontalMovement && y1 == y2) {
 			if (this.checkValid(y1, false, x1, x2, squares)) {
-				return this.moveItselfAndBody(oldLocation, newLocation, board);
+				return this.moveValidation(oldLocation, newLocation, board);
 			}
 		}
 
 		else if (!horizontalMovement && x1 == x2) {
 			if (this.checkValid(x1, true, y1, y2, squares)) {
-				return this.moveItselfAndBody(oldLocation, newLocation, board);
+				return this.moveValidation(oldLocation, newLocation, board);
 			}
 		}
 
