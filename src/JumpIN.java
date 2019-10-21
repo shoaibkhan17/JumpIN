@@ -8,12 +8,10 @@ public class JumpIN {
 	private Board board;
 	private Scanner scanner;
 	private Parser parser;
-	private static boolean gameOn;
 
 	public JumpIN(){
 		scanner = new Scanner(System.in);
 		parser = new Parser();
-		gameOn = true;
 
 		// Defaulting to level 1 for now
 		board = new Board(1);
@@ -89,24 +87,14 @@ public class JumpIN {
 		this.printSeparator();
 
 		// TODO check for winning logic here.
-		while (gameOn) {
+		while (!board.isGameWon()) {
 			this.printMoveText("What piece would you like to move: ", "\n-- PLEASE ENTER A VALID PIECE --", true); 
 			this.printSeparator();
 			this.printMoveText("Where would you like to move this piece: ", "\n-- PLEASE ENTER A VALID LOCATION --", false);
 			this.printSeparator();
-			if(this.isGameWon()) {
-				gameOn = false;
-				System.out.println("\nLevel Complete - Congratulations!");
-			}
 		}
-
-		// board.printBoard();
-		// System.out.println("Congratulations for finishing up the game");
-	}
-	
-	//Method that returns true if all rabbits are in holes
-	public boolean isGameWon() {
-		return board.isGameWon();
+		System.out.println(board.toString());
+		System.out.println("Level Complete - Congratulations!");
 	}
  
 	public static void main(String[] args) {

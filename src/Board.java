@@ -70,7 +70,7 @@ public class Board {
 		holeLocations.add(new Location(2, 2));
 		holeLocations.add(new Location(0, 4));
 		holeLocations.add(new Location(4, 4));
-		rabbitCount = 1;
+		rabbitCount = 2;
 	}
 
 	public void initToLevel2() {
@@ -241,7 +241,7 @@ public class Board {
 		int count = 0;
 		for (Location holeLocation: holeLocations) {
 			Hole hole = (Hole) squares[holeLocation.getX()][holeLocation.getY()].getPiece();
-			if(hole.isOccupied() && hole.getPieceType() == PieceType.RABBIT) {
+			if(hole.isOccupied() && (hole.getPieceType() == PieceType.RABBIT)) {
 				count++;
 				if(count == rabbitCount) {
 					return true;
