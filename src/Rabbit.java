@@ -8,23 +8,27 @@ public class Rabbit extends Animal {
         super(PieceType.RABBIT);
     }
 
+    /**
+     * checks whether the move is valid or not
+     */
 	public boolean checkValid(int constNumber, boolean x, int number1, int number2, Square[][] squares) {
 		boolean pieceInMiddle = true;
 		int diff = Math.abs(number1 - number2) - 1;
 		int smallestNumber = number1 > number2 ? number2 : number1;
 
-		if (diff >= 1) {
-			for (int i = 0; i < diff; i++) {
-				if (!squares[x ? constNumber : (smallestNumber + i + 1)][x ? (smallestNumber + i + 1) : constNumber].hasPiece()) {
+		if(diff >= 1) {
+			for(int i = 0; i < diff; i++) {
+				Piece piece = squares[x ? constNumber : (smallestNumber + i + 1)][x ? (smallestNumber + i + 1) : constNumber].getPiece();
+				if (piece == null && piece.getType() == PieceType.HOLE) {
 					pieceInMiddle = false;
 				}
 			}
-
+			
 			return pieceInMiddle;
 		}
 
 		else {
-			return false;
+			return true;
 		}
 	}
 
