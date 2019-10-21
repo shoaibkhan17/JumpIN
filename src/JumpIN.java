@@ -20,9 +20,6 @@ public class JumpIN {
 	public void printMoveText(String moveText, String invalidText, boolean selecting) {
 		do {
 			board.printBoard();
-
-			// TODO Display hole status here.
-
 			System.out.print(moveText);
 			String input = scanner.nextLine();
 			parser.setText(input);
@@ -59,6 +56,7 @@ public class JumpIN {
 		for (int i = 0; i < 45; i++) {
 			System.out.print('-');
 		}
+		System.out.println();
 	}
 
 	public void clearScreen() {
@@ -70,6 +68,10 @@ public class JumpIN {
 	}
 
 	public void printSeparator() {
+		// The clear screen command only works on cmd consoles.
+		// Commenting it out. 
+		// this.clearScreen();
+
 		this.printLineGap();
 	}
 
@@ -86,7 +88,6 @@ public class JumpIN {
 		// While the game hasn't finished yet. 
 		this.printSeparator();
 
-		// TODO check for winning logic here.
 		while (!board.isGameWon()) {
 			this.printMoveText("What piece would you like to move: ", "\n-- PLEASE ENTER A VALID PIECE --", true); 
 			this.printSeparator();

@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+import java.util.LinkedList;
 
 /**
  * Class that initializes the board of the game along with board size and
@@ -10,7 +10,7 @@ public class Board {
 	private Square[][] squares;
 	private Piece selectedPiece;
 	private Location selectedPieceLocation;
-	private ArrayList<Location> holeLocations; 
+	private LinkedList<Location> holeLocations; 
 	private int rabbitCount;
 	private static final int BOARD_SIZE = 5;
 	private static final char BOARD_PRINT_CHAR = '*';
@@ -20,7 +20,7 @@ public class Board {
 	 */
 	public Board(int level) {
 		squares = new Square[BOARD_SIZE][BOARD_SIZE];
-		holeLocations = new ArrayList<>();
+		holeLocations = new LinkedList<>();
 		selectedPiece = null;
 		selectedPieceLocation = new Location();
 		
@@ -31,6 +31,9 @@ public class Board {
 		}
 
 		this.initBoard(level);
+
+		// Hard coding the rabbit count.
+		// So this is not required.
 		//rabbitCount = countRabbits();
 	}
 
@@ -63,6 +66,22 @@ public class Board {
 		
 	}
 
+
+	/**
+	 * Returns the number of rabbits in the board
+	 */
+	public int countRabbits() {
+		int count = 0;
+		for (int i = 0; i <BOARD_SIZE; i++) {
+			for (int j = 0; i <BOARD_SIZE; i++) {
+				if (squares[i][j].getPieceType() == PieceType.RABBIT) {
+					count++;
+				}
+			}
+		}
+		return count;
+	}
+
 	/**
 	 * Initialize the level1 of the game
 	 */
@@ -77,8 +96,6 @@ public class Board {
 		squares[0][4].setPiece(new Hole());
 		squares[4][4].setPiece(new Hole());
 		squares[4][2].setPiece(new Rabbit());
-		squares[2][4].setPiece(new FoxHead(Direction.RIGHT));
-		squares[3][4].setPiece(new FoxTail(Direction.RIGHT));
 
 		holeLocations.add(new Location(0, 0));
 		holeLocations.add(new Location(4, 0));
@@ -87,19 +104,6 @@ public class Board {
 		holeLocations.add(new Location(4, 4));
 		rabbitCount = 2;
 		
-	}
-	
-	// Returns the number of rabbits in the board
-	public int countRabbits() {
-		int count = 0;
-		for (int i = 0; i <BOARD_SIZE; i++) {
-			for (int j = 0; i <BOARD_SIZE; i++) {
-				if (squares[i][j].getPieceType() == PieceType.RABBIT) {
-					count++;
-				}
-			}
-		}
-		return count;
 	}
 
 	/**
@@ -107,23 +111,25 @@ public class Board {
 	 */
 	public void initToLevel2() {
 		squares[0][0].setPiece(new Hole());
-		squares[1][0].setPiece(new Rabbit());
 		squares[3][0].setPiece(new Mushroom());
 		squares[4][0].setPiece(new Hole());
-		squares[2][1].setPiece(new Mushroom());
-		squares[2][2].setPiece(new Hole());
-		squares[2][3].setPiece(new Mushroom());
+		squares[1][1].setPiece(new Mushroom());
+		squares[2][1].setPiece(new Rabbit());
+
+		// Add foxes here
+		// squares[3][1].setPiece(new Fox());
+		// squares[4][1].setPiece(new Fox());
+
+		squares[2][2].setPiece(new Mushroom());
 		squares[0][4].setPiece(new Hole());
-		squares[2][4].setPiece(new Rabbit());
 		squares[4][4].setPiece(new Hole());
 
 		holeLocations.add(new Location(0, 0));
 		holeLocations.add(new Location(4, 0));
-		holeLocations.add(new Location(2, 2));
 		holeLocations.add(new Location(0, 4));
 		holeLocations.add(new Location(4, 4));
 		
-		rabbitCount = 2;
+		rabbitCount = 1;
 	}
 
 	/**
@@ -199,11 +205,7 @@ public class Board {
 	private boolean canMove(Location oldLocation, Location newLocation, Piece piece) {
 
 		Animal animal = (Animal) selectedPiece;
-		if (animal.move(oldLocation, newLocation, this)) {
-			return true;
-		}
-
-		return false;
+		return animal.move(oldLocation, newLocation, this);
 	}
 
 	/**
@@ -304,14 +306,11 @@ public class Board {
 		int count = 0;
 		for (Location holeLocation: holeLocations) {
 			Hole hole = (Hole) squares[holeLocation.getX()][holeLocation.getY()].getPiece();
-			if(hole.isOccupied() && (hole.getPieceType() == PieceType.RABBIT)) {
+			if(hole.isOccupied() && hole.getPiece().getType() == PieceType.RABBIT) {
 				count++;
-				if(count == rabbitCount) {
-					return true;
-				}
 			}
 		}
-		return false;
+		return count == rabbitCount;
 	}
 	/**
 	 * Prints the board

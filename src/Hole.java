@@ -38,13 +38,6 @@ public class Hole extends Piece {
     public Piece getPiece() {
         return innerPiece;
     }
-    
-    /**
-     * @return
-     */
-    public PieceType getPieceType() {
-    	return innerPiece.getType();
-    }
 
     /**
      * @return
