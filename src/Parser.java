@@ -14,8 +14,8 @@ public class Parser {
     }
 
     public void setText(String text) {
-        location.setX(-1);
-        location.setY(-1);
+        location.setX(0);
+        location.setY(0);
         isValidLocation = false;
         this.text = text; 
     }
