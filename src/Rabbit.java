@@ -27,8 +27,7 @@ public class Rabbit extends Animal {
 
 		if (diff >= 1) {
 			for (int i = 0; i < diff; i++) {
-				Piece piece = squares[x ? constNumber : (smallestNumber + i + 1)][x ? (smallestNumber + i + 1)
-						: constNumber].getPiece();
+				Piece piece = squares[x ? constNumber : (smallestNumber + i + 1)][x ? (smallestNumber + i + 1) : constNumber].getPiece();
 				if (piece == null || piece.getType() == PieceType.HOLE) {
 					pieceInMiddle = false;
 				}

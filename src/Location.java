@@ -94,4 +94,34 @@ public class Location {
             return "not a valid location - (" + x + "," + y + ")";
         }
     }
+
+    public int comparesTo(Location location, boolean horizontalMovement) {
+        if (horizontalMovement) {
+            if (x > location.getX()) {
+                return 1;
+            }
+
+            else if (x == location.getX()) {
+                return 0;
+            }
+
+            else {
+                return -1;
+            }
+        }
+
+        else {
+            if (y > location.getY()) {
+                return 1;
+            }
+
+            else if (y == location.getY()) {
+                return 0;
+            }
+
+            else {
+                return -1;
+            }
+        }
+    }
 }
