@@ -9,55 +9,58 @@ public class Parser {
     private final Location location;
 
     public Parser() {
-        location = new Location(-1, -1);
+        location = new Location();
         isValidLocation = false;
     }
 
     public void setText(String text) {
-        location.setX(0);
-        location.setY(0);
+        location.clear();
         isValidLocation = false;
-        this.text = text; 
+        this.text = text;
+        this.check();
     }
 
     public void check() {
-        if (text.length() != 2) {
-            isValidLocation = false;
-            return;
+        if (text.length() == 2) {
+            if (this.convertRowToInt(text.charAt(0)) && this.convertColumnToInt(text.charAt(1))) {
+                isValidLocation = true;
+                return;
+            }
         }
 
-        this.convertRowToInt(text.charAt(0));
-        this.convertColumnToInt(text.charAt(1));
+        this.location.clear();
+        isValidLocation = false;
     }
 
-    private void convertColumnToInt(char text) {
+    private boolean convertColumnToInt(char text) {
         try {
             int num = Integer.parseInt(text + "");
 
             if (num <= 5 && num >= 1) {
                 location.setY(num - 1);
-                isValidLocation = true;
+                return true;
             }
             else {
-                isValidLocation = false;
+                return false;
             }
         } catch (Exception e) {
-            isValidLocation = false;
+            return false;
         }
     }
 
-    private void convertRowToInt(char text) {
+    private boolean convertRowToInt(char text) {
         String check = text + "";
         for (PossibleRows r: PossibleRows.values()) {
             if (r.name().equalsIgnoreCase(check)) {
                 location.setX(r.ordinal());
-                isValidLocation = true;
+                return true;
             }
         }
-        isValidLocation = false;
+        return false;
     }
 
     public Location getLocation() {
         return location;
     }
+    
 }

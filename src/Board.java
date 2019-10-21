@@ -1,26 +1,37 @@
+import java.util.ArrayList;
+
 /**
- * Class that initializes the board of the game along with board size and squares
- * Checks whether each move is valid or not and allows the user to play the game by initializing the game
+ * Class that initializes the board of the game along with board size and
+ * squares Checks whether each move is valid or not and allows the user to play
+ * the game by initializing the game
  * 
  */
 public class Board {
 	private Square[][] squares;
 	private Piece selectedPiece;
 	private Location selectedPieceLocation;
+	private ArrayList<Location> holeLocations; 
 	private static final int BOARD_SIZE = 5;
 	private static final char BOARD_PRINT_CHAR = '*';
 
 	// Default Constructor
 	public Board(int level) {
 		squares = new Square[BOARD_SIZE][BOARD_SIZE];
+		holeLocations = new ArrayList<>();
 		selectedPiece = null;
-		selectedPieceLocation = new Location(-1, -1);
+		selectedPieceLocation = new Location();
+		
 		for (int x = 0; x < Board.BOARD_SIZE; x++) {
 			for (int y = 0; y < Board.BOARD_SIZE; y++) {
 				this.squares[x][y] = new Square();
 			}
 		}
+
 		this.initBoard(level);
+	}
+
+	public Square[][] getSquares() {
+		return squares;
 	}
 	
 	public void initBoard(int level) {
@@ -47,9 +58,15 @@ public class Board {
 		squares[4][0].setPiece(new Hole());
 		squares[3][1].setPiece(new Mushroom());
 		squares[2][2].setPiece(new Hole());
-		squares[3][2].setPiece(new Rabbit());
+		squares[3][0].setPiece(new Rabbit());
 		squares[0][4].setPiece(new Hole());
 		squares[4][4].setPiece(new Hole());
+
+		holeLocations.add(new Location(0, 0));
+		holeLocations.add(new Location(4, 0));
+		holeLocations.add(new Location(2, 2));
+		holeLocations.add(new Location(0, 4));
+		holeLocations.add(new Location(4, 4));
 	}
 
 	public void initToLevel2() {
@@ -63,14 +80,60 @@ public class Board {
 		squares[0][4].setPiece(new Hole());
 		squares[2][4].setPiece(new Rabbit());
 		squares[4][4].setPiece(new Hole());
+
+		holeLocations.add(new Location(0, 0));
+		holeLocations.add(new Location(4, 0));
+		holeLocations.add(new Location(2, 2));
+		holeLocations.add(new Location(0, 4));
+		holeLocations.add(new Location(4, 4));
+	}
+
+	public void removePiece(Location location) {
+		int x = location.getX();
+		int y = location.getY();
+
+		if (squares[x][y].hasPiece()) {
+			
+			Piece piece = squares[x][y].getPiece();
+			if (piece.getType() == PieceType.HOLE) {
+				Hole hole = (Hole) piece;
+				hole.removePiece();
+			}
+
+			else {
+				squares[x][y].removePiece();
+			}
+
+			selectedPiece = null;
+			selectedPieceLocation.clear();
+		}
 	}
 
 	public boolean selectPiece(Location location) {
 		int x = location.getX();
 		int y = location.getY();
+		Piece piece = squares[x][y].getPiece();
+		
+		// No piece is located at that spot
+		if (piece == null) {
+			return false;
+		}
 
-		// No piece is located at that spot or the piece cannot be moved. 
-		if (squares[x][y].getPiece() == null || !squares[x][y].getPiece().isMovable()) {
+		// If the selected piece is a hole.
+		else if (piece.getType() == PieceType.HOLE) {
+			Hole hole = (Hole) piece;
+
+			if (hole.isOccupied()) {
+				selectedPiece = hole.getPiece();
+				selectedPieceLocation.setLocation(location);
+				return true;
+			}
+
+			return false;
+		}
+
+		// if the piece cannot be moved. 
+		else if (!piece.isMovable()) {
 			return false;
 		}
 
@@ -79,31 +142,41 @@ public class Board {
 		return true;
 	}
 
-	private void movePiece(Location oldLocation, Location newLocation, Piece piece) {
-		int x1 = oldLocation.getX();
-		int y1 = oldLocation.getY();
-		int x2 = newLocation.getX();
-		int y2 = newLocation.getY();
+	private boolean canMove(Location oldLocation, Location newLocation, Piece piece) {
 
-		squares[x1][y1].removePiece();
-		squares[x2][y2].setPiece(piece);
+		Animal animal = (Animal) selectedPiece;
+		if (animal.move(oldLocation, newLocation, this)) {
+			return true;
+		}
+
+		return false;
+	}
+
+	public void movePiece(Location oldLocation, Location newLocation, Piece piece) {
+		int x = newLocation.getX();
+		int y = newLocation.getY();
+		Piece locationPiece = squares[x][y].getPiece();
+
+		if (locationPiece == null || locationPiece == piece) {
+			squares[x][y].setPiece(piece);
+			this.removePiece(oldLocation);
+		}
+
+		else if (locationPiece.getType() == PieceType.HOLE) {
+			Hole hole = (Hole) locationPiece;
+			if (!hole.isOccupied()) {
+				// Add the piece in the hole.
+				hole.setPiece(selectedPiece);
+				this.removePiece(oldLocation);
+			}
+		}
 	}
 
 	// Generic move function
 	public boolean move(Location location) {
-		int x = location.getX();
-		int y = location.getY();
-		Piece piece = squares[x][y].getPiece();
-
-		// TODO THIS LOGIC NEEDS TO BE CHANGED 
-		// SPECIALLY FOR FOX
-		// There is no piece located at that location
-		// or the located piece is a hole.
-		// or the piece is being place where it currently located.
-		if (piece == null || piece.getType() == PieceType.HOLE || location.equals(selectedPieceLocation)) {
-			this.movePiece(selectedPieceLocation, location, selectedPiece);
+		if (this.canMove(selectedPieceLocation, location, selectedPiece)) {
 			selectedPiece = null;
-			selectedPieceLocation.setLocation(new Location(-1, -1));;
+			selectedPieceLocation.clear();
 			return true;
 		}
 
@@ -115,6 +188,7 @@ public class Board {
         for (int i = 0; i < 21; i++) { 
             boardLine += Board.BOARD_PRINT_CHAR; 
 		}
+
 		boardLine += "\n"; 
 		return boardLine;
 	}
@@ -124,17 +198,36 @@ public class Board {
 		for (int y = 0; y < Board.BOARD_SIZE; y++) {
 			board += this.getBoardLine();
 			board += y + 1 + " ";
+
 			for (int x = 0; x < Board.BOARD_SIZE; x++) {
 				board += BOARD_PRINT_CHAR + " " + squares[x][y].toString() + " ";
 			}
+
 			board += Board.BOARD_PRINT_CHAR;
 		}
+
 		board += this.getBoardLine() + '\n';
 		return board;
 	}
 
+	public void getHoleStatus() {
+		for (Location holeLocation: holeLocations) {
+			Hole hole = (Hole) squares[holeLocation.getX()][holeLocation.getY()].getPiece();
+			String text = holeLocation.toString();
+			text += " " + hole.getStatus();
+			System.out.println(text);
+		}
+
+		System.out.println();
+	}
+
 	// Function to print the board. 
 	public void printBoard() {
+		if (selectedPiece != null) {
+			System.out.println("-- SELECTED PIECE " + selectedPiece + " at " + selectedPieceLocation + " --");
+		}
+
 		System.out.print(this.toString());
+		this.getHoleStatus();
 	}
 }

@@ -2,9 +2,9 @@
     "configurations": [
         {
             "type": "java",
-            "name": "CodeLens (Launch) - JumpInGame",
+            "name": "CodeLens (Launch) - JumpIN",
             "request": "launch",
-            "mainClass": "JumpInGame",
+            "mainClass": "JumpIN",
             "projectName": "JumpIN"
         }
     ]
