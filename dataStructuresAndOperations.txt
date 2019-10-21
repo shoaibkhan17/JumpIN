@@ -1,8 +1,21 @@
-Board class ---
-
-Data Structures: 
-
-The board class uses a 2D array of squares in order to represent the game board. 
+Data Structures:
+ 
+1- The board class uses a 2D array of squares in order to represent the game board. 
 We used this data structure because we always know the size of the board beforehand,
-and it is coded as a constant. This also makes iterating over the board easier, as 
+and it is coded as a constant. 
+
+2- The hole locations, however, are simply an LinkedList because the holes are integrated 
+into the 2D array of squares, but we also have a seperate data structure for the holes 
+in order to iterate over all the holes when needed, without going over all the non-hole
+squares.
+
+Operations:
+
+1- With the 2D array, this also makes iterating over the board easier, as 
 we can use a nested for-loop with regards to the row and column of squares on the board.
+
+2- The LinkedList is better than an ArrayList in this case, because there is a lot of appending
+at the end that happens when the board is initialized, and also in iteration, LinkedList is 
+equal to ArrayList in terms of going over the entire List. So, LinkedList is the implementation
+that we decided on.
+

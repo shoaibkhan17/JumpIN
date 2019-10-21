@@ -12,7 +12,7 @@ public class Parser {
     private final Location location;
 
     /**
-     * 
+     * Default constructor initializing instance variables
      */
     public Parser() {
         location = new Location();
@@ -20,6 +20,7 @@ public class Parser {
     }
 
     /**
+     * method to set text
      * @param text
      */
     public void setText(String text) {
@@ -30,7 +31,7 @@ public class Parser {
     }
 
     /**
-     * 
+     * method that checks whether the input of the user is valid or not
      */
     public void check() {
         if (text.length() == 2) {
@@ -45,8 +46,9 @@ public class Parser {
     }
 
     /**
-     * @param text
-     * @return
+     * converts column to integer value
+     * @param text 
+     * @return true if it can be converted, false if it cannot 
      */
     private boolean convertColumnToInt(char text) {
         try {
@@ -65,8 +67,9 @@ public class Parser {
     }
 
     /**
+     * converts a row to an integer value
      * @param text
-     * @return
+     * @return true if it can be converted, false if it cannot 
      */
     private boolean convertRowToInt(char text) {
         String check = text + "";
@@ -80,10 +83,11 @@ public class Parser {
     }
 
     /**
-     * @return
+     * gets the location
+     * @return Location
      */
     public Location getLocation() {
-        return location;
+        return this.location;
     }
     
 }

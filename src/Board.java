@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+import java.util.LinkedList;
 
 /**
  * Class that initializes the board of the game along with board size and
@@ -10,17 +10,18 @@ public class Board {
 	private Square[][] squares;
 	private Piece selectedPiece;
 	private Location selectedPieceLocation;
-	private ArrayList<Location> holeLocations; 
+	private LinkedList<Location> holeLocations; 
 	private int rabbitCount;
 	private static final int BOARD_SIZE = 5;
 	private static final char BOARD_PRINT_CHAR = '*';
 
-	/** Constructor to initialize the instance variables
-	 * @param level
+	/** 
+	 * Constructor to initialize the instance variables
+	 * @param level this is the level of the game
 	 */
 	public Board(int level) {
 		squares = new Square[BOARD_SIZE][BOARD_SIZE];
-		holeLocations = new ArrayList<>();
+		holeLocations = new LinkedList<>();
 		selectedPiece = null;
 		selectedPieceLocation = new Location();
 		
@@ -30,23 +31,25 @@ public class Board {
 			}
 		}
 
-		this.initBoard(level);
+		this.initBoard(level); //sets the level of the game
 
+		//TO BE REVIEWED OR CHANGED
 		// Hard coding the rabbit count.
 		// So this is not required.
 		//rabbitCount = countRabbits();
 	}
 
-	/** 
-	 * @return squares
+	/**
+	 * method to access the squares array
+	 * @return squares 
 	 */
 	public Square[][] getSquares() {
-		return squares;
+		return this.squares;
 	}
 	
 	/**
 	 * Method which creates and add pieces onto the board
-	 * @param level of difficulty
+	 * @param level this is the level of difficulty of the game
 	 */
 	public void initBoard(int level) {
 		// Create and add pieces into the board
@@ -63,10 +66,12 @@ public class Board {
 				this.initToLevel1();
 				break;
 		}
-		
 	}
 
-	// Returns the number of rabbits in the board
+	/**
+	 * Method that counts the number of rabbits on the board
+	 * @return count which is the number of rabbits on the board
+	 */
 	public int countRabbits() {
 		int count = 0;
 		for (int i = 0; i <BOARD_SIZE; i++) {
@@ -129,8 +134,9 @@ public class Board {
 		rabbitCount = 1;
 	}
 
+
 	/**
-	 * Removes the piece from a certain location
+	 * Method that removes a piece from the given location
 	 * @param location of the piece
 	 */
 	public void removePiece(Location location) {
@@ -155,9 +161,9 @@ public class Board {
 	}
 
 	/**
-	 * Selects the piece 
+	 * Method that selects the piece in order to perform operations on it
 	 * @param location of the piece
-	 * @return true if the condition is satisfied
+	 * @return true if the piece can be selected/valid, returns false if not valid location selected
 	 */
 	public boolean selectPiece(Location location) {
 		int x = location.getX();
@@ -187,17 +193,19 @@ public class Board {
 			return false;
 		}
 
+		// get the selected piece from location x, y
 		selectedPiece = squares[x][y].getPiece();
 		selectedPieceLocation.setLocation(location);
+
 		return true;
 	}
 
 	/**
 	 * checks if the piece can move or not
-	 * @param oldLocation
-	 * @param newLocation
-	 * @param piece
-	 * @return false if the condition is not satisfied
+	 * @param oldLocation initial location of the piece 
+	 * @param newLocation new location of the piece to be moved to
+	 * @param piece this is the piece that is to be moved
+	 * @return true if the piece can be moved to be new location, return false if it can't be moved
 	 */
 	private boolean canMove(Location oldLocation, Location newLocation, Piece piece) {
 
@@ -206,10 +214,10 @@ public class Board {
 	}
 
 	/**
-	 * Moving the pieces from old location to a new location
-	 * @param oldLocation
-	 * @param newLocation
-	 * @param piece
+	 * Method that moves the piece from the initial location to the new location
+	 * @param oldLocation initial location of the piece to be moved
+	 * @param newLocation new location of the piece
+	 * @param piece piece that is moved
 	 */
 	public boolean movePiece(Location oldLocation, Location newLocation, Piece piece) {
 		int x = newLocation.getX();
@@ -237,10 +245,13 @@ public class Board {
 			return false;
 		}
 	}
+
 	/**
-	 * selects the location of piece, make that location equal to null and clears the location
-	 * @param location
-	 * @return false if the condition is not satisfied
+	 * Calls the canMove() method
+	 * sets the old location of the piece to null once the piece has moved to the new location
+	 * and clears the selected piece location
+	 * @param location on the board 
+	 * @return true if the operation is successful, else returns false if not successful
 	 */
 	public boolean move(Location location) {
 		if (this.canMove(selectedPieceLocation, location, selectedPiece)) {
@@ -253,8 +264,8 @@ public class Board {
 	}
 
 	/**
-	 * Method gets the board line
-	 * @return the board line
+	 * Gets the board line 
+	 * @return String board line
 	 */
 	public String getBoardLine() {
 		String boardLine = "\n  ";
@@ -267,8 +278,8 @@ public class Board {
 	}
 
 	/**
-	 * method returns a string representation of the object.
-	 *@return board
+	 * method returns a string representation of the board.
+	 *@return board contains the board as a string representation
 	 */
 	public String toString() {
 		String board = "\n    A   B   C   D   E";
@@ -288,7 +299,7 @@ public class Board {
 	}
 
 	/**
-	 * Gets the status of the game and prints the text
+	 * Gets the status of the hole and prints the text
 	 */
 	public void getHoleStatus() {
 		for (Location holeLocation: holeLocations) {
@@ -300,12 +311,14 @@ public class Board {
 
 		System.out.println();
 	}
+	
 	/**
 	 * isGameWon checks all the holes on the board. If the number of rabbits in the game (rabbitCount)
 	 * is equal to the number of rabbits in the holes
 	 * the game is won and the method returns true
 	 * @return status of the game won or lost
 	 */
+	
 	public boolean isGameWon() {
 		int count = 0;
 		for (Location holeLocation: holeLocations) {
