@@ -231,6 +231,13 @@ public class Board {
 	 * in the game (rabbitCount) is equal to the number of rabbits in the holes
 	 * the game is won and the method returns true
 	 */
+	
+	/**
+	 * isGameWon checks all the holes on the board. If the number of rabbits in the game (rabbitCount)
+	 * is equal to the number of rabbits in the holes
+	 * the game is won and the method returns true
+	 * @return status of the game won or lost
+	 */
 	public boolean isGameWon() {
 		int count = 0;
 		for (Location holeLocation: holeLocations) {
