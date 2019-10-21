@@ -1,0 +1,8 @@
+Board class ---
+
+Data Structures: 
+
+The board class uses a 2D array of squares in order to represent the game board. 
+We used this data structure because we always know the size of the board beforehand,
+and it is coded as a constant. This also makes iterating over the board easier, as 
+we can use a nested for-loop with regards to the row and column of squares on the board.
