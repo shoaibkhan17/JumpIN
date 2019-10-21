@@ -93,8 +93,6 @@ public class Board {
 		squares[0][4].setPiece(new Hole());
 		squares[4][4].setPiece(new Hole());
 		squares[4][2].setPiece(new Rabbit());
-		squares[2][4].setPiece(new FoxHead(Direction.RIGHT));
-		squares[3][4].setPiece(new FoxTail(Direction.RIGHT));
 
 		holeLocations.add(new Location(0, 0));
 		holeLocations.add(new Location(4, 0));
@@ -110,23 +108,25 @@ public class Board {
 	 */
 	public void initToLevel2() {
 		squares[0][0].setPiece(new Hole());
-		squares[1][0].setPiece(new Rabbit());
 		squares[3][0].setPiece(new Mushroom());
 		squares[4][0].setPiece(new Hole());
-		squares[2][1].setPiece(new Mushroom());
-		squares[2][2].setPiece(new Hole());
-		squares[2][3].setPiece(new Mushroom());
+		squares[1][1].setPiece(new Mushroom());
+		squares[2][1].setPiece(new Rabbit());
+
+		// Add foxes here
+		// squares[3][1].setPiece(new Fox());
+		// squares[4][1].setPiece(new Fox());
+
+		squares[2][2].setPiece(new Mushroom());
 		squares[0][4].setPiece(new Hole());
-		squares[2][4].setPiece(new Rabbit());
 		squares[4][4].setPiece(new Hole());
 
 		holeLocations.add(new Location(0, 0));
 		holeLocations.add(new Location(4, 0));
-		holeLocations.add(new Location(2, 2));
 		holeLocations.add(new Location(0, 4));
 		holeLocations.add(new Location(4, 4));
 		
-		rabbitCount = 2;
+		rabbitCount = 1;
 	}
 
 	/**
