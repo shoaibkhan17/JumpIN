@@ -114,8 +114,8 @@ public class Board {
 		squares[2][1].setPiece(new Rabbit());
 
 		// Add foxes here
-		// squares[3][1].setPiece(new Fox());
-		// squares[4][1].setPiece(new Fox());
+		squares[3][1].setPiece(new Fox(new Location(4, 1), true));
+		squares[4][1].setPiece(new Fox(new Location(3, 1), true));
 
 		squares[2][2].setPiece(new Mushroom());
 		squares[0][4].setPiece(new Hole());
@@ -211,7 +211,7 @@ public class Board {
 	 * @param newLocation
 	 * @param piece
 	 */
-	public void movePiece(Location oldLocation, Location newLocation, Piece piece) {
+	public boolean movePiece(Location oldLocation, Location newLocation, Piece piece) {
 		int x = newLocation.getX();
 		int y = newLocation.getY();
 		Piece locationPiece = squares[x][y].getPiece();
@@ -219,6 +219,7 @@ public class Board {
 		if (locationPiece == null || locationPiece == piece) {
 			squares[x][y].setPiece(piece);
 			this.removePiece(oldLocation);
+			return true;
 		}
 
 		else if (locationPiece.getType() == PieceType.HOLE) {
@@ -227,7 +228,13 @@ public class Board {
 				// Add the piece in the hole.
 				hole.setPiece(selectedPiece);
 				this.removePiece(oldLocation);
+				return true;
 			}
+			return false;
+		}
+
+		else {
+			return false;
 		}
 	}
 	/**

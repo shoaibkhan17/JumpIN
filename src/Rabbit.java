@@ -51,8 +51,7 @@ public class Rabbit extends Animal {
 
 		else if (oldLocation.getX() == newLocation.getX()) {
 			if (this.checkValid(x1, true, y1, y2, squares)) {
-				board.movePiece(oldLocation, newLocation, this);
-				return true;
+				return board.movePiece(oldLocation, newLocation, this);
 			}
 
 			return false;
@@ -60,8 +59,7 @@ public class Rabbit extends Animal {
 
 		else if (oldLocation.getY() == newLocation.getY()) {
 			if (this.checkValid(y1, false, x1, x2, squares)) {
-				board.movePiece(oldLocation, newLocation, this);
-				return true;
+				return board.movePiece(oldLocation, newLocation, this);
 			}
 
 			return false;

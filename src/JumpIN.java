@@ -14,7 +14,7 @@ public class JumpIN {
 		parser = new Parser();
 
 		// Defaulting to level 1 for now
-		board = new Board(1);
+		board = new Board(2);
 	}
 
 	public void printMoveText(String moveText, String invalidText, boolean selecting) {

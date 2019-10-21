@@ -4,17 +4,39 @@
  * Fox can only move in the direction that it is facing. Fox cannot not jump
  */
 		
-public abstract class Fox extends Animal {
+public class Fox extends Animal {
 
-	private Direction direction;
-	
-	public Fox(PieceType type, Direction direction) {
-		super(type);
-		this.direction = direction;
+	Location otherPieceLocation;
+	boolean horizonalMovement; 
+
+	public Fox(Location otherPieceLocation, boolean horizonalMovement) {
+		super(PieceType.FOX);
+		this.otherPieceLocation = otherPieceLocation;
+		this.horizonalMovement = horizonalMovement;
 	}
     
 	public boolean checkValid(int constNumber, boolean x, int number1, int number2, Square[][] squares) {
-		return true;
+		boolean pieceInMiddle = false;
+		int diff = Math.abs(number1 - number2) - 1;
+		int smallestNumber = number1 > number2 ? number2 : number1;
+
+
+		if(diff >= 1) {
+			for(int i = 0; i < diff; i++) {
+				Piece piece = squares[x ? constNumber : (smallestNumber + i + 1)][x ? (smallestNumber + i + 1) : constNumber].getPiece();
+				System.out.print((x ? constNumber : (smallestNumber + i + 1)) + "," + (x ? (smallestNumber + i + 1) : constNumber));
+				System.out.println(" " + piece);
+				if (piece != null) {
+					pieceInMiddle = true;
+				}
+			}
+			
+			return pieceInMiddle;
+		}
+
+		else {
+			return false;
+		}
 	}
 
 	@Override
@@ -25,31 +47,17 @@ public abstract class Fox extends Animal {
 		int x2 = newLocation.getX();
 		int y2 = newLocation.getY();
 
-		if (oldLocation.equals(newLocation)) {
-			return true;
+		if (horizonalMovement && y1 == y2) {
+			System.out.println("fox can move there comparing xs");
+			this.checkValid(y1, true, x1, x2, squares);
 		}
 
-		else if (oldLocation.getX() == newLocation.getX()) {
-			if (this.checkValid(x1, true, y1, y2, squares)) {
-				board.movePiece(oldLocation, newLocation, this);
-				return true;
-			}
-
-			return false;
+		else if (!horizonalMovement && x1 == x2) {
+			System.out.println("fox can move there comparing ys");
+			this.checkValid(y1, true, x1, x2, squares);
 		}
 
-		else if (oldLocation.getY() == newLocation.getY()) {
-			if (this.checkValid(y1, false, x1, x2, squares)) {
-				board.movePiece(oldLocation, newLocation, this);
-				return true;
-			}
 
-			return false;
-		}
-
-		else {
-			return false;
-		}
-	}
-	
+		return false;
+	}	
 }
