@@ -3,7 +3,7 @@
  *
  */
 public class Square {
-    protected Piece piece;
+    private Piece piece;
 
     public Square() {
         piece = null;
