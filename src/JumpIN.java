@@ -3,14 +3,13 @@ import java.util.Scanner;
 /**
  * JumpInGame uses multiple class to run the game
  */
-public class JumpInGame {
+public class JumpIN {
 	
 	private Board board;
 	private Scanner scanner;
 	private Parser parser;
-	 
-	// constructor
-	public JumpInGame(){
+
+	public JumpIN(){
 		scanner = new Scanner(System.in);
 		parser = new Parser();
 
@@ -27,14 +26,14 @@ public class JumpInGame {
 			System.out.print(moveText);
 			String input = scanner.nextLine();
 			parser.setText(input);
-			parser.check();
 
 			if (parser.isValidLocation) {
 
 				// Selecting the piece
 				if (selecting) {
 					if (!board.selectPiece(parser.getLocation())) {
-						System.out.println(invalidText + "\n");
+						this.printSeparator();
+						System.out.println(invalidText);
 						parser.isValidLocation = false;
 					}
 				}
@@ -42,7 +41,8 @@ public class JumpInGame {
 				// Moving the piece to a new location
 				else {
 					if (!board.move(parser.getLocation())) {
-						System.out.println(invalidText + "\n");
+						this.printSeparator();
+						System.out.println(invalidText);
 						parser.isValidLocation = false;
 					}
 				}
@@ -53,6 +53,24 @@ public class JumpInGame {
 			}
 
 		} while (!parser.isValidLocation);
+	}
+
+	public void printLineGap() {
+		for (int i = 0; i < 45; i++) {
+			System.out.print('-');
+		}
+	}
+
+	public void clearScreen() {
+		try {
+			new ProcessBuilder("cmd","/c","cls").inheritIO().start().waitFor();
+		} catch(Exception E) {
+			this.printLineGap();
+		}
+	}
+
+	public void printSeparator() {
+		this.printLineGap();
 	}
 
 	public void playGame() {
@@ -66,17 +84,22 @@ public class JumpInGame {
 		//7.Resume or break loop or switch level and restart
 
 		// While the game hasn't finished yet. 
-		// while (true) {
-			this.printMoveText("What piece would you like to move: ", "\nPlease enter a valid piece.", true); 
-			this.printMoveText("Where would you like to move this piece: ", "\nPlease enter a valid location.", false);
+		this.printSeparator();
 
-			// For testing. TODO REMOVE THIS LATER
-			this.printMoveText("What piece would you like to move: ", "\nPlease enter a valid piece.", true); 
-		// }
+		// TODO check for winning logic here.
+		while (true) {
+			this.printMoveText("What piece would you like to move: ", "\n-- PLEASE ENTER A VALID PIECE --", true); 
+			this.printSeparator();
+			this.printMoveText("Where would you like to move this piece: ", "\n-- PLEASE ENTER A VALID LOCATION --", false);
+			this.printSeparator();
+		}
+
+		// board.printBoard();
+		// System.out.println("Congratulations for finishing up the game");
 	}
  
 	public static void main(String[] args) {
-		JumpInGame jumpIN = new JumpInGame();
+		JumpIN jumpIN = new JumpIN();
 		jumpIN.playGame(); 
 	} 
 }

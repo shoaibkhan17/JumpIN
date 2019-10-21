@@ -2,7 +2,7 @@
  * Animal is an abstract, sub-class of Piece class
  *
  */
-public abstract class Animal extends Piece{
+public abstract class Animal extends Piece {
 
 	private static final boolean isMovable = true;
     private static final boolean isSelectable = true;
@@ -11,5 +11,5 @@ public abstract class Animal extends Piece{
 		super(type, isMovable, isSelectable);
 	}
 
-	public abstract void move(int x,int y);
+	public abstract boolean move(Location oldLocation, Location newLocation, Board board);
 }
