@@ -52,7 +52,7 @@ public class Fox extends Animal {
 	 * @param number1 
 	 * @param number2
 	 * @param squares
-	 * @return
+	 * @return boolean true if it is valid, false if it is not valid
 	 */
 	public boolean checkValid(int constNumber, boolean x, int number1, int number2, Square[][] squares) {
 
@@ -92,7 +92,7 @@ public class Fox extends Animal {
 	 * @param oldLocation
 	 * @param newLocation
 	 * @param board
-	 * @return
+	 * @return boolean 
 	 */
 	public boolean moveItselfAndBody(boolean oldLocationGreater, Location oldLocation, Location newLocation, Board board) {
 		Location tempLocation; 
@@ -155,7 +155,7 @@ public class Fox extends Animal {
 	 * @param oldLocation
 	 * @param newLocation
 	 * @param board
-	 * @return
+	 * @return boolean
 	 */
 	public boolean moveValidation(Location oldLocation, Location newLocation, Board board) {
 		Square[][] squares = board.getSquares();
@@ -180,11 +180,11 @@ public class Fox extends Animal {
 	}
 
 	/**
-	 * Function to move.
+	 * Function to move the animal
 	 * @param oldLocation
 	 * @param newLocation
 	 * @param board
-	 * @return
+	 * @return boolean
 	 */
 	@Override
 	public boolean move(Location oldLocation, Location newLocation, Board board) {
@@ -219,5 +219,5 @@ public class Fox extends Animal {
 		}
 
 		return false;
-	}	
+	}
 }
