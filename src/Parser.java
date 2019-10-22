@@ -1,5 +1,8 @@
 /**
  * Parser
+ * 
+ * The parser class is responsible for translating the user's input 
+ * into something the game logic can process
  */
 public class Parser {
 
@@ -8,11 +11,18 @@ public class Parser {
     private String text; 
     private final Location location;
 
+    /**
+     * Default constructor initializing instance variables
+     */
     public Parser() {
         location = new Location();
         isValidLocation = false;
     }
 
+    /**
+     * method to set text
+     * @param text
+     */
     public void setText(String text) {
         location.clear();
         isValidLocation = false;
@@ -20,6 +30,9 @@ public class Parser {
         this.check();
     }
 
+    /**
+     * method that checks whether the input of the user is valid or not
+     */
     public void check() {
         if (text.length() == 2) {
             if (this.convertRowToInt(text.charAt(0)) && this.convertColumnToInt(text.charAt(1))) {
@@ -32,6 +45,11 @@ public class Parser {
         isValidLocation = false;
     }
 
+    /**
+     * converts column to integer value
+     * @param text 
+     * @return true if it can be converted, false if it cannot 
+     */
     private boolean convertColumnToInt(char text) {
         try {
             int num = Integer.parseInt(text + "");
@@ -48,6 +66,11 @@ public class Parser {
         }
     }
 
+    /**
+     * converts a row to an integer value
+     * @param text
+     * @return true if it can be converted, false if it cannot 
+     */
     private boolean convertRowToInt(char text) {
         String check = text + "";
         for (PossibleRows r: PossibleRows.values()) {
@@ -59,8 +82,12 @@ public class Parser {
         return false;
     }
 
+    /**
+     * gets the location
+     * @return Location
+     */
     public Location getLocation() {
-        return location;
+        return this.location;
     }
     
 }

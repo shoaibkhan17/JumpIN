@@ -4,10 +4,22 @@
  */
 public class Rabbit extends Animal {
 
+	/**
+	 * Default constructor
+	 */
     public Rabbit() {
         super(PieceType.RABBIT);
     }
 
+	/**
+	 * Method that checks whether the move made by the Rabbit is valid or not
+	 * @param constNumber 
+	 * @param x
+	 * @param number1
+	 * @param number2
+	 * @param squares
+	 * @return boolean true if the move is valid, false if the move is not valid
+	 */
 	public boolean checkValid(int constNumber, boolean x, int number1, int number2, Square[][] squares) {
 		boolean pieceInMiddle = true;
 		int diff = Math.abs(number1 - number2) - 1;
@@ -15,7 +27,8 @@ public class Rabbit extends Animal {
 
 		if (diff >= 1) {
 			for (int i = 0; i < diff; i++) {
-				if (!squares[x ? constNumber : (smallestNumber + i + 1)][x ? (smallestNumber + i + 1) : constNumber].hasPiece()) {
+				Piece piece = squares[x ? constNumber : (smallestNumber + i + 1)][x ? (smallestNumber + i + 1) : constNumber].getPiece();
+				if (piece == null || piece.getType() == PieceType.HOLE) {
 					pieceInMiddle = false;
 				}
 			}
@@ -28,6 +41,10 @@ public class Rabbit extends Animal {
 		}
 	}
 
+	/**
+	 * method which makes the move
+	 * @return boolean
+	 */
 	@Override
 	public boolean move(Location oldLocation, Location newLocation, Board board) {
 		Square[][] squares = board.getSquares();
@@ -42,8 +59,7 @@ public class Rabbit extends Animal {
 
 		else if (oldLocation.getX() == newLocation.getX()) {
 			if (this.checkValid(x1, true, y1, y2, squares)) {
-				board.movePiece(oldLocation, newLocation, this);
-				return true;
+				return board.movePiece(oldLocation, newLocation, this);
 			}
 
 			return false;
@@ -51,8 +67,7 @@ public class Rabbit extends Animal {
 
 		else if (oldLocation.getY() == newLocation.getY()) {
 			if (this.checkValid(y1, false, x1, x2, squares)) {
-				board.movePiece(oldLocation, newLocation, this);
-				return true;
+				return board.movePiece(oldLocation, newLocation, this);
 			}
 
 			return false;

@@ -7,24 +7,45 @@ public abstract class Piece {
     private boolean isMovable;
     private boolean isSelectable;
 
+    /**
+     * Default constructor initializing instance variables
+     * @param type of the piece
+     * @param isMovable determines whether the piece can be moved 
+     * @param isSelectable whether the piece can be selected or not
+     */
     public Piece(PieceType type, boolean isMovable, boolean isSelectable) {
         this.type = type;
         this.isMovable = isMovable;
         this.isSelectable = isSelectable;
     }
 
+    /**
+     * method that determines whether a piece can be selected or not
+     * @return boolean
+     */
     public boolean isSelectable() {
-        return isSelectable;
+        return this.isSelectable;
     }
 
+    /**
+     * method that determines whether a piece can be moved or not
+     * @return boolean
+     */
     public boolean isMovable() {
-        return isMovable;
+        return this.isMovable;
     }
 
+    /**
+     * gets the type of the piece
+     * @return PieceType
+     */
     public PieceType getType() {
-        return type;
+        return this.type;
     }
 
+    /**
+     * toString method implemented
+     */
     public String toString() {
         return this.type.getType() + "";
     }
