@@ -1,7 +1,13 @@
 import java.util.Scanner;
 
 /**
- *  Main class which contains the functionality of the game
+ *  Main class which contains the functionality of the game.
+ * 
+ * @author Khalil Aalab - 101070879
+ * @author Kamaluddin Shakirki - 101054933
+ * @author Simon Yacoub - 101044159
+ * @author Aiman Sharif - 101062765
+ * @author Shoaib Khan - 101033582
  */
 public class JumpIN {
 	
@@ -28,15 +34,16 @@ public class JumpIN {
 	 */
 	public void printMoveText(String moveText, String invalidText, boolean selecting) {
 		do {
+			// Print the board.
 			board.printBoard();
 			System.out.print(moveText);
 			String input = scanner.nextLine();
 			parser.setText(input);
 
 			if (parser.isValidLocation) {
-
 				// Selecting the piece
 				if (selecting) {
+					// If the piece cannot be selected.
 					if (!board.selectPiece(parser.getLocation())) {
 						this.printSeparator();
 						System.out.println(invalidText);
@@ -46,6 +53,7 @@ public class JumpIN {
 
 				// Moving the piece to a new location
 				else {
+					// If the selected piece cannot be moved to the new location.
 					if (!board.move(parser.getLocation())) {
 						this.printSeparator();
 						System.out.println(invalidText);
@@ -58,6 +66,7 @@ public class JumpIN {
 				System.out.println(invalidText + "\n");
 			}
 
+		// Continue the loop this entire process is successful. 
 		} while (!parser.isValidLocation);
 	}
 
@@ -129,6 +138,5 @@ public class JumpIN {
 	public static void main(String[] args) {
 		JumpIN jumpIN = new JumpIN();
 		jumpIN.playGame(); 
-		
 	} 
 }

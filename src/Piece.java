@@ -1,10 +1,28 @@
 /**
- * Piece is a abstract class that prints out the type of the piece This class
- * also checks and stores the value if a piece can move
+ * Piece is a abstract class that prints out the type of the piece.
+ * This class also checks and stores the value if a piece can be move.
+ * 
+ * @author Khalil Aalab - 101070879
+ * @author Kamaluddin Shakirki - 101054933
+ * @author Simon Yacoub - 101044159
+ * @author Aiman Sharif - 101062765
+ * @author Shoaib Khan - 101033582
  */
 public abstract class Piece {
+
+    /**
+     * Type of the piece.
+     */
     private PieceType type;
+
+    /**
+     * If it is movable.
+     */
     private boolean isMovable;
+
+    /**
+     * If it is selectable.
+     */
     private boolean isSelectable;
 
     /**

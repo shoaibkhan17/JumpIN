@@ -2,6 +2,12 @@
  * Fox is a subclass of Animal class
  * Its movement is different than Rabbit since it requires two space in the board.
  * Fox can only move in the direction that it is facing. Foxes cannot not jump.
+ * 
+ * @author Khalil Aalab - 101070879
+ * @author Kamaluddin Shakirki - 101054933
+ * @author Simon Yacoub - 101044159
+ * @author Aiman Sharif - 101062765
+ * @author Shoaib Khan - 101033582
  */
 public class Fox extends Animal {
 
@@ -158,9 +164,6 @@ public class Fox extends Animal {
 	 * @return boolean
 	 */
 	public boolean moveValidation(Location oldLocation, Location newLocation, Board board) {
-		Square[][] squares = board.getSquares();
-		int x = bodyLocation.getX();
-		int y = bodyLocation.getY();
 		boolean oldLocationGreater = oldLocation.comparesTo(newLocation, horizontalMovement) == 1;
 
 		// If it is the head piece and the new location is smaller than tail's location. 

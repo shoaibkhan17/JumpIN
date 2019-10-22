@@ -1,14 +1,33 @@
 /**
- * Parser
- * 
  * The parser class is responsible for translating the user's input 
- * into something the game logic can process
+ * into something the game logic can process.
+ * 
+* @author Khalil Aalab - 101070879
+ * @author Kamaluddin Shakirki - 101054933
+ * @author Simon Yacoub - 101044159
+ * @author Aiman Sharif - 101062765
+ * @author Shoaib Khan - 101033582
  */
 public class Parser {
 
+    /**
+     * Possible rows.
+     */
     public enum PossibleRows {A, B, C, D, E}
+
+    /**
+     * If it is a valid coordinate.
+     */
     public boolean isValidLocation; 
+
+    /**
+     * Text that needs to be parsed.
+     */
     private String text; 
+
+    /**
+     * Translated location.
+     */
     private final Location location;
 
     /**
@@ -20,7 +39,7 @@ public class Parser {
     }
 
     /**
-     * method to set text
+     * Method to set text
      * @param text
      */
     public void setText(String text) {
@@ -31,7 +50,7 @@ public class Parser {
     }
 
     /**
-     * method that checks whether the input of the user is valid or not
+     * Method that checks whether the input of the user is valid or not
      */
     public void check() {
         if (text.length() == 2) {
@@ -46,7 +65,7 @@ public class Parser {
     }
 
     /**
-     * converts column to integer value
+     * Converts column to integer value
      * @param text 
      * @return true if it can be converted, false if it cannot 
      */
@@ -67,7 +86,7 @@ public class Parser {
     }
 
     /**
-     * converts a row to an integer value
+     * Converts a row to an integer value
      * @param text
      * @return true if it can be converted, false if it cannot 
      */
@@ -83,11 +102,10 @@ public class Parser {
     }
 
     /**
-     * gets the location
+     * Gets the location
      * @return Location
      */
     public Location getLocation() {
         return this.location;
     }
-    
 }
