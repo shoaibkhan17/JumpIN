@@ -1,6 +1,10 @@
 /**
  * Square class contains pieces
- *
+ * @author Khalil Aalab - 101070879
+ * @author Kamaluddin Shakirki - 101054933
+ * @author Simon Yacoub - 101044159
+ * @author Aiman Sharif - 101062765
+ * @author Shoaib Khan - 101033582
  */
 public class Square {
     private Piece piece;
@@ -29,7 +33,7 @@ public class Square {
     }
 
     /**
-     * method which sets the piece
+     * Method to set the piece.
      * @param piece
      */
     public void setPiece(Piece piece) {
@@ -37,13 +41,14 @@ public class Square {
     }
     
     /**
-     * removes the specific piece
+     * Removes the specific piece from the square.
      */
     public void removePiece() {
     	this.piece = null;
     }
     
     /**
+     * Method to get the piece.
      * @return Piece if the piece is found.
      * @return null if no piece is found
      */
@@ -56,7 +61,7 @@ public class Square {
     }
     
     /**
-     * gets the piece type
+     * Gets the piece type
      * @return PieceType
      */
     public PieceType getPieceType() {

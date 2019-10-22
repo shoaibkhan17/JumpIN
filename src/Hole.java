@@ -1,13 +1,28 @@
 /**
- * Hole is a subclass of Piece abstract class
- * It is stationary and cannot be moved
- * There are always 5 holes and the location is consistent for any game
- * 4 holes in the four corners of the board and 1 hole in the centre of the board
+ * Hole is a subclass of the abstract Piece class
+ * It is stationary and cannot be moved.
+ * 
+ * @author Khalil Aalab - 101070879
+ * @author Kamaluddin Shakirki - 101054933
+ * @author Simon Yacoub - 101044159
+ * @author Aiman Sharif - 101062765
+ * @author Shoaib Khan - 101033582
  */
 public class Hole extends Piece {
 
+    /**
+     * Holes cannot be moved.
+     */
     private static final boolean isMovable = false;
+
+    /**
+     * Holes cannot be selected.
+     */
     private static final boolean isSelectable = false;
+
+    /**
+     * Inner piece.
+     */
     private Piece innerPiece;
 
     /**
@@ -19,7 +34,7 @@ public class Hole extends Piece {
     }
 
     /**
-     * method which sets the piece
+     * Method which sets the piece
      * @param piece to be set
      */
     public void setPiece(Piece piece) {
@@ -27,15 +42,15 @@ public class Hole extends Piece {
     }
 
     /**
-     * method which removes the piece from the hole
+     * Method which removes the piece from the hole.
      */
     public void removePiece() {
         this.innerPiece = null;
     }
 
     /**
-     * gets the piece
-     * @return innerPiece piece that gets returned
+     * Method to get the inner piece.
+     * @return innerPiece piece that gets returned.
      */
 
     public Piece getPiece() {
@@ -43,16 +58,16 @@ public class Hole extends Piece {
     }
 
     /**
-     * checks whether the hole is occupied
-     * @return true if the hole is occupied, false if the hole is not occupied
+     * Checks whether the hole is occupied.
+     * @return true if the hole is occupied, false if the hole is not occupied.
      */
     public boolean isOccupied() {
         return innerPiece != null;
     }
 
     /**
-     * gets the status of the hole
-     * @return String containing the status of the hole
+     * Method to gets the status of the hole.
+     * @return String containing the status of the hole.
      */
     public String getStatus() {
         String text = "Hole is ";
@@ -62,6 +77,7 @@ public class Hole extends Piece {
 
     /**
      * String representation and calls to toString methods
+     * @return the inner piece string or the hole string. 
      */
     public String toString() {
         return isOccupied() ? this.innerPiece.toString() : super.toString();

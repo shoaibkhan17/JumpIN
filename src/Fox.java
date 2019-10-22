@@ -2,24 +2,30 @@
  * Fox is a subclass of Animal class
  * Its movement is different than Rabbit since it requires two space in the board.
  * Fox can only move in the direction that it is facing. Foxes cannot not jump.
+ * 
+ * @author Khalil Aalab - 101070879
+ * @author Kamaluddin Shakirki - 101054933
+ * @author Simon Yacoub - 101044159
+ * @author Aiman Sharif - 101062765
+ * @author Shoaib Khan - 101033582
  */
 public class Fox extends Animal {
 
 	/**
 	 * Location of the other body of the fox piece.
 	 */
-	Location bodyLocation;
+	private Location bodyLocation;
 
 	/**
 	 * Direction where the fox can move.
 	 * Horizontal or vertical.
 	 */
-	boolean horizontalMovement;
+	private boolean horizontalMovement;
 
 	/**
 	 * If this is the tail of the fox.
 	 */
-	boolean tail;
+	private boolean tail;
 
 	/**
 	 * Default constructor
@@ -52,9 +58,9 @@ public class Fox extends Animal {
 	 * @param number1 
 	 * @param number2
 	 * @param squares
-	 * @return
+	 * @return boolean true if it is valid, false if it is not valid
 	 */
-	public boolean checkValid(int constNumber, boolean x, int number1, int number2, Square[][] squares) {
+	private boolean checkValid(int constNumber, boolean x, int number1, int number2, Square[][] squares) {
 
 		// Has to have no piece in the middle to move there. 
 		boolean noPieceInMiddle = true;
@@ -92,9 +98,9 @@ public class Fox extends Animal {
 	 * @param oldLocation
 	 * @param newLocation
 	 * @param board
-	 * @return
+	 * @return boolean 
 	 */
-	public boolean moveItselfAndBody(boolean oldLocationGreater, Location oldLocation, Location newLocation, Board board) {
+	private boolean moveItselfAndBody(boolean oldLocationGreater, Location oldLocation, Location newLocation, Board board) {
 		Location tempLocation; 
 
 		// If the old location was greater than the previous location. 
@@ -155,12 +161,9 @@ public class Fox extends Animal {
 	 * @param oldLocation
 	 * @param newLocation
 	 * @param board
-	 * @return
+	 * @return boolean
 	 */
-	public boolean moveValidation(Location oldLocation, Location newLocation, Board board) {
-		Square[][] squares = board.getSquares();
-		int x = bodyLocation.getX();
-		int y = bodyLocation.getY();
+	private boolean moveValidation(Location oldLocation, Location newLocation, Board board) {
 		boolean oldLocationGreater = oldLocation.comparesTo(newLocation, horizontalMovement) == 1;
 
 		// If it is the head piece and the new location is smaller than tail's location. 
@@ -180,11 +183,11 @@ public class Fox extends Animal {
 	}
 
 	/**
-	 * Function to move.
+	 * Function to move the animal
 	 * @param oldLocation
 	 * @param newLocation
 	 * @param board
-	 * @return
+	 * @return boolean
 	 */
 	@Override
 	public boolean move(Location oldLocation, Location newLocation, Board board) {
@@ -219,5 +222,5 @@ public class Fox extends Animal {
 		}
 
 		return false;
-	}	
+	}
 }

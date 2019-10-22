@@ -1,10 +1,15 @@
 import java.util.LinkedList;
 
 /**
- * Class that initializes the board of the game along with board size and
- * squares Checks whether each move is valid or not and allows the user to play
- * the game by initializing the game
+ * Class that initializes the board of the game.
+ * Handles movement of Piece within the Squares.
+ * Checks if the game is completed.
  * 
+ * @author Khalil Aalab - 101070879
+ * @author Kamaluddin Shakirki - 101054933
+ * @author Simon Yacoub - 101044159
+ * @author Aiman Sharif - 101062765
+ * @author Shoaib Khan - 101033582
  */
 public class Board {
 	private Square[][] squares;
@@ -20,27 +25,27 @@ public class Board {
 	 * @param level this is the level of the game
 	 */
 	public Board(int level) {
+
+		// Default values.
 		squares = new Square[BOARD_SIZE][BOARD_SIZE];
 		holeLocations = new LinkedList<>();
 		selectedPiece = null;
 		selectedPieceLocation = new Location();
+		rabbitCount = 0;
 		
+		// Initializes the Squares.
 		for (int x = 0; x < Board.BOARD_SIZE; x++) {
 			for (int y = 0; y < Board.BOARD_SIZE; y++) {
 				this.squares[x][y] = new Square();
 			}
 		}
 
-		this.initBoard(level); //sets the level of the game
-
-		//TO BE REVIEWED OR CHANGED
-		// Hard coding the rabbit count.
-		// So this is not required.
-		//rabbitCount = countRabbits();
+		// Sets the level of the game.
+		this.initBoard(level); 
 	}
 
 	/**
-	 * method to access the squares array
+	 * method to access the squares.
 	 * @return squares 
 	 */
 	public Square[][] getSquares() {
@@ -48,10 +53,10 @@ public class Board {
 	}
 	
 	/**
-	 * Method which creates and add pieces onto the board
+	 * Initializes game to selected level. 
 	 * @param level this is the level of difficulty of the game
 	 */
-	public void initBoard(int level) {
+	private void initBoard(int level) {
 		// Create and add pieces into the board
 		switch (level) {
 			case 1:
@@ -69,25 +74,11 @@ public class Board {
 	}
 
 	/**
-	 * Method that counts the number of rabbits on the board
-	 * @return count which is the number of rabbits on the board
+	 * Initialize the level 1 of the game.
+	 * Method which creates and add pieces onto the board.
 	 */
-	public int countRabbits() {
-		int count = 0;
-		for (int i = 0; i <BOARD_SIZE; i++) {
-			for (int j = 0; i <BOARD_SIZE; i++) {
-				if (squares[i][j].getPieceType() == PieceType.RABBIT) {
-					count++;
-				}
-			}
-		}
-		return count;
-	}
-
-	/**
-	 * Initialize the level1 of the game
-	 */
-	public void initToLevel1() {
+	private void initToLevel1() {
+		// Create and add pieces. 
 		squares[0][0].setPiece(new Hole());
 		squares[1][0].setPiece(new Mushroom());
 		squares[2][0].setPiece(new Mushroom());
@@ -99,62 +90,73 @@ public class Board {
 		squares[4][4].setPiece(new Hole());
 		squares[4][2].setPiece(new Rabbit());
 
+		// Store the hold locations.
 		holeLocations.add(new Location(0, 0));
 		holeLocations.add(new Location(4, 0));
 		holeLocations.add(new Location(2, 2));
 		holeLocations.add(new Location(0, 4));
 		holeLocations.add(new Location(4, 4));
+
+		// Store the number of rabbits.
 		rabbitCount = 2;
-		
 	}
 
 	/**
-	 * Initialize the level2 of the game
+	 * Initialize the level 2 of the game.
+	 * Method which creates and add pieces onto the board.
 	 */
-	public void initToLevel2() {
+	private void initToLevel2() {
+		// Create and add pieces. 
 		squares[0][0].setPiece(new Hole());
 		squares[3][0].setPiece(new Mushroom());
 		squares[4][0].setPiece(new Hole());
 		squares[1][1].setPiece(new Mushroom());
 		squares[2][1].setPiece(new Rabbit());
-
-		// Add foxes here
 		squares[3][1].setPiece(new Fox(new Location(4, 1), true, false));
 		squares[4][1].setPiece(new Fox(new Location(3, 1), true, true));
-
 		squares[2][2].setPiece(new Mushroom());
 		squares[0][4].setPiece(new Hole());
 		squares[4][4].setPiece(new Hole());
 
+		// Store the hold locations.
 		holeLocations.add(new Location(0, 0));
 		holeLocations.add(new Location(4, 0));
 		holeLocations.add(new Location(0, 4));
 		holeLocations.add(new Location(4, 4));
 		
+		// Store the number of rabbits.
 		rabbitCount = 1;
 	}
 
 
 	/**
-	 * Method that removes a piece from the given location
+	 * Method that removes a piece from the given location.
 	 * @param location of the piece
 	 */
 	public void removePiece(Location location) {
 		int x = location.getX();
 		int y = location.getY();
 
+		// If there is a piece at that location.
 		if (squares[x][y].hasPiece()) {
 			
+			// Get the piece.
 			Piece piece = squares[x][y].getPiece();
+
+			// If the piece is a hole. 
 			if (piece.getType() == PieceType.HOLE) {
 				Hole hole = (Hole) piece;
+
+				// Remove the piece from the hole.
 				hole.removePiece();
 			}
 
+			// Otherwise, just remove the piece.
 			else {
 				squares[x][y].removePiece();
 			}
 
+			// Clear out the selected piece and its location.
 			selectedPiece = null;
 			selectedPieceLocation.clear();
 		}
@@ -179,7 +181,10 @@ public class Board {
 		else if (piece.getType() == PieceType.HOLE) {
 			Hole hole = (Hole) piece;
 
+			// If the hole is occupied by another piece.
 			if (hole.isOccupied()) {
+
+				// Make that piece as the selected piece and store its location.
 				selectedPiece = hole.getPiece();
 				selectedPieceLocation.setLocation(location);
 				return true;
@@ -208,7 +213,6 @@ public class Board {
 	 * @return true if the piece can be moved to be new location, return false if it can't be moved
 	 */
 	private boolean canMove(Location oldLocation, Location newLocation, Piece piece) {
-
 		Animal animal = (Animal) selectedPiece;
 		return animal.move(oldLocation, newLocation, this);
 	}
@@ -224,12 +228,14 @@ public class Board {
 		int y = newLocation.getY();
 		Piece locationPiece = squares[x][y].getPiece();
 
+		// If the location where is piece is about to moved is empty or it is same location.
 		if (locationPiece == null || locationPiece == piece) {
 			squares[x][y].setPiece(piece);
 			this.removePiece(oldLocation);
 			return true;
 		}
 
+		// If the location where is piece is about to moved a hole and the moving piece is a rabbit.
 		else if (locationPiece.getType() == PieceType.HOLE && piece.getType() == PieceType.RABBIT) {
 			Hole hole = (Hole) locationPiece;
 			if (!hole.isOccupied()) {
@@ -278,8 +284,8 @@ public class Board {
 	}
 
 	/**
-	 * method returns a string representation of the board.
-	 *@return board contains the board as a string representation
+	 * Method returns a string representation of the board.
+	 * @return board contains the board as a string representation
 	 */
 	public String toString() {
 		String board = "\n    A   B   C   D   E";
@@ -318,7 +324,6 @@ public class Board {
 	 * the game is won and the method returns true
 	 * @return status of the game won or lost
 	 */
-	
 	public boolean isGameWon() {
 		int count = 0;
 		for (Location holeLocation: holeLocations) {
@@ -327,8 +332,12 @@ public class Board {
 				count++;
 			}
 		}
+		
+
+		// Return true if all rabbits are in the hole.
 		return count == rabbitCount;
 	}
+
 	/**
 	 * Prints the board
 	 */

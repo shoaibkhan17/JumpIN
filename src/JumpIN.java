@@ -1,7 +1,13 @@
 import java.util.Scanner;
 
 /**
- *  Main class which contains the functionality of the game
+ *  Main class which contains the functionality of the game.
+ * 
+ * @author Khalil Aalab - 101070879
+ * @author Kamaluddin Shakirki - 101054933
+ * @author Simon Yacoub - 101044159
+ * @author Aiman Sharif - 101062765
+ * @author Shoaib Khan - 101033582
  */
 public class JumpIN {
 	
@@ -26,17 +32,18 @@ public class JumpIN {
 	 * @param invalidText text printed out saying invalid location if invalid location entered
 	 * @param selecting true when the user is selecting a piece, false if the piece is not being selected
 	 */
-	public void printMoveText(String moveText, String invalidText, boolean selecting) {
+	private void printMoveText(String moveText, String invalidText, boolean selecting) {
 		do {
+			// Print the board.
 			board.printBoard();
 			System.out.print(moveText);
 			String input = scanner.nextLine();
 			parser.setText(input);
 
 			if (parser.isValidLocation) {
-
 				// Selecting the piece
 				if (selecting) {
+					// If the piece cannot be selected.
 					if (!board.selectPiece(parser.getLocation())) {
 						this.printSeparator();
 						System.out.println(invalidText);
@@ -46,6 +53,7 @@ public class JumpIN {
 
 				// Moving the piece to a new location
 				else {
+					// If the selected piece cannot be moved to the new location.
 					if (!board.move(parser.getLocation())) {
 						this.printSeparator();
 						System.out.println(invalidText);
@@ -58,13 +66,14 @@ public class JumpIN {
 				System.out.println(invalidText + "\n");
 			}
 
+		// Continue the loop this entire process is successful. 
 		} while (!parser.isValidLocation);
 	}
 
 	/**
 	 * prints a line gap on the board
 	 */
-	public void printLineGap() {
+	private void printLineGap() {
 		for (int i = 0; i < 45; i++) {
 			System.out.print('-');
 		}
@@ -74,7 +83,7 @@ public class JumpIN {
 	/**
 	 * clears the screen
 	 */
-	public void clearScreen() {
+	private void clearScreen() {
 		try {
 			new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
 		} catch (Exception E) {
@@ -85,14 +94,14 @@ public class JumpIN {
 	/**
 	 * calls the print line gap method
 	 */
-	public void printSeparator() {
+	private void printSeparator() {
 		this.printLineGap();
 	}
 
 	/**
 	 * Function to print out the welcome message and basic instructions. 
 	 */
-	public void printWelcomeMessage() {
+	private void printWelcomeMessage() {
 		this.printSeparator();
 		System.out.println("-- Welcome to the JumpIN game --\n");
 		System.out.println("Currently two levels are developed.");
@@ -129,6 +138,5 @@ public class JumpIN {
 	public static void main(String[] args) {
 		JumpIN jumpIN = new JumpIN();
 		jumpIN.playGame(); 
-		
 	} 
 }

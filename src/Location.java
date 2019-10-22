@@ -1,9 +1,22 @@
 /**
- * Location class holding the location of the x and y coordinates
+ * Location class holding the location of the x and y coordinates.
+ * 
+ * @author Khalil Aalab - 101070879
+ * @author Kamaluddin Shakirki - 101054933
+ * @author Simon Yacoub - 101044159
+ * @author Aiman Sharif - 101062765
+ * @author Shoaib Khan - 101033582
  */
 public class Location {
 
+    /**
+     * X coordinate
+     */
     private int x;
+
+    /**
+     * Y coordinate
+     */
     private int y;
 
     /**
@@ -24,7 +37,7 @@ public class Location {
     }
 
     /**
-     * gets the x coordinate
+     * Gets the x coordinate
      * @return x
      */
     public int getX() {
@@ -32,7 +45,7 @@ public class Location {
     }
 
     /**
-     * sets the x coordinate to param x
+     * Sets the x coordinate to param x
      * @param x
      */
     public void setX(int x) {
@@ -40,7 +53,7 @@ public class Location {
     }
 
     /**
-     * gets the y location coordinate
+     * Gets the y location coordinate
      * @return the y coordinate
      */
     public int getY() {
@@ -48,7 +61,7 @@ public class Location {
     }
 
     /**
-     * sets the y coordinate to param y
+     * Sets the y coordinate to param y
      * @param y
      */
     public void setY(int y) {
@@ -56,7 +69,7 @@ public class Location {
     }
 
     /**
-     * clear the x and y coordinates
+     * Clears the x and y coordinates
      */
     public void clear() {
         x = -1;
@@ -64,7 +77,7 @@ public class Location {
     }
 
     /**
-     * method that sets location
+     * Method that sets the location
      * @param location
      */
     public void setLocation(Location location) {
@@ -73,9 +86,9 @@ public class Location {
     }
 
     /**
-     * equals method implemented
+     * Method that compares if the two locations are the same.
      * @param location 
-     * @return boolean value
+     * @return true if the two locations are the same
      */
     public boolean equals(Location location) {
         return x == location.getX() && y == location.getY();
@@ -95,6 +108,13 @@ public class Location {
         }
     }
 
+    /**
+     * Function that compares that compares if the location is greater or smaller
+     * to the other location.
+     * @param location
+     * @param horizontalMovement
+     * @return
+     */
     public int comparesTo(Location location, boolean horizontalMovement) {
         if (horizontalMovement) {
             if (x > location.getX()) {
