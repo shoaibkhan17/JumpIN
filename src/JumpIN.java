@@ -90,21 +90,27 @@ public class JumpIN {
 	}
 
 	/**
+	 * Function to print out the welcome message and basic instructions. 
+	 */
+	public void printWelcomeMessage() {
+		this.printSeparator();
+		System.out.println("-- Welcome to the JumpIN game --\n");
+		System.out.println("Currently two levels are developed.");
+		System.out.println("Playing level 2");
+		System.out.println("To move a piece:"); 
+		System.out.println("-Enter the piece's location");
+		System.out.println("-Wait for validation");
+		System.out.println("-Enter the location you want to move the piece to\n");
+		this.printSeparator();
+	}
+
+	/**
 	 * method for playing the game
 	 */
-	public void playGame() {
-
-		//1. print board 
-		//2. wait for input 
-		//3. check input 
-		//4. validate move
-		//5. move
-		//6.Check game status 
-		//7.Resume or break loop or switch level and restart
+	public void playGame() {		
+		this.printWelcomeMessage();
 
 		// While the game hasn't finished yet. 
-		this.printSeparator();
-
 		while (!board.isGameWon()) {
 			this.printMoveText("What piece would you like to move: ", "\n-- PLEASE ENTER A VALID PIECE --", true);
 			this.printSeparator();

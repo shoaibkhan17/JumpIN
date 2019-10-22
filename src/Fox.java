@@ -87,7 +87,7 @@ public class Fox extends Animal {
 	}
 
 	/**
-	 * Fuction to move itself and the other body part of the fox to their new locations.
+	 * Function to move itself and the other body part of the fox to their new locations.
 	 * @param oldLocationGreater
 	 * @param oldLocation
 	 * @param newLocation
