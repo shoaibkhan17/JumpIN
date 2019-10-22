@@ -56,7 +56,7 @@ public class Board {
 	 * Initializes game to selected level. 
 	 * @param level this is the level of difficulty of the game
 	 */
-	public void initBoard(int level) {
+	private void initBoard(int level) {
 		// Create and add pieces into the board
 		switch (level) {
 			case 1:
@@ -77,7 +77,7 @@ public class Board {
 	 * Initialize the level 1 of the game.
 	 * Method which creates and add pieces onto the board.
 	 */
-	public void initToLevel1() {
+	private void initToLevel1() {
 		// Create and add pieces. 
 		squares[0][0].setPiece(new Hole());
 		squares[1][0].setPiece(new Mushroom());
@@ -105,7 +105,7 @@ public class Board {
 	 * Initialize the level 2 of the game.
 	 * Method which creates and add pieces onto the board.
 	 */
-	public void initToLevel2() {
+	private void initToLevel2() {
 		// Create and add pieces. 
 		squares[0][0].setPiece(new Hole());
 		squares[3][0].setPiece(new Mushroom());

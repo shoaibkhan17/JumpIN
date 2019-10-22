@@ -14,18 +14,18 @@ public class Fox extends Animal {
 	/**
 	 * Location of the other body of the fox piece.
 	 */
-	Location bodyLocation;
+	private Location bodyLocation;
 
 	/**
 	 * Direction where the fox can move.
 	 * Horizontal or vertical.
 	 */
-	boolean horizontalMovement;
+	private boolean horizontalMovement;
 
 	/**
 	 * If this is the tail of the fox.
 	 */
-	boolean tail;
+	private boolean tail;
 
 	/**
 	 * Default constructor
@@ -60,7 +60,7 @@ public class Fox extends Animal {
 	 * @param squares
 	 * @return boolean true if it is valid, false if it is not valid
 	 */
-	public boolean checkValid(int constNumber, boolean x, int number1, int number2, Square[][] squares) {
+	private boolean checkValid(int constNumber, boolean x, int number1, int number2, Square[][] squares) {
 
 		// Has to have no piece in the middle to move there. 
 		boolean noPieceInMiddle = true;
@@ -100,7 +100,7 @@ public class Fox extends Animal {
 	 * @param board
 	 * @return boolean 
 	 */
-	public boolean moveItselfAndBody(boolean oldLocationGreater, Location oldLocation, Location newLocation, Board board) {
+	private boolean moveItselfAndBody(boolean oldLocationGreater, Location oldLocation, Location newLocation, Board board) {
 		Location tempLocation; 
 
 		// If the old location was greater than the previous location. 
@@ -163,7 +163,7 @@ public class Fox extends Animal {
 	 * @param board
 	 * @return boolean
 	 */
-	public boolean moveValidation(Location oldLocation, Location newLocation, Board board) {
+	private boolean moveValidation(Location oldLocation, Location newLocation, Board board) {
 		boolean oldLocationGreater = oldLocation.comparesTo(newLocation, horizontalMovement) == 1;
 
 		// If it is the head piece and the new location is smaller than tail's location. 

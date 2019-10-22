@@ -32,7 +32,7 @@ public class JumpIN {
 	 * @param invalidText text printed out saying invalid location if invalid location entered
 	 * @param selecting true when the user is selecting a piece, false if the piece is not being selected
 	 */
-	public void printMoveText(String moveText, String invalidText, boolean selecting) {
+	private void printMoveText(String moveText, String invalidText, boolean selecting) {
 		do {
 			// Print the board.
 			board.printBoard();
@@ -73,7 +73,7 @@ public class JumpIN {
 	/**
 	 * prints a line gap on the board
 	 */
-	public void printLineGap() {
+	private void printLineGap() {
 		for (int i = 0; i < 45; i++) {
 			System.out.print('-');
 		}
@@ -83,7 +83,7 @@ public class JumpIN {
 	/**
 	 * clears the screen
 	 */
-	public void clearScreen() {
+	private void clearScreen() {
 		try {
 			new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
 		} catch (Exception E) {
@@ -94,14 +94,14 @@ public class JumpIN {
 	/**
 	 * calls the print line gap method
 	 */
-	public void printSeparator() {
+	private void printSeparator() {
 		this.printLineGap();
 	}
 
 	/**
 	 * Function to print out the welcome message and basic instructions. 
 	 */
-	public void printWelcomeMessage() {
+	private void printWelcomeMessage() {
 		this.printSeparator();
 		System.out.println("-- Welcome to the JumpIN game --\n");
 		System.out.println("Currently two levels are developed.");

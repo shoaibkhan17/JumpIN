@@ -26,7 +26,7 @@ public class Rabbit extends Animal {
 	 * @param squares
 	 * @return boolean true if the move is valid, false if the move is not valid
 	 */
-	public boolean checkValid(int constNumber, boolean x, int number1, int number2, Square[][] squares) {
+	private boolean checkValid(int constNumber, boolean x, int number1, int number2, Square[][] squares) {
 		
 		// Has to have a piece or pieces in the middle to move there. 
 		boolean pieceInMiddle = true;
