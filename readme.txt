@@ -72,28 +72,40 @@ User Manual:
 --Then, just place it back it it's own location.
 
 ---------------------------------------------------------------------------------------------------
-Design Decisions:
-
-- Data Structures
+Design Decision - Data Structures:
  
-1- The board class uses a 2D array of squares in order to represent the game board. 
+-The board class uses a 2D array of squares in order to represent the game board. 
 We used this data structure because we always know the size of the board beforehand,
 and it is coded as a constant. 
 
-2- The hole locations, however, are simply an LinkedList because the holes are integrated 
+-The hole locations, however, are simply an LinkedList because the holes are integrated 
 into the 2D array of squares, but we also have a seperate data structure for the holes 
 in order to iterate over all the holes when needed, without going over all the non-hole
 squares.
 
-- Operations:
+---------------------------------------------------------------------------------------------------
+Design Decision - Operations:
 
-1- With the 2D array, this also makes iterating over the board easier, as 
+-With the 2D array, this also makes iterating over the board easier, as 
 we can use a nested for-loop with regards to the row and column of squares on the board.
 
-2- The LinkedList is better than an ArrayList in this case, because there is a lot of appending
+-The LinkedList is better than an ArrayList in this case, because there is a lot of appending
 at the end that happens when the board is initialized, and also in iteration, LinkedList is 
 equal to ArrayList in terms of going over the entire List. So, LinkedList is the implementation
 that we decided on.
+
+-2D array of type Square is used to create the Board.
+
+-Each Square can have a piece inside of it.
+
+-Each Hole can also contain another Piece inside of it. 
+
+-Each Animal can validate its own movement. Once it is a valid move, it can ask the Board to move 
+ the Piece.
+
+-The JumpIN game checks if the Board is completed after each successful move. 
+
+-The Board is set to be complete once all the Rabbits are placed in the Holes.
 
 ---------------------------------------------------------------------------------------------------
 Known Issues: 
@@ -111,7 +123,15 @@ Known Issues:
 ---Vice vera for the head and the vertical direction fox.
 
 ---------------------------------------------------------------------------------------------------
-Future Roadmap: 
--TODO
+Future Road Map: 
+
+-Create another class that uses the Board class as a model and listens to it. 
+-Will have buttons that represents as each independent squares. 
+-The button will be disabled if there is no piece on it.
+-The user can click on the button and move the piece to another location (button).
+-Highlight all the locations where the piece can be moved.
+-Fix up the fox logic that it can be moved from any part of its body.
+-The selected piece will be deselected if it is clicked on its own self. 
+-The selected piece can also be deselected once any other movable piece is selected.
 
 ---------------------------------------------------------------------------------------------------
