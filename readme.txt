@@ -54,7 +54,8 @@ User Manual:
     5 * O *   *   *   * O *
       *********************
 
---Keep playing the game till the rabbit is inside the hole.
+--Keep playing the game until all the rabits are in a hole
+-- In this case, just the one rabit needs to be inside one of the holes
 
 -Information on hole status.
 --After every move, a text is printed which displays the hole status.
@@ -71,7 +72,9 @@ User Manual:
 --Then, just place it back it it's own location.
 
 ---------------------------------------------------------------------------------------------------
-Data Structures:
+Design Decisions:
+
+- Data Structures
  
 1- The board class uses a 2D array of squares in order to represent the game board. 
 We used this data structure because we always know the size of the board beforehand,
@@ -82,8 +85,7 @@ into the 2D array of squares, but we also have a seperate data structure for the
 in order to iterate over all the holes when needed, without going over all the non-hole
 squares.
 
----------------------------------------------------------------------------------------------------
-Operations:
+- Operations:
 
 1- With the 2D array, this also makes iterating over the board easier, as 
 we can use a nested for-loop with regards to the row and column of squares on the board.
@@ -92,10 +94,6 @@ we can use a nested for-loop with regards to the row and column of squares on th
 at the end that happens when the board is initialized, and also in iteration, LinkedList is 
 equal to ArrayList in terms of going over the entire List. So, LinkedList is the implementation
 that we decided on.
-
----------------------------------------------------------------------------------------------------
-Design Decisions:
--TODO
 
 ---------------------------------------------------------------------------------------------------
 Known Issues: 
