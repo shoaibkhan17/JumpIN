@@ -18,10 +18,16 @@ class testLogic {
 	
 
 	@Test
-	public void testAdd(){
+	public void testGameWonFalse(){
 		Board board = new Board(1);
-		Square squares[][] = board.getSquares();
 		assertTrue(board.isGameWon() == false);
+	}
+	
+	public void testBoardConstructor() {
+		Board board = new Board(1);
+		
+		
+		
 	}
 
 }
