@@ -11,13 +11,13 @@ public class GUI extends Board{
 		super(1);
 		JFrame jf = new JFrame("JumpIN");
 		JMenuBar mb = new JMenuBar();
-		GridLayout grid = new GradeLayout();
+		GridLayout grid = new GridLayout(5, 5);
 		
-		jf.setLayout new grid();
+		jf.setLayout(grid);
 
 		Square squares[][] = super.getSquares();
-		for(int i=0 ; i<super.BOARD_SIZE; i++) {
-			for (int j =0; j <super.BOARD_SIZE; j++) {
+		for(int i=0 ; i<5; i++) {
+			for (int j =0; j <5; j++) {
 				String text = "";
 				if (squares[i][j].getPiece() != null) {
 					text = squares[i][j].getPiece().toString();
@@ -34,6 +34,9 @@ public class GUI extends Board{
 		jf.setVisible(true);
 		
 	}
+	//ImageIcon image = new ImageIcon(getClass().getResource("Fox.png"));
+	//jf.add(image, BorderLayout.NORTH);
+	//jf.add(new JLabel(image), BorderLayout.NORTH);
 	
 	
 	public static void main(String[] args) {
