@@ -5,9 +5,9 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import javax.swing.JLabel;
 
-public class GUI extends Board{
+public class View extends Board{
 	
-	public GUI() {
+	public View() {
 		super(1);
 		JFrame jf = new JFrame("JumpIN");
 		JMenuBar mb = new JMenuBar();
@@ -16,16 +16,15 @@ public class GUI extends Board{
 		jf.setLayout(grid);
 
 		Square squares[][] = super.getSquares();
-		for(int i=0 ; i<5; i++) {
-			for (int j =0; j <5; j++) {
+		for (int i = 0; i < 5; i++) {
+			for (int j = 0; j < 5; j++) {
 				String text = "";
 				if (squares[i][j].getPiece() != null) {
 					text = squares[i][j].getPiece().toString();
+				} else {
+					text = "EMPTY";
 				}
-				else {
-					text = "NA";
-				}
-				
+
 				JButton button = new JButton(text);
 				jf.add(button);
 			}
@@ -40,7 +39,7 @@ public class GUI extends Board{
 	
 	
 	public static void main(String[] args) {
-		GUI obj = new GUI();
+		View obj = new View();
 
 	}
 

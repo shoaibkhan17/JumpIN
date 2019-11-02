@@ -2,7 +2,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-class testLogic {
+class TestLogic {
 
 	@Test
 	public void testingMove() {
@@ -16,7 +16,7 @@ class testLogic {
 		assertTrue(squares[newLoc.getX()][newLoc.getY()].getPiece() == piece);
 	}
 	
-
+	
 	@Test
 	public void testGameWonFalse(){
 		Board board = new Board(1);
@@ -25,8 +25,6 @@ class testLogic {
 	
 	public void testBoardConstructor() {
 		Board board = new Board(1);
-		
-		
 		
 	}
 
