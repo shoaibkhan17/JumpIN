@@ -2,7 +2,7 @@
  * Location class holding the location of the x and y coordinates.
  * 
  * @author Khalil Aalab - 101070879
- * @author Kamaluddin Shakirki - 101054933
+ * @author Kamaluddin Shakiri - 101054933
  * @author Simon Yacoub - 101044159
  * @author Md Aiman Sharif - 101062765
  * @author Shoaib Khan - 101033582
@@ -95,7 +95,7 @@ public class Location {
     }
 
     /**
-     * toString method implemented
+     * Returns the alphanumeric location coordinates.
      * @return String
      */
     public String toString() {
@@ -106,6 +106,14 @@ public class Location {
         else {
             return "not a valid location - (" + x + "," + y + ")";
         }
+    }
+    
+    /**
+     * Returns the numeric location coordinates.
+     * @return String
+     */
+    public String toStringNumeric() {
+        return "(" + x + "," + y + ")";
     }
 
     /**

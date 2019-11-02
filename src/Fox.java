@@ -4,7 +4,7 @@
  * Fox can only move in the direction that it is facing. Foxes cannot not jump.
  * 
  * @author Khalil Aalab - 101070879
- * @author Kamaluddin Shakirki - 101054933
+ * @author Kamaluddin Shakiri - 101054933
  * @author Simon Yacoub - 101044159
  * @author Md Aiman Sharif - 101062765
  * @author Shoaib Khan - 101033582

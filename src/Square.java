@@ -1,3 +1,7 @@
+import java.awt.Point;
+
+import javax.swing.JButton;
+
 /**
  * Square class contains pieces
  * @author Khalil Aalab - 101070879
@@ -6,22 +10,26 @@
  * @author Md Aiman Sharif - 101062765
  * @author Shoaib Khan - 101033582
  */
-public class Square {
+public class Square extends JButton {
     private Piece piece;
+    private Location location;
 
     /**
      * Default constructor initializing instance variables
      */
-    public Square() {
-        this(null);
+    public Square(Location location) {
+        this(null, location);
     }
 
     /**
      * Overloaded constructor
      * @param piece
      */
-    public Square(Piece piece) {
+    public Square(Piece piece, Location location) {
+    	super();
+		this.setFocusPainted(false);
         this.piece = piece;
+        this.location = location;
     }
 
     /**
@@ -38,6 +46,14 @@ public class Square {
      */
     public void setPiece(Piece piece) {
         this.piece = piece;
+    }
+    
+    public void setLocation(Location location) {
+    	this.location = location;
+    }
+    
+    public Location getLoc() {
+    	return location;
     }
     
     /**

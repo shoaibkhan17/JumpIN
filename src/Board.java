@@ -6,7 +6,7 @@ import java.util.LinkedList;
  * Checks if the game is completed.
  * 
  * @author Khalil Aalab - 101070879
- * @author Kamaluddin Shakirki - 101054933
+ * @author Kamaluddin Shakiri - 101054933
  * @author Simon Yacoub - 101044159
  * @author Md Aiman Sharif - 101062765
  * @author Shoaib Khan - 101033582
@@ -36,7 +36,7 @@ public class Board {
 		// Initializes the Squares.
 		for (int x = 0; x < Board.BOARD_SIZE; x++) {
 			for (int y = 0; y < Board.BOARD_SIZE; y++) {
-				this.squares[x][y] = new Square();
+				this.squares[x][y] = new Square(new Location(x, y));
 			}
 		}
 
