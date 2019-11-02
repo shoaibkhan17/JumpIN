@@ -4,9 +4,13 @@ import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.Image;
+import java.io.IOException;
+
 import javax.swing.JLabel;
 
 public class View extends Board {
@@ -40,7 +44,7 @@ public class View extends Board {
 		frame = new JFrame("JumpIN");
 		GridLayout grid = new GridLayout(5, 5);
 		frame.setLayout(grid);
-		frame.setSize(400, 400);
+		frame.setSize(500, 500);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
 	}
 	
@@ -68,7 +72,7 @@ public class View extends Board {
 				} else {
 					text = "EMPTY";
 				}
-				frame.add(View.createButton(text, x % 2 == 0 && y % 2 == 0));
+				frame.add(this.createButton(text, x % 2 == 0 && y % 2 == 0));
 			}
 		}
 	}
@@ -81,13 +85,38 @@ public class View extends Board {
 	//jf.add(image, BorderLayout.NORTH);
 	//jf.add(new JLabel(image), BorderLayout.NORTH);
 	
-	public static JButton createButton(String text, boolean cornorPiece) {
+	private JButton createButton(String text, boolean cornorPiece) {
 		JButton button = new JButton(text);
 		button.setFocusPainted(false);
 		button.setBorderPainted(cornorPiece);
 		button.setBackground(cornorPiece ? CORNOR_SQUARE_COLOR : MAIN_SQUARE_COLOR);
 	  	button.setBorder(COMPOUND);
+	  	this.imageHandler(text, button);
 	  	return button;
+	}
+	
+	private void imageHandler(String text, JButton button) {
+		ImageIcon icon;
+		System.out.print(text + " ");
+		switch (text) {
+			case ("R"):
+				icon =  new ImageIcon("src/resources/rabbitGray.png");					
+				button.setIcon(icon);
+				button.setText(null);
+				break;
+			case ("M"):
+				icon = new ImageIcon("src/resources/mushroom.png");					
+				button.setIcon(icon);
+				button.setText(null);
+				break;
+			case ("O"):
+				icon = new ImageIcon("src/resources/hole.png");					
+				button.setIcon(icon);
+				button.setText(null);
+				break;
+			default:
+				break;
+		}
 	}
 	
 	public static void main(String[] args) {
