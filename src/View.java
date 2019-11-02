@@ -69,8 +69,6 @@ public class View extends Board {
 				String text = "";
 				if (squares[x][y].getPiece() != null) {
 					text = squares[x][y].getPiece().toString();
-				} else {
-					text = "EMPTY";
 				}
 				frame.add(this.createButton(text, x % 2 == 0 && y % 2 == 0));
 			}
@@ -91,26 +89,31 @@ public class View extends Board {
 		button.setBorderPainted(cornorPiece);
 		button.setBackground(cornorPiece ? CORNOR_SQUARE_COLOR : MAIN_SQUARE_COLOR);
 	  	button.setBorder(COMPOUND);
-	  	this.imageHandler(text, button);
+	  	this.imageHandler(text, button, cornorPiece);
 	  	return button;
 	}
 	
-	private void imageHandler(String text, JButton button) {
+	private void imageHandler(String text, JButton button, boolean cornorPiece) {
+		String path = "src/assets/";
 		ImageIcon icon;
-		System.out.print(text + " ");
 		switch (text) {
 			case ("R"):
-				icon =  new ImageIcon("src/resources/rabbitGray.png");					
+				icon =  new ImageIcon(path + "rabbitGray.png");					
 				button.setIcon(icon);
 				button.setText(null);
 				break;
 			case ("M"):
-				icon = new ImageIcon("src/resources/mushroom.png");					
+				icon = new ImageIcon(path + "mushroom.png");					
 				button.setIcon(icon);
 				button.setText(null);
 				break;
 			case ("O"):
-				icon = new ImageIcon("src/resources/hole.png");					
+				icon = new ImageIcon(path + "hole.png");					
+				button.setIcon(icon);
+				button.setText(null);
+				break;
+			case (""):
+				icon = new ImageIcon(path + (cornorPiece ? "emptyCornor" : "empty") + ".png");					
 				button.setIcon(icon);
 				button.setText(null);
 				break;
