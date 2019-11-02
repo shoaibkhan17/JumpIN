@@ -3,7 +3,7 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({testLogic.class})
+@SuiteClasses({TestLogic.class})
 public class AllTests {
 
 }
