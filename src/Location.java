@@ -95,7 +95,7 @@ public class Location {
     }
 
     /**
-     * toString method implemented
+     * Returns the alphanumeric location coordinates.
      * @return String
      */
     public String toString() {
@@ -106,6 +106,14 @@ public class Location {
         else {
             return "not a valid location - (" + x + "," + y + ")";
         }
+    }
+    
+    /**
+     * Returns the numeric location coordinates.
+     * @return String
+     */
+    public String toStringNumeric() {
+        return "(" + x + "," + y + ")";
     }
 
     /**

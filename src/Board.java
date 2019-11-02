@@ -36,7 +36,7 @@ public class Board {
 		// Initializes the Squares.
 		for (int x = 0; x < Board.BOARD_SIZE; x++) {
 			for (int y = 0; y < Board.BOARD_SIZE; y++) {
-				this.squares[x][y] = new Square();
+				this.squares[x][y] = new Square(new Location(x, y));
 			}
 		}
 

@@ -1,3 +1,5 @@
+import java.awt.Point;
+
 import javax.swing.JButton;
 
 /**
@@ -10,21 +12,24 @@ import javax.swing.JButton;
  */
 public class Square extends JButton {
     private Piece piece;
+    private Location location;
 
     /**
      * Default constructor initializing instance variables
      */
-    public Square() {
-        this(null);
+    public Square(Location location) {
+        this(null, location);
     }
 
     /**
      * Overloaded constructor
      * @param piece
      */
-    public Square(Piece piece) {
+    public Square(Piece piece, Location location) {
     	super();
+		this.setFocusPainted(false);
         this.piece = piece;
+        this.location = location;
     }
 
     /**
@@ -41,6 +46,14 @@ public class Square extends JButton {
      */
     public void setPiece(Piece piece) {
         this.piece = piece;
+    }
+    
+    public void setLocation(Location location) {
+    	this.location = location;
+    }
+    
+    public Location getLoc() {
+    	return location;
     }
     
     /**

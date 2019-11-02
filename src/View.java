@@ -85,8 +85,6 @@ public class View extends Board {
 	//jf.add(new JLabel(image), BorderLayout.NORTH);
 	
 	private JButton createButton(Square square, String text, boolean cornorPiece) {
-//		JButton button = new JButton(text);
-		square.setFocusPainted(false);
 		square.setBorderPainted(cornorPiece);
 		square.setBackground(cornorPiece ? CORNOR_SQUARE_COLOR : MAIN_SQUARE_COLOR);
 		square.setBorder(COMPOUND);
@@ -126,8 +124,13 @@ public class View extends Board {
 	
 	private void test(ActionEvent event) {
 		Square square = (Square) event.getSource();
-		System.out.println("Piece --> " + (square.toString().equals(" ") ? "Empty" : square.toString()));
+		Piece piece = square.getPiece();
+		Location location = square.getLoc();
 		
+		if (piece != null) {
+			String selectableText = piece.isSelectable() ? "selectable" : "not selectable";
+			System.out.println(piece.getType() + " at " + location.toStringNumeric() + " - " + selectableText);
+		}
 	}
 	
 	public static void main(String[] args) {
