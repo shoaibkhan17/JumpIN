@@ -9,6 +9,7 @@ import javax.swing.*;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
 import java.io.IOException;
 
 import javax.swing.JLabel;
@@ -70,7 +71,7 @@ public class View extends Board {
 				if (squares[x][y].getPiece() != null) {
 					text = squares[x][y].getPiece().toString();
 				}
-				frame.add(this.createButton(text, x % 2 == 0 && y % 2 == 0));
+				frame.add(this.createButton(squares[x][y], text, x % 2 == 0 && y % 2 == 0));
 			}
 		}
 	}
@@ -83,14 +84,15 @@ public class View extends Board {
 	//jf.add(image, BorderLayout.NORTH);
 	//jf.add(new JLabel(image), BorderLayout.NORTH);
 	
-	private JButton createButton(String text, boolean cornorPiece) {
-		JButton button = new JButton(text);
-		button.setFocusPainted(false);
-		button.setBorderPainted(cornorPiece);
-		button.setBackground(cornorPiece ? CORNOR_SQUARE_COLOR : MAIN_SQUARE_COLOR);
-	  	button.setBorder(COMPOUND);
-	  	this.imageHandler(text, button, cornorPiece);
-	  	return button;
+	private JButton createButton(Square square, String text, boolean cornorPiece) {
+//		JButton button = new JButton(text);
+		square.setFocusPainted(false);
+		square.setBorderPainted(cornorPiece);
+		square.setBackground(cornorPiece ? CORNOR_SQUARE_COLOR : MAIN_SQUARE_COLOR);
+		square.setBorder(COMPOUND);
+		square.addActionListener((event) -> this.test(event));
+	  	this.imageHandler(text, square, cornorPiece);
+	  	return square;
 	}
 	
 	private void imageHandler(String text, JButton button, boolean cornorPiece) {
@@ -120,6 +122,12 @@ public class View extends Board {
 			default:
 				break;
 		}
+	}
+	
+	private void test(ActionEvent event) {
+		Square square = (Square) event.getSource();
+		System.out.println("Piece --> " + (square.toString().equals(" ") ? "Empty" : square.toString()));
+		
 	}
 	
 	public static void main(String[] args) {

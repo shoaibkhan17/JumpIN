@@ -1,3 +1,5 @@
+import javax.swing.JButton;
+
 /**
  * Square class contains pieces
  * @author Khalil Aalab - 101070879
@@ -6,7 +8,7 @@
  * @author Md Aiman Sharif - 101062765
  * @author Shoaib Khan - 101033582
  */
-public class Square {
+public class Square extends JButton {
     private Piece piece;
 
     /**
@@ -21,6 +23,7 @@ public class Square {
      * @param piece
      */
     public Square(Piece piece) {
+    	super();
         this.piece = piece;
     }
 
