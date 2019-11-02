@@ -4,15 +4,10 @@ import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.Color;
 import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
-import java.io.IOException;
-
-import javax.swing.JLabel;
 
 public class View extends Board {
 
@@ -27,6 +22,8 @@ public class View extends Board {
 	private final static Border LINE = new LineBorder(Color.white);
 	private final static Border MARGIN = new EmptyBorder(5, 15, 5, 15);
 	private final static Border COMPOUND = new CompoundBorder(LINE, MARGIN);
+	private int counter = 0;
+	private enum RABBIT_COLORS {Gray, White, Brown}
 	
 	public View() {
 		super(1);
@@ -65,8 +62,8 @@ public class View extends Board {
     }
 	
 	private void initView() {
-		for (int x = 0; x < 5; x++) {
-			for (int y = 0; y < 5; y++) {
+		for (int y = 0; y < 5; y++) {
+			for (int x = 0; x < 5; x++) {
 				String text = "";
 				if (squares[x][y].getPiece() != null) {
 					text = squares[x][y].getPiece().toString();
@@ -96,11 +93,18 @@ public class View extends Board {
 	private void imageHandler(String text, JButton button, boolean cornorPiece) {
 		String path = "src/assets/";
 		ImageIcon icon;
+	
 		switch (text) {
 			case ("R"):
-				icon =  new ImageIcon(path + "rabbitGray.png");					
+				icon =  new ImageIcon(path + "rabbit" + RABBIT_COLORS.values()[counter] +".png");					
 				button.setIcon(icon);
 				button.setText(null);
+				counter++;
+				
+				if (counter > 3) {
+					counter = 0;
+				}
+				
 				break;
 			case ("M"):
 				icon = new ImageIcon(path + "mushroom.png");					
