@@ -9,12 +9,16 @@
  * @author Shoaib Khan - 101033582
  */
 public class Rabbit extends Animal {
+	
+	public static enum RABBIT_COLORS {Gray, White, Brown}
+	protected RABBIT_COLORS rabbitColor;
 
 	/**
 	 * Default constructor
 	 */
-    public Rabbit() {
+    public Rabbit(RABBIT_COLORS rabbitColor) {
         super(PieceType.RABBIT);
+        this.rabbitColor = rabbitColor;
     }
 
 	/**

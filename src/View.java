@@ -12,18 +12,17 @@ import java.awt.event.ActionEvent;
 public class View extends Board {
 
 	private static JFrame frame;
-	private Square[][] squares;
+	private Square oldSelectSquare;
 	
 	/**
 	 * Styling variables
 	 */
 	private final static Color MAIN_SQUARE_COLOR = new Color(2, 171, 80);
 	private final static Color CORNOR_SQUARE_COLOR = new Color(37, 177, 73);
+	private final static Color SELECTED_SQUARE_COLOR = new Color(51, 204, 255);
 	private final static Border LINE = new LineBorder(Color.white);
 	private final static Border MARGIN = new EmptyBorder(5, 15, 5, 15);
 	private final static Border COMPOUND = new CompoundBorder(LINE, MARGIN);
-	private int counter = 0;
-	private enum RABBIT_COLORS {Gray, White, Brown}
 	
 	public View() {
 		super(1);
@@ -32,7 +31,6 @@ public class View extends Board {
 	}
 	
 	private void init() {
-		squares = super.getSquares();
 		this.initFrame();
 		this.initMenu();
 		this.initView();
@@ -40,7 +38,7 @@ public class View extends Board {
 	
 	private void initFrame() {
 		frame = new JFrame("JumpIN");
-		GridLayout grid = new GridLayout(5, 5);
+		GridLayout grid = new GridLayout(5, 5);		
 		frame.setLayout(grid);
 		frame.setSize(500, 500);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
@@ -85,55 +83,90 @@ public class View extends Board {
 		square.setBorderPainted(cornorPiece);
 		square.setBackground(cornorPiece ? CORNOR_SQUARE_COLOR : MAIN_SQUARE_COLOR);
 		square.setBorder(COMPOUND);
-		square.addActionListener((event) -> this.test(event));
-	  	this.imageHandler(text, square, cornorPiece);
+		square.addActionListener((event) -> this.eventHandler(event));
+	  	this.imageHandler(square, cornorPiece);
 	  	return square;
 	}
 	
-	private void imageHandler(String text, JButton button, boolean cornorPiece) {
+	private void imageHandler(Square square, boolean cornorPiece) {
 		String path = "src/assets/";
 		ImageIcon icon;
+		Piece piece = square.getPiece();
+		
+		if (piece == null) {
+			icon = new ImageIcon(path + (cornorPiece ? "emptyCornor" : "empty") + ".png");					
+			square.setIcon(icon);
+			square.setText(null);
+			return;
+		}
 	
-		switch (text) {
-			case ("R"):
-				icon =  new ImageIcon(path + "rabbit" + RABBIT_COLORS.values()[counter] +".png");					
-				button.setIcon(icon);
-				button.setText(null);
-				counter++;
-				
-				if (counter > 3) {
-					counter = 0;
-				}
-				
+		switch (piece.getType()) {
+			case RABBIT:
+				Rabbit rabbit = (Rabbit) piece;
+				icon = new ImageIcon(path + "rabbit" + rabbit.rabbitColor + ".png");
+				square.setIcon(icon);
+				square.setText(null);			
 				break;
-			case ("M"):
+			case MUSHROOM:
 				icon = new ImageIcon(path + "mushroom.png");					
-				button.setIcon(icon);
-				button.setText(null);
+				square.setIcon(icon);
+				square.setText(null);
 				break;
-			case ("O"):
+			case HOLE:
 				icon = new ImageIcon(path + "hole.png");					
-				button.setIcon(icon);
-				button.setText(null);
+				square.setIcon(icon);
+				square.setText(null);
 				break;
-			case (""):
-				icon = new ImageIcon(path + (cornorPiece ? "emptyCornor" : "empty") + ".png");					
-				button.setIcon(icon);
-				button.setText(null);
+			case FOX:
 				break;
 			default:
 				break;
 		}
 	}
 	
-	private void test(ActionEvent event) {
+	private void highlightSelectedSquare(Square square) {
+		square.setBackground(SELECTED_SQUARE_COLOR);
+	}
+	
+	private void clearHighlight(Square square) {
+		Location loc = square.getLoc();
+		boolean cornerPiece = loc.getX() % 2 == 0 && loc.getY() % 2 == 0;
+		square.setBackground(cornerPiece ? CORNOR_SQUARE_COLOR : MAIN_SQUARE_COLOR);
+	}
+	
+	private void eventHandler(ActionEvent event) {
+		if (this.selectedPiece == null) {
+			this.select(event);
+		}
+		
+		else {
+			this.move(event);
+		}
+	}
+	
+	private void select(ActionEvent event) {
 		Square square = (Square) event.getSource();
 		Piece piece = square.getPiece();
 		Location location = square.getLoc();
+		if (this.selectPiece(location)) {
+			this.highlightSelectedSquare(square);
+			oldSelectSquare = square;
+		}
+	}
+	
+	private void move(ActionEvent event) {
+		Square square = (Square) event.getSource();
+		Location location = square.getLoc();
 		
-		if (piece != null) {
-			String selectableText = piece.isSelectable() ? "selectable" : "not selectable";
-			System.out.println(piece.getType() + " at " + location.toStringNumeric() + " - " + selectableText);
+		if (this.move(location)) {
+			this.clearHighlight(oldSelectSquare);
+			this.imageHandler(oldSelectSquare, false);
+			this.imageHandler(square, false);
+			
+			if (this.isGameWon()) {
+				JFrame popupFrame = new JFrame();
+				JOptionPane.showMessageDialog(popupFrame, "Level Complete - Congratulations!");
+			}
 		}
 	}
 	

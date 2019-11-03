@@ -12,13 +12,13 @@ import java.util.LinkedList;
  * @author Shoaib Khan - 101033582
  */
 public class Board {
-	private Square[][] squares;
-	private Piece selectedPiece;
-	private Location selectedPieceLocation;
-	private LinkedList<Location> holeLocations; 
-	private int rabbitCount;
-	private static final int BOARD_SIZE = 5;
-	private static final char BOARD_PRINT_CHAR = '*';
+	protected Square[][] squares;
+	protected Piece selectedPiece;
+	protected Location selectedPieceLocation;
+	protected LinkedList<Location> holeLocations; 
+	protected int rabbitCount;
+	protected static final int BOARD_SIZE = 5;
+	protected static final char BOARD_PRINT_CHAR = '*';
 
 	/** 
 	 * Constructor to initialize the instance variables
@@ -85,10 +85,10 @@ public class Board {
 		squares[4][0].setPiece(new Hole());
 		squares[3][1].setPiece(new Mushroom());
 		squares[2][2].setPiece(new Hole());
-		squares[3][0].setPiece(new Rabbit());
+		squares[3][0].setPiece(new Rabbit(Rabbit.RABBIT_COLORS.White));
 		squares[0][4].setPiece(new Hole());
 		squares[4][4].setPiece(new Hole());
-		squares[4][2].setPiece(new Rabbit());
+		squares[4][2].setPiece(new Rabbit(Rabbit.RABBIT_COLORS.Brown));
 
 		// Store the hold locations.
 		holeLocations.add(new Location(0, 0));
@@ -111,7 +111,7 @@ public class Board {
 		squares[3][0].setPiece(new Mushroom());
 		squares[4][0].setPiece(new Hole());
 		squares[1][1].setPiece(new Mushroom());
-		squares[2][1].setPiece(new Rabbit());
+		squares[2][1].setPiece(new Rabbit(Rabbit.RABBIT_COLORS.Gray));
 		squares[3][1].setPiece(new Fox(new Location(4, 1), true, false));
 		squares[4][1].setPiece(new Fox(new Location(3, 1), true, true));
 		squares[2][2].setPiece(new Mushroom());
