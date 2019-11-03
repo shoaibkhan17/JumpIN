@@ -8,6 +8,11 @@ import javax.swing.*;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
+/**
+ * View class is the 'View' of the MVC model
+ * It is the visual representation of the JumpIn game
+ * 
+ */
 
 public class View extends Board {
 
@@ -23,19 +28,26 @@ public class View extends Board {
 	private final static Border LINE = new LineBorder(Color.white);
 	private final static Border MARGIN = new EmptyBorder(5, 15, 5, 15);
 	private final static Border COMPOUND = new CompoundBorder(LINE, MARGIN);
-	
+	/**
+	 * Constructor to initialize the instance variables
+	 */
 	public View() {
 		super(1);
 		this.init();
 		this.run();
 	}
-	
+	/**
+	 * Method to call the initFrame, initMenu and the initView
+	 */
 	private void init() {
 		this.initFrame();
 		this.initMenu();
 		this.initView();
 	}
 	
+	/**
+	 * Method to initialize the Frame
+	 */
 	private void initFrame() {
 		frame = new JFrame("JumpIN");
 		GridLayout grid = new GridLayout(5, 5);		
@@ -44,6 +56,9 @@ public class View extends Board {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
 	}
 	
+	/**
+	 * Method to to initialize the Menu
+	 */
 	private void initMenu() {
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setBackground(Color.gray);
@@ -58,7 +73,9 @@ public class View extends Board {
 		menuBar.add(menu);
 		frame.setJMenuBar(menuBar);
     }
-	
+	/**
+	 * Method to initialize the View
+	 */
 	private void initView() {
 		for (int y = 0; y < 5; y++) {
 			for (int x = 0; x < 5; x++) {
@@ -70,31 +87,41 @@ public class View extends Board {
 			}
 		}
 	}
-	
+	/**
+	 * Method to set the Frame's visibility
+	 */
 	private void run() {
 		frame.setVisible(true);
 	}
 	
-	//ImageIcon image = new ImageIcon(getClass().getResource("Fox.png"));
-	//jf.add(image, BorderLayout.NORTH);
-	//jf.add(new JLabel(image), BorderLayout.NORTH);
-	
-	private JButton createButton(Square square, String text, boolean cornorPiece) {
-		square.setBorderPainted(cornorPiece);
-		square.setBackground(cornorPiece ? CORNOR_SQUARE_COLOR : MAIN_SQUARE_COLOR);
+	/**
+	 * Method to create Button on the gui
+	 * @param square the square on the board
+	 * @param text the text
+	 * @param cornerPiece to check if it is a corner piece
+	 * @return square the square which is on the board
+	 */
+	private JButton createButton(Square square, String text, boolean cornerPiece) {
+		square.setBorderPainted(cornerPiece);
+		square.setBackground(cornerPiece ? CORNOR_SQUARE_COLOR : MAIN_SQUARE_COLOR);
 		square.setBorder(COMPOUND);
 		square.addActionListener((event) -> this.eventHandler(event));
-	  	this.imageHandler(square, cornorPiece);
+	  	this.imageHandler(square, cornerPiece);
 	  	return square;
 	}
+	/**
+	 * Method to handle the image and the implementation of the switch cases
+	 * @param square the square which the image is on
+	 * @param cornerPiece is the piece on the corner
+	 */
 	
-	private void imageHandler(Square square, boolean cornorPiece) {
+	private void imageHandler(Square square, boolean cornerPiece) {
 		String path = "src/assets/";
 		ImageIcon icon;
 		Piece piece = square.getPiece();
 		
 		if (piece == null) {
-			icon = new ImageIcon(path + (cornorPiece ? "emptyCornor" : "empty") + ".png");					
+			icon = new ImageIcon(path + (cornerPiece ? "emptyCornor" : "empty") + ".png");					
 			square.setIcon(icon);
 			square.setText(null);
 			return;
@@ -123,17 +150,28 @@ public class View extends Board {
 				break;
 		}
 	}
+	/**
+	 * Method to highlight the selected square so the player can see the selected piece
+	 * @param square the square which the color is to be set
+	 */
 	
 	private void highlightSelectedSquare(Square square) {
 		square.setBackground(SELECTED_SQUARE_COLOR);
 	}
 	
+	/**
+	 * Method to clear the highlight of the selected square
+	 * @param square the square which is to be cleared from the highlight
+	 */
 	private void clearHighlight(Square square) {
 		Location loc = square.getLoc();
 		boolean cornerPiece = loc.getX() % 2 == 0 && loc.getY() % 2 == 0;
 		square.setBackground(cornerPiece ? CORNOR_SQUARE_COLOR : MAIN_SQUARE_COLOR);
 	}
-	
+	/**
+	 * Method to handle the event, this method gets triggered when a button is pressed
+	 * @param event that takes care of the correspondence event
+	 */
 	private void eventHandler(ActionEvent event) {
 		if (this.selectedPiece == null) {
 			this.select(event);
@@ -143,6 +181,11 @@ public class View extends Board {
 			this.move(event);
 		}
 	}
+	/**
+	 * Method to select a square or a piece, this method gets triggered when a button is pressed
+	 * in this case by 'mouse"
+	 * @param event the event that takes care of the correspondence event
+	 */
 	
 	private void select(ActionEvent event) {
 		Square square = (Square) event.getSource();
@@ -153,7 +196,10 @@ public class View extends Board {
 			oldSelectSquare = square;
 		}
 	}
-	
+	/**
+	 * Method to move a piece from its location to a different location
+	 * @param event which handles what happens after the button is pressed
+	 */
 	private void move(ActionEvent event) {
 		Square square = (Square) event.getSource();
 		Location location = square.getLoc();
