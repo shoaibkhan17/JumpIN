@@ -213,8 +213,15 @@ public class Board {
 	 * @return true if the piece can be moved to be new location, return false if it can't be moved
 	 */
 	private boolean canMove(Location oldLocation, Location newLocation, Piece piece) {
-		Animal animal = (Animal) selectedPiece;
-		return animal.move(oldLocation, newLocation, this);
+		if (selectedPiece.getClass().equals(Rabbit.class)) {
+			Rabbit temp = (Rabbit)selectedPiece;
+			return temp.move(oldLocation, newLocation, this);
+		}
+		else if (selectedPiece.getClass().equals(Fox.class)) {
+			Fox temp2 = (Fox)selectedPiece;
+			return temp2.move(oldLocation, newLocation, this);
+		}
+		return false;
 	}
 
 	/**

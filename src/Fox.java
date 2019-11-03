@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
  * @author Md Aiman Sharif - 101062765
  * @author Shoaib Khan - 101033582
  */
-public class Fox extends Animal {
+public class Fox extends Piece {
 
 	/**
 	 * Location of the other body of the fox piece.
@@ -36,7 +36,7 @@ public class Fox extends Animal {
 	 * @param tail initializes tail
 	 */
 	public Fox(Location bodyLocation, boolean horizontalMovement, boolean tail) {
-		super(PieceType.FOX);
+		super(PieceType.FOX, true, true);
 		this.bodyLocation = new Location();
 		this.bodyLocation.setX(bodyLocation.getX());
 		this.bodyLocation.setY(bodyLocation.getY());
@@ -191,7 +191,7 @@ public class Fox extends Animal {
 	 * @param board instance of board used to move the animal to the new location
 	 * @return boolean true if the move has been made, else false if the move could not be made
 	 */
-	@Override
+	
 	public boolean move(Location oldLocation, Location newLocation, Board board) {
 		Square[][] squares = board.getSquares();
 		int x1 = oldLocation.getX();

@@ -8,7 +8,7 @@
  * @author Md Aiman Sharif - 101062765
  * @author Shoaib Khan - 101033582
  */
-public class Rabbit extends Animal {
+public class Rabbit extends Piece{
 	
 	public static enum RABBIT_COLORS {Gray, White, Brown}
 	protected RABBIT_COLORS rabbitColor;
@@ -17,7 +17,7 @@ public class Rabbit extends Animal {
 	 * Default constructor
 	 */
     public Rabbit(RABBIT_COLORS rabbitColor) {
-        super(PieceType.RABBIT);
+        super(PieceType.RABBIT, true, true);
         this.rabbitColor = rabbitColor;
     }
 
@@ -62,7 +62,7 @@ public class Rabbit extends Animal {
 	 * @param board instance of board used to move the piece
 	 * @return true if the move can be made, else false if the move cannot be made
 	 */
-	@Override
+	
 	public boolean move(Location oldLocation, Location newLocation, Board board) {
 		Square[][] squares = board.getSquares();
 		int x1 = oldLocation.getX();
