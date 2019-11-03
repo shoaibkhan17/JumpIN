@@ -1,5 +1,3 @@
-import java.awt.Point;
-
 import javax.swing.JButton;
 
 /**

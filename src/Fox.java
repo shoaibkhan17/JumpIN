@@ -1,5 +1,3 @@
-import static org.junit.jupiter.api.Assertions.assertAll;
-
 /**
  * Fox is a subclass of Animal class
  * Its movement is different than Rabbit since it requires two space in the board.

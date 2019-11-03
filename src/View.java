@@ -4,8 +4,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.*;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
 
 /**
  * View class is the 'View' of the MVC model
@@ -21,7 +21,8 @@ import java.awt.event.ActionEvent;
 class View extends Board {
 
 	private static JFrame frame;
-	private Square oldSelectSquare;
+	private int currentLevel;
+	private Controller controller;
 	
 	/**
 	 * Styling variables
@@ -32,11 +33,15 @@ class View extends Board {
 	private final static Border LINE = new LineBorder(Color.white);
 	private final static Border MARGIN = new EmptyBorder(5, 15, 5, 15);
 	private final static Border COMPOUND = new CompoundBorder(LINE, MARGIN);
+	private final static Dimension viewDimension = new Dimension(500, 500);
+	
 	/**
 	 * Constructor to initialize the instance variables
 	 */
 	public View() {
 		super(1);
+		currentLevel = 1;
+		controller = new Controller(this, this);
 		this.init();
 		this.run();
 	}
@@ -54,9 +59,9 @@ class View extends Board {
 	 */
 	private void initFrame() {
 		frame = new JFrame("JumpIN");
-		GridLayout grid = new GridLayout(5, 5);		
+		GridLayout grid = new GridLayout(Board.BOARD_SIZE, Board.BOARD_SIZE);		
 		frame.setLayout(grid);
-		frame.setSize(500, 500);
+		frame.setSize(viewDimension);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
 	}
 	
@@ -77,6 +82,7 @@ class View extends Board {
 		menuBar.add(menu);
 		frame.setJMenuBar(menuBar);
     }
+	
 	/**
 	 * Method to initialize the View
 	 */
@@ -91,6 +97,7 @@ class View extends Board {
 			}
 		}
 	}
+	
 	/**
 	 * Method to set the Frame's visibility
 	 */
@@ -109,17 +116,17 @@ class View extends Board {
 		square.setBorderPainted(cornerPiece);
 		square.setBackground(cornerPiece ? CORNER_SQUARE_COLOR : MAIN_SQUARE_COLOR);
 		square.setBorder(COMPOUND);
-		square.addActionListener((event) -> this.eventHandler(event));
+		square.addActionListener((event) -> controller.eventHandler(event));
 	  	this.imageHandler(square, cornerPiece);
 	  	return square;
 	}
+	
 	/**
 	 * Method to handle the image and the implementation of the switch cases
 	 * @param square the square which the image is on
 	 * @param cornerPiece is the piece on the corner
 	 */
-	
-	private void imageHandler(Square square, boolean cornerPiece) {
+	protected void imageHandler(Square square, boolean cornerPiece) {
 		String path = "src/assets/";
 		ImageIcon icon;
 		Piece piece = square.getPiece();
@@ -154,12 +161,20 @@ class View extends Board {
 				break;
 		}
 	}
+	
+	/**
+	 * Method to display the level complete popup dialog message. 
+	 */
+	protected void displayLevelCompeletePopup() {
+		JFrame popupFrame = new JFrame();
+		JOptionPane.showMessageDialog(popupFrame, "Level Complete - Congratulations!");
+	}
+	
 	/**
 	 * Method to highlight the selected square so the player can see the selected piece
 	 * @param square the square which the color is to be set
 	 */
-	
-	private void highlightSelectedSquare(Square square) {
+	protected void highlightSelectedSquare(Square square) {
 		square.setBackground(SELECTED_SQUARE_COLOR);
 	}
 	
@@ -167,58 +182,10 @@ class View extends Board {
 	 * Method to clear the highlight of the selected square
 	 * @param square the square which is to be cleared from the highlight
 	 */
-	private void clearHighlight(Square square) {
+	protected void clearHighlight(Square square) {
 		Location loc = square.getLoc();
 		boolean cornerPiece = loc.getX() % 2 == 0 && loc.getY() % 2 == 0;
 		square.setBackground(cornerPiece ? CORNER_SQUARE_COLOR : MAIN_SQUARE_COLOR);
-	}
-	/**
-	 * Method to handle the event, this method gets triggered when a button is pressed
-	 * @param event that takes care of the correspondence event
-	 */
-	private void eventHandler(ActionEvent event) {
-		if (this.selectedPiece == null) {
-			this.select(event);
-		}
-		
-		else {
-			this.move(event);
-		}
-	}
-	/**
-	 * Method to select a square or a piece, this method gets triggered when a button is pressed
-	 * in this case by 'mouse"
-	 * @param event the event that takes care of the correspondence event
-	 */
-	
-	
-	private void select(ActionEvent event) {
-		Square square = (Square) event.getSource();
-		Piece piece = square.getPiece();
-		Location location = square.getLoc();
-		if (this.selectPiece(location)) {
-			this.highlightSelectedSquare(square);
-			oldSelectSquare = square;
-		}
-	}
-	/**
-	 * Method to move a piece from its location to a different location
-	 * @param event which handles what happens after the button is pressed
-	 */
-	private void move(ActionEvent event) {
-		Square square = (Square) event.getSource();
-		Location location = square.getLoc();
-		
-		if (this.move(location)) {
-			this.clearHighlight(oldSelectSquare);
-			this.imageHandler(oldSelectSquare, false);
-			this.imageHandler(square, false);
-			
-			if (this.isGameWon()) {
-				JFrame popupFrame = new JFrame();
-				JOptionPane.showMessageDialog(popupFrame, "Level Complete - Congratulations!");
-			}
-		}
 	}
 	
 	/**
@@ -226,6 +193,6 @@ class View extends Board {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		View obj = new View();
+		View view = new View();
 	}
 }
