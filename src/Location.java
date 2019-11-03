@@ -28,8 +28,8 @@ public class Location {
 
     /**
      * Overloaded constructor 
-     * @param x
-     * @param y
+     * @param x coordinate
+     * @param y coordinate
      */
     public Location(int x, int y) {
         this.x = x;
@@ -46,7 +46,7 @@ public class Location {
 
     /**
      * Sets the x coordinate to param x
-     * @param x
+     * @param x coordinate on the board
      */
     public void setX(int x) {
         this.x = x;
@@ -62,7 +62,7 @@ public class Location {
 
     /**
      * Sets the y coordinate to param y
-     * @param y
+     * @param y coordinate on the board 
      */
     public void setY(int y) {
         this.y = y;
@@ -87,7 +87,7 @@ public class Location {
 
     /**
      * Method that compares if the two locations are the same.
-     * @param location 
+     * @param location used to get the x and y coordinate
      * @return true if the two locations are the same
      */
     public boolean equals(Location location) {
@@ -96,7 +96,7 @@ public class Location {
 
     /**
      * Returns the alphanumeric location coordinates.
-     * @return String
+     * @return String string representation of the x and y coordinates
      */
     public String toString() {
         if (x != -1 && y != -1) {
@@ -109,19 +109,19 @@ public class Location {
     }
     
     /**
-     * Returns the numeric location coordinates.
-     * @return String
+     * Returns the numeric location coordinates
+     * @return String representation of the x and y coordinate
      */
     public String toStringNumeric() {
         return "(" + x + "," + y + ")";
     }
 
     /**
-     * Function that compares that compares if the location is greater or smaller
-     * to the other location.
+     * Function that compares whether the x and y location is 
+     * greater, smaller or equal to the current location
      * @param location
      * @param horizontalMovement
-     * @return
+     * @return 1, 0, -1 if greater than, equal to or less than respectively
      */
     public int comparesTo(Location location, boolean horizontalMovement) {
         if (horizontalMovement) {

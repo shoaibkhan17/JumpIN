@@ -1,5 +1,3 @@
-import javax.swing.JFrame;
-import javax.swing.JMenuBar;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
@@ -14,7 +12,17 @@ import java.awt.event.ActionEvent;
  * 
  */
 
-public class View extends Board {
+/**
+ * TO BE DONE
+ * 
+ * @author Khalil Aalab - 101070879
+ * @author Kamaluddin Shakiri - 101054933
+ * @author Simon Yacoub - 101044159
+ * @author Md Aiman Sharif - 101062765
+ * @author Shoaib Khan - 101033582
+ */
+
+class View extends Board {
 
 	private static JFrame frame;
 	private Square oldSelectSquare;
@@ -186,6 +194,7 @@ public class View extends Board {
 	 * in this case by 'mouse"
 	 * @param event the event that takes care of the correspondence event
 	 */
+	
 	
 	private void select(ActionEvent event) {
 		Square square = (Square) event.getSource();

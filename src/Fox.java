@@ -1,3 +1,5 @@
+import static org.junit.jupiter.api.Assertions.assertAll;
+
 /**
  * Fox is a subclass of Animal class
  * Its movement is different than Rabbit since it requires two space in the board.
@@ -29,9 +31,9 @@ public class Fox extends Animal {
 
 	/**
 	 * Default constructor
-	 * @param bodyLocation
-	 * @param horizontalMovement
-	 * @param tail
+	 * @param bodyLocation initializes bodyLocation
+	 * @param horizontalMovement initializes horizontalLocation
+	 * @param tail initializes tail
 	 */
 	public Fox(Location bodyLocation, boolean horizontalMovement, boolean tail) {
 		super(PieceType.FOX);
@@ -44,7 +46,7 @@ public class Fox extends Animal {
 
 	/**
 	 * To set the location of the other piece 
-	 * @param bodyLocation
+	 * @param bodyLocation the location of the x and y coordinate of the piece
 	 */
 	public void setOtherPieceLocation(Location bodyLocation) {
 		this.bodyLocation.setX(bodyLocation.getX());
@@ -52,12 +54,12 @@ public class Fox extends Animal {
 	}
 	
 	/**
-	 * Function to check if the move is valid.
-	 * @param constNumber
-	 * @param x
-	 * @param number1 
-	 * @param number2
-	 * @param squares
+	 * Method to check if the move is valid or not
+	 * @param constNumber used for checking against the x value to see whether its a valid number
+	 * @param x used for the boolean parameter in the squares array 
+	 * @param number1 used to check the differences of the numbers
+	 * @param number2 used to check the differences of the numbers
+	 * @param squares squares array used to access the squares
 	 * @return boolean true if it is valid, false if it is not valid
 	 */
 	private boolean checkValid(int constNumber, boolean x, int number1, int number2, Square[][] squares) {
@@ -94,16 +96,16 @@ public class Fox extends Animal {
 
 	/**
 	 * Function to move itself and the other body part of the fox to their new locations.
-	 * @param oldLocationGreater
-	 * @param oldLocation
-	 * @param newLocation
-	 * @param board
-	 * @return boolean 
+	 * @param oldLocationGreater used to check whether the old location is greater than the previous location
+	 * @param oldLocation previous location of the fox
+	 * @param newLocation used to set the new location of the fox
+	 * @param board used to select the board and then move the piece 
+	 * @return boolean returns true if the piece can be moved, else returns false if the piece cannot be moved
 	 */
 	private boolean moveItselfAndBody(boolean oldLocationGreater, Location oldLocation, Location newLocation, Board board) {
 		Location tempLocation; 
 
-		// If the old location was greater than the previous location. 
+		// If the old location was greater than the previous location
 		if (oldLocationGreater) {
 			
 			// If the fox can only move in the horizontal location. 
@@ -158,10 +160,10 @@ public class Fox extends Animal {
 	 * 
 	 * NOTE: Still need to fix that where if a tail was selected to move right, it 
 	 * 		 should move the head and then the tail with it.
-	 * @param oldLocation
-	 * @param newLocation
-	 * @param board
-	 * @return boolean
+	 * @param oldLocation old location of the fox
+	 * @param newLocation new location of the fox
+	 * @param board instance of board used for setting the location of x and y to new location
+	 * @return boolean returns true if the move is validated, else returns false if move is not validated
 	 */
 	private boolean moveValidation(Location oldLocation, Location newLocation, Board board) {
 		boolean oldLocationGreater = oldLocation.comparesTo(newLocation, horizontalMovement) == 1;
@@ -183,11 +185,11 @@ public class Fox extends Animal {
 	}
 
 	/**
-	 * Function to move the animal
-	 * @param oldLocation
-	 * @param newLocation
-	 * @param board
-	 * @return boolean
+	 * Function to move the animal to a new location 
+	 * @param oldLocation old location of the animal
+	 * @param newLocation new location of the animal
+	 * @param board instance of board used to move the animal to the new location
+	 * @return boolean true if the move has been made, else false if the move could not be made
 	 */
 	@Override
 	public boolean move(Location oldLocation, Location newLocation, Board board) {

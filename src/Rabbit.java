@@ -3,7 +3,7 @@
  * Rabbits can only jump if there is/are obstacles on their path.
  * 
  * @author Khalil Aalab - 101070879
- * @author Kamaluddin Shakirki - 101054933
+ * @author Kamaluddin Shakiri - 101054933
  * @author Simon Yacoub - 101044159
  * @author Md Aiman Sharif - 101062765
  * @author Shoaib Khan - 101033582
@@ -23,11 +23,11 @@ public class Rabbit extends Animal {
 
 	/**
 	 * Method that checks whether the move made by the Rabbit is valid or not
-	 * @param constNumber 
-	 * @param x
-	 * @param number1
-	 * @param number2
-	 * @param squares
+	 * @param constNumber used for checking against the x value to see whether its a valid number
+	 * @param x used for the boolean parameter in the squares array 
+	 * @param number1 used to check the differences of the numbers
+	 * @param number2 used to check the differences of the numbers
+	 * @param squares squares array used to access the squares
 	 * @return boolean true if the move is valid, false if the move is not valid
 	 */
 	private boolean checkValid(int constNumber, boolean x, int number1, int number2, Square[][] squares) {
@@ -56,11 +56,11 @@ public class Rabbit extends Animal {
 	}
 
 	/**
-	 * Function to move.
-	 * @param oldLocation
-	 * @param newLocation
-	 * @param board
-	 * @return
+	 * Method to move the animal
+	 * @param oldLocation old location of the animal
+	 * @param newLocation new location of the animal
+	 * @param board instance of board used to move the piece
+	 * @return true if the move can be made, else false if the move cannot be made
 	 */
 	@Override
 	public boolean move(Location oldLocation, Location newLocation, Board board) {
