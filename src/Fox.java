@@ -12,6 +12,16 @@ import static org.junit.jupiter.api.Assertions.assertAll;
  * @author Shoaib Khan - 101033582
  */
 public class Fox extends Piece {
+	
+    /**
+     * Foxes can be moved.
+     */
+    private static final boolean isMovable = true;
+
+    /**
+     * Foxes can be selected.
+     */
+    private static final boolean isSelectable = true;
 
 	/**
 	 * Location of the other body of the fox piece.
@@ -36,7 +46,7 @@ public class Fox extends Piece {
 	 * @param tail initializes tail
 	 */
 	public Fox(Location bodyLocation, boolean horizontalMovement, boolean tail) {
-		super(PieceType.FOX, true, true);
+		super(PieceType.FOX, isMovable, isSelectable);
 		this.bodyLocation = new Location();
 		this.bodyLocation.setX(bodyLocation.getX());
 		this.bodyLocation.setY(bodyLocation.getY());

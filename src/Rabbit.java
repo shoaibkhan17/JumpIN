@@ -8,7 +8,17 @@
  * @author Md Aiman Sharif - 101062765
  * @author Shoaib Khan - 101033582
  */
-public class Rabbit extends Piece{
+public class Rabbit extends Piece {
+	
+    /**
+     * Rabbits can be moved.
+     */
+    private static final boolean isMovable = true;
+
+    /**
+     * Rabbits can be selected.
+     */
+    private static final boolean isSelectable = true;
 	
 	public static enum RABBIT_COLORS {Gray, White, Brown}
 	protected RABBIT_COLORS rabbitColor;
@@ -17,7 +27,7 @@ public class Rabbit extends Piece{
 	 * Default constructor
 	 */
     public Rabbit(RABBIT_COLORS rabbitColor) {
-        super(PieceType.RABBIT, true, true);
+        super(PieceType.RABBIT, isMovable, isSelectable);
         this.rabbitColor = rabbitColor;
     }
 

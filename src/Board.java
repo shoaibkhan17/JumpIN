@@ -214,13 +214,15 @@ public class Board {
 	 */
 	private boolean canMove(Location oldLocation, Location newLocation, Piece piece) {
 		if (selectedPiece.getClass().equals(Rabbit.class)) {
-			Rabbit temp = (Rabbit)selectedPiece;
-			return temp.move(oldLocation, newLocation, this);
+			Rabbit rabbit = (Rabbit) selectedPiece;
+			return rabbit.move(oldLocation, newLocation, this);
 		}
+		
 		else if (selectedPiece.getClass().equals(Fox.class)) {
-			Fox temp2 = (Fox)selectedPiece;
-			return temp2.move(oldLocation, newLocation, this);
+			Fox fox = (Fox) selectedPiece;
+			return fox.move(oldLocation, newLocation, this);
 		}
+		
 		return false;
 	}
 
