@@ -6,14 +6,10 @@ import javax.swing.*;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
-/**
- * View class is the 'View' of the MVC model
- * It is the visual representation of the JumpIn game
- * 
- */
 
 /**
- * TO BE DONE
+ * View class is the 'View' of the MVC model
+ * It is the visual representation of the JumpIN game
  * 
  * @author Khalil Aalab - 101070879
  * @author Kamaluddin Shakiri - 101054933
@@ -103,7 +99,7 @@ class View extends Board {
 	}
 	
 	/**
-	 * Method to create Button on the gui
+	 * Method to create Button on the GUI
 	 * @param square the square on the board
 	 * @param text the text
 	 * @param cornerPiece to check if it is a corner piece
@@ -225,6 +221,10 @@ class View extends Board {
 		}
 	}
 	
+	/**
+	 * Main method used to run the game
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		View obj = new View();
 	}
