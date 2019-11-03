@@ -27,7 +27,7 @@ class View extends Board {
 	 * Styling variables
 	 */
 	private final static Color MAIN_SQUARE_COLOR = new Color(2, 171, 80);
-	private final static Color CORNOR_SQUARE_COLOR = new Color(37, 177, 73);
+	private final static Color CORNER_SQUARE_COLOR = new Color(37, 177, 73);
 	private final static Color SELECTED_SQUARE_COLOR = new Color(51, 204, 255);
 	private final static Border LINE = new LineBorder(Color.white);
 	private final static Border MARGIN = new EmptyBorder(5, 15, 5, 15);
@@ -107,7 +107,7 @@ class View extends Board {
 	 */
 	private JButton createButton(Square square, String text, boolean cornerPiece) {
 		square.setBorderPainted(cornerPiece);
-		square.setBackground(cornerPiece ? CORNOR_SQUARE_COLOR : MAIN_SQUARE_COLOR);
+		square.setBackground(cornerPiece ? CORNER_SQUARE_COLOR : MAIN_SQUARE_COLOR);
 		square.setBorder(COMPOUND);
 		square.addActionListener((event) -> this.eventHandler(event));
 	  	this.imageHandler(square, cornerPiece);
@@ -125,7 +125,7 @@ class View extends Board {
 		Piece piece = square.getPiece();
 		
 		if (piece == null) {
-			icon = new ImageIcon(path + (cornerPiece ? "emptyCornor" : "empty") + ".png");					
+			icon = new ImageIcon(path + (cornerPiece ? "emptyCorner" : "empty") + ".png");					
 			square.setIcon(icon);
 			square.setText(null);
 			return;
@@ -170,7 +170,7 @@ class View extends Board {
 	private void clearHighlight(Square square) {
 		Location loc = square.getLoc();
 		boolean cornerPiece = loc.getX() % 2 == 0 && loc.getY() % 2 == 0;
-		square.setBackground(cornerPiece ? CORNOR_SQUARE_COLOR : MAIN_SQUARE_COLOR);
+		square.setBackground(cornerPiece ? CORNER_SQUARE_COLOR : MAIN_SQUARE_COLOR);
 	}
 	/**
 	 * Method to handle the event, this method gets triggered when a button is pressed
