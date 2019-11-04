@@ -6,19 +6,20 @@ import java.util.LinkedList;
  * Checks if the game is completed.
  * 
  * @author Khalil Aalab - 101070879
- * @author Kamaluddin Shakirki - 101054933
+ * @author Kamaluddin Shakiri - 101054933
  * @author Simon Yacoub - 101044159
  * @author Md Aiman Sharif - 101062765
  * @author Shoaib Khan - 101033582
  */
 public class Board {
-	private Square[][] squares;
-	private Piece selectedPiece;
-	private Location selectedPieceLocation;
-	private LinkedList<Location> holeLocations; 
-	private int rabbitCount;
-	private static final int BOARD_SIZE = 5;
-	private static final char BOARD_PRINT_CHAR = '*';
+	protected Square[][] squares;
+	protected Piece selectedPiece;
+	protected Location selectedPieceLocation;
+	protected LinkedList<Location> holeLocations; 
+	protected int rabbitCount;
+	protected static final int BOARD_SIZE = 5;
+	protected static final char BOARD_PRINT_CHAR = '*';
+	protected static final int totalLevels = 5;
 
 	/** 
 	 * Constructor to initialize the instance variables
@@ -26,7 +27,6 @@ public class Board {
 	 */
 	public Board(int level) {
 
-		// Default values.
 		squares = new Square[BOARD_SIZE][BOARD_SIZE];
 		holeLocations = new LinkedList<>();
 		selectedPiece = null;
@@ -36,12 +36,34 @@ public class Board {
 		// Initializes the Squares.
 		for (int x = 0; x < Board.BOARD_SIZE; x++) {
 			for (int y = 0; y < Board.BOARD_SIZE; y++) {
-				this.squares[x][y] = new Square();
+				this.squares[x][y] = new Square(new Location(x, y));
 			}
 		}
-
+		
 		// Sets the level of the game.
 		this.initBoard(level); 
+	}
+	
+	public void changeLevel(int level) {
+		this.reinitialize();
+		this.initBoard(level);
+	}
+	
+	/**
+	 * Method to re-initialize the instance variables when changing level.
+	 */
+	private void reinitialize() {
+		// Default values.
+		for (int x = 0; x < Board.BOARD_SIZE; x++) {
+			for (int y = 0; y < Board.BOARD_SIZE; y++) {
+				this.squares[x][y].setPiece(null);
+			}
+		}
+		
+		selectedPiece = null;
+		selectedPieceLocation = new Location();
+		rabbitCount = 0;
+		holeLocations.clear();
 	}
 
 	/**
@@ -52,9 +74,15 @@ public class Board {
 		return this.squares;
 	}
 	
+	public Square getSquareAtLocation(Location location) {
+		if (location.getX() >= BOARD_SIZE || location.getY() >= BOARD_SIZE) {
+			return null;
+		}
+		return squares[location.getX()][location.getY()];
+	}
+	
 	/**
 	 * Initializes game to selected level. 
-	 * @param level this is the level of difficulty of the game
 	 */
 	private void initBoard(int level) {
 		// Create and add pieces into the board
@@ -62,11 +90,23 @@ public class Board {
 			case 1:
 				this.initToLevel1();
 				break;
-
+				
 			case 2:
 				this.initToLevel2();
 				break;
+
+			case 3:
+				this.initToLevel3();
+				break;
 		
+			case 4:
+				this.initToLevel4();
+				break;
+				
+			case 5:
+				this.initToLevel5();
+				break;
+				
 			default:
 				this.initToLevel1();
 				break;
@@ -85,10 +125,10 @@ public class Board {
 		squares[4][0].setPiece(new Hole());
 		squares[3][1].setPiece(new Mushroom());
 		squares[2][2].setPiece(new Hole());
-		squares[3][0].setPiece(new Rabbit());
+		squares[3][0].setPiece(new Rabbit(Rabbit.RABBIT_COLORS.White));
 		squares[0][4].setPiece(new Hole());
 		squares[4][4].setPiece(new Hole());
-		squares[4][2].setPiece(new Rabbit());
+		squares[4][2].setPiece(new Rabbit(Rabbit.RABBIT_COLORS.Brown));
 
 		// Store the hold locations.
 		holeLocations.add(new Location(0, 0));
@@ -100,7 +140,7 @@ public class Board {
 		// Store the number of rabbits.
 		rabbitCount = 2;
 	}
-
+	
 	/**
 	 * Initialize the level 2 of the game.
 	 * Method which creates and add pieces onto the board.
@@ -108,10 +148,42 @@ public class Board {
 	private void initToLevel2() {
 		// Create and add pieces. 
 		squares[0][0].setPiece(new Hole());
+		squares[4][0].setPiece(new Hole());
+		squares[4][1].setPiece(new Mushroom());
+		squares[0][2].setPiece(new Rabbit(Rabbit.RABBIT_COLORS.Gray));
+		squares[1][2].setPiece(new Mushroom());
+		
+		Hole hole = new Hole();
+		hole.setPiece(new Rabbit(Rabbit.RABBIT_COLORS.White));
+		
+		squares[2][2].setPiece(hole);
+		squares[3][2].setPiece(new Mushroom());
+		squares[4][2].setPiece(new Rabbit(Rabbit.RABBIT_COLORS.Brown));
+		squares[0][4].setPiece(new Hole());
+		squares[4][4].setPiece(new Hole());
+
+		// Store the hold locations.
+		holeLocations.add(new Location(0, 0));
+		holeLocations.add(new Location(4, 0));
+		holeLocations.add(new Location(2, 2));
+		holeLocations.add(new Location(0, 4));
+		holeLocations.add(new Location(4, 4));
+		
+		// Store the number of rabbits.
+		rabbitCount = 3;
+	}
+
+	/**
+	 * Initialize the level 3 of the game.
+	 * Method which creates and add pieces onto the board.
+	 */
+	private void initToLevel3() {
+		// Create and add pieces. 
+		squares[0][0].setPiece(new Hole());
 		squares[3][0].setPiece(new Mushroom());
 		squares[4][0].setPiece(new Hole());
 		squares[1][1].setPiece(new Mushroom());
-		squares[2][1].setPiece(new Rabbit());
+		squares[2][1].setPiece(new Rabbit(Rabbit.RABBIT_COLORS.Gray));
 		squares[3][1].setPiece(new Fox(new Location(4, 1), true, false));
 		squares[4][1].setPiece(new Fox(new Location(3, 1), true, true));
 		squares[2][2].setPiece(new Mushroom());
@@ -121,6 +193,64 @@ public class Board {
 		// Store the hold locations.
 		holeLocations.add(new Location(0, 0));
 		holeLocations.add(new Location(4, 0));
+		holeLocations.add(new Location(0, 4));
+		holeLocations.add(new Location(4, 4));
+		
+		// Store the number of rabbits.
+		rabbitCount = 1;
+	}
+	
+	/**
+	 * Initialize the level 4 of the game.
+	 * Method which creates and add pieces onto the board.
+	 */
+	private void initToLevel4() {
+		// Create and add pieces. 
+		squares[0][0].setPiece(new Hole());
+		squares[1][0].setPiece(new Rabbit(Rabbit.RABBIT_COLORS.White));
+		squares[4][0].setPiece(new Hole());
+		squares[0][1].setPiece(new Mushroom());
+		squares[0][2].setPiece(new Mushroom());
+		squares[2][2].setPiece(new Hole());
+		squares[1][3].setPiece(new Fox(new Location(1, 4), false, false));
+		squares[2][3].setPiece(new Mushroom());
+		squares[0][4].setPiece(new Hole());
+		squares[1][4].setPiece(new Fox(new Location(1, 3), false, true));
+		squares[4][4].setPiece(new Hole());
+
+		// Store the hold locations.
+		holeLocations.add(new Location(0, 0));
+		holeLocations.add(new Location(4, 0));
+		holeLocations.add(new Location(2, 2));
+		holeLocations.add(new Location(0, 4));
+		holeLocations.add(new Location(4, 4));
+		
+		// Store the number of rabbits.
+		rabbitCount = 1;
+	}
+	
+	/**
+	 * Initialize the level 5 of the game.
+	 * Method which creates and add pieces onto the board.
+	 */
+	private void initToLevel5() {
+		// Create and add pieces. 
+		squares[0][0].setPiece(new Hole());
+		squares[3][0].setPiece(new Rabbit(Rabbit.RABBIT_COLORS.White));
+		squares[4][0].setPiece(new Mushroom());	
+		squares[0][1].setPiece(new Fox(new Location(1, 1), true, false));
+		squares[1][1].setPiece(new Fox(new Location(0, 1), true, true));
+		squares[2][2].setPiece(new Hole());
+		squares[3][2].setPiece(new Mushroom());
+		squares[1][3].setPiece(new Fox(new Location(1, 4), false, false));
+		squares[0][4].setPiece(new Hole());
+		squares[1][4].setPiece(new Fox(new Location(1, 3), false, true));
+		squares[2][4].setPiece(new Mushroom());
+		squares[4][4].setPiece(new Hole());
+
+		// Store the hold locations.
+		holeLocations.add(new Location(0, 0));
+		holeLocations.add(new Location(2, 2));
 		holeLocations.add(new Location(0, 4));
 		holeLocations.add(new Location(4, 4));
 		
@@ -213,8 +343,17 @@ public class Board {
 	 * @return true if the piece can be moved to be new location, return false if it can't be moved
 	 */
 	private boolean canMove(Location oldLocation, Location newLocation, Piece piece) {
-		Animal animal = (Animal) selectedPiece;
-		return animal.move(oldLocation, newLocation, this);
+		if (selectedPiece.getType() == PieceType.RABBIT) {
+			Rabbit rabbit = (Rabbit) selectedPiece;
+			return rabbit.move(oldLocation, newLocation, this);
+		}
+		
+		else if (selectedPiece.getType() == PieceType.FOX) {
+			Fox fox = (Fox) selectedPiece;
+			return fox.move(oldLocation, newLocation, this);
+		}
+		
+		return false;
 	}
 
 	/**
