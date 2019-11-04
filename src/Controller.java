@@ -39,17 +39,18 @@ public class Controller {
 		Square square = (Square) event.getSource();
 		Location location = square.getLoc();
 		if (board.selectPiece(location)) {
-			
-			Piece selectedPiece = square.getPiece();
-			if (selectedPiece.getType() == PieceType.FOX) {
-				Fox fox = (Fox) selectedPiece;
-				Location foxBodyLocation = fox.getBodyLocation();
-				updateSquare = board.getSquareAtLocation(foxBodyLocation);
-				updateRequired = true;
-			}
-			
 			view.highlightSelectedSquare(square);
 			oldSelectSquare = square;
+			
+			Piece selectedPiece = square.getPiece();
+			
+			// If the fox was moved.
+			// Update and render the entire view.
+			if (selectedPiece.getType() == PieceType.FOX) {
+				Fox fox = (Fox) selectedPiece;
+				Square foxBodySquare = board.getSquareAtLocation(fox.getBodyLocation());
+				view.highlightSelectedSquare(foxBodySquare);
+			}
 		}
 	}
 	
@@ -61,14 +62,23 @@ public class Controller {
 		Square square = (Square) event.getSource();
 		Location location = square.getLoc();
 		if (board.move(location)) {
-			view.clearHighlight(oldSelectSquare);					
-			view.imageHandler(oldSelectSquare, false);
-			view.imageHandler(square, false);
+			view.turnsTaken++;
+			Piece selectedPiece = square.getPiece();
 			
-			if (updateRequired) {
-				updateRequired = false;
-				view.imageHandler(updateSquare, false);
+			// If the fox was moved.
+			// Update and render the entire view.
+			if (selectedPiece.getType() == PieceType.FOX) {
+				view.updateView();
 			}
+			
+			// If the rabbit was moved.
+			// Just update the squares rabbit hopped from and to. 
+			else {
+				view.imageHandler(oldSelectSquare);
+				view.imageHandler(square);
+			}
+			
+			view.unhighlightAllSquares();
 			
 			if (board.isGameWon()) {
 				view.displayLevelCompeletePopup();

@@ -51,8 +51,15 @@ public class Rabbit extends Piece {
 		if (diff >= 1) {
 			for (int i = 0; i < diff; i++) {
 				Piece piece = squares[x ? constNumber : (smallestNumber + i + 1)][x ? (smallestNumber + i + 1) : constNumber].getPiece();
-				if (piece == null || piece.getType() == PieceType.HOLE) {
+				if (piece == null) {
 					pieceInMiddle = false;
+				}
+				
+				else if (piece.getType() == PieceType.HOLE) {
+					Hole hole = (Hole) piece;
+					if (!hole.isOccupied()) {
+						pieceInMiddle = false;
+					}
 				}
 			}
 

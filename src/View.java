@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.util.ArrayList;
 
 /**
  * View class is the 'View' of the MVC model
@@ -23,6 +24,8 @@ class View extends Board {
 	private static JFrame frame;
 	private int currentLevel;
 	private Controller controller;
+	private ArrayList<Square> highlightedSquares;
+	protected int turnsTaken;
 	
 	/**
 	 * Styling variables
@@ -33,15 +36,17 @@ class View extends Board {
 	private final static Border LINE = new LineBorder(Color.white);
 	private final static Border MARGIN = new EmptyBorder(5, 15, 5, 15);
 	private final static Border COMPOUND = new CompoundBorder(LINE, MARGIN);
-	private final static Dimension viewDimension = new Dimension(500, 500);
+	private final static Dimension viewDimension = new Dimension(500, 550);
 	
 	/**
 	 * Constructor to initialize the instance variables
 	 */
 	public View() {
-		super(2);
-		currentLevel = 2;
+		super(1);
+		turnsTaken = 0;
+		currentLevel = 1;
 		controller = new Controller(this, this);
+		highlightedSquares = new ArrayList<>();
 		this.init();
 		this.run();
 	}
@@ -59,7 +64,7 @@ class View extends Board {
 	 */
 	private void initFrame() {
 		frame = new JFrame("JumpIN");
-		GridLayout grid = new GridLayout(Board.BOARD_SIZE, Board.BOARD_SIZE);		
+		GridLayout grid = new GridLayout(Board.BOARD_SIZE, Board.BOARD_SIZE);
 		frame.setLayout(grid);
 		frame.setSize(viewDimension);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
@@ -73,6 +78,7 @@ class View extends Board {
 		menuBar.setBackground(Color.gray);
 		JMenu menu = new JMenu("Options");
 		JMenuItem item1 = new JMenuItem("Reset");
+		item1.addActionListener((event) -> this.reset());
 		item1.setBackground(Color.gray);
 		JMenuItem item2 = new JMenuItem("Exit");
 		item2.setBackground(Color.gray);
@@ -83,12 +89,33 @@ class View extends Board {
 		frame.setJMenuBar(menuBar);
     }
 	
+	
+	private void reset() {
+		JFrame popupFrame = new JFrame();
+		int option = JOptionPane.showConfirmDialog(popupFrame, "Are you sure you want to reset level " + currentLevel);
+		
+		if (option == 0) {
+			turnsTaken = 0;
+			this.changeLevel(currentLevel);
+			this.setButtonsEnabled(true);
+			this.updateView();
+		}
+	}
+	
+	private void setButtonsEnabled(boolean enabled) {
+		for (int y = 0; y < Board.BOARD_SIZE; y++) {
+			for (int x = 0; x < Board.BOARD_SIZE; x++) {
+				squares[x][y].setEnabled(enabled);
+			}
+		}
+	}
+	
 	/**
 	 * Method to initialize the View
 	 */
 	private void initView() {
-		for (int y = 0; y < 5; y++) {
-			for (int x = 0; x < 5; x++) {
+		for (int y = 0; y < Board.BOARD_SIZE; y++) {
+			for (int x = 0; x < Board.BOARD_SIZE; x++) {
 				frame.add(this.createButton(squares[x][y], x % 2 == 0 && y % 2 == 0));
 			}
 		}
@@ -112,8 +139,16 @@ class View extends Board {
 		square.setBackground(cornerPiece ? CORNER_SQUARE_COLOR : MAIN_SQUARE_COLOR);
 		square.setBorder(COMPOUND);
 		square.addActionListener((event) -> controller.eventHandler(event));
-	  	this.imageHandler(square, cornerPiece);
+	  	this.imageHandler(square);
 	  	return square;
+	}
+	
+	protected void updateView() {
+		for (int y = 0; y < Board.BOARD_SIZE; y++) {
+			for (int x = 0; x < Board.BOARD_SIZE; x++) {
+				this.imageHandler(squares[x][y]);
+			}
+		}
 	}
 	
 	/**
@@ -121,13 +156,13 @@ class View extends Board {
 	 * @param square the square which the image is on
 	 * @param cornerPiece is the piece on the corner
 	 */
-	protected void imageHandler(Square square, boolean cornerPiece) {
+	protected void imageHandler(Square square) {
 		String path = "src/assets/";
 		ImageIcon icon;
 		Piece piece = square.getPiece();
 		
 		if (piece == null) {
-			icon = new ImageIcon(path + (cornerPiece ? "emptyCorner" : "empty") + ".png");					
+			icon = new ImageIcon(path + "empty.png");					
 			square.setIcon(icon);
 			return;
 		}
@@ -177,7 +212,28 @@ class View extends Board {
 	 */
 	protected void displayLevelCompeletePopup() {
 		JFrame popupFrame = new JFrame();
-		JOptionPane.showMessageDialog(popupFrame, "Level Complete - Congratulations!");
+		String message = "";
+		
+		if (currentLevel < Board.totalLevels) {
+			message = "Congratulations on completing Level " + currentLevel + "!";
+			message += "\n";
+			message += "Turns taken - " + turnsTaken;
+			message += "\n";
+			message += "Press OK to play level " + (currentLevel + 1);
+			JOptionPane.showMessageDialog(popupFrame, message);
+			this.changeLevel(++currentLevel);
+			turnsTaken = 0;
+			this.updateView();
+		}
+		
+		else {
+			message = "Congratulations on completing the game!";
+			message += "\n";
+			message += "Turns taken - " + turnsTaken;
+			JOptionPane.showMessageDialog(popupFrame, message);
+			this.setButtonsEnabled(false);
+		}
+
 	}
 	
 	/**
@@ -186,6 +242,19 @@ class View extends Board {
 	 */
 	protected void highlightSelectedSquare(Square square) {
 		square.setBackground(SELECTED_SQUARE_COLOR);
+		highlightedSquares.add(square);
+	}
+	
+	/**
+	 * Method to unhighlight all highlighted squares in the view.
+	 */
+	protected void unhighlightAllSquares() {
+		for (Square square: highlightedSquares) {
+			Location squareLocation = square.getLoc();
+			boolean cornerPiece = squareLocation.getX() % 2 == 0 && squareLocation.getY() % 2 == 0;
+			square.setBackground(cornerPiece ? CORNER_SQUARE_COLOR : MAIN_SQUARE_COLOR);
+		}
+		highlightedSquares.clear();
 	}
 	
 	/**
