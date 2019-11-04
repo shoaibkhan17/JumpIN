@@ -51,6 +51,18 @@ public class Fox extends Piece {
 		this.horizontalMovement = horizontalMovement;
 		this.tail = tail;
 	}
+	
+	public boolean isTail() {
+		return tail;
+	}
+	
+	public boolean isHorizontal() {
+		return horizontalMovement;
+	}
+	
+	public Location getBodyLocation() {
+		return bodyLocation;
+	}
 
 	/**
 	 * To set the location of the other piece 

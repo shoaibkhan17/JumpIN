@@ -39,8 +39,8 @@ class View extends Board {
 	 * Constructor to initialize the instance variables
 	 */
 	public View() {
-		super(1);
-		currentLevel = 1;
+		super(2);
+		currentLevel = 2;
 		controller = new Controller(this, this);
 		this.init();
 		this.run();
@@ -89,11 +89,7 @@ class View extends Board {
 	private void initView() {
 		for (int y = 0; y < 5; y++) {
 			for (int x = 0; x < 5; x++) {
-				String text = "";
-				if (squares[x][y].getPiece() != null) {
-					text = squares[x][y].getPiece().toString();
-				}
-				frame.add(this.createButton(squares[x][y], text, x % 2 == 0 && y % 2 == 0));
+				frame.add(this.createButton(squares[x][y], x % 2 == 0 && y % 2 == 0));
 			}
 		}
 	}
@@ -108,11 +104,10 @@ class View extends Board {
 	/**
 	 * Method to create Button on the GUI
 	 * @param square the square on the board
-	 * @param text the text
 	 * @param cornerPiece to check if it is a corner piece
 	 * @return square the square which is on the board
 	 */
-	private JButton createButton(Square square, String text, boolean cornerPiece) {
+	private JButton createButton(Square square, boolean cornerPiece) {
 		square.setBorderPainted(cornerPiece);
 		square.setBackground(cornerPiece ? CORNER_SQUARE_COLOR : MAIN_SQUARE_COLOR);
 		square.setBorder(COMPOUND);
@@ -134,7 +129,6 @@ class View extends Board {
 		if (piece == null) {
 			icon = new ImageIcon(path + (cornerPiece ? "emptyCorner" : "empty") + ".png");					
 			square.setIcon(icon);
-			square.setText(null);
 			return;
 		}
 	
@@ -143,13 +137,11 @@ class View extends Board {
 				Rabbit rabbit = (Rabbit) piece;
 				icon = new ImageIcon(path + "rabbit" + rabbit.rabbitColor + ".png");
 				square.setIcon(icon);
-				square.setText(null);			
 				break;
 				
 			case MUSHROOM:
 				icon = new ImageIcon(path + "mushroom.png");					
 				square.setIcon(icon);
-				square.setText(null);
 				break;
 				
 			case HOLE:
@@ -165,10 +157,14 @@ class View extends Board {
 				icon = new ImageIcon(path + "hole.png");				
 				CombinedIcon combiedIcon = new CombinedIcon(frontIcon, icon);
 				square.setIcon(combiedIcon);
-				square.setText(null);
 				break;
 				
 			case FOX:
+				Fox fox = (Fox) piece;
+				String direction = fox.isHorizontal() ? "Horizontal" : "Vertical";
+				String bodyPart = fox.isTail() ? "Tail" : "Head";
+				icon = new ImageIcon(path + "fox" + bodyPart + direction + ".png");
+				square.setIcon(icon);
 				break;
 				
 			default:

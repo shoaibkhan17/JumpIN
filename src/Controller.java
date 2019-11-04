@@ -5,10 +5,15 @@ public class Controller {
 	private Board board;
 	private View view;
 	private Square oldSelectSquare;
+	private Square updateSquare;
+	private boolean updateRequired;
 	
 	public Controller(Board board, View view) {
 		this.board = board;
 		this.view = view;
+		oldSelectSquare = null;
+		updateSquare = null;
+		updateRequired = false;
 	}
 	
 	/**
@@ -22,7 +27,6 @@ public class Controller {
 		
 		else {
 			this.move(event);
-			board.printBoard();
 		}
 	}
 	
@@ -35,6 +39,15 @@ public class Controller {
 		Square square = (Square) event.getSource();
 		Location location = square.getLoc();
 		if (board.selectPiece(location)) {
+			
+			Piece selectedPiece = square.getPiece();
+			if (selectedPiece.getType() == PieceType.FOX) {
+				Fox fox = (Fox) selectedPiece;
+				Location foxBodyLocation = fox.getBodyLocation();
+				updateSquare = board.getSquareAtLocation(foxBodyLocation);
+				updateRequired = true;
+			}
+			
 			view.highlightSelectedSquare(square);
 			oldSelectSquare = square;
 		}
@@ -48,9 +61,14 @@ public class Controller {
 		Square square = (Square) event.getSource();
 		Location location = square.getLoc();
 		if (board.move(location)) {
-			view.clearHighlight(oldSelectSquare);
+			view.clearHighlight(oldSelectSquare);					
 			view.imageHandler(oldSelectSquare, false);
 			view.imageHandler(square, false);
+			
+			if (updateRequired) {
+				updateRequired = false;
+				view.imageHandler(updateSquare, false);
+			}
 			
 			if (board.isGameWon()) {
 				view.displayLevelCompeletePopup();

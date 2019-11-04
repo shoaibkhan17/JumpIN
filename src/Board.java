@@ -52,6 +52,13 @@ public class Board {
 		return this.squares;
 	}
 	
+	public Square getSquareAtLocation(Location location) {
+		if (location.getX() >= BOARD_SIZE || location.getY() >= BOARD_SIZE) {
+			return null;
+		}
+		return squares[location.getX()][location.getY()];
+	}
+	
 	/**
 	 * Initializes game to selected level. 
 	 * @param level this is the level of difficulty of the game
@@ -213,12 +220,12 @@ public class Board {
 	 * @return true if the piece can be moved to be new location, return false if it can't be moved
 	 */
 	private boolean canMove(Location oldLocation, Location newLocation, Piece piece) {
-		if (selectedPiece.getClass().equals(Rabbit.class)) {
+		if (selectedPiece.getType() == PieceType.RABBIT) {
 			Rabbit rabbit = (Rabbit) selectedPiece;
 			return rabbit.move(oldLocation, newLocation, this);
 		}
 		
-		else if (selectedPiece.getClass().equals(Fox.class)) {
+		else if (selectedPiece.getType() == PieceType.FOX) {
 			Fox fox = (Fox) selectedPiece;
 			return fox.move(oldLocation, newLocation, this);
 		}
