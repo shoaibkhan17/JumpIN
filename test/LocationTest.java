@@ -16,7 +16,16 @@ class LocationTest {
 
 	@Test
 	void testLocation() {
-		fail("Not yet implemented");
+		Board board = new Board(1);
+		Square squares[][] = board.getSquares();
+		Location oldLoc = new Location(3, 2);
+		Piece piece = squares[oldLoc.getX()][oldLoc.getY()].getPiece();
+		Location newLoc = new Location(4, 1);
+		board.selectPiece(oldLoc);
+		board.movePiece(oldLoc, newLoc, piece);
+		
+		assertTrue(squares[newLoc.getX()][newLoc.getY()].getPiece() == piece);
+		
 	}
 
 	@Test

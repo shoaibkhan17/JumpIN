@@ -12,13 +12,13 @@ import java.util.LinkedList;
  * @author Shoaib Khan - 101033582
  */
 public class Board {
-	private Square[][] squares;
-	private Piece selectedPiece;
-	private Location selectedPieceLocation;
-	private LinkedList<Location> holeLocations; 
-	private int rabbitCount;
-	private static final int BOARD_SIZE = 5;
-	private static final char BOARD_PRINT_CHAR = '*';
+	protected Square[][] squares;
+	protected Piece selectedPiece;
+	protected Location selectedPieceLocation;
+	protected LinkedList<Location> holeLocations; 
+	protected int rabbitCount;
+	protected static final int BOARD_SIZE = 5;
+	protected static final char BOARD_PRINT_CHAR = '*';
 
 	/** 
 	 * Constructor to initialize the instance variables
@@ -50,6 +50,13 @@ public class Board {
 	 */
 	public Square[][] getSquares() {
 		return this.squares;
+	}
+	
+	public Square getSquareAtLocation(Location location) {
+		if (location.getX() >= BOARD_SIZE || location.getY() >= BOARD_SIZE) {
+			return null;
+		}
+		return squares[location.getX()][location.getY()];
 	}
 	
 	/**
@@ -85,10 +92,10 @@ public class Board {
 		squares[4][0].setPiece(new Hole());
 		squares[3][1].setPiece(new Mushroom());
 		squares[2][2].setPiece(new Hole());
-		squares[3][0].setPiece(new Rabbit());
+		squares[3][0].setPiece(new Rabbit(Rabbit.RABBIT_COLORS.White));
 		squares[0][4].setPiece(new Hole());
 		squares[4][4].setPiece(new Hole());
-		squares[4][2].setPiece(new Rabbit());
+		squares[4][2].setPiece(new Rabbit(Rabbit.RABBIT_COLORS.Brown));
 
 		// Store the hold locations.
 		holeLocations.add(new Location(0, 0));
@@ -111,7 +118,7 @@ public class Board {
 		squares[3][0].setPiece(new Mushroom());
 		squares[4][0].setPiece(new Hole());
 		squares[1][1].setPiece(new Mushroom());
-		squares[2][1].setPiece(new Rabbit());
+		squares[2][1].setPiece(new Rabbit(Rabbit.RABBIT_COLORS.Gray));
 		squares[3][1].setPiece(new Fox(new Location(4, 1), true, false));
 		squares[4][1].setPiece(new Fox(new Location(3, 1), true, true));
 		squares[2][2].setPiece(new Mushroom());
@@ -213,8 +220,17 @@ public class Board {
 	 * @return true if the piece can be moved to be new location, return false if it can't be moved
 	 */
 	private boolean canMove(Location oldLocation, Location newLocation, Piece piece) {
-		Animal animal = (Animal) selectedPiece;
-		return animal.move(oldLocation, newLocation, this);
+		if (selectedPiece.getType() == PieceType.RABBIT) {
+			Rabbit rabbit = (Rabbit) selectedPiece;
+			return rabbit.move(oldLocation, newLocation, this);
+		}
+		
+		else if (selectedPiece.getType() == PieceType.FOX) {
+			Fox fox = (Fox) selectedPiece;
+			return fox.move(oldLocation, newLocation, this);
+		}
+		
+		return false;
 	}
 
 	/**
