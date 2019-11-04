@@ -1,9 +1,9 @@
 import java.util.LinkedList;
 
 /**
- * Class that initializes the board of the game.
- * Handles movement of Piece within the Squares.
- * Checks if the game is completed.
+ * Class that initializes the board of the game
+ * Handles movement of Piece within the Squares
+ * Checks if the game is completed
  * 
  * @author Khalil Aalab - 101070879
  * @author Kamaluddin Shakiri - 101054933
@@ -44,13 +44,17 @@ public class Board {
 		this.initBoard(level); 
 	}
 	
+	/**
+	 * method to change the level of the game
+	 * @param level this is the level of the game which is to be changed
+	 */
 	public void changeLevel(int level) {
 		this.reinitialize();
 		this.initBoard(level);
 	}
 	
 	/**
-	 * Method to re-initialize the instance variables when changing level.
+	 * Method to re-initialize the instance variables when changing level
 	 */
 	private void reinitialize() {
 		// Default values.
@@ -67,12 +71,18 @@ public class Board {
 	}
 
 	/**
-	 * method to access the squares.
-	 * @return squares 
+	 * method to access the squares
+	 * @return squares the array to be returned
 	 */
 	public Square[][] getSquares() {
 		return this.squares;
 	}
+	
+	/**
+	 * method to get a square at a particular location
+	 * @param location at which the x and y coordinates are accessed
+	 * @return squares at the location
+	 */
 	
 	public Square getSquareAtLocation(Location location) {
 		if (location.getX() >= BOARD_SIZE || location.getY() >= BOARD_SIZE) {
@@ -82,7 +92,8 @@ public class Board {
 	}
 	
 	/**
-	 * Initializes game to selected level. 
+	 * Initializes the game to the selected level
+	 * @param level used to set the level of the game passed in as a parameter
 	 */
 	private void initBoard(int level) {
 		// Create and add pieces into the board
@@ -114,8 +125,8 @@ public class Board {
 	}
 
 	/**
-	 * Initialize the level 1 of the game.
-	 * Method which creates and add pieces onto the board.
+	 * Initialize the level 1 of the game
+	 * Method which creates and add pieces onto the board
 	 */
 	private void initToLevel1() {
 		// Create and add pieces. 
@@ -142,8 +153,8 @@ public class Board {
 	}
 	
 	/**
-	 * Initialize the level 2 of the game.
-	 * Method which creates and add pieces onto the board.
+	 * Initialize the level 2 of the game
+	 * Method which creates and add pieces onto the board
 	 */
 	private void initToLevel2() {
 		// Create and add pieces. 
@@ -174,8 +185,8 @@ public class Board {
 	}
 
 	/**
-	 * Initialize the level 3 of the game.
-	 * Method which creates and add pieces onto the board.
+	 * Initialize the level 3 of the game
+	 * Method which creates and add pieces onto the board
 	 */
 	private void initToLevel3() {
 		// Create and add pieces. 
@@ -201,8 +212,8 @@ public class Board {
 	}
 	
 	/**
-	 * Initialize the level 4 of the game.
-	 * Method which creates and add pieces onto the board.
+	 * Initialize the level 4 of the game
+	 * Method which creates and add pieces onto the board
 	 */
 	private void initToLevel4() {
 		// Create and add pieces. 
@@ -230,8 +241,8 @@ public class Board {
 	}
 	
 	/**
-	 * Initialize the level 5 of the game.
-	 * Method which creates and add pieces onto the board.
+	 * Initialize the level 5 of the game
+	 * Method which creates and add pieces onto the board
 	 */
 	private void initToLevel5() {
 		// Create and add pieces. 
@@ -258,10 +269,9 @@ public class Board {
 		rabbitCount = 1;
 	}
 
-
 	/**
 	 * Method that removes a piece from the given location.
-	 * @param location of the piece
+	 * @param location of the piece 
 	 */
 	public void removePiece(Location location) {
 		int x = location.getX();

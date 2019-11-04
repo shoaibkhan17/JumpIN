@@ -5,12 +5,16 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class BoardTest {
+	private Board board;
+	private Square squares[][];
 	
 	public BoardTest() {
 	}
 	
 	@BeforeEach
 	void setUp() throws Exception {
+		board = new Board(1);
+		squares = board.getSquares();
 	}
 
 	@AfterEach
@@ -19,12 +23,12 @@ class BoardTest {
 
 	@Test
 	void testBoard() {
-		fail("Not yet implemented");
+		
 	}
 
 	@Test
 	void testGetSquares() {
-		fail("Not yet implemented");
+		assertEquals(board.getSquares(), squares);
 	}
 
 	@Test
@@ -42,10 +46,11 @@ class BoardTest {
 		fail("Not yet implemented");
 	}
 
+	/**
+	 * 
+	 */
 	@Test
 	void testMove() {
-		Board board = new Board(1);
-		Square squares[][] = board.getSquares();
 		Location oldLoc = new Location(2, 1);
 		Piece piece = squares[oldLoc.getX()][oldLoc.getY()].getPiece();
 		Location newLoc = new Location(2, 3);
@@ -72,8 +77,6 @@ class BoardTest {
 
 	@Test
 	void testIsGameWon() {
-		Board board = new Board(1);
-		
 		assertTrue(board.isGameWon() == false);
 	}
 
