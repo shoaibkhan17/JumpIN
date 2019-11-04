@@ -145,18 +145,32 @@ class View extends Board {
 				square.setIcon(icon);
 				square.setText(null);			
 				break;
+				
 			case MUSHROOM:
 				icon = new ImageIcon(path + "mushroom.png");					
 				square.setIcon(icon);
 				square.setText(null);
 				break;
+				
 			case HOLE:
-				icon = new ImageIcon(path + "hole.png");					
-				square.setIcon(icon);
+				Hole hole = (Hole) piece;
+				Piece innerPiece = hole.getPiece();
+				ImageIcon frontIcon = null;
+				
+				if (innerPiece != null) {
+					Rabbit innerRabbit = (Rabbit) innerPiece;
+					frontIcon = new ImageIcon(path + "rabbit" + innerRabbit.rabbitColor + ".png");
+				}
+				
+				icon = new ImageIcon(path + "hole.png");				
+				CombinedIcon combiedIcon = new CombinedIcon(frontIcon, icon);
+				square.setIcon(combiedIcon);
 				square.setText(null);
 				break;
+				
 			case FOX:
 				break;
+				
 			default:
 				break;
 		}
