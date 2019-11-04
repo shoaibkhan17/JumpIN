@@ -67,6 +67,7 @@ class View extends Board {
 		GridLayout grid = new GridLayout(Board.BOARD_SIZE, Board.BOARD_SIZE);
 		frame.setLayout(grid);
 		frame.setSize(viewDimension);
+		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
 	}
 	
