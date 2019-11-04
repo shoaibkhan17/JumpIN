@@ -90,8 +90,13 @@ public class Location {
      * @param location used to get the x and y coordinate
      * @return true if the two locations are the same
      */
-    public boolean equals(Location location) {
-        return x == location.getX() && y == location.getY();
+    @Override
+    public boolean equals(Object object) {
+    	if (this.getClass() == object.getClass()) {
+    		Location loc = (Location) object;   		
+            return x == loc.getX() && y == loc.getY();
+    	}
+    	return false;
     }
 
     /**
