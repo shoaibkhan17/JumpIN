@@ -1,7 +1,8 @@
 import javax.swing.JButton;
 
 /**
- * Square class contains pieces
+ * Square class contains pieces of the board
+ * 
  * @author Khalil Aalab - 101070879
  * @author Kamaluddin Shakiri - 101054933
  * @author Simon Yacoub - 101044159
@@ -18,7 +19,6 @@ public class Square extends JButton {
     public Square(Location location) {
         this(null, location);
     }
-
     /**
      * Overloaded constructor
      * @param piece

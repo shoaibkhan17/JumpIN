@@ -1,5 +1,5 @@
 /**
- * Rabbit is subclass of Animal class.
+ * Rabbit is subclass of Piece class.
  * Rabbits can only jump if there is/are obstacles on their path.
  * 
  * @author Khalil Aalab - 101070879
