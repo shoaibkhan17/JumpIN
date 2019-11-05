@@ -5,77 +5,102 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class LocationTest {
+	Location location;
+	int x;
+	int y;
 
 	@BeforeEach
 	void setUp() throws Exception {
+		x = 2;
+		y = 4;
+		location = new Location(x, y);
 	}
 
 	@AfterEach
 	void tearDown() throws Exception {
+		location = null;
+		assertNull(location);
 	}
 
 	@Test
 	void testLocation() {
-		Board board = new Board(1);
-		Square squares[][] = board.getSquares();
-		Location oldLoc = new Location(3, 2);
-		Piece piece = squares[oldLoc.getX()][oldLoc.getY()].getPiece();
-		Location newLoc = new Location(4, 1);
-		board.selectPiece(oldLoc);
-		board.movePiece(oldLoc, newLoc, piece);
-		
-		assertTrue(squares[newLoc.getX()][newLoc.getY()].getPiece() == piece);
-		
-	}
-
-	@Test
-	void testLocationIntInt() {
-		fail("Not yet implemented");
+		location = new Location(x, y);
+		assertEquals(x, location.getX());
+		assertEquals(y, location.getY());
 	}
 
 	@Test
 	void testGetX() {
-		fail("Not yet implemented");
+		assertEquals(x, location.getX());
 	}
 
 	@Test
 	void testSetX() {
-		fail("Not yet implemented");
+		int newX = 0;
+		location.setX(newX);
+		assertEquals(newX, location.getX());
 	}
 
 	@Test
 	void testGetY() {
-		fail("Not yet implemented");
+		assertEquals(y, location.getY());
 	}
 
 	@Test
 	void testSetY() {
-		fail("Not yet implemented");
+		int newY = 0;
+		location.setY(newY);
+		assertEquals(newY, location.getY());
 	}
 
 	@Test
 	void testClear() {
-		fail("Not yet implemented");
+		location.clear();
+		assertEquals(location, new Location(-1, -1));
 	}
 
 	@Test
 	void testSetLocation() {
-		fail("Not yet implemented");
+		Location setLocation = new Location(5, 5);
+		location.setLocation(setLocation);
+		assertEquals(setLocation, location);
 	}
 
 	@Test
 	void testEqualsLocation() {
-		fail("Not yet implemented");
+		Location equalLocation = new Location(x, y);
+		assertTrue(location.equals(equalLocation));
 	}
 
 	@Test
-	void testToString() {
-		fail("Not yet implemented");
+	void testComparesToSmallerXLocation() {
+		Location smallerXLocation = new Location(0, 0);
+		assertEquals(1, location.comparesTo(smallerXLocation, true));
 	}
-
+	
 	@Test
-	void testComparesTo() {
-		fail("Not yet implemented");
+	void testComparesToSmallerYLocation() {
+		Location smallerYLocation = new Location(4, 6);
+		assertEquals(-1, location.comparesTo(smallerYLocation, false));
+	}
+	
+	@Test
+	void testComparesToSameYLocation() {
+		Location sameLocation = new Location(x, y);
+		assertEquals(0, location.comparesTo(sameLocation, true));
+		assertEquals(0, location.comparesTo(sameLocation, false));
+	}
+	
+	@Test
+	void testComparesToGreaterXLocation() {
+		Location greaterXLocation = new Location(4, 4);
+		assertEquals(-1, location.comparesTo(greaterXLocation, true));
+	}
+	
+	@Test
+	void testComparesToGreaterYLocation() {
+		Location greaterYLocation = new Location(4, 6);
+		assertEquals(-1, location.comparesTo(greaterYLocation, false));
 	}
 
 }

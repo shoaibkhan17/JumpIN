@@ -4,19 +4,25 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class ParserTest {
-	Parser parser = null;
-	Location validLocation = new Location(0, 1);
-	Location inValidLocation = new Location(-1, -1);
+	Parser parser;
+	Location validLocation;
+	Location inValidLocation;
 
 	@BeforeEach
 	void setUp() throws Exception {
 		parser = new Parser();
+		validLocation = new Location(0, 1);
+		inValidLocation = new Location(-1, -1);
 	}
 
 	@AfterEach
 	void tearDown() throws Exception {
 		parser = null;
+		validLocation = null;
+		inValidLocation = null;
 		assertNull(parser);
+		assertNull(validLocation);
+		assertNull(inValidLocation);
 	}
 	
 	@Test
