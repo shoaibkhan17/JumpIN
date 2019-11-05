@@ -1,7 +1,9 @@
-import static org.junit.jupiter.api.Assertions.*;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 /**
  * @author Khalil Aalab - 101070879
  * @author Kamaluddin Shakiri - 101054933
@@ -10,101 +12,101 @@ import org.junit.jupiter.api.Test;
  * @author Shoaib Khan - 101033582
  */
 
-class LocationTest {
+public class LocationTest {
 	Location location;
 	int x;
 	int y;
 
-	@BeforeEach
-	void setUp() throws Exception {
+	@Before
+	public void setUp() throws Exception {
 		x = 2;
 		y = 4;
 		location = new Location(x, y);
 	}
 
-	@AfterEach
-	void tearDown() throws Exception {
+	@After
+	public void tearDown() throws Exception {
 		location = null;
 		assertNull(location);
 	}
 
 	@Test
-	void testLocation() {
+	public void testLocation() {
 		location = new Location(x, y);
 		assertEquals(x, location.getX());
 		assertEquals(y, location.getY());
 	}
 
 	@Test
-	void testGetX() {
+	public void testGetX() {
 		assertEquals(x, location.getX());
 	}
 
 	@Test
-	void testSetX() {
+	public void testSetX() {
 		int newX = 0;
 		location.setX(newX);
 		assertEquals(newX, location.getX());
 	}
 
 	@Test
-	void testGetY() {
+	public void testGetY() {
 		assertEquals(y, location.getY());
 	}
 
 	@Test
-	void testSetY() {
+	public void testSetY() {
 		int newY = 0;
 		location.setY(newY);
 		assertEquals(newY, location.getY());
 	}
 
 	@Test
-	void testClear() {
+	public void testClear() {
 		location.clear();
 		assertEquals(location, new Location(-1, -1));
 	}
 
 	@Test
-	void testSetLocation() {
+	public void testSetLocation() {
 		Location setLocation = new Location(5, 5);
 		location.setLocation(setLocation);
 		assertEquals(setLocation, location);
 	}
 
 	@Test
-	void testEqualsLocation() {
+	public void testEqualsLocation() {
 		Location equalLocation = new Location(x, y);
 		assertTrue(location.equals(equalLocation));
 	}
 
 	@Test
-	void testComparesToSmallerXLocation() {
+	public void testComparesToSmallerXLocation() {
 		Location smallerXLocation = new Location(0, 0);
 		assertEquals(1, location.comparesTo(smallerXLocation, true));
 	}
 	
 	@Test
-	void testComparesToSmallerYLocation() {
+	public void testComparesToSmallerYLocation() {
 		Location smallerYLocation = new Location(4, 6);
 		assertEquals(-1, location.comparesTo(smallerYLocation, false));
 	}
 	
 	@Test
-	void testComparesToSameYLocation() {
+	public void testComparesToSameYLocation() {
 		Location sameLocation = new Location(x, y);
 		assertEquals(0, location.comparesTo(sameLocation, true));
 		assertEquals(0, location.comparesTo(sameLocation, false));
 	}
 	
 	@Test
-	void testComparesToGreaterXLocation() {
+	public void testComparesToGreaterXLocation() {
 		Location greaterXLocation = new Location(4, 4);
 		assertEquals(-1, location.comparesTo(greaterXLocation, true));
 	}
 	
 	@Test
-	void testComparesToGreaterYLocation() {
+	public void testComparesToGreaterYLocation() {
 		Location greaterYLocation = new Location(4, 6);
 		assertEquals(-1, location.comparesTo(greaterYLocation, false));
 	}

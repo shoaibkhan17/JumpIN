@@ -1,7 +1,11 @@
-import static org.junit.jupiter.api.Assertions.*;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 /**
  * @author Khalil Aalab - 101070879
  * @author Kamaluddin Shakiri - 101054933
@@ -10,45 +14,45 @@ import org.junit.jupiter.api.Test;
  * @author Shoaib Khan - 101033582
  */
 
-class BoardTest {
+public class BoardTest {
 	private Board board;
 	private Square squares[][];
 	
 	public BoardTest() {
 	}
 	
-	@BeforeEach
-	void setUp() throws Exception {
+	@Before
+	public void setUp() throws Exception {
 		board = new Board(1);
 		squares = board.getSquares();
 	}
 
-	@AfterEach
-	void tearDown() throws Exception {
+	@After
+	public void tearDown() throws Exception {
 	}
 
 	@Test
-	void testBoard() {
+	public void testBoard() {
 		
 	}
 
 	@Test
-	void testGetSquares() {
-		assertEquals(board.getSquares(), squares);
-	}
-
-	@Test
-	void testRemovePiece() {
+	public void testGetSquares() {
 		fail("Not yet implemented");
 	}
 
 	@Test
-	void testSelectPiece() {
+	public void testRemovePiece() {
 		fail("Not yet implemented");
 	}
 
 	@Test
-	void testMovePiece() {
+	public void testSelectPiece() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testMovePiece() {
 		fail("Not yet implemented");
 	}
 
@@ -56,7 +60,7 @@ class BoardTest {
 	 * 
 	 */
 	@Test
-	void testMove() {
+	public void testMove() {
 		Location oldLoc = new Location(2, 1);
 		Piece piece = squares[oldLoc.getX()][oldLoc.getY()].getPiece();
 		Location newLoc = new Location(2, 3);
@@ -67,27 +71,27 @@ class BoardTest {
 	}
 
 	@Test
-	void testGetBoardLine() {
+	public void testGetBoardLine() {
 		fail("Not yet implemented");
 	}
 
 	@Test
-	void testToString() {
+	public void testToString() {
 		fail("Not yet implemented");
 	}
 
 	@Test
-	void testGetHoleStatus() {
+	public void testGetHoleStatus() {
 		fail("Not yet implemented");
 	}
 
 	@Test
-	void testIsGameWon() {
+	public void testIsGameWon() {
 		assertTrue(board.isGameWon() == false);
 	}
 
 	@Test
-	void testPrintBoard() {
+	public void testPrintBoard() {
 		fail("Not yet implemented");
 	}
 
