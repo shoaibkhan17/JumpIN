@@ -3,13 +3,13 @@
 Authors:
 
 -Khalil Aalab - 101070879
--Kamaluddin Shakirki - 101054933
+-Kamaluddin Shakiri - 101054933
 -Simon Yacoub - 101044159
 -Aiman Sharif - 101062765
 -Shoaib Khan - 101033582
 
 ---------------------------------------------------------------------------------------------------
-User Manual:
+User Manual (For milestone 1):
 
 -Basic Information
 --Currently five levels are developed.
@@ -53,8 +53,8 @@ User Manual:
     5 * O *   *   *   * O *
       *********************
 
---Keep playing the game until all the rabits are in a hole
--- In this case, just the one rabit needs to be inside one of the holes
+--Keep playing the game until all the rabbits are in a hole
+-- In this case, just the one rabbit needs to be inside one of the holes
 
 -Information on hole status.
 --After every move, a text is printed which displays the hole status.
@@ -72,7 +72,7 @@ User Manual:
 ---------------------------------------------------------------------------------------------------
 Design Decisions:
  
--Seperating the model, view and controller in accordance with the MVC model
+-Separating the model, view and controller in accordance with the MVC model
 
 -The Parser class was created so that the user input can be filtered through
 
@@ -105,13 +105,14 @@ Known Issues:
 ---------------------------------------------------------------------------------------------------
 Changes since last iteration:
 -Adding interactive GUI
--Adding more levels (as per TA request)
--Making Fox and Rabbit extend Piece instead of Animal, and updating UML diagram (as per TA request)
--Changing contents of design document (as per TA request)
--Creating JUnit tests for the functionality of the game and game logic
--Creating a seperate folder to organize the test cases, and a test suite to run the test cases
--Creating a directory for the GUI images to be stored
--Creating JMenuBar to have options like exit and reset
+-GUI is rendered using the view class and controlled using the controller class.
+-The game supports 5 levels now.
+-Making Fox and Rabbit extend Piece instead of Animal, and updating UML diagram.
+-Changing contents of design document.
+-Creating JUnit tests for the functionality of the game and game logic.
+-Creating a separate folder to organize the test cases, and a test suite to run the test cases.
+-Creating a directory for the GUI images to be stored.
+-Creating JMenuBar to have options like exit and reset.
 
 ---------------------------------------------------------------------------------------------------
 Future Road Map: 
