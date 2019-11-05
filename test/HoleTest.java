@@ -5,48 +5,75 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class HoleTest {
+	Hole hole;
+	Rabbit innerPiece;
 
 	@BeforeEach
 	void setUp() throws Exception {
+		hole = new Hole();
+		innerPiece = new Rabbit(Rabbit.RABBIT_COLORS.White);
 	}
 
 	@AfterEach
 	void tearDown() throws Exception {
+		hole = null;
+		innerPiece = null;
+		assertNull(hole);
+		assertNull(innerPiece);
 	}
-
+	
 	@Test
-	void testToString() {
-		fail("Not yet implemented");
+	void testIsMovable() {
+		assertFalse(hole.isMovable());
+	}
+	
+	@Test
+	void testIsSelectable() {
+		assertFalse(hole.isSelectable());
 	}
 
 	@Test
 	void testHole() {
-		fail("Not yet implemented");
+		hole = new Hole();
+		assertNull(hole.getPiece());
+		assertFalse(hole.isOccupied());
 	}
 
 	@Test
 	void testSetPiece() {
-		fail("Not yet implemented");
+		hole.setPiece(innerPiece);
+		assertEquals(innerPiece, hole.getPiece());
+		assertTrue(hole.isOccupied());
 	}
 
 	@Test
 	void testRemovePiece() {
-		fail("Not yet implemented");
+		hole.setPiece(innerPiece);
+		assertEquals(innerPiece, hole.getPiece());
+		assertTrue(hole.isOccupied());
+		hole.removePiece();
+		assertNull(hole.getPiece());
+		assertFalse(hole.isOccupied());
 	}
 
 	@Test
 	void testGetPiece() {
-		fail("Not yet implemented");
+		assertNull(hole.getPiece());
 	}
 
 	@Test
 	void testIsOccupied() {
-		fail("Not yet implemented");
+		assertFalse(hole.isOccupied());
 	}
 
 	@Test
-	void testGetStatus() {
-		fail("Not yet implemented");
+	void testGetStatusUnOccupied() {
+		assertEquals("Hole is not occupied.", hole.getStatus());
 	}
-
+	
+	@Test
+	void testGetStatusOccupied() {
+		hole.setPiece(innerPiece);
+		assertEquals("Hole is occupied by a Rabbit.", hole.getStatus());
+	}
 }
