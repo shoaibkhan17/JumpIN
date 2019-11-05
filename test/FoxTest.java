@@ -1,7 +1,10 @@
-import static org.junit.jupiter.api.Assertions.*;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * @author Khalil Aalab - 101070879
@@ -11,20 +14,20 @@ import org.junit.jupiter.api.Test;
  * @author Shoaib Khan - 101033582
  */
 
-class FoxTest {
+public class FoxTest {
 	Fox fox;
 	Board board;
 	Location bodyLocation;
 	
-	@BeforeEach
-	void setUp() throws Exception {
+	@Before
+	public void setUp() throws Exception {
 		bodyLocation = new Location(1, 4);
 		fox = new Fox(bodyLocation, false, false);
 		board = new Board(5);
 	}
 
-	@AfterEach
-	void tearDown() throws Exception {
+	@After
+	public void tearDown() throws Exception {
 		bodyLocation = null;
 		fox = null;
 		board = null;
@@ -34,7 +37,7 @@ class FoxTest {
 	}
 
 	@Test
-	void testValidMove() {
+	public void testValidMove() {
 		Square[][] squares = board.getSquares();
 		Location foxLocation = squares[1][3].getLoc();
 		Location location = new Location(1, 2);
@@ -42,7 +45,7 @@ class FoxTest {
 	}
 	
 	@Test
-	void testInvalidMove() {
+	public void testInvalidMove() {
 		Square[][] squares = board.getSquares();
 		Location foxLocation = squares[1][3].getLoc();
 		Location location = new Location(4, 2);
@@ -50,14 +53,14 @@ class FoxTest {
 	}
 
 	@Test
-	void testSetOtherPieceLocation() {
+	public void testSetOtherPieceLocation() {
 		Location newBodyLocation = new Location(0, 0);
 		fox.setOtherPieceLocation(newBodyLocation);
 		assertEquals(newBodyLocation, fox.getBodyLocation());
 	}
 	
 	@Test
-	void testGetBodyLocation() {
+	public void testGetBodyLocation() {
 		assertEquals(bodyLocation, fox.getBodyLocation());
 	}
 

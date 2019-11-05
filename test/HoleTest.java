@@ -1,14 +1,10 @@
-import static org.junit.jupiter.api.Assertions.*;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-/**
- * @author Khalil Aalab - 101070879
- * @author Kamaluddin Shakiri - 101054933
- * @author Simon Yacoub - 101044159
- * @author Md Aiman Sharif - 101062765
- * @author Shoaib Khan - 101033582
- */
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * @author Khalil Aalab - 101070879
@@ -18,18 +14,18 @@ import org.junit.jupiter.api.Test;
  * @author Shoaib Khan - 101033582
  */
 
-class HoleTest {
+public class HoleTest {
 	Hole hole;
 	Rabbit innerPiece;
 
-	@BeforeEach
-	void setUp() throws Exception {
+	@Before
+	public void setUp() throws Exception {
 		hole = new Hole();
 		innerPiece = new Rabbit(Rabbit.RABBIT_COLORS.White);
 	}
 
-	@AfterEach
-	void tearDown() throws Exception {
+	@After
+	public void tearDown() throws Exception {
 		hole = null;
 		innerPiece = null;
 		assertNull(hole);
@@ -37,31 +33,31 @@ class HoleTest {
 	}
 	
 	@Test
-	void testIsMovable() {
+	public void testIsMovable() {
 		assertFalse(hole.isMovable());
 	}
 	
 	@Test
-	void testIsSelectable() {
+	public void testIsSelectable() {
 		assertFalse(hole.isSelectable());
 	}
 
 	@Test
-	void testHole() {
+	public void testHole() {
 		hole = new Hole();
 		assertNull(hole.getPiece());
 		assertFalse(hole.isOccupied());
 	}
 
 	@Test
-	void testSetPiece() {
+	public void testSetPiece() {
 		hole.setPiece(innerPiece);
 		assertEquals(innerPiece, hole.getPiece());
 		assertTrue(hole.isOccupied());
 	}
 
 	@Test
-	void testRemovePiece() {
+	public void testRemovePiece() {
 		hole.setPiece(innerPiece);
 		assertEquals(innerPiece, hole.getPiece());
 		assertTrue(hole.isOccupied());
@@ -71,22 +67,22 @@ class HoleTest {
 	}
 
 	@Test
-	void testGetPiece() {
+	public void testGetPiece() {
 		assertNull(hole.getPiece());
 	}
 
 	@Test
-	void testIsOccupied() {
+	public void testIsOccupied() {
 		assertFalse(hole.isOccupied());
 	}
 
 	@Test
-	void testGetStatusUnOccupied() {
+	public void testGetStatusUnOccupied() {
 		assertEquals("Hole is not occupied.", hole.getStatus());
 	}
 	
 	@Test
-	void testGetStatusOccupied() {
+	public void testGetStatusOccupied() {
 		hole.setPiece(innerPiece);
 		assertEquals("Hole is occupied by a Rabbit.", hole.getStatus());
 	}

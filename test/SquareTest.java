@@ -1,7 +1,10 @@
-import static org.junit.jupiter.api.Assertions.*;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * @author Khalil Aalab - 101070879
@@ -11,17 +14,17 @@ import org.junit.jupiter.api.Test;
  * @author Shoaib Khan - 101033582
  */
 
-class SquareTest {
+public class SquareTest {
 	Location squareLocation;
 	Square square;
 
-	@BeforeEach
-	void setUp() throws Exception {
+	@Before
+	public void setUp() throws Exception {
 		square = new Square(squareLocation);
 	}
 
-	@AfterEach
-	void tearDown() throws Exception {
+	@After
+	public void tearDown() throws Exception {
 		square = null;
 		squareLocation = null;
 		assertNull(square);
@@ -29,30 +32,30 @@ class SquareTest {
 	}
 
 	@Test
-	void testSquare() {
+	public void testSquare() {
 		square = new Square(squareLocation);
 		assertEquals(squareLocation, square.getLoc());
 	}
 	
 	@Test
-	void testSetLocation() {
+	public void testSetLocation() {
 		Location newLocation = new Location(2, 2);
 		square.setLocation(newLocation);
 		assertEquals(newLocation, square.getLoc());
 	}
 	
 	@Test
-	void testGetLoc() {
+	public void testGetLoc() {
 		assertEquals(squareLocation, square.getLoc());
 	}
 
 	@Test
-	void testHasPiece() {
+	public void testHasPiece() {
 		assertFalse(square.hasPiece());
 	}
 
 	@Test
-	void testSetPiece() {
+	public void testSetPiece() {
 		Piece piece = new Mushroom();
 		square.setPiece(piece);
 		assertTrue(square.hasPiece());
@@ -60,7 +63,7 @@ class SquareTest {
 	}
 
 	@Test
-	void testRemovePiece() {
+	public void testRemovePiece() {
 		Piece piece = new Mushroom();
 		square.setPiece(piece);
 		assertTrue(square.hasPiece());
@@ -69,14 +72,14 @@ class SquareTest {
 	}
 
 	@Test
-	void testGetPiece() {
+	public void testGetPiece() {
 		Piece piece = new Mushroom();
 		square.setPiece(piece);
 		assertEquals(piece, square.getPiece());
 	}
 
 	@Test
-	void testGetPieceType() {
+	public void testGetPieceType() {
 		Piece piece = new Mushroom();
 		square.setPiece(piece);
 		assertEquals(piece.getType(), square.getPiece().getType());
