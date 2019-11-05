@@ -482,7 +482,6 @@ public class Board {
 			}
 		}
 		
-
 		// Return true if all rabbits are in the hole.
 		return count == rabbitCount;
 	}
