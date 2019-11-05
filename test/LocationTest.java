@@ -1,81 +1,163 @@
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+/**
+ * Test cases for the Location class
+ * 
+ * @author Khalil Aalab - 101070879
+ * @author Kamaluddin Shakiri - 101054933
+ * @author Simon Yacoub - 101044159
+ * @author Md Aiman Sharif - 101062765
+ * @author Shoaib Khan - 101033582
+ */
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+public class LocationTest {
+	Location location;
+	int x;
+	int y;
 
-class LocationTest {
-
-	@BeforeEach
-	void setUp() throws Exception {
+	/**
+	 * Set up method for the Location test class.
+	 * @throws Exception
+	 */
+	@Before
+	public void setUp() throws Exception {
+		x = 2;
+		y = 4;
+		location = new Location(x, y);
 	}
 
-	@AfterEach
-	void tearDown() throws Exception {
+	/**
+	 * Tear down method for the Location test class.
+	 * @throws Exception
+	 */
+	@After
+	public void tearDown() throws Exception {
+		location = null;
+		assertNull(location);
 	}
 
+	/**
+	 * Method to test the location class constructor.
+	 */
 	@Test
-	void testLocation() {
-		Board board = new Board(1);
-		Square squares[][] = board.getSquares();
-		Location oldLoc = new Location(3, 2);
-		Piece piece = squares[oldLoc.getX()][oldLoc.getY()].getPiece();
-		Location newLoc = new Location(4, 1);
-		board.selectPiece(oldLoc);
-		board.movePiece(oldLoc, newLoc, piece);
-		
-		assertTrue(squares[newLoc.getX()][newLoc.getY()].getPiece() == piece);
-		
+	public void testLocation() {
+		location = new Location(x, y);
+		assertEquals(x, location.getX());
+		assertEquals(y, location.getY());
 	}
 
+	/**
+	 * Method to get the X variable of the location. 
+	 */
 	@Test
-	void testLocationIntInt() {
-		fail("Not yet implemented");
+	public void testGetX() {
+		assertEquals(x, location.getX());
 	}
 
+	/**
+	 * Method to test setting the X variable of the location. 
+	 */
 	@Test
-	void testGetX() {
-		fail("Not yet implemented");
+	public void testSetX() {
+		int newX = 0;
+		location.setX(newX);
+		assertEquals(newX, location.getX());
 	}
 
+	/**
+	 * Method to get the Y variable of the location. 
+	 */
 	@Test
-	void testSetX() {
-		fail("Not yet implemented");
+	public void testGetY() {
+		assertEquals(y, location.getY());
 	}
 
+	/**
+	 * Method to test setting the Y variable of the location. 
+	 */
 	@Test
-	void testGetY() {
-		fail("Not yet implemented");
+	public void testSetY() {
+		int newY = 0;
+		location.setY(newY);
+		assertEquals(newY, location.getY());
 	}
 
+	/**
+	 * Method to test when clearing the location.
+	 */
 	@Test
-	void testSetY() {
-		fail("Not yet implemented");
+	public void testClear() {
+		location.clear();
+		assertEquals(location, new Location(-1, -1));
 	}
 
+	/**
+	 * Method to test when setting the location.
+	 */
 	@Test
-	void testClear() {
-		fail("Not yet implemented");
+	public void testSetLocation() {
+		Location setLocation = new Location(5, 5);
+		location.setLocation(setLocation);
+		assertEquals(setLocation, location);
 	}
 
+	/**
+	 * Method to test when checking if two location are the same.
+	 */
 	@Test
-	void testSetLocation() {
-		fail("Not yet implemented");
+	public void testEqualsLocation() {
+		Location equalLocation = new Location(x, y);
+		assertTrue(location.equals(equalLocation));
 	}
 
+	/**
+	 * Method to compare the location to smaller X location.
+	 */
 	@Test
-	void testEqualsLocation() {
-		fail("Not yet implemented");
+	public void testComparesToSmallerXLocation() {
+		Location smallerXLocation = new Location(0, 0);
+		assertEquals(1, location.comparesTo(smallerXLocation, true));
 	}
-
+	
+	/**
+	 * Method to compare the location to smaller Y location.
+	 */
 	@Test
-	void testToString() {
-		fail("Not yet implemented");
+	public void testComparesToSmallerYLocation() {
+		Location smallerYLocation = new Location(4, 6);
+		assertEquals(-1, location.comparesTo(smallerYLocation, false));
 	}
-
+	
+	/**
+	 * Method to compare the location to same location.
+	 */
 	@Test
-	void testComparesTo() {
-		fail("Not yet implemented");
+	public void testComparesToSameLocation() {
+		Location sameLocation = new Location(x, y);
+		assertEquals(0, location.comparesTo(sameLocation, true));
+		assertEquals(0, location.comparesTo(sameLocation, false));
+	}
+	
+	/**
+	 * Method to compare the location to greater X location.
+	 */
+	@Test
+	public void testComparesToGreaterXLocation() {
+		Location greaterXLocation = new Location(4, 4);
+		assertEquals(-1, location.comparesTo(greaterXLocation, true));
+	}
+	
+	/**
+	 * Method to compare the location to greater Y location.
+	 */
+	@Test
+	public void testComparesToGreaterYLocation() {
+		Location greaterYLocation = new Location(4, 6);
+		assertEquals(-1, location.comparesTo(greaterYLocation, false));
 	}
 
 }

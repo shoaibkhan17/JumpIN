@@ -78,7 +78,7 @@ public class Location {
 
     /**
      * Method that sets the location
-     * @param location
+     * @param location to be set passed in as a parameter
      */
     public void setLocation(Location location) {
         this.x = location.getX();
@@ -90,8 +90,13 @@ public class Location {
      * @param location used to get the x and y coordinate
      * @return true if the two locations are the same
      */
-    public boolean equals(Location location) {
-        return x == location.getX() && y == location.getY();
+    @Override
+    public boolean equals(Object object) {
+    	if (this.getClass() == object.getClass()) {
+    		Location loc = (Location) object;   		
+            return x == loc.getX() && y == loc.getY();
+    	}
+    	return false;
     }
 
     /**
@@ -119,7 +124,7 @@ public class Location {
     /**
      * Function that compares whether the x and y location is 
      * greater, smaller or equal to the current location
-     * @param location
+     * @param location that is used for comparing the coordinates
      * @param horizontalMovement
      * @return 1, 0, -1 if greater than, equal to or less than respectively
      */

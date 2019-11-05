@@ -1,5 +1,5 @@
 /**
- * Fox is a subclass of Animal class
+ * Fox is is a sub-class of Piece class
  * Its movement is different than Rabbit since it requires two space in the board.
  * Fox can only move in the direction that it is facing. Foxes cannot not jump.
  * 
@@ -14,12 +14,12 @@ public class Fox extends Piece {
     /**
      * Foxes can be moved.
      */
-    private static final boolean isMovable = true;
+    private static final boolean IS_MOVABLE = true;
 
     /**
      * Foxes can be selected.
      */
-    private static final boolean isSelectable = true;
+    private static final boolean IS_SELECTABLE = true;
 
 	/**
 	 * Location of the other body of the fox piece.
@@ -38,13 +38,13 @@ public class Fox extends Piece {
 	private boolean tail;
 
 	/**
-	 * Default constructor
+	 * Default constructor initializing instance variables
 	 * @param bodyLocation initializes bodyLocation
 	 * @param horizontalMovement initializes horizontalLocation
 	 * @param tail initializes tail
 	 */
 	public Fox(Location bodyLocation, boolean horizontalMovement, boolean tail) {
-		super(PieceType.FOX, isMovable, isSelectable);
+		super(PieceType.FOX, IS_MOVABLE, IS_SELECTABLE);
 		this.bodyLocation = new Location();
 		this.bodyLocation.setX(bodyLocation.getX());
 		this.bodyLocation.setY(bodyLocation.getY());
@@ -52,14 +52,26 @@ public class Fox extends Piece {
 		this.tail = tail;
 	}
 	
+	/**
+	 * returns the tail
+	 * @return tail
+	 */
 	public boolean isTail() {
 		return tail;
 	}
 	
+	/**
+	 * checks for horizontal movement
+	 * @return horizontalMovement if the movement is horizontal
+	 */
 	public boolean isHorizontal() {
 		return horizontalMovement;
 	}
 	
+	/**
+	 * gets the location of the piece
+	 * @return bodyLocation of the piece
+	 */
 	public Location getBodyLocation() {
 		return bodyLocation;
 	}
@@ -94,7 +106,7 @@ public class Fox extends Piece {
 		if (diff >= 1) {
 			for(int i = 0; i < diff; i++) {
 				Piece piece = squares[x ? constNumber : (smallestNumber + i + 1)][x ? (smallestNumber + i + 1) : constNumber].getPiece();
-				if (piece != null && piece.getType() != PieceType.FOX) {
+				if (piece != null) {
 					noPieceInMiddle = false;
 				}
 			}

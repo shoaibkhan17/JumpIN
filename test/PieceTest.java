@@ -1,42 +1,73 @@
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
-class PieceTest {
+/**
+ * Test cases for the Piece class
+ * 
+ * @author Khalil Aalab - 101070879
+ * @author Kamaluddin Shakiri - 101054933
+ * @author Simon Yacoub - 101044159
+ * @author Md Aiman Sharif - 101062765
+ * @author Shoaib Khan - 101033582
+ */
 
-	@BeforeEach
-	void setUp() throws Exception {
+public class PieceTest {
+	Piece piece;
+	
+	/**
+ 	 * Set up method for the Piece test class.
+	 * @throws Exception
+	 */
+	@Before
+	public void setUp() throws Exception {
+		piece = new Mushroom();
 	}
 
-	@AfterEach
-	void tearDown() throws Exception {
+	/**
+ 	 * Tear down method for the Piece test class.
+	 * @throws Exception
+	 */
+	@After
+	public void tearDown() throws Exception {
+		piece = null;
+		assertNull(piece);
 	}
 
+	/**
+	 * Method to test the piece class constructor
+	 */
 	@Test
-	void testPiece() {
-		fail("Not yet implemented");
+	public void testPiece() {
+		piece = new Rabbit(Rabbit.RABBIT_COLORS.Gray);
+		assertEquals(piece.getType(), PieceType.RABBIT);
 	}
 
+	/**
+	 * Method to test the is selectable property of the piece class.
+	 */
 	@Test
-	void testIsSelectable() {
-		fail("Not yet implemented");
+	public void testIsSelectable() {
+		assertFalse(piece.isSelectable());
 	}
 
+	/**
+	 * Method to test the is movable property of the piece class.
+	 */
 	@Test
-	void testIsMovable() {
-		fail("Not yet implemented");
+	public void testIsMovable() {
+		assertFalse(piece.isMovable());
 	}
 
+	/**
+	 * Method to test the type of the piece.
+	 */
 	@Test
-	void testGetType() {
-		fail("Not yet implemented");
+	public void testGetType() {
+		assertEquals(piece.getType(), PieceType.MUSHROOM);
 	}
-
-	@Test
-	void testToString() {
-		fail("Not yet implemented");
-	}
-
 }

@@ -1,5 +1,5 @@
 /**
- * Rabbit is subclass of Animal class.
+ * Rabbit is subclass of Piece class.
  * Rabbits can only jump if there is/are obstacles on their path.
  * 
  * @author Khalil Aalab - 101070879
@@ -13,21 +13,22 @@ public class Rabbit extends Piece {
     /**
      * Rabbits can be moved.
      */
-    private static final boolean isMovable = true;
+    private static final boolean IS_MOVABLE = true;
 
     /**
      * Rabbits can be selected.
      */
-    private static final boolean isSelectable = true;
+    private static final boolean IS_SELECTABLE = true;
 	
 	public static enum RABBIT_COLORS {Gray, White, Brown}
+	
 	protected RABBIT_COLORS rabbitColor;
 
 	/**
 	 * Default constructor
 	 */
     public Rabbit(RABBIT_COLORS rabbitColor) {
-        super(PieceType.RABBIT, isMovable, isSelectable);
+        super(PieceType.RABBIT, IS_MOVABLE, IS_SELECTABLE);
         this.rabbitColor = rabbitColor;
     }
 

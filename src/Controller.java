@@ -1,24 +1,34 @@
 import java.awt.event.ActionEvent;
+/**
+ * Controller class which holds the controller for the game
+ * 
+ * @author Khalil Aalab - 101070879
+ * @author Kamaluddin Shakiri - 101054933
+ * @author Simon Yacoub - 101044159
+ * @author Md Aiman Sharif - 101062765
+ * @author Shoaib Khan - 101033582
+ */
 
 public class Controller {
 
 	private Board board;
 	private View view;
 	private Square oldSelectSquare;
-	private Square updateSquare;
-	private boolean updateRequired;
 	
+	/**
+	 * Default constructor initializes instance variables
+	 * @param board of the game
+	 * @param view instance of view
+	 */
 	public Controller(Board board, View view) {
 		this.board = board;
 		this.view = view;
 		oldSelectSquare = null;
-		updateSquare = null;
-		updateRequired = false;
 	}
 	
 	/**
 	 * Method to handle the event, this method gets triggered when a button is pressed
-	 * @param event that takes care of the correspondence event
+	 * @param event of type ActionEvent that takes care of the correspondence event
 	 */
 	public void eventHandler(ActionEvent event) {
 		if (board.selectedPiece == null) {
@@ -65,14 +75,14 @@ public class Controller {
 			view.turnsTaken++;
 			Piece selectedPiece = square.getPiece();
 			
-			// If the fox was moved.
-			// Update and render the entire view.
+			// If the fox was moved
+			// Update and render the entire view
 			if (selectedPiece.getType() == PieceType.FOX) {
 				view.updateView();
 			}
 			
-			// If the rabbit was moved.
-			// Just update the squares rabbit hopped from and to. 
+			// If the rabbit was moved
+			// Just update the squares rabbit hopped from and to
 			else {
 				view.imageHandler(oldSelectSquare);
 				view.imageHandler(square);
