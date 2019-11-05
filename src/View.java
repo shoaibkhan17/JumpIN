@@ -36,7 +36,7 @@ class View extends Board {
 	private final static Border LINE = new LineBorder(Color.white);
 	private final static Border MARGIN = new EmptyBorder(5, 15, 5, 15);
 	private final static Border COMPOUND = new CompoundBorder(LINE, MARGIN);
-	private final static Dimension viewDimension = new Dimension(500, 550);
+	private final static Dimension VIEW_DIMENSION = new Dimension(500, 550);
 	
 	/**
 	 * Constructor to initialize the instance variables
@@ -66,7 +66,7 @@ class View extends Board {
 		frame = new JFrame("JumpIN");
 		GridLayout grid = new GridLayout(Board.BOARD_SIZE, Board.BOARD_SIZE);
 		frame.setLayout(grid);
-		frame.setSize(viewDimension);
+		frame.setSize(VIEW_DIMENSION);
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
 	}
