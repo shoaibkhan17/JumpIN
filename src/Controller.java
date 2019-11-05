@@ -1,13 +1,5 @@
 import java.awt.event.ActionEvent;
 /**
- * @author Khalil Aalab - 101070879
- * @author Kamaluddin Shakiri - 101054933
- * @author Simon Yacoub - 101044159
- * @author Md Aiman Sharif - 101062765
- * @author Shoaib Khan - 101033582
- */
-
-/**
  * Controller class which holds the controller for the game
  * 
  * @author Khalil Aalab - 101070879
