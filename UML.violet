@@ -639,9 +639,7 @@ PieceType</string>
      <void property="text">
       <string>-board: Board
 -view: View
--oldSelectSquare: Square
--updateSquare: Square
-updateRequired: boolean</string>
+-oldSelectSquare: Square</string>
      </void>
     </void>
     <void property="methods">
@@ -928,12 +926,12 @@ updateRequired: boolean</string>
     <void property="bentStyle">
      <object class="com.horstmann.violet.BentStyle" field="HVH"/>
     </void>
-    <void property="endArrowHead">
-     <object class="com.horstmann.violet.ArrowHead" field="V"/>
+    <void property="startArrowHead">
+     <object class="com.horstmann.violet.ArrowHead" field="DIAMOND"/>
     </void>
    </object>
-   <object idref="ClassNode13"/>
    <object idref="ClassNode11"/>
+   <object idref="ClassNode13"/>
   </void>
  </object>
 </java>
