@@ -1,5 +1,5 @@
 /**
- * Fox is a subclass of Animal class
+ * Fox is is a sub-class of Piece class
  * Its movement is different than Rabbit since it requires two space in the board.
  * Fox can only move in the direction that it is facing. Foxes cannot not jump.
  * 

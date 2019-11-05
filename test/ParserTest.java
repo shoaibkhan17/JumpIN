@@ -20,6 +20,10 @@ public class ParserTest {
 	Location validLocation;
 	Location inValidLocation;
 
+	/**
+	 * Set up method for the parser test class.
+	 * @throws Exception
+	 */
 	@Before
 	public void setUp() throws Exception {
 		parser = new Parser();
@@ -27,6 +31,10 @@ public class ParserTest {
 		inValidLocation = new Location(-1, -1);
 	}
 
+	/**
+	 * Tear down method for the parser test class.
+	 * @throws Exception
+	 */
 	@After
 	public void tearDown() throws Exception {
 		parser = null;
@@ -37,11 +45,17 @@ public class ParserTest {
 		assertNull(inValidLocation);
 	}
 	
+	/**
+	 * Method to test valid location before setting.
+	 */
 	@Test
 	public void testValidLocationBeforeSetting() {
 		assertFalse(parser.isValidLocation);
 	}
 	
+	/**
+	 * Method to test setting the valid location.
+	 */
 	@Test
 	public void testValidLocation() {
 		parser.setText("A2");
@@ -49,6 +63,9 @@ public class ParserTest {
 		assertEquals(parser.getLocation(), validLocation);
 	}
 	
+	/**
+	 * Method to test setting the invalid location.
+	 */
 	@Test
 	public void testInValidLocation() {
 		parser.setText("6A");
@@ -56,12 +73,18 @@ public class ParserTest {
 		assertEquals(parser.getLocation(), inValidLocation);
 	}
 	
+	/**
+	 * Method to test setting the location.
+	 */
 	@Test
 	public void testSetText() {
 		parser.setText("A2");
 		assertEquals(parser.getLocation(), validLocation);
 	}
 
+	/**
+	 * Method to get the location.
+	 */
 	@Test
 	public void testGetLocation() {
 		parser.setText("A1");

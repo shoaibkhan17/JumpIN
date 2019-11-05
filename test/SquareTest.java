@@ -20,11 +20,19 @@ public class SquareTest {
 	Location squareLocation;
 	Square square;
 
+	/**
+	 * Set up method for the square test class.
+	 * @throws Exception
+	 */
 	@Before
 	public void setUp() throws Exception {
 		square = new Square(squareLocation);
 	}
 
+	/**
+	 * Tear down method for the square test class.
+	 * @throws Exception
+	 */
 	@After
 	public void tearDown() throws Exception {
 		square = null;
@@ -33,12 +41,18 @@ public class SquareTest {
 		assertNull(squareLocation);
 	}
 
+	/**
+	 * Method to test the square class constructor.
+	 */
 	@Test
 	public void testSquare() {
 		square = new Square(squareLocation);
 		assertEquals(squareLocation, square.getLoc());
 	}
 	
+	/**
+	 * Method to setting location on the square.
+	 */
 	@Test
 	public void testSetLocation() {
 		Location newLocation = new Location(2, 2);
@@ -46,16 +60,25 @@ public class SquareTest {
 		assertEquals(newLocation, square.getLoc());
 	}
 	
+	/**
+	 * Method to test getting the location.
+	 */
 	@Test
 	public void testGetLoc() {
 		assertEquals(squareLocation, square.getLoc());
 	}
 
+	/**
+	 * Method to test is the square has a piece.
+	 */
 	@Test
 	public void testHasPiece() {
 		assertFalse(square.hasPiece());
 	}
 
+	/**
+	 * Method to test when setting a piece on a square.
+	 */
 	@Test
 	public void testSetPiece() {
 		Piece piece = new Mushroom();
@@ -64,6 +87,9 @@ public class SquareTest {
 		assertEquals(piece, square.getPiece());
 	}
 
+	/**
+	 * Method to test when removing a piece from a square.
+	 */
 	@Test
 	public void testRemovePiece() {
 		Piece piece = new Mushroom();
@@ -73,6 +99,9 @@ public class SquareTest {
 		assertFalse(square.hasPiece());
 	}
 
+	/**
+	 * Method to test when getting a piece from the square.
+	 */
 	@Test
 	public void testGetPiece() {
 		Piece piece = new Mushroom();
@@ -80,6 +109,9 @@ public class SquareTest {
 		assertEquals(piece, square.getPiece());
 	}
 
+	/**
+	 * Method to test when getting the piece type of the square.
+	 */
 	@Test
 	public void testGetPieceType() {
 		Piece piece = new Mushroom();

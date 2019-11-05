@@ -24,7 +24,6 @@ public class CombinedIcon implements Icon {
         this.frontIcon = frontIcon;
         this.backIcon = backIcon;
     }
-
     /**
      * method that gets the icon width
      */
@@ -35,7 +34,6 @@ public class CombinedIcon implements Icon {
     	}
     	return backIcon.getIconWidth();
     }
-
     /**
      * method that gets the icon height
      */
@@ -46,7 +44,6 @@ public class CombinedIcon implements Icon {
     	}
     	return backIcon.getIconHeight();
     }
-
     /**
      * method which sets the attributes of the icon
      */

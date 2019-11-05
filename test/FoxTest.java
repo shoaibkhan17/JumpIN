@@ -21,6 +21,10 @@ public class FoxTest {
 	Board board;
 	Location bodyLocation;
 	
+	/**
+	 * Set up method for the Fox test class.
+	 * @throws Exception
+	 */
 	@Before
 	public void setUp() throws Exception {
 		bodyLocation = new Location(1, 4);
@@ -28,6 +32,10 @@ public class FoxTest {
 		board = new Board(5);
 	}
 
+	/**
+	 * Tear down method for the Fox test class
+	 * @throws Exception
+	 */
 	@After
 	public void tearDown() throws Exception {
 		bodyLocation = null;
@@ -38,6 +46,25 @@ public class FoxTest {
 		assertNull(board);
 	}
 
+	/**
+	 * Method to test if the fox is movable.
+	 */
+	@Test
+	public void testIsMovable() {
+		assertTrue(fox.isMovable());
+	}
+	
+	/**
+	 * Method to test if the fox is selectable.
+	 */
+	@Test
+	public void testIsSelectable() {
+		assertTrue(fox.isSelectable());
+	}
+
+	/**
+	 * Method to test moving the fox to a valid location.
+	 */
 	@Test
 	public void testValidMove() {
 		Square[][] squares = board.getSquares();
@@ -46,6 +73,9 @@ public class FoxTest {
 		assertTrue(fox.move(foxLocation, location, board));
 	}
 	
+	/**
+	 * Method to test moving the fox to an invalid location.
+	 */
 	@Test
 	public void testInvalidMove() {
 		Square[][] squares = board.getSquares();
@@ -54,6 +84,9 @@ public class FoxTest {
 		assertFalse(fox.move(foxLocation, location, board));
 	}
 
+	/**
+	 * Method to test setting the other body part location of the fox.
+	 */
 	@Test
 	public void testSetOtherPieceLocation() {
 		Location newBodyLocation = new Location(0, 0);
@@ -61,6 +94,9 @@ public class FoxTest {
 		assertEquals(newBodyLocation, fox.getBodyLocation());
 	}
 	
+	/**
+	 * Method to get the body part location of the fox.
+	 */
 	@Test
 	public void testGetBodyLocation() {
 		assertEquals(bodyLocation, fox.getBodyLocation());

@@ -19,13 +19,21 @@ import org.junit.Test;
 public class HoleTest {
 	Hole hole;
 	Rabbit innerPiece;
-	
+
+	/**
+	 * Set up method for the Hole test class.
+	 * @throws Exception
+	 */
 	@Before
 	public void setUp() throws Exception {
 		hole = new Hole();
 		innerPiece = new Rabbit(Rabbit.RABBIT_COLORS.White);
 	}
 
+	/**
+	 * Tear down method for the Hole test class.
+	 * @throws Exception
+	 */
 	@After
 	public void tearDown() throws Exception {
 		hole = null;
@@ -34,16 +42,25 @@ public class HoleTest {
 		assertNull(innerPiece);
 	}
 	
+	/**
+	 * Method to test if the hole is movable.
+	 */
 	@Test
 	public void testIsMovable() {
 		assertFalse(hole.isMovable());
 	}
 	
+	/**
+	 * Method to test if the hole is selectable.
+	 */
 	@Test
 	public void testIsSelectable() {
 		assertFalse(hole.isSelectable());
 	}
 
+	/**
+	 * Method to test the hole class constructor. 
+	 */
 	@Test
 	public void testHole() {
 		hole = new Hole();
@@ -51,6 +68,9 @@ public class HoleTest {
 		assertFalse(hole.isOccupied());
 	}
 
+	/**
+	 * Method to test when setting the inner piece of the hole.
+	 */
 	@Test
 	public void testSetPiece() {
 		hole.setPiece(innerPiece);
@@ -58,6 +78,9 @@ public class HoleTest {
 		assertTrue(hole.isOccupied());
 	}
 
+	/**
+	 * Method to test when removing the inner piece of the hole.
+	 */
 	@Test
 	public void testRemovePiece() {
 		hole.setPiece(innerPiece);
@@ -68,21 +91,33 @@ public class HoleTest {
 		assertFalse(hole.isOccupied());
 	}
 
+	/**
+	 * Method to test inner piece of the hole.
+	 */
 	@Test
 	public void testGetPiece() {
 		assertNull(hole.getPiece());
 	}
 
+	/**
+	 * Method to test if when the hole is occupied.
+	 */
 	@Test
 	public void testIsOccupied() {
 		assertFalse(hole.isOccupied());
 	}
 
+	/**
+	 * Method to test when the hole is unoccupied.
+	 */
 	@Test
 	public void testGetStatusUnOccupied() {
 		assertEquals("Hole is not occupied.", hole.getStatus());
 	}
 	
+	/**
+	 * Method to test the hole status.
+	 */
 	@Test
 	public void testGetStatusOccupied() {
 		hole.setPiece(innerPiece);

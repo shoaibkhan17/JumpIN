@@ -20,12 +20,20 @@ public class RabbitTest {
 	Rabbit rabbit;
 	Board board;
 
+	/**
+ 	 * Set up method for the rabbit test class.
+	 * @throws Exception
+	 */
 	@Before
 	public void setUp() throws Exception {
 		rabbit = new Rabbit(Rabbit.RABBIT_COLORS.Brown);
 		board = new Board(1);
 	}
 
+	/**
+ 	 * Tear down method for the rabbit test class.
+	 * @throws Exception
+	 */
 	@After
 	public void tearDown() throws Exception {
 		rabbit = null;
@@ -34,16 +42,25 @@ public class RabbitTest {
 		assertNull(board);
 	}
 
+	/**
+	 * Method to test the is movable property of the rabbit class.
+	 */
 	@Test
 	public void testIsMovable() {
 		assertTrue(rabbit.isMovable());
 	}
 	
+	/**
+	 * Method to test the is selectable property of the rabbit class.
+	 */
 	@Test
 	public void testIsSelectable() {
 		assertTrue(rabbit.isSelectable());
 	}
 	
+	/**
+	 * Method to test when moving the rabbit to a valid location.
+	 */
 	@Test
 	public void testValidMove() {
 		Square[][] squares = board.getSquares();
@@ -52,6 +69,9 @@ public class RabbitTest {
 		assertTrue(rabbit.move(rabbitLocation, location, board));
 	}
 	
+	/**
+	 * Method to test when moving the rabbit to a invalid location.
+	 */
 	@Test
 	public void testInvalidMove() {
 		Square[][] squares = board.getSquares();

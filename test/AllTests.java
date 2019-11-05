@@ -22,6 +22,9 @@ import org.junit.runners.Suite.SuiteClasses;
 	SquareTest.class
 	})
 
+/**
+ * Test suite for all the test cases
+ */
 public class AllTests {
 	
 }

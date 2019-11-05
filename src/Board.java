@@ -1,5 +1,4 @@
 import java.util.LinkedList;
-
 /**
  * Class that initializes the board of the game
  * Handles movement of Piece within the Squares
@@ -20,7 +19,6 @@ public class Board {
 	protected static final int BOARD_SIZE = 5;
 	protected static final char BOARD_PRINT_CHAR = '*';
 	protected static final int totalLevels = 5;
-
 	/** 
 	 * Constructor to initialize the instance variables
 	 * @param level this is the level of the game
@@ -69,7 +67,6 @@ public class Board {
 		rabbitCount = 0;
 		holeLocations.clear();
 	}
-
 	/**
 	 * method to access the squares
 	 * @return squares the array to be returned
@@ -77,7 +74,6 @@ public class Board {
 	public Square[][] getSquares() {
 		return this.squares;
 	}
-	
 	/**
 	 * method to get a square at a particular location
 	 * @param location at which the x and y coordinates are accessed
@@ -151,7 +147,6 @@ public class Board {
 		// Store the number of rabbits.
 		rabbitCount = 2;
 	}
-	
 	/**
 	 * Initialize the level 2 of the game
 	 * Method which creates and add pieces onto the board
@@ -210,7 +205,6 @@ public class Board {
 		// Store the number of rabbits.
 		rabbitCount = 1;
 	}
-	
 	/**
 	 * Initialize the level 4 of the game
 	 * Method which creates and add pieces onto the board
@@ -239,7 +233,6 @@ public class Board {
 		// Store the number of rabbits.
 		rabbitCount = 1;
 	}
-	
 	/**
 	 * Initialize the level 5 of the game
 	 * Method which creates and add pieces onto the board
@@ -268,7 +261,6 @@ public class Board {
 		// Store the number of rabbits.
 		rabbitCount = 1;
 	}
-
 	/**
 	 * Method that removes a piece from the given location.
 	 * @param location of the piece 
@@ -301,7 +293,6 @@ public class Board {
 			selectedPieceLocation.clear();
 		}
 	}
-
 	/**
 	 * Method that selects the piece in order to perform operations on it
 	 * @param location of the piece
@@ -344,7 +335,6 @@ public class Board {
 
 		return true;
 	}
-
 	/**
 	 * checks if the piece can move or not
 	 * @param oldLocation initial location of the piece 
@@ -400,7 +390,6 @@ public class Board {
 			return false;
 		}
 	}
-
 	/**
 	 * Calls the canMove() method
 	 * sets the old location of the piece to null once the piece has moved to the new location
@@ -417,7 +406,6 @@ public class Board {
 
 		return false;
 	}
-
 	/**
 	 * Gets the board line 
 	 * @return String board line
@@ -431,7 +419,6 @@ public class Board {
 		boardLine += "\n"; 
 		return boardLine;
 	}
-
 	/**
 	 * Method returns a string representation of the board.
 	 * @return board contains the board as a string representation
@@ -466,7 +453,6 @@ public class Board {
 
 		System.out.println();
 	}
-	
 	/**
 	 * isGameWon checks all the holes on the board. If the number of rabbits in the game (rabbitCount)
 	 * is equal to the number of rabbits in the holes
@@ -485,7 +471,6 @@ public class Board {
 		// Return true if all rabbits are in the hole.
 		return count == rabbitCount;
 	}
-
 	/**
 	 * Prints the board
 	 */

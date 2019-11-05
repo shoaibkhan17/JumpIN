@@ -26,6 +26,10 @@ public class BoardTest {
 	private Board board;
 	private Square squares[][];
 	
+	/**
+	 * Set up method for the Board test class.
+	 * @throws Exception
+	 */
 	@Before
 	public void setUp() throws Exception {
 		testingLevel = 1;
@@ -33,6 +37,10 @@ public class BoardTest {
 		squares = board.getSquares();
 	}
 
+	/**
+	 * Tear down method for the Board test class.
+	 * @throws Exception
+	 */
 	@After
 	public void tearDown() throws Exception {
 		testingLevel = 0;
@@ -42,6 +50,9 @@ public class BoardTest {
 		assertNull(squares);
 	}
 
+	/**
+	 * Method to test the board constructor.
+	 */
 	@Test
 	public void testBoard() {
 		board = new Board(testingLevel);
@@ -52,6 +63,9 @@ public class BoardTest {
 		assertNull(board.selectedPiece);
 	}
 
+	/**
+	 * Method to test removing a piece from the board.
+	 */
 	@Test
 	public void testRemovePiece() {
 		assertTrue(squares[3][0].hasPiece());
@@ -59,6 +73,9 @@ public class BoardTest {
 		assertFalse(squares[3][0].hasPiece());
 	}
 
+	/**
+	 * Method to test the select a valid piece.
+	 */
 	@Test
 	public void testSelectValidPiece() {
 		Location rabbitLocation = new Location(3, 0);
@@ -68,6 +85,9 @@ public class BoardTest {
 		assertEquals(rabbitLocation, board.selectedPieceLocation);
 	}
 	
+	/**
+	 * Method to test selecting an invalid piece.
+	 */
 	@Test
 	public void testSelectInvalidPiece() {
 		assertFalse(board.selectPiece(new Location(3, 1)));
@@ -75,6 +95,9 @@ public class BoardTest {
 		assertNull(board.selectedPiece);
 	}
 
+	/**
+	 * Method to test the move piece functionality of the board.
+	 */
 	@Test
 	public void testMovePiece() {
 		Location oldLoc = new Location(2, 1);
@@ -85,6 +108,9 @@ public class BoardTest {
 		assertEquals(piece, squares[newLoc.getX()][newLoc.getY()].getPiece());
 	}
 
+	/**
+	 * Method to test the main move functionality of the board.
+	 */
 	@Test
 	public void testMove() {
 		Location oldLoc = new Location(3, 0);
@@ -95,11 +121,19 @@ public class BoardTest {
 		assertEquals(piece, squares[newLoc.getX()][newLoc.getY()].getPiece());
 	}
 
+	/**
+	 * Method to test the is game won functionality of the board.
+	 * When the game is not won.
+	 */
 	@Test
 	public void testIsGameWonNotComplete() {
 		assertFalse(board.isGameWon());
 	}
 
+	/**
+	 * Method to test the is game won functionality of the board.
+	 * When the game is won.
+	 */
 	@Test
 	public void testIsGameWonComplete() {
 		Location oldLoc;
@@ -131,9 +165,14 @@ public class BoardTest {
 		newLoc = new Location(0, 0);
 		assertTrue(board.selectPiece(oldLoc));
 		assertTrue(board.move(newLoc));
+
+		// The game should be won by now.
 		assertTrue(board.isGameWon());
 	}
 	
+	/**
+	 * Method to test changing the board level.
+	 */
 	@Test
 	public void testChangeLevel() {
 		board.changeLevel(3);
