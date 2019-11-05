@@ -14,12 +14,12 @@ public class Fox extends Piece {
     /**
      * Foxes can be moved.
      */
-    private static final boolean isMovable = true;
+    private static final boolean IS_MOVABLE = true;
 
     /**
      * Foxes can be selected.
      */
-    private static final boolean isSelectable = true;
+    private static final boolean IS_SELECTABLE = true;
 
 	/**
 	 * Location of the other body of the fox piece.
@@ -44,7 +44,7 @@ public class Fox extends Piece {
 	 * @param tail initializes tail
 	 */
 	public Fox(Location bodyLocation, boolean horizontalMovement, boolean tail) {
-		super(PieceType.FOX, isMovable, isSelectable);
+		super(PieceType.FOX, IS_MOVABLE, IS_SELECTABLE);
 		this.bodyLocation = new Location();
 		this.bodyLocation.setX(bodyLocation.getX());
 		this.bodyLocation.setY(bodyLocation.getY());
