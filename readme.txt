@@ -61,13 +61,21 @@ User Manual (For milestone 1):
 --The purpose of this is to let the users know if there is a rabbit inside the hole. 
 
 -Information on moving the fox.
---If a horizontal fox wants to move left, it needs to be moved by it's head.
---if a horizontal fox wants to move right, it needs to be moved by it's tail.
---If a vertical fox wants to move up, it needs to be moved by it's head.
---if a vertical fox wants to move down, it needs to be moved by it's tail.
+--Read the below section.
 
 -Information on deselecting a piece.
 --If you select a piece and then want to deselect it, just place it back it its own location.
+
+---------------------------------------------------------------------------------------------------
+IMPORTANT NOTE WHEN MOVING THE FOXES IN THE VIEW:
+
+-For fox whose head is facing up and whose tail is facing down
+--If you want to move it UP, move it by selected its HEAD.
+--If you want to move it DOWN, move it by selected its TAIL.
+
+-For fox whose head is facing left and whose tail is facing right
+--If you want to move it RIGHT, move it by selected its TAIL.
+--If you want to move it LEFT, move it by selected its HEAD.
 
 ---------------------------------------------------------------------------------------------------
 Design Decisions:
@@ -89,20 +97,6 @@ and the square can also contain a piece
 -The Board is set to be complete once all the Rabbits are placed in the Holes.
 
 ---------------------------------------------------------------------------------------------------
-Known Issues: 
-
--Fox movement (Not really an issue but definitely can be improved)
-
---Problems
----If a horizontal fox wants to move left, it needs to be moved by it's head.
----if a horizontal fox wants to move right, it needs to be moved by it's tail.
----If a vertical fox wants to move up, it needs to be moved by it's head.
----if a vertical fox wants to move down, it needs to be moved by it's tail.
-
---Solution
----Check if a tail was selected to move right, it should move the head and then the tail with it.
----Vice versa for the head and the vertical direction fox.
----------------------------------------------------------------------------------------------------
 Changes since last iteration:
 -Adding interactive GUI
 -GUI is rendered using the view class and controlled using the controller class.
@@ -123,6 +117,4 @@ Future Road Map:
 -Allow for unlimited redo/undo using a stack to keep track of moves
 -Allow for game to be saved
 -Fixing the known issue with the fox movement
-
-
 ---------------------------------------------------------------------------------------------------
