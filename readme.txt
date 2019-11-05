@@ -12,12 +12,12 @@ Authors:
 User Manual:
 
 -Basic Information
---Currently two levels are developed.
+--Currently five levels are developed.
 --Level 2 is selected by default.
---Level 2 has one rabbit and 1 fox.
---The goal of the game is to place the rabbit inside the hole.
---Rabbits can jump over objects.
---Fox can slide on an empty space it is face in.
+--The goal of the game is to place all the rabbits inside holes.
+--The game can be played as a text-based game only, or with the GUI
+--Rabbits can jump over objects, including mushrooms, foxes and other rabbits
+--Foxes can slide on empty spaces in the direction that the fox is oriented
 
 -Instructions on how to play the game.
 --Let's consider this level
@@ -72,27 +72,10 @@ User Manual:
 --Then, just place it back it it's own location.
 
 ---------------------------------------------------------------------------------------------------
-Design Decision - Data Structures:
+Design Decisions:
  
--The board class uses a 2D array of squares in order to represent the game board. 
-We used this data structure because we always know the size of the board beforehand,
-and it is coded as a constant. 
-
--The hole locations, however, are simply an LinkedList because the holes are integrated 
-into the 2D array of squares, but we also have a seperate data structure for the holes 
-in order to iterate over all the holes when needed, without going over all the non-hole
-squares.
-
----------------------------------------------------------------------------------------------------
-Design Decision - Operations:
-
--With the 2D array, this also makes iterating over the board easier, as 
-we can use a nested for-loop with regards to the row and column of squares on the board.
-
--The LinkedList is better than an ArrayList in this case, because there is a lot of appending
-at the end that happens when the board is initialized, and also in iteration, LinkedList is 
-equal to ArrayList in terms of going over the entire List. So, LinkedList is the implementation
-that we decided on.
+-The board class contains squares which represent squares on the board. Each square has a location, 
+and the square can also contain a piece
 
 -2D array of type Square is used to create the Board.
 
@@ -100,7 +83,7 @@ that we decided on.
 
 -Each Hole can also contain another Piece inside of it. 
 
--Each Animal can validate its own movement. Once it is a valid move, it can ask the Board to move 
+-Each Fox or Rabbit can validate its own movement. Once it is a valid move, it can ask the Board to move 
  the Piece.
 
 -The JumpIN game checks if the Board is completed after each successful move. 
@@ -120,18 +103,14 @@ Known Issues:
 
 --Solution
 ---Check if a tail was selected to move right, it should move the head and then the tail with it.
----Vice vera for the head and the vertical direction fox.
+---Vice versa for the head and the vertical direction fox.
 
 ---------------------------------------------------------------------------------------------------
 Future Road Map: 
 
--Create another class that uses the Board class as a model and listens to it. 
--Will have buttons that represents as each independent squares. 
--The button will be disabled if there is no piece on it.
--The user can click on the button and move the piece to another location (button).
--Highlight all the locations where the piece can be moved.
--Fix up the fox logic that it can be moved from any part of its body.
--The selected piece will be deselected if it is clicked on its own self. 
--The selected piece can also be deselected once any other movable piece is selected.
+-Allow hints to be given to the user within the GUI
+-Allow for unlimited redo/undo using a stack to keep track of moves
+-
+
 
 ---------------------------------------------------------------------------------------------------
