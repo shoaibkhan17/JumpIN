@@ -1,9 +1,30 @@
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
+/**
+ * @author Khalil Aalab - 101070879
+ * @author Kamaluddin Shakiri - 101054933
+ * @author Simon Yacoub - 101044159
+ * @author Md Aiman Sharif - 101062765
+ * @author Shoaib Khan - 101033582
+ */
 
 @RunWith(Suite.class)
-@SuiteClasses({BoardTest.class})
-public class AllTests {
 
+@SuiteClasses({
+	BoardTest.class,
+	FoxTest.class,
+	HoleTest.class,
+	LocationTest.class,
+	ParserTest.class,
+	PieceTest.class,
+	RabbitTest.class,
+	SquareTest.class
+	})
+
+/**
+ * Test suite for all the test cases
+ */
+public class AllTests {
+	
 }

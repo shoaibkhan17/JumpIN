@@ -36,7 +36,7 @@ class View extends Board {
 	private final static Border LINE = new LineBorder(Color.white);
 	private final static Border MARGIN = new EmptyBorder(5, 15, 5, 15);
 	private final static Border COMPOUND = new CompoundBorder(LINE, MARGIN);
-	private final static Dimension viewDimension = new Dimension(500, 550);
+	private final static Dimension VIEW_DIMENSION = new Dimension(500, 550);
 	
 	/**
 	 * Constructor to initialize the instance variables
@@ -51,7 +51,7 @@ class View extends Board {
 		this.run();
 	}
 	/**
-	 * Method to call the initFrame, initMenu and the initView
+	 * Method to call the initFrame, initMenu and the initView methods
 	 */
 	private void init() {
 		this.initFrame();
@@ -66,7 +66,8 @@ class View extends Board {
 		frame = new JFrame("JumpIN");
 		GridLayout grid = new GridLayout(Board.BOARD_SIZE, Board.BOARD_SIZE);
 		frame.setLayout(grid);
-		frame.setSize(viewDimension);
+		frame.setSize(VIEW_DIMENSION);
+		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
 	}
 	
@@ -89,7 +90,10 @@ class View extends Board {
 		frame.setJMenuBar(menuBar);
     }
 	
-	
+	/**
+	 * Method which resets the current level to its initial state
+	 * Resets the level
+	 */
 	private void reset() {
 		JFrame popupFrame = new JFrame();
 		int option = JOptionPane.showConfirmDialog(popupFrame, "Are you sure you want to reset level " + currentLevel);
@@ -102,6 +106,10 @@ class View extends Board {
 		}
 	}
 	
+	/**
+	 * Method to enable or disable the buttons on the squares
+	 * @param enabled true or false to enable to disable the buttons
+	 */
 	private void setButtonsEnabled(boolean enabled) {
 		for (int y = 0; y < Board.BOARD_SIZE; y++) {
 			for (int x = 0; x < Board.BOARD_SIZE; x++) {
@@ -111,7 +119,7 @@ class View extends Board {
 	}
 	
 	/**
-	 * Method to initialize the View
+	 * Method which initializes the View of the game
 	 */
 	private void initView() {
 		for (int y = 0; y < Board.BOARD_SIZE; y++) {
@@ -130,9 +138,9 @@ class View extends Board {
 	
 	/**
 	 * Method to create Button on the GUI
-	 * @param square the square on the board
-	 * @param cornerPiece to check if it is a corner piece
-	 * @return square the square which is on the board
+	 * @param square on the board used to set different attributes 
+	 * @param cornerPiece variable used to check if it is a corner piece
+	 * @return square on the board
 	 */
 	private JButton createButton(Square square, boolean cornerPiece) {
 		square.setBorderPainted(cornerPiece);
@@ -143,6 +151,9 @@ class View extends Board {
 	  	return square;
 	}
 	
+	/**
+	 * Method which updates the view of the board
+	 */
 	protected void updateView() {
 		for (int y = 0; y < Board.BOARD_SIZE; y++) {
 			for (int x = 0; x < Board.BOARD_SIZE; x++) {
@@ -153,9 +164,9 @@ class View extends Board {
 	
 	/**
 	 * Method to handle the image and the implementation of the switch cases
-	 * @param square the square which the image is on
-	 * @param cornerPiece is the piece on the corner
+	 * @param square on which the image is placed on, used to set the icon
 	 */
+	
 	protected void imageHandler(Square square) {
 		String path = "src/assets/";
 		ImageIcon icon;
@@ -208,8 +219,9 @@ class View extends Board {
 	}
 	
 	/**
-	 * Method to display the level complete popup dialog message. 
+	 * Method to display the level complete popup dialog message
 	 */
+	
 	protected void displayLevelCompeletePopup() {
 		JFrame popupFrame = new JFrame();
 		String message = "";
@@ -233,12 +245,11 @@ class View extends Board {
 			JOptionPane.showMessageDialog(popupFrame, message);
 			this.setButtonsEnabled(false);
 		}
-
 	}
 	
 	/**
 	 * Method to highlight the selected square so the player can see the selected piece
-	 * @param square the square which the color is to be set
+	 * @param square of which the color is to be set
 	 */
 	protected void highlightSelectedSquare(Square square) {
 		square.setBackground(SELECTED_SQUARE_COLOR);
@@ -246,7 +257,7 @@ class View extends Board {
 	}
 	
 	/**
-	 * Method to unhighlight all highlighted squares in the view.
+	 * Method to unhighlight all highlighted squares in the view
 	 */
 	protected void unhighlightAllSquares() {
 		for (Square square: highlightedSquares) {
@@ -254,12 +265,13 @@ class View extends Board {
 			boolean cornerPiece = squareLocation.getX() % 2 == 0 && squareLocation.getY() % 2 == 0;
 			square.setBackground(cornerPiece ? CORNER_SQUARE_COLOR : MAIN_SQUARE_COLOR);
 		}
+		
 		highlightedSquares.clear();
 	}
 	
 	/**
 	 * Method to clear the highlight of the selected square
-	 * @param square the square which is to be cleared from the highlight
+	 * @param square which is to be cleared from the highlight
 	 */
 	protected void clearHighlight(Square square) {
 		Location loc = square.getLoc();
@@ -268,7 +280,7 @@ class View extends Board {
 	}
 	
 	/**
-	 * Main method used to run the game
+	 * Main method used to run the game and display the view
 	 * @param args
 	 */
 	public static void main(String[] args) {
