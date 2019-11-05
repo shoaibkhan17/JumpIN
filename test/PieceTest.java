@@ -5,38 +5,37 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class PieceTest {
-
+	Piece piece;
+	
 	@BeforeEach
 	void setUp() throws Exception {
+		piece = new Mushroom();
 	}
 
 	@AfterEach
 	void tearDown() throws Exception {
+		piece = null;
+		assertNull(piece);
 	}
 
 	@Test
 	void testPiece() {
-		fail("Not yet implemented");
+		piece = new Rabbit(Rabbit.RABBIT_COLORS.Gray);
+		assertEquals(piece.getType(), PieceType.RABBIT);
 	}
 
 	@Test
 	void testIsSelectable() {
-		fail("Not yet implemented");
+		assertFalse(piece.isSelectable());
 	}
 
 	@Test
 	void testIsMovable() {
-		fail("Not yet implemented");
+		assertFalse(piece.isMovable());
 	}
 
 	@Test
 	void testGetType() {
-		fail("Not yet implemented");
+		assertEquals(piece.getType(), PieceType.MUSHROOM);
 	}
-
-	@Test
-	void testToString() {
-		fail("Not yet implemented");
-	}
-
 }
