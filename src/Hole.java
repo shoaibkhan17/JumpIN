@@ -13,12 +13,12 @@ public class Hole extends Piece {
     /**
      * Holes cannot be moved.
      */
-    private static final boolean isMovable = false;
+    private static final boolean IS_MOVABLE = false;
 
     /**
      * Holes cannot be selected.
      */
-    private static final boolean isSelectable = false;
+    private static final boolean IS_SELECTABLE = false;
 
     /**
      * Inner piece.
@@ -29,7 +29,7 @@ public class Hole extends Piece {
      * Default constructor initializing instance variables
      */
     public Hole() {
-        super(PieceType.HOLE, isMovable, isSelectable);
+        super(PieceType.HOLE, IS_MOVABLE, IS_SELECTABLE);
         this.innerPiece = null;
     }
 
