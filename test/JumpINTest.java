@@ -2,7 +2,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 /**
  * @author Khalil Aalab - 101070879
  * @author Kamaluddin Shakiri - 101054933
@@ -10,7 +9,8 @@ import org.junit.jupiter.api.Test;
  * @author Md Aiman Sharif - 101062765
  * @author Shoaib Khan - 101033582
  */
-class FoxTest {
+
+class JumpINTest {
 
 	@BeforeEach
 	void setUp() throws Exception {
@@ -21,18 +21,13 @@ class FoxTest {
 	}
 
 	@Test
-	void testMove() {
-		fail("Not yet implemented"); // TODO
+	void testJumpIN() {
+		fail("Not yet implemented");
 	}
 
 	@Test
-	void testFox() {
-		fail("Not yet implemented"); // TODO
-	}
-
-	@Test
-	void testSetOtherPieceLocation() {
-		fail("Not yet implemented"); // TODO
+	void testPlayGame() {
+		fail("Not yet implemented");
 	}
 
 }
