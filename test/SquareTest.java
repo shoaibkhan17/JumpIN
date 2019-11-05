@@ -10,53 +10,73 @@ import org.junit.jupiter.api.Test;
  * @author Shoaib Khan - 101033582
  */
 class SquareTest {
+	Location squareLocation;
+	Square square;
 
 	@BeforeEach
 	void setUp() throws Exception {
+		square = new Square(squareLocation);
 	}
 
 	@AfterEach
 	void tearDown() throws Exception {
+		square = null;
+		squareLocation = null;
+		assertNull(square);
+		assertNull(squareLocation);
 	}
 
 	@Test
 	void testSquare() {
-		fail("Not yet implemented");
+		square = new Square(squareLocation);
+		assertEquals(squareLocation, square.getLoc());
 	}
-
+	
 	@Test
-	void testSquarePiece() {
-		fail("Not yet implemented");
+	void testSetLocation() {
+		Location newLocation = new Location(2, 2);
+		square.setLocation(newLocation);
+		assertEquals(newLocation, square.getLoc());
+	}
+	
+	@Test
+	void testGetLoc() {
+		assertEquals(squareLocation, square.getLoc());
 	}
 
 	@Test
 	void testHasPiece() {
-		fail("Not yet implemented");
+		assertFalse(square.hasPiece());
 	}
 
 	@Test
 	void testSetPiece() {
-		fail("Not yet implemented");
+		Piece piece = new Mushroom();
+		square.setPiece(piece);
+		assertTrue(square.hasPiece());
+		assertEquals(piece, square.getPiece());
 	}
 
 	@Test
 	void testRemovePiece() {
-		fail("Not yet implemented");
+		Piece piece = new Mushroom();
+		square.setPiece(piece);
+		assertTrue(square.hasPiece());
+		square.removePiece();
+		assertFalse(square.hasPiece());
 	}
 
 	@Test
 	void testGetPiece() {
-		fail("Not yet implemented");
+		Piece piece = new Mushroom();
+		square.setPiece(piece);
+		assertEquals(piece, square.getPiece());
 	}
 
 	@Test
 	void testGetPieceType() {
-		fail("Not yet implemented");
+		Piece piece = new Mushroom();
+		square.setPiece(piece);
+		assertEquals(piece.getType(), square.getPiece().getType());
 	}
-
-	@Test
-	void testToString() {
-		fail("Not yet implemented");
-	}
-
 }
