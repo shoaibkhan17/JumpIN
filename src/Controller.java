@@ -75,14 +75,14 @@ public class Controller {
 			view.turnsTaken++;
 			Piece selectedPiece = square.getPiece();
 			
-			// If the fox was moved.
-			// Update and render the entire view.
+			// If the fox was moved
+			// Update and render the entire view
 			if (selectedPiece.getType() == PieceType.FOX) {
 				view.updateView();
 			}
 			
-			// If the rabbit was moved.
-			// Just update the squares rabbit hopped from and to. 
+			// If the rabbit was moved
+			// Just update the squares rabbit hopped from and to
 			else {
 				view.imageHandler(oldSelectSquare);
 				view.imageHandler(square);

@@ -78,7 +78,7 @@ public class Location {
 
     /**
      * Method that sets the location
-     * @param location
+     * @param location to be set passed in as a parameter
      */
     public void setLocation(Location location) {
         this.x = location.getX();
@@ -124,7 +124,7 @@ public class Location {
     /**
      * Function that compares whether the x and y location is 
      * greater, smaller or equal to the current location
-     * @param location
+     * @param location that is used for comparing the coordinates
      * @param horizontalMovement
      * @return 1, 0, -1 if greater than, equal to or less than respectively
      */

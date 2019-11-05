@@ -40,7 +40,7 @@ public class Parser {
 
     /**
      * Method to set text
-     * @param text
+     * @param text that is to be set
      */
     public void setText(String text) {
         location.clear();
@@ -66,7 +66,7 @@ public class Parser {
 
     /**
      * Converts column to integer value
-     * @param text 
+     * @param text that is passed in as parameter to the method
      * @return true if it can be converted, false if it cannot 
      */
     private boolean convertColumnToInt(char text) {
@@ -87,7 +87,7 @@ public class Parser {
 
     /**
      * Converts a row to an integer value
-     * @param text
+     * @param text passed in as a parameter to the method
      * @return true if it can be converted, false if it cannot 
      */
     private boolean convertRowToInt(char text) {

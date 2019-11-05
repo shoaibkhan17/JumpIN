@@ -39,7 +39,7 @@ public abstract class Piece {
 
     /**
      * method that determines whether a piece can be selected or not
-     * @return boolean
+     * @return boolean true if selectable, else false if not selectable
      */
     public boolean isSelectable() {
         return this.isSelectable;
@@ -47,7 +47,7 @@ public abstract class Piece {
 
     /**
      * method that determines whether a piece can be moved or not
-     * @return boolean
+     * @return boolean true if movable, else false if it is not movable
      */
     public boolean isMovable() {
         return this.isMovable;
@@ -55,7 +55,7 @@ public abstract class Piece {
 
     /**
      * gets the type of the piece
-     * @return PieceType
+     * @return PieceType type of the piece
      */
     public PieceType getType() {
         return this.type;
