@@ -14,8 +14,6 @@ public class Controller {
 	private Board board;
 	private View view;
 	private Square oldSelectSquare;
-	private Square updateSquare;
-	private boolean updateRequired;
 	
 	/**
 	 * Default constructor initializes instance variables
@@ -26,8 +24,6 @@ public class Controller {
 		this.board = board;
 		this.view = view;
 		oldSelectSquare = null;
-		updateSquare = null;
-		updateRequired = false;
 	}
 	
 	/**
