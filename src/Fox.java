@@ -38,7 +38,7 @@ public class Fox extends Piece {
 	private boolean tail;
 
 	/**
-	 * Default constructor
+	 * Default constructor initializing instance variables
 	 * @param bodyLocation initializes bodyLocation
 	 * @param horizontalMovement initializes horizontalLocation
 	 * @param tail initializes tail
@@ -52,14 +52,26 @@ public class Fox extends Piece {
 		this.tail = tail;
 	}
 	
+	/**
+	 * returns the tail
+	 * @return tail
+	 */
 	public boolean isTail() {
 		return tail;
 	}
 	
+	/**
+	 * checks for horizontal movement
+	 * @return horizontalMovement if the movement is horizontal
+	 */
 	public boolean isHorizontal() {
 		return horizontalMovement;
 	}
 	
+	/**
+	 * gets the location of the piece
+	 * @return bodyLocation of the piece
+	 */
 	public Location getBodyLocation() {
 		return bodyLocation;
 	}
