@@ -7,6 +7,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
+ * Test cases for the Hole class
+ * 
  * @author Khalil Aalab - 101070879
  * @author Kamaluddin Shakiri - 101054933
  * @author Simon Yacoub - 101044159
@@ -17,7 +19,7 @@ import org.junit.Test;
 public class HoleTest {
 	Hole hole;
 	Rabbit innerPiece;
-
+	
 	@Before
 	public void setUp() throws Exception {
 		hole = new Hole();

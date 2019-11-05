@@ -8,6 +8,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
+ * Test cases for the Board class 
+ * 
  * @author Khalil Aalab - 101070879
  * @author Kamaluddin Shakiri - 101054933
  * @author Simon Yacoub - 101044159
@@ -17,10 +19,10 @@ import org.junit.Test;
 
 public class BoardTest {
 	private int testingLevel;
-	private static final int holeCountAtLevel1 = 5; 
-	private static final int rabbitCountAtLevel1 = 2;
-	private static final int holeCountAtLevel3 = 4; 
-	private static final int rabbitCountAtLevel3 = 1;
+	private static final int HOLE_COUNT_AT_LEVEL1 = 5; 
+	private static final int RABBIT_COUNT_AT_LEVEL1 = 2;
+	private static final int HOLE_COUNT_AT_LEVEL3 = 4;
+	private static final int RABBIT_COUNT_AT_LEVEL3 = 1;
 	private Board board;
 	private Square squares[][];
 	
@@ -44,8 +46,8 @@ public class BoardTest {
 	public void testBoard() {
 		board = new Board(testingLevel);
 		assertNotNull(squares);
-		assertEquals(holeCountAtLevel1, board.holeLocations.size());
-		assertEquals(rabbitCountAtLevel1, board.rabbitCount);
+		assertEquals(HOLE_COUNT_AT_LEVEL1, board.holeLocations.size());
+		assertEquals(RABBIT_COUNT_AT_LEVEL1, board.rabbitCount);
 		assertEquals(new Location(), board.selectedPieceLocation);
 		assertNull(board.selectedPiece);
 	}
@@ -136,8 +138,8 @@ public class BoardTest {
 	public void testChangeLevel() {
 		board.changeLevel(3);
 		assertNotNull(squares);
-		assertEquals(holeCountAtLevel3, board.holeLocations.size());
-		assertEquals(rabbitCountAtLevel3, board.rabbitCount);
+		assertEquals(HOLE_COUNT_AT_LEVEL3, board.holeLocations.size());
+		assertEquals(RABBIT_COUNT_AT_LEVEL3, board.rabbitCount);
 		assertEquals(new Location(), board.selectedPieceLocation);
 		assertNull(board.selectedPiece);
 	}

@@ -6,6 +6,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 /**
+ * Test cases for the Parser class
+ * 
  * @author Khalil Aalab - 101070879
  * @author Kamaluddin Shakiri - 101054933
  * @author Simon Yacoub - 101044159
