@@ -362,7 +362,7 @@ public class Board {
 		
 		return false;
 	}
-
+	
 	/**
 	 * Method that moves the piece from the initial location to the new location
 	 * @param oldLocation initial location of the piece to be moved
@@ -376,11 +376,20 @@ public class Board {
 
 		// If the location where is piece is about to moved is empty or it is same location.
 		if (locationPiece == null || locationPiece == piece) {
-			if (userMove || !redo) {
+			if (userMove) {
+				// Clear the redo stack if a move was made between an undo and a redo.
+				// Clearing the stack, to prevent redoing to an invalid location.
+				if (!redoStack.isEmpty()) {
+					redoStack.popAll();
+				}
 				moveStack.push(oldLocation, newLocation, piece);
 			}
 			
-			if (redo) {
+			else if (!redo) {
+				moveStack.push(oldLocation, newLocation, piece);
+			}
+			
+			else {
 				redoStack.push(oldLocation, newLocation, piece);
 			}
 			squares[x][y].setPiece(piece);
@@ -392,11 +401,20 @@ public class Board {
 		else if (locationPiece.getType() == PieceType.HOLE && piece.getType() == PieceType.RABBIT) {
 			Hole hole = (Hole) locationPiece;
 			if (!hole.isOccupied()) {
-				if (userMove || !redo) {
+				if (userMove) {
+					// Clear the redo stack if a move was made between an undo and a redo.
+					// Clearing the stack, to prevent redoing to an invalid location.
+					if (!redoStack.isEmpty()) {
+						redoStack.popAll();
+					}
 					moveStack.push(oldLocation, newLocation, piece);
 				}
 				
-				if (redo) {
+				else if (!redo) {
+					moveStack.push(oldLocation, newLocation, piece);
+				}
+				
+				else {
 					redoStack.push(oldLocation, newLocation, piece);
 				}
 				// Add the piece in the hole.

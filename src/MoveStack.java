@@ -16,6 +16,10 @@ public class MoveStack {
 		movesMade.add(move);
 	}
 	
+	public boolean isEmpty() {
+		return movesMade.isEmpty();
+	}
+	
 	public void popAll() {
 		movesMade.clear();
 	}
