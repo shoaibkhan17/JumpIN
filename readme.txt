@@ -79,42 +79,85 @@ IMPORTANT NOTE WHEN MOVING THE FOXES IN THE VIEW:
 
 ---------------------------------------------------------------------------------------------------
 Design Decisions:
+
+- Overall: 
+
+---------Separating the model, view and controller in accordance with the MVC model
+---------checks if the Board is completed after each successful move. 
+---------The Board is set to be complete once all the Rabbits are placed in the Holes.
+
+- Board Class:
  
--Separating the model, view and controller in accordance with the MVC model
-
--The Parser class was created so that the user input can be filtered through
-
--The board class contains squares which represent squares on the board. Each square has a location, 
+---------The board class contains squares which represent squares on the board. Each square has a location, 
 and the square can also contain a piece
 
--Each Hole can also contain another Piece inside of it. 
+- View Class:
 
--Each Fox or Rabbit can validate its own movement. Once it is a valid move, it can ask the Board to move 
- the Piece.
+----------The Parser class was created so that the user input can be filtered through
 
--The JumpIN game checks if the Board is completed after each successful move. 
+- Controller Class:
 
--The Board is set to be complete once all the Rabbits are placed in the Holes.
+----------The Parser class was created so that the user input can be filtered through
+
+- TextBased Class:
+
+----------The Parser class was created so that the user input can be filtered through
+
+- Hole Class:
+
+-----------Each Hole can also contain another Piece inside of it. 
+
+- Fox Class:
+
+-----------Each Fox or Rabbit can validate its own movement. Once it is a valid move, it can ask the Board to move the Piece.
+
+- Rabbit Class:
+
+-----------Each Hole can also contain another Piece inside of it. 
+
+- Mushroom Class:
+
+-----------Each Hole can also contain another Piece inside of it. 
+
+- Piece Class:
+
+-----------Each Hole can also contain another Piece inside of it. 
+
+- Square Class:
+
+-----------Each Hole can also contain another Piece inside of it.
+
+- Location Class:
+
+-----------Each Hole can also contain another Piece inside of it. 
+
+- PieceType Class:
+
+-----------Each Hole can also contain another Piece inside of it. 
+
+- CombinedIcon Class:
+
+-----------Each Hole can also contain another Piece inside of it. 
+
+- Parser Class:
+
+-----------Each Hole can also contain another Piece inside of it. 
 
 ---------------------------------------------------------------------------------------------------
 Changes since last iteration:
--Adding interactive GUI
--GUI is rendered using the view class and controlled using the controller class.
+
 -The game supports 5 levels now.
--Making Fox and Rabbit extend Piece instead of Animal, and updating UML diagram.
--Changing contents of design document.
+-Changing contents of design document to explain in detail our design decisions
 -Creating JUnit tests for the functionality of the game and game logic.
--Creating a separate folder to organize the test cases, and a test suite to run the test cases.
--Creating a directory for the GUI images to be stored.
--Creating JMenuBar to have options like exit and reset.
+-Modifying JMenuBar to have new options such as undo, redo etc.
+-Allow for unlimited redo/undo using a stack to keep track of moves
+-Tell user minimum number of moves to win the level
 
 ---------------------------------------------------------------------------------------------------
 Future Road Map: 
 
 -Show all available locations user can move when they select a piece
--Tell user minimum number of moves to win the level
 -Allow hints to be given to the user within the GUI
--Allow for unlimited redo/undo using a stack to keep track of moves
 -Allow for game to be saved
 -Fixing the known issue with the fox movement
 ---------------------------------------------------------------------------------------------------
