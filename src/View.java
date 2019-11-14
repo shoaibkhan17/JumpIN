@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
@@ -27,6 +28,12 @@ class View {
 	private Controller controller;
 	private ArrayList<Square> highlightedSquares;
 	
+	private final static String gameInstructions = "Basic Information\r\n" + 
+			"- Currently five levels are developed.\r\n" + 
+			"- The goal of the game is to place all the rabbits inside the holes.\r\n" + 
+			"- Rabbits can jump over objects, including mushrooms, foxes and other rabbits\r\n" + 
+			"- Foxes can slide on empty spaces in the direction that the fox is oriented \r\n";
+	
 	/**
 	 * Styling variables
 	 */
@@ -37,6 +44,7 @@ class View {
 	private final static Border MARGIN = new EmptyBorder(5, 15, 5, 15);
 	private final static Border COMPOUND = new CompoundBorder(LINE, MARGIN);
 	private final static Dimension VIEW_DIMENSION = new Dimension(500, 550);
+	
 	
 	/**
 	 * Constructor to initialize the instance variables
@@ -86,6 +94,7 @@ class View {
 		menu.add(this.createMenuItem("Undo", (event) -> controller.undo()));
 		menu.add(this.createMenuItem("Redo", (event) -> controller.redo()));
 		menu.add(this.createMenuItem("Auto Solver", (event) -> controller.autoSolver()));
+		menu.add(this.createMenuItem("Help", (event) -> JOptionPane.showMessageDialog(frame, View.gameInstructions)));
 		menu.add(this.createMenuItem("Reset", (event) -> this.reset()));
 		menu.add(this.createMenuItem("Exit", (event) -> System.exit(0)));	
 		menuBar.add(menu);		
