@@ -169,10 +169,10 @@ public class Fox extends Piece {
 		Fox temp = new Fox(newLocation, horizontalMovement, !this.tail);
 
 		// Move the fox to new location and remove it from the previous location.
-		if (board.movePiece(oldLocation, newLocation, this)) {
+		if (board.movePiece(oldLocation, newLocation, this, true, false)) {
 
 			// Move the body part to the new location and remove it from the previous location.
-			if (board.movePiece(bodyLocation, tempLocation, temp)) {
+			if (board.movePiece(bodyLocation, tempLocation, temp, true, false)) {
 
 				// Update the fox's body part's new location. 
 				this.bodyLocation = tempLocation;

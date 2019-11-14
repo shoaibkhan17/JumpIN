@@ -28,12 +28,11 @@ class View {
 	private Controller controller;
 	private ArrayList<Square> highlightedSquares;
 	
-	private final static String gameInstructions = "-Basic Information\r\n" + 
-			"--Currently five levels are developed.\r\n" + 
-			"--The goal of the game is to place all the rabbits inside holes.\r\n" + 
-			"--The game can be played as a text-based game only, or with the GUI\r\n" + 
-			"--Rabbits can jump over objects, including mushrooms, foxes and other rabbits\r\n" + 
-			"--Foxes can slide on empty spaces in the direction that the fox is oriented";
+	private final static String gameInstructions = "Basic Information\r\n" + 
+			"- Currently five levels are developed.\r\n" + 
+			"- The goal of the game is to place all the rabbits inside the holes.\r\n" + 
+			"- Rabbits can jump over objects, including mushrooms, foxes and other rabbits\r\n" + 
+			"- Foxes can slide on empty spaces in the direction that the fox is oriented \r\n";
 	
 	/**
 	 * Styling variables
@@ -50,11 +49,8 @@ class View {
 	/**
 	 * Constructor to initialize the instance variables
 	 */
-	public View(Board myBoard) {
-		super();
-		this.board = myBoard;
-		board.turnsTaken = 0;
-		board.changeLevel(1);
+	public View() {
+		board = new Board(1);
 		controller = new Controller(board, this);
 		highlightedSquares = new ArrayList<>();
 		this.init();
@@ -81,6 +77,13 @@ class View {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
 	}
 	
+	private JMenuItem createMenuItem(String name, ActionListener actionListener) {
+		JMenuItem item = new JMenuItem(name);
+		item.setBackground(Color.gray);
+		item.addActionListener(actionListener);
+		return item;
+	}
+	
 	/**
 	 * Method to to initialize the Menu
 	 */
@@ -88,35 +91,13 @@ class View {
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setBackground(Color.gray);
 		JMenu menu = new JMenu("Options");
-		JMenuItem item1 = new JMenuItem("Reset");
-		item1.addActionListener((event) -> this.reset());
-		item1.setBackground(Color.gray);
-		JMenuItem item2 = new JMenuItem("Exit");
-		item2.setBackground(Color.gray);
-		item2.addActionListener((event) -> System.exit(0));
-		JMenuItem item3 = new JMenuItem("Undo");
-		item3.setBackground(Color.gray);
-		item3.addActionListener((event) -> this.undo());
-		JMenuItem item4 = new JMenuItem("Redo");
-		item4.setBackground(Color.gray);
-		item4.addActionListener(event -> this.redo());
-		JMenuItem item5 = new JMenuItem("Help");
-		item5.setBackground(Color.gray);
-		item5.addActionListener((event) -> JOptionPane.showMessageDialog(frame, this.gameInstructions));
-		JMenuItem item6 = new JMenuItem("Auto-solve");
-		item6.setBackground(Color.gray);
-		item6.addActionListener((event) -> JOptionPane.showMessageDialog(frame, "Auto-solve"));
-		JMenuItem item7 = new JMenuItem("Play text-based");
-		item7.setBackground(Color.gray);
-		item7.addActionListener((event -> this.playTextBased()));
-		menu.add(item1);
-		menu.add(item2);
-		menu.add(item3);
-		menu.add(item4);
-		menu.add(item5);
-		menu.add(item6);
-		menu.add(item7);
-		menuBar.add(menu);
+		menu.add(this.createMenuItem("Undo", (event) -> controller.undo()));
+		menu.add(this.createMenuItem("Redo", (event) -> controller.redo()));
+		menu.add(this.createMenuItem("Auto Solver", (event) -> controller.autoSolver()));
+		menu.add(this.createMenuItem("Help", (event) -> JOptionPane.showMessageDialog(frame, View.gameInstructions)));
+		menu.add(this.createMenuItem("Reset", (event) -> this.reset()));
+		menu.add(this.createMenuItem("Exit", (event) -> System.exit(0)));	
+		menuBar.add(menu);		
 		frame.setJMenuBar(menuBar);
     }
 	
@@ -137,7 +118,6 @@ class View {
 		int option = JOptionPane.showConfirmDialog(popupFrame, "Are you sure you want to reset level " + board.getLevel());
 		
 		if (option == 0) {
-			board.turnsTaken = 0;
 			board.changeLevel(board.getLevel());
 			this.setButtonsEnabled(true);
 			this.updateView();
@@ -276,19 +256,18 @@ class View {
 		if (board.getLevel() < Board.totalLevels) {
 			message = "Congratulations on completing Level " + board.getLevel() + "!";
 			message += "\n";
-			message += "Turns taken - " + board.turnsTaken;
+			message += "Turns taken - " + board.getTurnsTaken();
 			message += "\n";
 			message += "Press OK to play level " + (board.getLevel() + 1);
 			JOptionPane.showMessageDialog(popupFrame, message);
 			board.changeLevel(board.getLevel() + 1);
-			board.turnsTaken = 0;
 			this.updateView();
 		}
 		
 		else {
 			message = "Congratulations on completing the game!";
 			message += "\n";
-			message += "Turns taken - " + board.turnsTaken;
+			message += "Turns taken - " + board.getTurnsTaken();
 			JOptionPane.showMessageDialog(popupFrame, message);
 			this.setButtonsEnabled(false);
 		}

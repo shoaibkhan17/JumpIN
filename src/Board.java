@@ -24,12 +24,12 @@ public class Board {
 	protected static final int BOARD_SIZE = 5;
 	protected static final char BOARD_PRINT_CHAR = '*';
 	protected static final int totalLevels = 5;
-
-	public int getLevel() {
-		return this.currentLevel;
-	}
-
-	/**
+	protected MoveStack moveStack;
+	protected MoveStack redoStack;
+	private int currentLevel;
+	private int turnsTaken;
+	
+	/** 
 	 * Constructor to initialize the instance variables
 	 * 
 	 * @param level
@@ -43,8 +43,11 @@ public class Board {
 		selectedPiece = null;
 		selectedPieceLocation = new Location();
 		rabbitCount = 0;
+		turnsTaken = 0;
+		moveStack = new MoveStack();
+		redoStack = new MoveStack();
 		this.currentLevel = level;
-
+		
 		// Initializes the Squares.
 		for (int x = 0; x < Board.BOARD_SIZE; x++) {
 			for (int y = 0; y < Board.BOARD_SIZE; y++) {
@@ -57,10 +60,24 @@ public class Board {
 	}
 
 	/**
-	 * method to change the level of the game
-	 * 
-	 * @param level
-	 *            this is the level of the game which is to be changed
+	 * Method to get the current level of the board.
+	 * @return currentLevel (int)
+	 */
+	public int getLevel() {
+		return currentLevel;
+	}
+	
+	/**
+	 * Method to get the turns taken to solve the level.
+	 * @return turnsTaken (int)
+	 */
+	public int getTurnsTaken() {
+		return turnsTaken;
+	}
+	
+	/**
+	 * Method to change the level of the game
+	 * @param level this is the level of the game which is to be changed
 	 */
 	public void changeLevel(int level) {
 		this.reinitialize();
@@ -82,23 +99,23 @@ public class Board {
 		selectedPiece = null;
 		selectedPieceLocation = new Location();
 		rabbitCount = 0;
+		turnsTaken = 0;
 		holeLocations.clear();
+		moveStack.popAll();
+		redoStack.popAll();
 	}
-
+	
 	/**
-	 * method to access the squares
-	 * 
+	 * Method to access the squares
 	 * @return squares the array to be returned
 	 */
 	public Square[][] getSquares() {
 		return this.squares;
 	}
-
+	
 	/**
-	 * method to get a square at a particular location
-	 * 
-	 * @param location
-	 *            at which the x and y coordinates are accessed
+	 * Method to get a square at a particular location
+	 * @param location at which the x and y coordinates are accessed
 	 * @return squares at the location
 	 */
 
@@ -171,7 +188,7 @@ public class Board {
 		// Store the number of rabbits.
 		rabbitCount = 2;
 	}
-
+	
 	/**
 	 * Initialize the level 2 of the game Method which creates and add pieces onto
 	 * the board
@@ -230,7 +247,7 @@ public class Board {
 		// Store the number of rabbits.
 		rabbitCount = 1;
 	}
-
+	
 	/**
 	 * Initialize the level 4 of the game Method which creates and add pieces onto
 	 * the board
@@ -259,7 +276,7 @@ public class Board {
 		// Store the number of rabbits.
 		rabbitCount = 1;
 	}
-
+	
 	/**
 	 * Initialize the level 5 of the game Method which creates and add pieces onto
 	 * the board
@@ -288,7 +305,7 @@ public class Board {
 		// Store the number of rabbits.
 		rabbitCount = 1;
 	}
-
+	
 	/**
 	 * Method that removes a piece from the given location.
 	 * 
@@ -322,7 +339,7 @@ public class Board {
 			selectedPiece = null;
 		}
 	}
-
+	
 	/**
 	 * Method that selects the piece in order to perform operations on it
 	 * 
@@ -368,7 +385,7 @@ public class Board {
 
 		return true;
 	}
-
+	
 	/**
 	 * checks if the piece can move or not
 	 * 
@@ -394,7 +411,7 @@ public class Board {
 
 		return false;
 	}
-
+	
 	/**
 	 * Method that moves the piece from the initial location to the new location
 	 * 
@@ -405,8 +422,7 @@ public class Board {
 	 * @param piece
 	 *            piece that is moved
 	 */
-	public boolean movePiece(Location oldLocation, Location newLocation, Piece piece) {
-		updateUndoStack(new PieceMove(oldLocation, newLocation, piece));
+	public boolean movePiece(Location oldLocation, Location newLocation, Piece piece, boolean userMove, boolean redo) {
 		int x = newLocation.getX();
 		int y = newLocation.getY();
 		Piece locationPiece = squares[x][y].getPiece();
@@ -414,6 +430,22 @@ public class Board {
 		// If the location where is piece is about to moved is empty or it is same
 		// location.
 		if (locationPiece == null || locationPiece == piece) {
+			if (userMove) {
+				// Clear the redo stack if a move was made between an undo and a redo.
+				// Clearing the stack, to prevent redoing to an invalid location.
+				if (!redoStack.isEmpty()) {
+					redoStack.popAll();
+				}
+				moveStack.push(oldLocation, newLocation, piece);
+			}
+			
+			else if (!redo) {
+				moveStack.push(oldLocation, newLocation, piece);
+			}
+			
+			else {
+				redoStack.push(oldLocation, newLocation, piece);
+			}
 			squares[x][y].setPiece(piece);
 			this.removePiece(oldLocation);
 			return true;
@@ -424,8 +456,24 @@ public class Board {
 		else if (locationPiece.getType() == PieceType.HOLE && piece.getType() == PieceType.RABBIT) {
 			Hole hole = (Hole) locationPiece;
 			if (!hole.isOccupied()) {
+				if (userMove) {
+					// Clear the redo stack if a move was made between an undo and a redo.
+					// Clearing the stack, to prevent redoing to an invalid location.
+					if (!redoStack.isEmpty()) {
+						redoStack.popAll();
+					}
+					moveStack.push(oldLocation, newLocation, piece);
+				}
+				
+				else if (!redo) {
+					moveStack.push(oldLocation, newLocation, piece);
+				}
+				
+				else {
+					redoStack.push(oldLocation, newLocation, piece);
+				}
 				// Add the piece in the hole.
-				hole.setPiece(selectedPiece);
+				hole.setPiece(userMove ? selectedPiece : piece);
 				this.removePiece(oldLocation);
 				return true;
 			}
@@ -436,7 +484,7 @@ public class Board {
 			return false;
 		}
 	}
-
+	
 	/**
 	 * Calls the canMove() method sets the old location of the piece to null once
 	 * the piece has moved to the new location and clears the selected piece
@@ -451,15 +499,48 @@ public class Board {
 		if (this.canMove(selectedPieceLocation, location, selectedPiece)) {
 			selectedPiece = null;
 			selectedPieceLocation.clear();
+			turnsTaken++;
 			return true;
 		}
 
 		return false;
 	}
-
+	
 	/**
-	 * Gets the board line
-	 * 
+	 * Function to undo a move.
+	 */
+	public void undo() {
+		Move move = moveStack.pop();
+		if (move == null) {
+			System.out.println("No moves were made to undo");
+			return;
+		}
+		
+		Location oldLocation = move.getOldLocation();
+		Location newLocation = move.getNewLocation();
+		Piece piece = move.getPiece();
+		this.movePiece(newLocation, oldLocation, piece, false, true);
+	}
+	
+	/**
+	 * Function to redo a move.
+	 */
+	public void redo() {
+		Move move = redoStack.pop();
+		if (move == null) {
+			System.out.println("No moves were undoed to redo");
+			return;
+		}
+		
+		Location oldLocation = move.getOldLocation();
+		Location newLocation = move.getNewLocation();
+		Piece piece = move.getPiece();
+		this.movePiece(newLocation, oldLocation, piece, false, false);
+	}
+	
+	
+	/**
+	 * Gets the board line 
 	 * @return String board line
 	 */
 	public String getBoardLine() {
@@ -471,7 +552,7 @@ public class Board {
 		boardLine += "\n";
 		return boardLine;
 	}
-
+	
 	/**
 	 * Method returns a string representation of the board.
 	 * 
@@ -507,7 +588,7 @@ public class Board {
 
 		System.out.println();
 	}
-
+	
 	/**
 	 * isGameWon checks all the holes on the board. If the number of rabbits in the
 	 * game (rabbitCount) is equal to the number of rabbits in the holes the game is
@@ -527,20 +608,7 @@ public class Board {
 		// Return true if all rabbits are in the hole.
 		return count == rabbitCount;
 	}
-
-	private void updateUndoStack(PieceMove pieceMove) {
-		System.out.println(pieceMove.getOldLocation().toString());
-		System.out.println(pieceMove.getOldLocation().getX() + " " + pieceMove.getOldLocation().getY());
-		undoStack.push(pieceMove);
-	}
-
-	public void undo() {
-		if (undoStack.size() > 0) {
-			PieceMove lastMove = undoStack.pop();
-			movePiece(lastMove.getNewLocation(), lastMove.getOldLocation(), lastMove.getPiece());
-		}
-	}
-
+	
 	/**
 	 * Prints the board
 	 */
