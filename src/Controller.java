@@ -1,6 +1,7 @@
 import java.awt.event.ActionEvent;
 /**
  * Controller class which holds the controller for the game
+ * What does this do???
  * 
  * @author Khalil Aalab - 101070879
  * @author Kamaluddin Shakiri - 101054933

@@ -96,10 +96,10 @@ class View {
 		item2.addActionListener((event) -> System.exit(0));
 		JMenuItem item3 = new JMenuItem("Undo");
 		item3.setBackground(Color.gray);
-		item3.addActionListener((event) -> JOptionPane.showMessageDialog(frame, "Undo"));
+		item3.addActionListener((event) -> this.undo());
 		JMenuItem item4 = new JMenuItem("Redo");
 		item4.setBackground(Color.gray);
-		item4.addActionListener((event) -> JOptionPane.showMessageDialog(frame, "Redo"));
+		item4.addActionListener(event -> this.redo());
 		JMenuItem item5 = new JMenuItem("Help");
 		item5.setBackground(Color.gray);
 		item5.addActionListener((event) -> JOptionPane.showMessageDialog(frame, this.gameInstructions));
@@ -108,14 +108,7 @@ class View {
 		item6.addActionListener((event) -> JOptionPane.showMessageDialog(frame, "Auto-solve"));
 		JMenuItem item7 = new JMenuItem("Play text-based");
 		item7.setBackground(Color.gray);
-		item7.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				frame.setVisible(false);
-				TextBased t = new TextBased();
-				t.playGame();				
-			}
-		});
+		item7.addActionListener((event -> this.playTextBased()));
 		menu.add(item1);
 		menu.add(item2);
 		menu.add(item3);
@@ -127,6 +120,14 @@ class View {
 		frame.setJMenuBar(menuBar);
     }
 	
+	private void redo() {
+	}
+	/**
+	 * Undoes the last move the player made
+	 */
+	private void undo() {
+		board.undo();
+	}
 	/**
 	 * Method which resets the current level to its initial state
 	 * Resets the level
@@ -143,6 +144,15 @@ class View {
 		}
 	}
 	
+	/**
+	 * Hides the GUI-based game
+	 * and begins the text-based version
+	 */
+	private void playTextBased() {
+		frame.setVisible(false);
+		TextBased t = new TextBased();
+		t.playGame();	
+	}
 	/**
 	 * Method to enable or disable the buttons on the squares
 	 * @param enabled true or false to enable to disable the buttons
