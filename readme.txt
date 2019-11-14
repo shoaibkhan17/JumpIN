@@ -99,7 +99,7 @@ and the square can also contain a piece
 
 ----------The Parser class was created so that the user input can be filtered through
 
-- TextBased Class:
+- JumpIN Class:
 
 ----------The Parser class was created so that the user input can be filtered through
 
