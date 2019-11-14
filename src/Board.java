@@ -16,6 +16,7 @@ public class Board {
 	protected Location selectedPieceLocation;
 	protected LinkedList<Location> holeLocations; 
 	protected int rabbitCount;
+	private int currentLevel;
 	protected static final int BOARD_SIZE = 5;
 	protected static final char BOARD_PRINT_CHAR = '*';
 	protected static final int totalLevels = 5;
@@ -35,6 +36,7 @@ public class Board {
 		rabbitCount = 0;
 		moveStack = new MoveStack();
 		redoStack = new MoveStack();
+		this.currentLevel = level;
 		
 		// Initializes the Squares.
 		for (int x = 0; x < Board.BOARD_SIZE; x++) {
@@ -48,11 +50,20 @@ public class Board {
 	}
 	
 	/**
+	 * Method to get the current level of the board.
+	 * @return
+	 */
+	public int getLevel() {
+		return this.currentLevel;
+	}
+	
+	/**
 	 * method to change the level of the game
 	 * @param level this is the level of the game which is to be changed
 	 */
 	public void changeLevel(int level) {
 		this.reinitialize();
+		this.currentLevel = level;
 		this.initBoard(level);
 	}
 	
