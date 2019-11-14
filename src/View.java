@@ -26,7 +26,6 @@ class View {
 	private Board board;
 	private Controller controller;
 	private ArrayList<Square> highlightedSquares;
-	protected int turnsTaken;
 	
 	/**
 	 * Styling variables
@@ -44,7 +43,6 @@ class View {
 	 */
 	public View() {
 		board = new Board(1);
-		turnsTaken = 0;
 		controller = new Controller(board, this);
 		highlightedSquares = new ArrayList<>();
 		this.init();
@@ -103,7 +101,6 @@ class View {
 		int option = JOptionPane.showConfirmDialog(popupFrame, "Are you sure you want to reset level " + board.getLevel());
 		
 		if (option == 0) {
-			turnsTaken = 0;
 			board.changeLevel(board.getLevel());
 			this.setButtonsEnabled(true);
 			this.updateView();
@@ -233,19 +230,18 @@ class View {
 		if (board.getLevel() < Board.totalLevels) {
 			message = "Congratulations on completing Level " + board.getLevel() + "!";
 			message += "\n";
-			message += "Turns taken - " + turnsTaken;
+			message += "Turns taken - " + board.getTurnsTaken();
 			message += "\n";
 			message += "Press OK to play level " + (board.getLevel() + 1);
 			JOptionPane.showMessageDialog(popupFrame, message);
 			board.changeLevel(board.getLevel() + 1);
-			turnsTaken = 0;
 			this.updateView();
 		}
 		
 		else {
 			message = "Congratulations on completing the game!";
 			message += "\n";
-			message += "Turns taken - " + turnsTaken;
+			message += "Turns taken - " + board.getTurnsTaken();
 			JOptionPane.showMessageDialog(popupFrame, message);
 			this.setButtonsEnabled(false);
 		}

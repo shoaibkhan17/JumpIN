@@ -16,12 +16,13 @@ public class Board {
 	protected Location selectedPieceLocation;
 	protected LinkedList<Location> holeLocations; 
 	protected int rabbitCount;
-	private int currentLevel;
 	protected static final int BOARD_SIZE = 5;
 	protected static final char BOARD_PRINT_CHAR = '*';
 	protected static final int totalLevels = 5;
 	protected MoveStack moveStack;
 	protected MoveStack redoStack;
+	private int currentLevel;
+	private int turnsTaken;
 	
 	/** 
 	 * Constructor to initialize the instance variables
@@ -34,6 +35,7 @@ public class Board {
 		selectedPiece = null;
 		selectedPieceLocation = new Location();
 		rabbitCount = 0;
+		turnsTaken = 0;
 		moveStack = new MoveStack();
 		redoStack = new MoveStack();
 		this.currentLevel = level;
@@ -51,14 +53,22 @@ public class Board {
 	
 	/**
 	 * Method to get the current level of the board.
-	 * @return
+	 * @return currentLevel (int)
 	 */
 	public int getLevel() {
-		return this.currentLevel;
+		return currentLevel;
 	}
 	
 	/**
-	 * method to change the level of the game
+	 * Method to get the turns taken to solve the level.
+	 * @return turnsTaken (int)
+	 */
+	public int getTurnsTaken() {
+		return turnsTaken;
+	}
+	
+	/**
+	 * Method to change the level of the game
 	 * @param level this is the level of the game which is to be changed
 	 */
 	public void changeLevel(int level) {
@@ -81,13 +91,14 @@ public class Board {
 		selectedPiece = null;
 		selectedPieceLocation = new Location();
 		rabbitCount = 0;
+		turnsTaken = 0;
 		holeLocations.clear();
 		moveStack.popAll();
 		redoStack.popAll();
 	}
 	
 	/**
-	 * method to access the squares
+	 * Method to access the squares
 	 * @return squares the array to be returned
 	 */
 	public Square[][] getSquares() {
@@ -95,7 +106,7 @@ public class Board {
 	}
 	
 	/**
-	 * method to get a square at a particular location
+	 * Method to get a square at a particular location
 	 * @param location at which the x and y coordinates are accessed
 	 * @return squares at the location
 	 */
@@ -460,6 +471,7 @@ public class Board {
 		if (this.canMove(selectedPieceLocation, location, selectedPiece)) {
 			selectedPiece = null;
 			selectedPieceLocation.clear();
+			turnsTaken++;
 			return true;
 		}
 
