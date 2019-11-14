@@ -84,24 +84,8 @@ class View extends Board {
 		JMenuItem item2 = new JMenuItem("Exit");
 		item2.setBackground(Color.gray);
 		item2.addActionListener((event) -> System.exit(0));
-		JMenuItem item3 = new JMenuItem("Undo");
-		item3.setBackground(Color.gray);
-		item3.addActionListener((event) -> JOptionPane.showMessageDialog(frame, "Undo"));
-		JMenuItem item4 = new JMenuItem("Redo");
-		item4.setBackground(Color.gray);
-		item4.addActionListener((event) -> JOptionPane.showMessageDialog(frame, "Redo"));
-		JMenuItem item5 = new JMenuItem("Help");
-		item5.setBackground(Color.gray);
-		item5.addActionListener((event) -> JOptionPane.showMessageDialog(frame, "Instructions"));
-		JMenuItem item6 = new JMenuItem("Auto-solve");
-		item6.setBackground(Color.gray);
-		item6.addActionListener((event) -> JOptionPane.showMessageDialog(frame, "Auto-solve"));
 		menu.add(item1);
 		menu.add(item2);
-		menu.add(item3);
-		menu.add(item4);
-		menu.add(item5);
-		menu.add(item6);
 		menuBar.add(menu);
 		frame.setJMenuBar(menuBar);
     }
