@@ -16,9 +16,18 @@ public class Board {
 	protected Location selectedPieceLocation;
 	protected LinkedList<Location> holeLocations; 
 	protected int rabbitCount;
+	private int currentLevel;
+	
 	protected static final int BOARD_SIZE = 5;
 	protected static final char BOARD_PRINT_CHAR = '*';
 	protected static final int totalLevels = 5;
+	
+	
+	public int getLevel() {
+		return this.currentLevel;
+	}
+	
+	
 	/** 
 	 * Constructor to initialize the instance variables
 	 * @param level this is the level of the game
@@ -30,6 +39,7 @@ public class Board {
 		selectedPiece = null;
 		selectedPieceLocation = new Location();
 		rabbitCount = 0;
+		this.currentLevel = level;
 		
 		// Initializes the Squares.
 		for (int x = 0; x < Board.BOARD_SIZE; x++) {
@@ -48,6 +58,7 @@ public class Board {
 	 */
 	public void changeLevel(int level) {
 		this.reinitialize();
+		this.currentLevel = level;
 		this.initBoard(level);
 	}
 	

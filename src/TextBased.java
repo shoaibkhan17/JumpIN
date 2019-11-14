@@ -8,7 +8,7 @@ import java.util.Scanner;
  * @author Md Aiman Sharif - 101062765
  * @author Shoaib Khan - 101033582
  */
-public class JumpIN {
+public class TextBased {
 	
 	private Board board;
 	private Scanner scanner;
@@ -17,7 +17,7 @@ public class JumpIN {
 	/**
 	 * Default constructor which initializes instance variables
 	 */
-	public JumpIN() {
+	public TextBased() {
 		this.scanner = new Scanner(System.in);
 		this.parser = new Parser();
 
@@ -135,7 +135,7 @@ public class JumpIN {
 	 * play the game
 	 */
 	public static void main(String[] args) {
-		JumpIN jumpIN = new JumpIN();
+		TextBased jumpIN = new TextBased();
 		jumpIN.playGame(); 
 	} 
 }

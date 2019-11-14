@@ -19,10 +19,10 @@ import java.util.ArrayList;
  * @author Shoaib Khan - 101033582
  */
 
-class View extends Board {
+class View {
 
-	private static JFrame frame;
-	private int currentLevel;
+	private JFrame frame;
+	private Board board;
 	private Controller controller;
 	private ArrayList<Square> highlightedSquares;
 	protected int turnsTaken;
@@ -41,11 +41,12 @@ class View extends Board {
 	/**
 	 * Constructor to initialize the instance variables
 	 */
-	public View() {
-		super(1);
+	public View(Board myBoard) {
+		super();
+		this.board = myBoard;
 		turnsTaken = 0;
-		currentLevel = 1;
-		controller = new Controller(this, this);
+		board.changeLevel(1);
+		controller = new Controller(board, this);
 		highlightedSquares = new ArrayList<>();
 		this.init();
 		this.run();
@@ -112,11 +113,11 @@ class View extends Board {
 	 */
 	private void reset() {
 		JFrame popupFrame = new JFrame();
-		int option = JOptionPane.showConfirmDialog(popupFrame, "Are you sure you want to reset level " + currentLevel);
+		int option = JOptionPane.showConfirmDialog(popupFrame, "Are you sure you want to reset level " + board.getLevel());
 		
 		if (option == 0) {
 			turnsTaken = 0;
-			this.changeLevel(currentLevel);
+			board.changeLevel(board.getLevel());
 			this.setButtonsEnabled(true);
 			this.updateView();
 		}
@@ -129,7 +130,7 @@ class View extends Board {
 	private void setButtonsEnabled(boolean enabled) {
 		for (int y = 0; y < Board.BOARD_SIZE; y++) {
 			for (int x = 0; x < Board.BOARD_SIZE; x++) {
-				squares[x][y].setEnabled(enabled);
+				board.squares[x][y].setEnabled(enabled);
 			}
 		}
 	}
@@ -140,7 +141,7 @@ class View extends Board {
 	private void initView() {
 		for (int y = 0; y < Board.BOARD_SIZE; y++) {
 			for (int x = 0; x < Board.BOARD_SIZE; x++) {
-				frame.add(this.createButton(squares[x][y], x % 2 == 0 && y % 2 == 0));
+				frame.add(this.createButton(board.squares[x][y], x % 2 == 0 && y % 2 == 0));
 			}
 		}
 	}
@@ -173,7 +174,7 @@ class View extends Board {
 	protected void updateView() {
 		for (int y = 0; y < Board.BOARD_SIZE; y++) {
 			for (int x = 0; x < Board.BOARD_SIZE; x++) {
-				this.imageHandler(squares[x][y]);
+				this.imageHandler(board.squares[x][y]);
 			}
 		}
 	}
@@ -242,14 +243,14 @@ class View extends Board {
 		JFrame popupFrame = new JFrame();
 		String message = "";
 		
-		if (currentLevel < Board.totalLevels) {
-			message = "Congratulations on completing Level " + currentLevel + "!";
+		if (board.getLevel() < Board.totalLevels) {
+			message = "Congratulations on completing Level " + board.getLevel() + "!";
 			message += "\n";
 			message += "Turns taken - " + turnsTaken;
 			message += "\n";
-			message += "Press OK to play level " + (currentLevel + 1);
+			message += "Press OK to play level " + (board.getLevel() + 1);
 			JOptionPane.showMessageDialog(popupFrame, message);
-			this.changeLevel(++currentLevel);
+			board.changeLevel(board.getLevel() + 1);
 			turnsTaken = 0;
 			this.updateView();
 		}
@@ -300,6 +301,7 @@ class View extends Board {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		View view = new View();
+		Board newBoard = new Board(1);
+		View view = new View(newBoard);
 	}
 }
