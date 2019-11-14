@@ -449,7 +449,7 @@ public class Board {
 	public void undo() {
 		Move move = moveStack.pop();
 		if (move == null) {
-			System.out.println("No moves made to uno");
+			System.out.println("No moves made to undo");
 			return;
 		}
 		
