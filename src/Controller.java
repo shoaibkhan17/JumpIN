@@ -72,7 +72,7 @@ public class Controller {
 		Square square = (Square) event.getSource();
 		Location location = square.getLoc();
 		if (board.move(location)) {
-			view.turnsTaken++;
+			board.turnsTaken++;
 			Piece selectedPiece = square.getPiece();
 			
 			// If the fox was moved

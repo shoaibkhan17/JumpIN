@@ -27,7 +27,6 @@ class View {
 	private Board board;
 	private Controller controller;
 	private ArrayList<Square> highlightedSquares;
-	protected int turnsTaken;
 	
 	private final static String gameInstructions = "-Basic Information\r\n" + 
 			"--Currently five levels are developed.\r\n" + 
@@ -54,7 +53,7 @@ class View {
 	public View(Board myBoard) {
 		super();
 		this.board = myBoard;
-		turnsTaken = 0;
+		board.turnsTaken = 0;
 		board.changeLevel(1);
 		controller = new Controller(board, this);
 		highlightedSquares = new ArrayList<>();
@@ -137,7 +136,7 @@ class View {
 		int option = JOptionPane.showConfirmDialog(popupFrame, "Are you sure you want to reset level " + board.getLevel());
 		
 		if (option == 0) {
-			turnsTaken = 0;
+			board.turnsTaken = 0;
 			board.changeLevel(board.getLevel());
 			this.setButtonsEnabled(true);
 			this.updateView();
@@ -267,19 +266,19 @@ class View {
 		if (board.getLevel() < Board.totalLevels) {
 			message = "Congratulations on completing Level " + board.getLevel() + "!";
 			message += "\n";
-			message += "Turns taken - " + turnsTaken;
+			message += "Turns taken - " + board.turnsTaken;
 			message += "\n";
 			message += "Press OK to play level " + (board.getLevel() + 1);
 			JOptionPane.showMessageDialog(popupFrame, message);
 			board.changeLevel(board.getLevel() + 1);
-			turnsTaken = 0;
+			board.turnsTaken = 0;
 			this.updateView();
 		}
 		
 		else {
 			message = "Congratulations on completing the game!";
 			message += "\n";
-			message += "Turns taken - " + turnsTaken;
+			message += "Turns taken - " + board.turnsTaken;
 			JOptionPane.showMessageDialog(popupFrame, message);
 			this.setButtonsEnabled(false);
 		}

@@ -1,4 +1,5 @@
 import java.util.LinkedList;
+import java.util.Stack;
 /**
  * Class that initializes the board of the game
  * Handles movement of Piece within the Squares
@@ -17,6 +18,8 @@ public class Board {
 	protected LinkedList<Location> holeLocations; 
 	protected int rabbitCount;
 	private int currentLevel;
+	protected int turnsTaken;
+	private Stack moveStack;
 	
 	protected static final int BOARD_SIZE = 5;
 	protected static final char BOARD_PRINT_CHAR = '*';
