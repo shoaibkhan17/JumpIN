@@ -96,11 +96,24 @@ public class Controller {
 		}
 	}
 	
+	/**
+	 * Controller function for auto solving the game.
+	 */
+	public void autoSolver() {
+		System.out.println("AUTO SOLVING THE GAME");
+	}
+
+	/**
+	 * Controller undo function to undo a move.
+	 */
 	public void undo() {
 		board.undo();
 		view.updateView();
 	}
 	
+	/**
+	 * Controller redo function to redo a move.
+	 */
 	public void redo() {
 		board.redo();
 		view.updateView();

@@ -88,6 +88,7 @@ class View extends Board {
 		JMenu menu = new JMenu("Options");
 		menu.add(this.createMenuItem("Undo", (event) -> controller.undo()));
 		menu.add(this.createMenuItem("Redo", (event) -> controller.redo()));
+		menu.add(this.createMenuItem("Auto Solver", (event) -> controller.autoSolver()));
 		menu.add(this.createMenuItem("Reset", (event) -> this.reset()));
 		menu.add(this.createMenuItem("Exit", (event) -> System.exit(0)));	
 		menuBar.add(menu);		
