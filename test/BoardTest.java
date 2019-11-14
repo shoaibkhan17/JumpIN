@@ -104,7 +104,7 @@ public class BoardTest {
 		Piece piece = squares[oldLoc.getX()][oldLoc.getY()].getPiece();
 		Location newLoc = new Location(2, 3);
 		board.selectPiece(oldLoc);
-		board.movePiece(oldLoc, newLoc, piece);
+		board.movePiece(oldLoc, newLoc, piece, false);
 		assertEquals(piece, squares[newLoc.getX()][newLoc.getY()].getPiece());
 	}
 

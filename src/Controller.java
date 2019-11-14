@@ -95,5 +95,13 @@ public class Controller {
 			}
 		}
 	}
-
+	
+	public void undo() {
+		board.undo();
+		view.updateView();
+	}
+	
+	public void redo() {
+		
+	}
 }

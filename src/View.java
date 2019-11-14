@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 /**
@@ -71,6 +72,13 @@ class View extends Board {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
 	}
 	
+	private JMenuItem createMenuItem(String name, ActionListener actionListener) {
+		JMenuItem item = new JMenuItem(name);
+		item.setBackground(Color.gray);
+		item.addActionListener(actionListener);
+		return item;
+	}
+	
 	/**
 	 * Method to to initialize the Menu
 	 */
@@ -78,15 +86,11 @@ class View extends Board {
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setBackground(Color.gray);
 		JMenu menu = new JMenu("Options");
-		JMenuItem item1 = new JMenuItem("Reset");
-		item1.addActionListener((event) -> this.reset());
-		item1.setBackground(Color.gray);
-		JMenuItem item2 = new JMenuItem("Exit");
-		item2.setBackground(Color.gray);
-		item2.addActionListener((event) -> System.exit(0));
-		menu.add(item1);
-		menu.add(item2);
-		menuBar.add(menu);
+		menu.add(this.createMenuItem("Undo", (event) -> controller.undo()));
+		menu.add(this.createMenuItem("Redo", (event) -> System.out.println("REDO")));
+		menu.add(this.createMenuItem("Reset", (event) -> this.reset()));
+		menu.add(this.createMenuItem("Exit", (event) -> System.exit(0)));	
+		menuBar.add(menu);		
 		frame.setJMenuBar(menuBar);
     }
 	

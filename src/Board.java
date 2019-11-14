@@ -19,6 +19,8 @@ public class Board {
 	protected static final int BOARD_SIZE = 5;
 	protected static final char BOARD_PRINT_CHAR = '*';
 	protected static final int totalLevels = 5;
+	protected MoveStack moves;
+	
 	/** 
 	 * Constructor to initialize the instance variables
 	 * @param level this is the level of the game
@@ -30,6 +32,7 @@ public class Board {
 		selectedPiece = null;
 		selectedPieceLocation = new Location();
 		rabbitCount = 0;
+		moves = new MoveStack();
 		
 		// Initializes the Squares.
 		for (int x = 0; x < Board.BOARD_SIZE; x++) {
@@ -39,7 +42,7 @@ public class Board {
 		}
 		
 		// Sets the level of the game.
-		this.initBoard(level); 
+		this.initBoard(level);
 	}
 	
 	/**
@@ -66,6 +69,7 @@ public class Board {
 		selectedPieceLocation = new Location();
 		rabbitCount = 0;
 		holeLocations.clear();
+		moves.popAll();
 	}
 	/**
 	 * method to access the squares
@@ -362,13 +366,16 @@ public class Board {
 	 * @param newLocation new location of the piece
 	 * @param piece piece that is moved
 	 */
-	public boolean movePiece(Location oldLocation, Location newLocation, Piece piece) {
+	public boolean movePiece(Location oldLocation, Location newLocation, Piece piece, boolean userMove) {
 		int x = newLocation.getX();
 		int y = newLocation.getY();
 		Piece locationPiece = squares[x][y].getPiece();
 
 		// If the location where is piece is about to moved is empty or it is same location.
 		if (locationPiece == null || locationPiece == piece) {
+			if (userMove) {
+				moves.push(oldLocation, newLocation, piece);
+			}
 			squares[x][y].setPiece(piece);
 			this.removePiece(oldLocation);
 			return true;
@@ -378,6 +385,9 @@ public class Board {
 		else if (locationPiece.getType() == PieceType.HOLE && piece.getType() == PieceType.RABBIT) {
 			Hole hole = (Hole) locationPiece;
 			if (!hole.isOccupied()) {
+				if (userMove) {
+					moves.push(oldLocation, newLocation, piece);
+				}
 				// Add the piece in the hole.
 				hole.setPiece(selectedPiece);
 				this.removePiece(oldLocation);
@@ -406,6 +416,21 @@ public class Board {
 
 		return false;
 	}
+	
+	public void undo() {
+		Move move = moves.pop();
+		if (move == null) {
+			System.out.println("No moves made");
+			return;
+		}
+		
+		Location oldLocation = move.getOldLocation();
+		Location newLocation = move.getNewLocation();
+		Piece piece = move.getPiece();
+		this.movePiece(newLocation, oldLocation, piece, false);
+	}
+	
+	
 	/**
 	 * Gets the board line 
 	 * @return String board line

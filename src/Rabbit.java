@@ -96,7 +96,7 @@ public class Rabbit extends Piece {
 		// If the x coordinate of the rabbit has not changed.
 		else if (oldLocation.getX() == newLocation.getX()) {
 			if (this.checkValid(x1, true, y1, y2, squares)) {
-				return board.movePiece(oldLocation, newLocation, this);
+				return board.movePiece(oldLocation, newLocation, this, true);
 			}
 
 			return false;
@@ -105,7 +105,7 @@ public class Rabbit extends Piece {
 		// If the y coordinate of the rabbit has not changed.
 		else if (oldLocation.getY() == newLocation.getY()) {
 			if (this.checkValid(y1, false, x1, x2, squares)) {
-				return board.movePiece(oldLocation, newLocation, this);
+				return board.movePiece(oldLocation, newLocation, this, true);
 			}
 
 			return false;
