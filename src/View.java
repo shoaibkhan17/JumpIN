@@ -6,6 +6,8 @@ import javax.swing.*;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 /**
@@ -27,6 +29,13 @@ class View {
 	private ArrayList<Square> highlightedSquares;
 	protected int turnsTaken;
 	
+	private final static String gameInstructions = "-Basic Information\r\n" + 
+			"--Currently five levels are developed.\r\n" + 
+			"--The goal of the game is to place all the rabbits inside holes.\r\n" + 
+			"--The game can be played as a text-based game only, or with the GUI\r\n" + 
+			"--Rabbits can jump over objects, including mushrooms, foxes and other rabbits\r\n" + 
+			"--Foxes can slide on empty spaces in the direction that the fox is oriented";
+	
 	/**
 	 * Styling variables
 	 */
@@ -37,6 +46,7 @@ class View {
 	private final static Border MARGIN = new EmptyBorder(5, 15, 5, 15);
 	private final static Border COMPOUND = new CompoundBorder(LINE, MARGIN);
 	private final static Dimension VIEW_DIMENSION = new Dimension(500, 550);
+	
 	
 	/**
 	 * Constructor to initialize the instance variables
@@ -93,16 +103,27 @@ class View {
 		item4.addActionListener((event) -> JOptionPane.showMessageDialog(frame, "Redo"));
 		JMenuItem item5 = new JMenuItem("Help");
 		item5.setBackground(Color.gray);
-		item5.addActionListener((event) -> JOptionPane.showMessageDialog(frame, "Instructions"));
+		item5.addActionListener((event) -> JOptionPane.showMessageDialog(frame, this.gameInstructions));
 		JMenuItem item6 = new JMenuItem("Auto-solve");
 		item6.setBackground(Color.gray);
 		item6.addActionListener((event) -> JOptionPane.showMessageDialog(frame, "Auto-solve"));
+		JMenuItem item7 = new JMenuItem("Play text-based");
+		item7.setBackground(Color.gray);
+		item7.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+				TextBased t = new TextBased();
+				t.playGame();				
+			}
+		});
 		menu.add(item1);
 		menu.add(item2);
 		menu.add(item3);
 		menu.add(item4);
 		menu.add(item5);
 		menu.add(item6);
+		menu.add(item7);
 		menuBar.add(menu);
 		frame.setJMenuBar(menuBar);
     }
