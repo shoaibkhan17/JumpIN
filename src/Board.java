@@ -19,7 +19,7 @@ public class Board {
 	protected int rabbitCount;
 	private int currentLevel;
 	protected int turnsTaken;
-	private Stack moveStack;
+	private Stack undoStack;
 	
 	protected static final int BOARD_SIZE = 5;
 	protected static final char BOARD_PRINT_CHAR = '*';
@@ -39,6 +39,7 @@ public class Board {
 
 		squares = new Square[BOARD_SIZE][BOARD_SIZE];
 		holeLocations = new LinkedList<>();
+		undoStack = new Stack<Location>();
 		selectedPiece = null;
 		selectedPieceLocation = new Location();
 		rabbitCount = 0;
@@ -377,6 +378,7 @@ public class Board {
 	 * @param piece piece that is moved
 	 */
 	public boolean movePiece(Location oldLocation, Location newLocation, Piece piece) {
+		updateUndoStack(oldLocation);
 		int x = newLocation.getX();
 		int y = newLocation.getY();
 		Piece locationPiece = squares[x][y].getPiece();
@@ -484,6 +486,10 @@ public class Board {
 		
 		// Return true if all rabbits are in the hole.
 		return count == rabbitCount;
+	}
+	
+	private void updateUndoStack(Location oldLocation) {
+		undoStack.push(oldLocation);
 	}
 	/**
 	 * Prints the board
