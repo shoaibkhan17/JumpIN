@@ -102,6 +102,7 @@ public class Controller {
 	}
 	
 	public void redo() {
-		
+		board.redo();
+		view.updateView();
 	}
 }

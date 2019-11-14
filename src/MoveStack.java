@@ -38,12 +38,4 @@ public class MoveStack {
 		Move move = movesMade.get(movesMade.size() - 1);
 		return move;
 	}
-	
-	public void printAllMoves() {
-//		for (Move move: movesMade) {
-//			Location loc = move.getLocation();
-//			Piece piece = move.getPiece();
-//			System.out.println("Moved " + piece.toString() + " from " + loc.toString());
-//		}
-	}
 }
