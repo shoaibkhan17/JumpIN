@@ -99,7 +99,7 @@ class View {
 		item3.addActionListener((event) -> this.undo());
 		JMenuItem item4 = new JMenuItem("Redo");
 		item4.setBackground(Color.gray);
-		item4.addActionListener((event) -> controller.menuEventHandler(event));
+		item4.addActionListener(event -> this.redo());
 		JMenuItem item5 = new JMenuItem("Help");
 		item5.setBackground(Color.gray);
 		item5.addActionListener((event) -> JOptionPane.showMessageDialog(frame, this.gameInstructions));
@@ -120,11 +120,13 @@ class View {
 		frame.setJMenuBar(menuBar);
     }
 	
+	private void redo() {
+	}
 	/**
-	 * 
+	 * Undoes the last move the player made
 	 */
 	private void undo() {
-		
+		board.undo();
 	}
 	/**
 	 * Method which resets the current level to its initial state

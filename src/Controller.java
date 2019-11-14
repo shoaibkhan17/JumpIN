@@ -96,9 +96,5 @@ public class Controller {
 			}
 		}
 	}
-	
-	public void menuEventHandler(ActionEvent event) {
-		System.out.println(event.getSource());
-	}
 
 }
