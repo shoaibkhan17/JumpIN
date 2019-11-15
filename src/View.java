@@ -119,6 +119,9 @@ class View {
 		}
 	}
 	
+	/**
+	 * 
+	 */
 	public void levelSelect() {
 		Integer[] possibilities = {1, 2, 3, 4, 5};
 		Integer level = (Integer) JOptionPane.showInputDialog(frame, "What Level would you like to play:",
@@ -128,8 +131,7 @@ class View {
 		                    1);
 		
 		if(level != null) {
-			board.changeLevel(level);
-			this.updateView();
+			controller.levelSelect(level);
 		}
 
 	}
