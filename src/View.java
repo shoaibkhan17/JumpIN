@@ -5,6 +5,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.*;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Event;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -126,7 +127,12 @@ class View {
 		instructions.setBackground(Color.gray);
 		instructions.addActionListener((event) -> JOptionPane.showMessageDialog(frame, View.gameInstructions));
 		
-		//HELP- Instructions, Auto-solve
+		JMenuItem autosolve = new JMenuItem("Auto-solve");
+		autosolve.setBackground(Color.gray);
+		autosolve.addActionListener((event) -> controller.autoSolver());
+		
+		JMenu levelSelectMenu = new JMenu("Level Options");
+		levelSelectMenu.add(this.createMenuItem("Level Select", (event) -> this.levelSelect()));
 		
 		menuBar.add(file);
 		menuBar.add(edit);
@@ -139,18 +145,9 @@ class View {
 		edit.add(redo);
 		
 		help.add(instructions);
+		help.add(autosolve);	
 		
-//		JMenu menu = new JMenu("Options");
-//		menu.add(this.createMenuItem("Undo", (event) -> controller.undo()));
-//		menu.add(this.createMenuItem("Redo", (event) -> controller.redo()));
-//		menu.add(this.createMenuItem("Auto Solver", (event) -> controller.autoSolver()));
-//		menu.add(this.createMenuItem("Help", (event) -> JOptionPane.showMessageDialog(frame, View.gameInstructions)));
-//		menu.add(this.createMenuItem("Reset", (event) -> this.reset()));
-//		menu.add(this.createMenuItem("Exit", (event) -> System.exit(0)));	
-//		menuBar.add(menu);		
-//		JMenu levelSelectMenu = new JMenu("Level Options");
-//		levelSelectMenu.add(this.createMenuItem("Level Select", (event) -> this.levelSelect()));
-//		menuBar.add(levelSelectMenu);
+		menuBar.add(levelSelectMenu);
 		frame.setJMenuBar(menuBar);
     }
 	
