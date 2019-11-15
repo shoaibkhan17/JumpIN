@@ -16,7 +16,6 @@ public class Board {
 	protected Location selectedPieceLocation;
 	protected LinkedList<Location> holeLocations;
 	protected int rabbitCount;
-
 	protected static final int BOARD_SIZE = 5;
 	protected static final char BOARD_PRINT_CHAR = '*';
 	protected static final int totalLevels = 5;
@@ -447,6 +446,33 @@ public class Board {
 				// Add the piece in the hole.
 				hole.setPiece(userMove ? selectedPiece : piece);
 				this.removePiece(oldLocation);
+				return true;
+			}
+			return false;
+		}
+
+		else {
+			return false;
+		}
+	}
+	
+	public boolean canMovePiece(Location newLocation, Piece piece) {
+		int x = newLocation.getX();
+		int y = newLocation.getY();
+		Piece locationPiece = squares[x][y].getPiece();
+
+		// If the location where is piece is about to moved is empty or it is same
+		// location.
+		if (locationPiece == null || locationPiece == piece) {
+			return true;
+		}
+
+		// If the location where is piece is about to moved a hole and the moving piece
+		// is a rabbit.
+		else if (locationPiece.getType() == PieceType.HOLE && piece.getType() == PieceType.RABBIT) {
+			Hole hole = (Hole) locationPiece;
+			if (!hole.isOccupied()) {
+
 				return true;
 			}
 			return false;

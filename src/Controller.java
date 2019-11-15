@@ -100,7 +100,9 @@ public class Controller {
 	 * Controller function for auto solving the game.
 	 */
 	public void autoSolver() {
-		System.out.println("AUTO SOLVING THE GAME");
+		System.out.println("AUTO SOLVING THE GAME\n");
+		AutoSolver solver = new AutoSolver(board);
+		solver.autoSolve();
 	}
 
 	/**
