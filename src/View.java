@@ -6,7 +6,6 @@ import javax.swing.*;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
@@ -101,14 +100,6 @@ class View {
 		frame.setJMenuBar(menuBar);
     }
 	
-	private void redo() {
-	}
-	/**
-	 * Undoes the last move the player made
-	 */
-	private void undo() {
-		board.undo();
-	}
 	/**
 	 * Method which resets the current level to its initial state
 	 * Resets the level
@@ -124,15 +115,6 @@ class View {
 		}
 	}
 	
-	/**
-	 * Hides the GUI-based game
-	 * and begins the text-based version
-	 */
-	private void playTextBased() {
-		frame.setVisible(false);
-		TextBased t = new TextBased();
-		t.playGame();	
-	}
 	/**
 	 * Method to enable or disable the buttons on the squares
 	 * @param enabled true or false to enable to disable the buttons
@@ -310,7 +292,6 @@ class View {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		Board newBoard = new Board(1);
-		View view = new View(newBoard);
+		new View();
 	}
 }

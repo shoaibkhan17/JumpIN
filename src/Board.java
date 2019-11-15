@@ -17,9 +17,6 @@ public class Board {
 	protected Location selectedPieceLocation;
 	protected LinkedList<Location> holeLocations;
 	protected int rabbitCount;
-	private int currentLevel;
-	protected int turnsTaken;
-	private Stack<PieceMove> undoStack;
 
 	protected static final int BOARD_SIZE = 5;
 	protected static final char BOARD_PRINT_CHAR = '*';
@@ -31,15 +28,12 @@ public class Board {
 	
 	/** 
 	 * Constructor to initialize the instance variables
-	 * 
-	 * @param level
-	 *            this is the level of the game
+	 * @param level this is the level of the game
 	 */
 	public Board(int level) {
 
 		squares = new Square[BOARD_SIZE][BOARD_SIZE];
 		holeLocations = new LinkedList<>();
-		undoStack = new Stack<PieceMove>();
 		selectedPiece = null;
 		selectedPieceLocation = new Location();
 		rabbitCount = 0;
@@ -128,9 +122,7 @@ public class Board {
 
 	/**
 	 * Initializes the game to the selected level
-	 * 
-	 * @param level
-	 *            used to set the level of the game passed in as a parameter
+	 * @param level used to set the level of the game passed in as a parameter
 	 */
 	private void initBoard(int level) {
 		// Create and add pieces into the board
@@ -162,8 +154,7 @@ public class Board {
 	}
 
 	/**
-	 * Initialize the level 1 of the game Method which creates and add pieces onto
-	 * the board
+	 * Initialize the level 1 of the game Method which creates and add pieces onto the board
 	 */
 	private void initToLevel1() {
 		// Create and add pieces.
@@ -190,8 +181,7 @@ public class Board {
 	}
 	
 	/**
-	 * Initialize the level 2 of the game Method which creates and add pieces onto
-	 * the board
+	 * Initialize the level 2 of the game Method which creates and add pieces onto the board
 	 */
 	private void initToLevel2() {
 		// Create and add pieces.
@@ -222,8 +212,7 @@ public class Board {
 	}
 
 	/**
-	 * Initialize the level 3 of the game Method which creates and add pieces onto
-	 * the board
+	 * Initialize the level 3 of the game Method which creates and add pieces onto the board
 	 */
 	private void initToLevel3() {
 		// Create and add pieces.
@@ -249,8 +238,7 @@ public class Board {
 	}
 	
 	/**
-	 * Initialize the level 4 of the game Method which creates and add pieces onto
-	 * the board
+	 * Initialize the level 4 of the game Method which creates and add pieces onto the board
 	 */
 	private void initToLevel4() {
 		// Create and add pieces.
@@ -278,8 +266,7 @@ public class Board {
 	}
 	
 	/**
-	 * Initialize the level 5 of the game Method which creates and add pieces onto
-	 * the board
+	 * Initialize the level 5 of the game Method which creates and add pieces onto the board
 	 */
 	private void initToLevel5() {
 		// Create and add pieces.
@@ -308,9 +295,7 @@ public class Board {
 	
 	/**
 	 * Method that removes a piece from the given location.
-	 * 
-	 * @param location
-	 *            of the piece
+	 * @param location of the piece
 	 */
 	public void removePiece(Location location) {
 		int x = location.getX();
@@ -342,11 +327,8 @@ public class Board {
 	
 	/**
 	 * Method that selects the piece in order to perform operations on it
-	 * 
-	 * @param location
-	 *            of the piece
-	 * @return true if the piece can be selected/valid, returns false if not valid
-	 *         location selected
+	 * @param location of the piece
+	 * @return true if the piece can be selected/valid, returns false if not valid location selected
 	 */
 	public boolean selectPiece(Location location) {
 		int x = location.getX();
@@ -387,16 +369,11 @@ public class Board {
 	}
 	
 	/**
-	 * checks if the piece can move or not
-	 * 
-	 * @param oldLocation
-	 *            initial location of the piece
-	 * @param newLocation
-	 *            new location of the piece to be moved to
-	 * @param piece
-	 *            this is the piece that is to be moved
-	 * @return true if the piece can be moved to be new location, return false if it
-	 *         can't be moved
+	 * checks if the piece can move or not 
+	 * @param oldLocation initial location of the piece
+	 * @param newLocation new location of the piece to be moved to
+	 * @param piece this is the piece that is to be moved
+	 * @return true if the piece can be moved to be new location, return false if it can't be moved
 	 */
 	private boolean canMove(Location oldLocation, Location newLocation, Piece piece) {
 		if (selectedPiece.getType() == PieceType.RABBIT) {
@@ -413,14 +390,10 @@ public class Board {
 	}
 	
 	/**
-	 * Method that moves the piece from the initial location to the new location
-	 * 
-	 * @param oldLocation
-	 *            initial location of the piece to be moved
-	 * @param newLocation
-	 *            new location of the piece
-	 * @param piece
-	 *            piece that is moved
+	 * Method that moves the piece from the initial location to the new location 
+	 * @param oldLocation initial location of the piece to be moved
+	 * @param newLocation new location of the piece
+	 * @param piece piece that is moved
 	 */
 	public boolean movePiece(Location oldLocation, Location newLocation, Piece piece, boolean userMove, boolean redo) {
 		int x = newLocation.getX();
@@ -489,11 +462,8 @@ public class Board {
 	 * Calls the canMove() method sets the old location of the piece to null once
 	 * the piece has moved to the new location and clears the selected piece
 	 * location
-	 * 
-	 * @param location
-	 *            on the board
-	 * @return true if the operation is successful, else returns false if not
-	 *         successful
+	 * @param location on the board
+	 * @return true if the operation is successful, else returns false if not successful
 	 */
 	public boolean move(Location location) {
 		if (this.canMove(selectedPieceLocation, location, selectedPiece)) {
@@ -555,7 +525,6 @@ public class Board {
 	
 	/**
 	 * Method returns a string representation of the board.
-	 * 
 	 * @return board contains the board as a string representation
 	 */
 	public String toString() {
