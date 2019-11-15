@@ -55,6 +55,7 @@ class View {
 		this.init();
 		this.run();
 	}
+	
 	/**
 	 * Method to call the initFrame, initMenu and the initView methods
 	 */
@@ -97,6 +98,9 @@ class View {
 		menu.add(this.createMenuItem("Reset", (event) -> this.reset()));
 		menu.add(this.createMenuItem("Exit", (event) -> System.exit(0)));	
 		menuBar.add(menu);		
+		JMenu levelSelectMenu = new JMenu("Level Options");
+		levelSelectMenu.add(this.createMenuItem("Level Select", (event) -> this.levelSelect()));
+		menuBar.add(levelSelectMenu);
 		frame.setJMenuBar(menuBar);
     }
 	
@@ -113,6 +117,21 @@ class View {
 			this.setButtonsEnabled(true);
 			this.updateView();
 		}
+	}
+	
+	public void levelSelect() {
+		Integer[] possibilities = {1, 2, 3, 4, 5};
+		Integer level = (Integer) JOptionPane.showInputDialog(frame, "What Level would you like to play:",
+		                    "Level Select" , JOptionPane.QUESTION_MESSAGE,
+		                    null,
+		                    possibilities,
+		                    1);
+		
+		if(level != null) {
+			board.changeLevel(level);
+			this.updateView();
+		}
+
 	}
 	
 	/**
