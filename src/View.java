@@ -90,17 +90,39 @@ class View {
 	private void initMenu() {
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setBackground(Color.gray);
-		JMenu menu = new JMenu("Options");
-		menu.add(this.createMenuItem("Undo", (event) -> controller.undo()));
-		menu.add(this.createMenuItem("Redo", (event) -> controller.redo()));
-		menu.add(this.createMenuItem("Auto Solver", (event) -> controller.autoSolver()));
-		menu.add(this.createMenuItem("Help", (event) -> JOptionPane.showMessageDialog(frame, View.gameInstructions)));
-		menu.add(this.createMenuItem("Reset", (event) -> this.reset()));
-		menu.add(this.createMenuItem("Exit", (event) -> System.exit(0)));	
-		menuBar.add(menu);		
-		JMenu levelSelectMenu = new JMenu("Level Options");
-		levelSelectMenu.add(this.createMenuItem("Level Select", (event) -> this.levelSelect()));
-		menuBar.add(levelSelectMenu);
+		
+		JMenu file = new JMenu("File");
+		file.setBackground(Color.gray);
+		
+		JMenuItem reset = new JMenuItem("Reset");
+		reset.setBackground(Color.gray);
+		reset.addActionListener((event) -> this.reset());
+		
+		JMenuItem exit = new JMenuItem("Exit");
+		exit.setBackground(Color.gray);
+		exit.addActionListener((event) -> System.exit(0));
+		
+		//FILE- Exit, Reset
+		//EDIT- Undo, Redo
+		//HELP- Instructions, Auto-solve
+		
+		menuBar.add(file);
+		
+		file.add(exit);
+		file.add(reset);
+		
+		
+//		JMenu menu = new JMenu("Options");
+//		menu.add(this.createMenuItem("Undo", (event) -> controller.undo()));
+//		menu.add(this.createMenuItem("Redo", (event) -> controller.redo()));
+//		menu.add(this.createMenuItem("Auto Solver", (event) -> controller.autoSolver()));
+//		menu.add(this.createMenuItem("Help", (event) -> JOptionPane.showMessageDialog(frame, View.gameInstructions)));
+//		menu.add(this.createMenuItem("Reset", (event) -> this.reset()));
+//		menu.add(this.createMenuItem("Exit", (event) -> System.exit(0)));	
+//		menuBar.add(menu);		
+//		JMenu levelSelectMenu = new JMenu("Level Options");
+//		levelSelectMenu.add(this.createMenuItem("Level Select", (event) -> this.levelSelect()));
+//		menuBar.add(levelSelectMenu);
 		frame.setJMenuBar(menuBar);
     }
 	
