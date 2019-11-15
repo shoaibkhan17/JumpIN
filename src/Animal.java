@@ -51,7 +51,7 @@ public class Animal {
 		tempLocation.setLocation(location);
 		previousMoves.push(tempLocation);
 		
-		if (possibleMoves.isEmpty() && !previousMoves.isEmpty()) {
+		if (possibleMoves.isEmpty()) {
 			previousMoves.clear();
 		}
 		
