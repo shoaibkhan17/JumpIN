@@ -4,21 +4,25 @@ public class AutoSolver {
 	private enum Directions {UP, DOWN, LEFT, RIGHT}
 	private Board board;
 	private Square[][] squares;
+	private View view;
 	
-	public AutoSolver(Board board) {
+	public AutoSolver(Board board, View view) {
 		this.board = board;
 		squares = board.getSquares();
+		this.view = view;
 	}
 	
-	private boolean canMoveDirection(Location location, Piece piece, Directions direction) {
+	private Location possibleMoveBasedOnDirection(Animal animal, Directions direction) {
+		Location location = animal.getCurrentLocation();
+		Piece piece = animal.getPiece();
 		int i;
 		boolean horizonal;
 		int limit;
-		boolean validMove = false;
+		Location possibleMove = null;
 		Rabbit rabbit = null;
 		
 		if (piece == null) {
-			return false;
+			return possibleMove;
 		}
 		
 		else if (piece.getType() == PieceType.RABBIT) {
@@ -47,57 +51,106 @@ public class AutoSolver {
 			limit = Board.BOARD_SIZE;
 			break;
 		default:
-			return false;
+			return possibleMove;
 		}
 		
 		while (i < limit) {
 			Location newLocation = new Location(horizonal ? i : location.getX(), horizonal ? location.getY() : i);
 			if (rabbit.canMove(location, newLocation, board)) {
-				validMove = true;
+				possibleMove = new Location();
+				possibleMove.setLocation(newLocation);
 			}
 			
 			i++;
 		}
 		
-		System.out.println(direction + " : " + validMove);		
-		return validMove;
+		return possibleMove;
 	}
 	
-	private ArrayList<Directions> findPossibleMoveDirections(Location location, Piece piece) {
-		ArrayList<Directions> possibleDirections = new ArrayList<>();
+	private void findPossibleMoves(Animal animal) {
 		for (Directions direction: Directions.values()) {
-			if (this.canMoveDirection(location, piece, direction)) {
-				possibleDirections.add(direction);
+			Location possibleMove = this.possibleMoveBasedOnDirection(animal, direction);
+			if (possibleMove != null) {
+				animal.addPossibleMoves(possibleMove);
 			}
 		}
-		
-		return possibleDirections;
 	}
 	
-	private ArrayList<Move> getRabbitsWithLocation() {
-		ArrayList<Move> rabbits = new ArrayList<>(); 
+	private ArrayList<Animal> getAnimalsWithLocation() {
+		ArrayList<Animal> animals = new ArrayList<>(); 
 		Piece piece = null;
+		int counter = 1;
 		for (int x = 0; x < Board.BOARD_SIZE; x++) {
 			for (int y = 0; y < Board.BOARD_SIZE; y++) {
-				if (squares[x][y].getPiece() != null && squares[x][y].getPiece().getType() == PieceType.RABBIT) {
-					piece = squares[x][y].getPiece();
-					Move rabbit = new Move(squares[x][y].getLoc(), squares[x][y].getLoc(), piece);
-					rabbits.add(rabbit);
+				if (squares[x][y].getPiece() != null) {
+					if (squares[x][y].getPiece().getType() == PieceType.RABBIT) {
+						piece = squares[x][y].getPiece();
+						Animal animal = new Animal(piece, squares[x][y].getLoc(), counter++);
+						animals.add(animal);
+					}
+					else if (squares[x][y].getPiece().getType() == PieceType.HOLE) {
+						Hole hole = (Hole) squares[x][y].getPiece();
+						
+						if (!hole.isOccupied()) {
+							continue;
+						}
+								
+						piece = hole.getPiece();
+						Animal animal = new Animal(piece, squares[x][y].getLoc(), counter++);
+						animals.add(animal);
+					}
 				}
 			}
 		}
 		
-		return rabbits;
+		return animals;
+	}
+	
+	private void moving(Animal animal) {
+		Location movingLocation = animal.getPossibleMove();
+		if (movingLocation != null) {
+			System.out.println("Moving " + animal.getAnimalNameAndID() + " to " + movingLocation);
+			Piece piece = animal.getPiece();
+			Location currentLocation = animal.getCurrentLocation();
+			if (this.board.movePiece(currentLocation, movingLocation, piece, false, false)) {
+				animal.setCurrentLocation(movingLocation);
+				this.view.updateView();
+			}
+		}
+	}
+	
+	public void solve(int number, ArrayList<Animal> animals) {
+		System.out.println("----> " + number + " <----");
+		for (Animal animal: animals) {
+			this.findPossibleMoves(animal);
+			animal.print();
+		}
+		
+		for (Animal animal: animals) {
+			this.moving(animal);
+		}
+		
+		System.out.println("Game won: " + board.isGameWon() + "\n");
 	}
 	
 	public void autoSolve() {
-		ArrayList<Move> rabbits = this.getRabbitsWithLocation();
-		
-		for (Move rabbit: rabbits) {
-			Location location = rabbit.getOldLocation();
-			Piece piece = rabbit.getPiece();
-			System.out.println("Working with rabbit at location " + location.toString());
-			this.findPossibleMoveDirections(location, piece);
+		ArrayList<Animal> animals = this.getAnimalsWithLocation();
+		int counter = 1;
+		while (!board.isGameWon()) {
+			this.solve(counter++, animals);
 		}
+		
+		view.displayLevelCompeletePopup();
+
+// 		For manually going through the auto solver
+//		this.solve(counter++, animals);
+//		this.solve(counter++, animals);
+//		this.solve(counter++, animals);
+//		this.solve(counter++, animals);
+//		this.solve(counter++, animals);
+//		this.solve(counter++, animals);
+//		this.solve(counter++, animals);
+//		this.solve(counter++, animals);
+				
 	}
 }

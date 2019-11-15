@@ -101,7 +101,7 @@ public class Controller {
 	 */
 	public void autoSolver() {
 		System.out.println("AUTO SOLVING THE GAME\n");
-		AutoSolver solver = new AutoSolver(board);
+		AutoSolver solver = new AutoSolver(board, view);
 		solver.autoSolve();
 	}
 
