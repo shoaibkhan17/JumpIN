@@ -91,26 +91,54 @@ class View {
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setBackground(Color.gray);
 		
+		//FILE menu option
 		JMenu file = new JMenu("File");
 		file.setBackground(Color.gray);
 		
+		//RESET menu item 
 		JMenuItem reset = new JMenuItem("Reset");
 		reset.setBackground(Color.gray);
 		reset.addActionListener((event) -> this.reset());
 		
+		//EXIT menu item
 		JMenuItem exit = new JMenuItem("Exit");
 		exit.setBackground(Color.gray);
 		exit.addActionListener((event) -> System.exit(0));
 		
-		//FILE- Exit, Reset
-		//EDIT- Undo, Redo
+		//EDIT menu option
+		JMenu edit = new JMenu("Edit");
+		edit.setBackground(Color.gray);
+		
+		//UNDO menu item
+		JMenuItem undo = new JMenuItem("Undo");
+		undo.setBackground(Color.gray);
+		undo.addActionListener((event) -> controller.undo());
+		
+		//REDO menu item
+		JMenuItem redo = new JMenuItem("Redo");
+		redo.setBackground(Color.gray);
+		redo.addActionListener((event) -> controller.redo());
+		
+		JMenu help = new JMenu("Help");
+		help.setBackground(Color.gray);
+	
+		JMenuItem instructions = new JMenuItem("Instructions");
+		instructions.setBackground(Color.gray);
+		instructions.addActionListener((event) -> JOptionPane.showMessageDialog(frame, View.gameInstructions));
+		
 		//HELP- Instructions, Auto-solve
 		
 		menuBar.add(file);
+		menuBar.add(edit);
+		menuBar.add(help);
 		
-		file.add(exit);
 		file.add(reset);
+		file.add(exit);
 		
+		edit.add(undo);
+		edit.add(redo);
+		
+		help.add(instructions);
 		
 //		JMenu menu = new JMenu("Options");
 //		menu.add(this.createMenuItem("Undo", (event) -> controller.undo()));
