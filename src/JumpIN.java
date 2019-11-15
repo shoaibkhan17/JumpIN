@@ -80,17 +80,6 @@ public class JumpIN {
 	}
 
 	/**
-	 * clears the screen
-	 */
-	private void clearScreen() {
-		try {
-			new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-		} catch (Exception E) {
-			this.printLineGap();
-		}
-	}
-
-	/**
 	 * calls the print line gap method
 	 */
 	private void printSeparator() {

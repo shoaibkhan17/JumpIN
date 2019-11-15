@@ -1,5 +1,4 @@
 import java.util.LinkedList;
-import java.util.Stack;
 
 /**
  * Class that initializes the board of the game Handles movement of Piece within
