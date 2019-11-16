@@ -22,7 +22,7 @@ import java.util.ArrayList;
  */
 
 class View {
-
+	
 	private JFrame frame;
 	private Board board;
 	private Controller controller;
@@ -44,7 +44,6 @@ class View {
 	private final static Border MARGIN = new EmptyBorder(5, 15, 5, 15);
 	private final static Border COMPOUND = new CompoundBorder(LINE, MARGIN);
 	private final static Dimension VIEW_DIMENSION = new Dimension(500, 550);
-	
 	
 	/**
 	 * Constructor to initialize the instance variables
@@ -169,22 +168,19 @@ class View {
 	}
 	
 	/**
-	 * 
+	 * Method that allows the user to select the level of their choice
 	 */
 	public void levelSelect() {
-		Integer[] possibilities = {1, 2, 3, 4, 5};
+		Integer[] possibilities = { 1, 2, 3, 4, 5 };
 		Integer level = (Integer) JOptionPane.showInputDialog(frame, "What Level would you like to play:",
-		                    "Level Select" , JOptionPane.QUESTION_MESSAGE,
-		                    null,
-		                    possibilities,
-		                    1);
-		
-		if(level != null) {
+				"Level Select", JOptionPane.QUESTION_MESSAGE, null, possibilities, 1);
+
+		if (level != null) {
 			controller.levelSelect(level);
 		}
 
 	}
-	
+
 	/**
 	 * Method to enable or disable the buttons on the squares
 	 * @param enabled true or false to enable to disable the buttons

@@ -1,5 +1,14 @@
 import java.util.Stack;
 
+/**
+ * ANIMAL CLASS JAVADOC TO BE DONE 
+ * 
+ * @author Khalil Aalab - 101070879
+ * @author Kamaluddin Shakiri - 101054933
+ * @author Simon Yacoub - 101044159
+ * @author Md Aiman Sharif - 101062765
+ * @author Shoaib Khan - 101033582
+ */
 public class Animal {
 	protected Piece piece;
 	protected Stack<Location> possibleMoves;

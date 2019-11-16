@@ -1,5 +1,14 @@
 import java.util.ArrayList;
 
+/**
+ * AUTOSOLVER CLASS 
+ * 
+ * @author Khalil Aalab - 101070879
+ * @author Kamaluddin Shakiri - 101054933
+ * @author Simon Yacoub - 101044159
+ * @author Md Aiman Sharif - 101062765
+ * @author Shoaib Khan - 101033582
+ */
 public class AutoSolver {
 	private enum Directions {UP, DOWN, LEFT, RIGHT}
 	private Board board;
