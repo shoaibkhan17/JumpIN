@@ -90,64 +90,66 @@ class View {
 	 */
 	private void initMenu() {
 		JMenuBar menuBar = new JMenuBar();
-		menuBar.setBackground(Color.gray);
+		menuBar.setBackground(Color.lightGray);
 		
 		//FILE menu option
 		JMenu file = new JMenu("File");
-		file.setBackground(Color.gray);
+		file.setBackground(Color.lightGray);
 		
 		//RESET menu item 
-		JMenuItem reset = new JMenuItem("Reset");
-		reset.setBackground(Color.gray);
+		JMenuItem reset = new JMenuItem("Reset Level");
 		reset.addActionListener((event) -> this.reset());
 		
 		//EXIT menu item
 		JMenuItem exit = new JMenuItem("Exit");
-		exit.setBackground(Color.gray);
 		exit.addActionListener((event) -> System.exit(0));
 		
 		//EDIT menu option
 		JMenu edit = new JMenu("Edit");
-		edit.setBackground(Color.gray);
+		edit.setBackground(Color.lightGray);
 		
 		//UNDO menu item
 		JMenuItem undo = new JMenuItem("Undo");
-		undo.setBackground(Color.gray);
 		undo.addActionListener((event) -> controller.undo());
 		
 		//REDO menu item
 		JMenuItem redo = new JMenuItem("Redo");
-		redo.setBackground(Color.gray);
 		redo.addActionListener((event) -> controller.redo());
 		
 		JMenu help = new JMenu("Help");
-		help.setBackground(Color.gray);
+		help.setBackground(Color.lightGray);
 	
 		JMenuItem instructions = new JMenuItem("Instructions");
-		instructions.setBackground(Color.gray);
 		instructions.addActionListener((event) -> JOptionPane.showMessageDialog(frame, View.gameInstructions));
 		
 		JMenuItem autosolve = new JMenuItem("Auto-solve");
-		autosolve.setBackground(Color.gray);
 		autosolve.addActionListener((event) -> controller.autoSolver());
 		
 		JMenu levelSelectMenu = new JMenu("Level Options");
-		levelSelectMenu.add(this.createMenuItem("Level Select", (event) -> this.levelSelect()));
+		JMenuItem levelSelect = new JMenuItem("Level Select");
+		levelSelect.addActionListener((event) -> this.levelSelect());
+		
+		JMenuItem save = new JMenuItem("Save");
+		save.addActionListener((event) -> JOptionPane.showMessageDialog(frame, "Save feature to be implemented in Milestone 4"));
+		
+		JMenuItem load = new JMenuItem("Load");
+		load.addActionListener((event) -> JOptionPane.showMessageDialog(frame, "Load feature to be implemented in Milestone 4")); 
 		
 		menuBar.add(file);
 		menuBar.add(edit);
 		menuBar.add(help);
+		menuBar.add(levelSelectMenu);
 		
-		file.add(reset);
+		file.add(save);
+		file.add(load);
 		file.add(exit);
-		
 		edit.add(undo);
 		edit.add(redo);
-		
 		help.add(instructions);
 		help.add(autosolve);	
+		levelSelectMenu.add(levelSelect);
+		levelSelectMenu.add(reset);
 		
-		menuBar.add(levelSelectMenu);
 		frame.setJMenuBar(menuBar);
     }
 	
