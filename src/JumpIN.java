@@ -80,18 +80,7 @@ public class JumpIN {
 	}
 
 	/**
-	 * clears the screen
-	 */
-	private void clearScreen() {
-		try {
-			new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-		} catch (Exception E) {
-			this.printLineGap();
-		}
-	}
-
-	/**
-	 * calls the print line gap method
+	 * Method that calls the print line gap method
 	 */
 	private void printSeparator() {
 		this.printLineGap();
@@ -103,7 +92,7 @@ public class JumpIN {
 	private void printWelcomeMessage() {
 		this.printSeparator();
 		System.out.println("-- Welcome to the JumpIN game --\n");
-		System.out.println("Currently two levels are developed.");
+		System.out.println("Currently five levels are developed.");
 		System.out.println("Playing level 2");
 		System.out.println("To move a piece:"); 
 		System.out.println("-Enter the piece's location");

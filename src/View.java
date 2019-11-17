@@ -5,8 +5,8 @@ import javax.swing.border.LineBorder;
 import javax.swing.*;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Event;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
@@ -22,7 +22,7 @@ import java.util.ArrayList;
  */
 
 class View {
-
+	
 	private JFrame frame;
 	private Board board;
 	private Controller controller;
@@ -45,7 +45,6 @@ class View {
 	private final static Border COMPOUND = new CompoundBorder(LINE, MARGIN);
 	private final static Dimension VIEW_DIMENSION = new Dimension(500, 550);
 	
-	
 	/**
 	 * Constructor to initialize the instance variables
 	 */
@@ -56,6 +55,7 @@ class View {
 		this.init();
 		this.run();
 	}
+	
 	/**
 	 * Method to call the initFrame, initMenu and the initView methods
 	 */
@@ -79,7 +79,7 @@ class View {
 	
 	private JMenuItem createMenuItem(String name, ActionListener actionListener) {
 		JMenuItem item = new JMenuItem(name);
-		item.setBackground(Color.gray);
+		item.setBackground(Color.LIGHT_GRAY);
 		item.addActionListener(actionListener);
 		return item;
 	}
@@ -88,18 +88,59 @@ class View {
 	 * Method to to initialize the Menu
 	 */
 	private void initMenu() {
+		
+		// Menu Bar
 		JMenuBar menuBar = new JMenuBar();
-		menuBar.setBackground(Color.gray);
-		JMenu menu = new JMenu("Options");
-		menu.add(this.createMenuItem("Undo", (event) -> controller.undo()));
-		menu.add(this.createMenuItem("Redo", (event) -> controller.redo()));
-		menu.add(this.createMenuItem("Auto Solver", (event) -> controller.autoSolver()));
-		menu.add(this.createMenuItem("Help", (event) -> JOptionPane.showMessageDialog(frame, View.gameInstructions)));
-		menu.add(this.createMenuItem("Reset", (event) -> this.reset()));
-		menu.add(this.createMenuItem("Exit", (event) -> System.exit(0)));	
-		menuBar.add(menu);		
+		menuBar.setBackground(Color.LIGHT_GRAY);
+		
+		// File Menu and Items
+		JMenu file = new JMenu("File");
+		file.add(this.createMenuItem("Save", (event) -> this.save()));
+		file.add(this.createMenuItem("Load", (event) -> this.load()));
+		file.add(this.createMenuItem("Exit", (event) -> System.exit(0)));
+		
+		// Edit Menu and Items
+		JMenu edit = new JMenu("Edit");
+		edit.add(this.createMenuItem("Undo", (event) -> controller.undo()));
+		edit.add(this.createMenuItem("Redo", (event) -> controller.redo()));
+		
+		// Help Menu and Items
+		JMenu help = new JMenu("Help");
+		help.add(this.createMenuItem("Instrcutions" , (event) -> JOptionPane.showMessageDialog(frame, View.gameInstructions)));
+		help.add(this.createMenuItem("Auto-Solve", (event) -> controller.autoSolver()));	
+		
+		// Level Option Menu and Items
+		JMenu levelSelect = new JMenu("Level Options");
+		levelSelect.add(this.createMenuItem("Reset Level", (event) -> this.reset()));
+		levelSelect.add(this.createMenuItem("Level Select", (event) -> this.levelSelect()));
+	
+		// Adding menu into the menu bar.
+		menuBar.add(file);
+		menuBar.add(edit);
+		menuBar.add(help);
+		menuBar.add(levelSelect);
+		
+		// Setting the menu bar.
 		frame.setJMenuBar(menuBar);
     }
+	
+	
+	/**
+	 * Method to save the game.
+	 * Will be implemented in milestone 4.
+	 */
+	private void save() {
+		JOptionPane.showMessageDialog(frame, "Save feature to be implemented in Milestone 4");
+		
+	}
+	
+	/**
+	 * Method to load the game.
+	 * Will be implemented in milestone 4.
+	 */
+	private void load() {
+		JOptionPane.showMessageDialog(frame, "Load feature to be implemented in Milestone 4");
+	}
 	
 	/**
 	 * Method which resets the current level to its initial state
@@ -116,6 +157,21 @@ class View {
 		}
 	}
 	
+	/**
+	 * Method that allows the user to select the level of their choice
+	 */
+	public void levelSelect() {
+		Integer[] possibilities = { 1, 2, 3, 4, 5 };
+		
+		Integer level = (Integer) JOptionPane.showInputDialog(frame, "What Level would you like to play:",
+				"Level Select", JOptionPane.QUESTION_MESSAGE, null, possibilities, 1);
+
+		if (level != null) {
+			controller.levelSelect(level);
+		}
+
+	}
+
 	/**
 	 * Method to enable or disable the buttons on the squares
 	 * @param enabled true or false to enable to disable the buttons
@@ -293,6 +349,6 @@ class View {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		View view = new View();
+		new View();
 	}
 }
