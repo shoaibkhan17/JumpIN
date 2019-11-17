@@ -79,7 +79,7 @@ class View {
 	
 	private JMenuItem createMenuItem(String name, ActionListener actionListener) {
 		JMenuItem item = new JMenuItem(name);
-		item.setBackground(Color.gray);
+		item.setBackground(Color.LIGHT_GRAY);
 		item.addActionListener(actionListener);
 		return item;
 	}
@@ -88,69 +88,59 @@ class View {
 	 * Method to to initialize the Menu
 	 */
 	private void initMenu() {
+		
+		// Menu Bar
 		JMenuBar menuBar = new JMenuBar();
-		menuBar.setBackground(Color.lightGray);
+		menuBar.setBackground(Color.LIGHT_GRAY);
 		
-		//FILE menu option
+		// File Menu and Items
 		JMenu file = new JMenu("File");
-		file.setBackground(Color.lightGray);
+		file.add(this.createMenuItem("Save", (event) -> this.save()));
+		file.add(this.createMenuItem("Load", (event) -> this.load()));
+		file.add(this.createMenuItem("Exit", (event) -> System.exit(0)));
 		
-		//RESET menu item 
-		JMenuItem reset = new JMenuItem("Reset Level");
-		reset.addActionListener((event) -> this.reset());
-		
-		//EXIT menu item
-		JMenuItem exit = new JMenuItem("Exit");
-		exit.addActionListener((event) -> System.exit(0));
-		
-		//EDIT menu option
+		// Edit Menu and Items
 		JMenu edit = new JMenu("Edit");
-		edit.setBackground(Color.lightGray);
+		edit.add(this.createMenuItem("Undo", (event) -> controller.undo()));
+		edit.add(this.createMenuItem("Redo", (event) -> controller.redo()));
 		
-		//UNDO menu item
-		JMenuItem undo = new JMenuItem("Undo");
-		undo.addActionListener((event) -> controller.undo());
-		
-		//REDO menu item
-		JMenuItem redo = new JMenuItem("Redo");
-		redo.addActionListener((event) -> controller.redo());
-		
+		// Help Menu and Items
 		JMenu help = new JMenu("Help");
-		help.setBackground(Color.lightGray);
+		help.add(this.createMenuItem("Instrcutions" , (event) -> JOptionPane.showMessageDialog(frame, View.gameInstructions)));
+		help.add(this.createMenuItem("Auto-Solve", (event) -> controller.autoSolver()));	
+		
+		// Level Option Menu and Items
+		JMenu levelSelect = new JMenu("Level Options");
+		levelSelect.add(this.createMenuItem("Reset Level", (event) -> this.reset()));
+		levelSelect.add(this.createMenuItem("Level Select", (event) -> this.levelSelect()));
 	
-		JMenuItem instructions = new JMenuItem("Instructions");
-		instructions.addActionListener((event) -> JOptionPane.showMessageDialog(frame, View.gameInstructions));
-		
-		JMenuItem autosolve = new JMenuItem("Auto-solve");
-		autosolve.addActionListener((event) -> controller.autoSolver());
-		
-		JMenu levelSelectMenu = new JMenu("Level Options");
-		JMenuItem levelSelect = new JMenuItem("Level Select");
-		levelSelect.addActionListener((event) -> this.levelSelect());
-		
-		JMenuItem save = new JMenuItem("Save");
-		save.addActionListener((event) -> JOptionPane.showMessageDialog(frame, "Save feature to be implemented in Milestone 4"));
-		
-		JMenuItem load = new JMenuItem("Load");
-		load.addActionListener((event) -> JOptionPane.showMessageDialog(frame, "Load feature to be implemented in Milestone 4")); 
-		
+		// Adding menu into the menu bar.
 		menuBar.add(file);
 		menuBar.add(edit);
 		menuBar.add(help);
-		menuBar.add(levelSelectMenu);
+		menuBar.add(levelSelect);
 		
-		file.add(save);
-		file.add(load);
-		file.add(exit);
-		edit.add(undo);
-		edit.add(redo);
-		help.add(instructions);
-		help.add(autosolve);	
-		levelSelectMenu.add(levelSelect);
-		levelSelectMenu.add(reset);
-		
+		// Setting the menu bar.
 		frame.setJMenuBar(menuBar);
     }
+	
+	
+	/**
+	 * Method to save the game.
+	 * Will be implemented in milestone 4.
+	 */
+	private void save() {
+		JOptionPane.showMessageDialog(frame, "Save feature to be implemented in Milestone 4");
+		
+	}
+	
+	/**
+	 * Method to load the game.
+	 * Will be implemented in milestone 4.
+	 */
+	private void load() {
+		JOptionPane.showMessageDialog(frame, "Load feature to be implemented in Milestone 4");
+	}
 	
 	/**
 	 * Method which resets the current level to its initial state
@@ -172,6 +162,7 @@ class View {
 	 */
 	public void levelSelect() {
 		Integer[] possibilities = { 1, 2, 3, 4, 5 };
+		
 		Integer level = (Integer) JOptionPane.showInputDialog(frame, "What Level would you like to play:",
 				"Level Select", JOptionPane.QUESTION_MESSAGE, null, possibilities, 1);
 
