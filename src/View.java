@@ -5,7 +5,9 @@ import javax.swing.border.LineBorder;
 import javax.swing.*;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Event;
 import java.awt.GridLayout;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 /**
@@ -19,13 +21,18 @@ import java.util.ArrayList;
  * @author Shoaib Khan - 101033582
  */
 
-class View extends Board {
-
-	private static JFrame frame;
-	private int currentLevel;
+class View {
+	
+	private JFrame frame;
+	private Board board;
 	private Controller controller;
 	private ArrayList<Square> highlightedSquares;
-	protected int turnsTaken;
+	
+	private final static String gameInstructions = "Basic Information\r\n" + 
+			"- Currently five levels are developed.\r\n" + 
+			"- The goal of the game is to place all the rabbits inside the holes.\r\n" + 
+			"- Rabbits can jump over objects, including mushrooms, foxes and other rabbits\r\n" + 
+			"- Foxes can slide on empty spaces in the direction that the fox is oriented \r\n";
 	
 	/**
 	 * Styling variables
@@ -42,14 +49,13 @@ class View extends Board {
 	 * Constructor to initialize the instance variables
 	 */
 	public View() {
-		super(1);
-		turnsTaken = 0;
-		currentLevel = 1;
-		controller = new Controller(this, this);
+		board = new Board(1);
+		controller = new Controller(board, this);
 		highlightedSquares = new ArrayList<>();
 		this.init();
 		this.run();
 	}
+	
 	/**
 	 * Method to call the initFrame, initMenu and the initView methods
 	 */
@@ -71,24 +77,70 @@ class View extends Board {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
 	}
 	
+	private JMenuItem createMenuItem(String name, ActionListener actionListener) {
+		JMenuItem item = new JMenuItem(name);
+		item.setBackground(Color.LIGHT_GRAY);
+		item.addActionListener(actionListener);
+		return item;
+	}
+	
 	/**
 	 * Method to to initialize the Menu
 	 */
 	private void initMenu() {
+		
+		// Menu Bar
 		JMenuBar menuBar = new JMenuBar();
-		menuBar.setBackground(Color.gray);
-		JMenu menu = new JMenu("Options");
-		JMenuItem item1 = new JMenuItem("Reset");
-		item1.addActionListener((event) -> this.reset());
-		item1.setBackground(Color.gray);
-		JMenuItem item2 = new JMenuItem("Exit");
-		item2.setBackground(Color.gray);
-		item2.addActionListener((event) -> System.exit(0));
-		menu.add(item1);
-		menu.add(item2);
-		menuBar.add(menu);
+		menuBar.setBackground(Color.LIGHT_GRAY);
+		
+		// File Menu and Items
+		JMenu file = new JMenu("File");
+		file.add(this.createMenuItem("Save", (event) -> this.save()));
+		file.add(this.createMenuItem("Load", (event) -> this.load()));
+		file.add(this.createMenuItem("Exit", (event) -> System.exit(0)));
+		
+		// Edit Menu and Items
+		JMenu edit = new JMenu("Edit");
+		edit.add(this.createMenuItem("Undo", (event) -> controller.undo()));
+		edit.add(this.createMenuItem("Redo", (event) -> controller.redo()));
+		
+		// Help Menu and Items
+		JMenu help = new JMenu("Help");
+		help.add(this.createMenuItem("Instrcutions" , (event) -> JOptionPane.showMessageDialog(frame, View.gameInstructions)));
+		help.add(this.createMenuItem("Auto-Solve", (event) -> controller.autoSolver()));	
+		
+		// Level Option Menu and Items
+		JMenu levelSelect = new JMenu("Level Options");
+		levelSelect.add(this.createMenuItem("Reset Level", (event) -> this.reset()));
+		levelSelect.add(this.createMenuItem("Level Select", (event) -> this.levelSelect()));
+	
+		// Adding menu into the menu bar.
+		menuBar.add(file);
+		menuBar.add(edit);
+		menuBar.add(help);
+		menuBar.add(levelSelect);
+		
+		// Setting the menu bar.
 		frame.setJMenuBar(menuBar);
     }
+	
+	
+	/**
+	 * Method to save the game.
+	 * Will be implemented in milestone 4.
+	 */
+	private void save() {
+		JOptionPane.showMessageDialog(frame, "Save feature to be implemented in Milestone 4");
+		
+	}
+	
+	/**
+	 * Method to load the game.
+	 * Will be implemented in milestone 4.
+	 */
+	private void load() {
+		JOptionPane.showMessageDialog(frame, "Load feature to be implemented in Milestone 4");
+	}
 	
 	/**
 	 * Method which resets the current level to its initial state
@@ -96,16 +148,30 @@ class View extends Board {
 	 */
 	private void reset() {
 		JFrame popupFrame = new JFrame();
-		int option = JOptionPane.showConfirmDialog(popupFrame, "Are you sure you want to reset level " + currentLevel);
+		int option = JOptionPane.showConfirmDialog(popupFrame, "Are you sure you want to reset level " + board.getLevel());
 		
 		if (option == 0) {
-			turnsTaken = 0;
-			this.changeLevel(currentLevel);
+			board.changeLevel(board.getLevel());
 			this.setButtonsEnabled(true);
 			this.updateView();
 		}
 	}
 	
+	/**
+	 * Method that allows the user to select the level of their choice
+	 */
+	public void levelSelect() {
+		Integer[] possibilities = { 1, 2, 3, 4, 5 };
+		
+		Integer level = (Integer) JOptionPane.showInputDialog(frame, "What Level would you like to play:",
+				"Level Select", JOptionPane.QUESTION_MESSAGE, null, possibilities, 1);
+
+		if (level != null) {
+			controller.levelSelect(level);
+		}
+
+	}
+
 	/**
 	 * Method to enable or disable the buttons on the squares
 	 * @param enabled true or false to enable to disable the buttons
@@ -113,7 +179,7 @@ class View extends Board {
 	private void setButtonsEnabled(boolean enabled) {
 		for (int y = 0; y < Board.BOARD_SIZE; y++) {
 			for (int x = 0; x < Board.BOARD_SIZE; x++) {
-				squares[x][y].setEnabled(enabled);
+				board.squares[x][y].setEnabled(enabled);
 			}
 		}
 	}
@@ -124,7 +190,7 @@ class View extends Board {
 	private void initView() {
 		for (int y = 0; y < Board.BOARD_SIZE; y++) {
 			for (int x = 0; x < Board.BOARD_SIZE; x++) {
-				frame.add(this.createButton(squares[x][y], x % 2 == 0 && y % 2 == 0));
+				frame.add(this.createButton(board.squares[x][y], x % 2 == 0 && y % 2 == 0));
 			}
 		}
 	}
@@ -157,7 +223,7 @@ class View extends Board {
 	protected void updateView() {
 		for (int y = 0; y < Board.BOARD_SIZE; y++) {
 			for (int x = 0; x < Board.BOARD_SIZE; x++) {
-				this.imageHandler(squares[x][y]);
+				this.imageHandler(board.squares[x][y]);
 			}
 		}
 	}
@@ -226,22 +292,21 @@ class View extends Board {
 		JFrame popupFrame = new JFrame();
 		String message = "";
 		
-		if (currentLevel < Board.totalLevels) {
-			message = "Congratulations on completing Level " + currentLevel + "!";
+		if (board.getLevel() < Board.totalLevels) {
+			message = "Congratulations on completing Level " + board.getLevel() + "!";
 			message += "\n";
-			message += "Turns taken - " + turnsTaken;
+			message += "Turns taken - " + board.getTurnsTaken();
 			message += "\n";
-			message += "Press OK to play level " + (currentLevel + 1);
+			message += "Press OK to play level " + (board.getLevel() + 1);
 			JOptionPane.showMessageDialog(popupFrame, message);
-			this.changeLevel(++currentLevel);
-			turnsTaken = 0;
+			board.changeLevel(board.getLevel() + 1);
 			this.updateView();
 		}
 		
 		else {
 			message = "Congratulations on completing the game!";
 			message += "\n";
-			message += "Turns taken - " + turnsTaken;
+			message += "Turns taken - " + board.getTurnsTaken();
 			JOptionPane.showMessageDialog(popupFrame, message);
 			this.setButtonsEnabled(false);
 		}
@@ -284,6 +349,6 @@ class View extends Board {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		View view = new View();
+		new View();
 	}
 }

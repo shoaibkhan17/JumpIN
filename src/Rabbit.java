@@ -80,7 +80,6 @@ public class Rabbit extends Piece {
 	 * @param board instance of board used to move the piece
 	 * @return true if the move can be made, else false if the move cannot be made
 	 */
-	
 	public boolean move(Location oldLocation, Location newLocation, Board board) {
 		Square[][] squares = board.getSquares();
 		int x1 = oldLocation.getX();
@@ -96,7 +95,7 @@ public class Rabbit extends Piece {
 		// If the x coordinate of the rabbit has not changed.
 		else if (oldLocation.getX() == newLocation.getX()) {
 			if (this.checkValid(x1, true, y1, y2, squares)) {
-				return board.movePiece(oldLocation, newLocation, this);
+				return board.movePiece(oldLocation, newLocation, this, true, false);
 			}
 
 			return false;
@@ -105,7 +104,42 @@ public class Rabbit extends Piece {
 		// If the y coordinate of the rabbit has not changed.
 		else if (oldLocation.getY() == newLocation.getY()) {
 			if (this.checkValid(y1, false, x1, x2, squares)) {
-				return board.movePiece(oldLocation, newLocation, this);
+				return board.movePiece(oldLocation, newLocation, this, true, false);
+			}
+
+			return false;
+		}
+
+		else {
+			return false;
+		}
+	}
+	
+	public boolean canMove(Location oldLocation, Location newLocation, Board board) {
+		Square[][] squares = board.getSquares();
+		int x1 = oldLocation.getX();
+		int y1 = oldLocation.getY();
+		int x2 = newLocation.getX();
+		int y2 = newLocation.getY();
+
+		// If the new location is the same as the old location.
+		if (oldLocation.equals(newLocation)) {
+			return true;
+		}
+
+		// If the x coordinate of the rabbit has not changed.
+		else if (oldLocation.getX() == newLocation.getX()) {
+			if (this.checkValid(x1, true, y1, y2, squares)) {
+				return board.canMovePiece(newLocation, this);
+			}
+
+			return false;
+		}
+
+		// If the y coordinate of the rabbit has not changed.
+		else if (oldLocation.getY() == newLocation.getY()) {
+			if (this.checkValid(y1, false, x1, x2, squares)) {
+				return board.canMovePiece(newLocation, this);
 			}
 
 			return false;

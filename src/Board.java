@@ -1,8 +1,8 @@
 import java.util.LinkedList;
+
 /**
- * Class that initializes the board of the game
- * Handles movement of Piece within the Squares
- * Checks if the game is completed
+ * Class that initializes the board of the game Handles movement of Piece within
+ * the Squares Checks if the game is completed
  * 
  * @author Khalil Aalab - 101070879
  * @author Kamaluddin Shakiri - 101054933
@@ -14,11 +14,16 @@ public class Board {
 	protected Square[][] squares;
 	protected Piece selectedPiece;
 	protected Location selectedPieceLocation;
-	protected LinkedList<Location> holeLocations; 
+	protected LinkedList<Location> holeLocations;
 	protected int rabbitCount;
 	protected static final int BOARD_SIZE = 5;
 	protected static final char BOARD_PRINT_CHAR = '*';
 	protected static final int totalLevels = 5;
+	protected MoveStack moveStack;
+	protected MoveStack redoStack;
+	private int currentLevel;
+	private int turnsTaken;
+	
 	/** 
 	 * Constructor to initialize the instance variables
 	 * @param level this is the level of the game
@@ -30,6 +35,10 @@ public class Board {
 		selectedPiece = null;
 		selectedPieceLocation = new Location();
 		rabbitCount = 0;
+		turnsTaken = 0;
+		moveStack = new MoveStack();
+		redoStack = new MoveStack();
+		this.currentLevel = level;
 		
 		// Initializes the Squares.
 		for (int x = 0; x < Board.BOARD_SIZE; x++) {
@@ -37,20 +46,37 @@ public class Board {
 				this.squares[x][y] = new Square(new Location(x, y));
 			}
 		}
-		
+
 		// Sets the level of the game.
-		this.initBoard(level); 
+		this.initBoard(level);
+	}
+
+	/**
+	 * Method to get the current level of the board.
+	 * @return currentLevel (int)
+	 */
+	public int getLevel() {
+		return currentLevel;
 	}
 	
 	/**
-	 * method to change the level of the game
+	 * Method to get the turns taken to solve the level.
+	 * @return turnsTaken (int)
+	 */
+	public int getTurnsTaken() {
+		return turnsTaken;
+	}
+	
+	/**
+	 * Method to change the level of the game
 	 * @param level this is the level of the game which is to be changed
 	 */
 	public void changeLevel(int level) {
 		this.reinitialize();
+		this.currentLevel = level;
 		this.initBoard(level);
 	}
-	
+
 	/**
 	 * Method to re-initialize the instance variables when changing level
 	 */
@@ -61,32 +87,37 @@ public class Board {
 				this.squares[x][y].setPiece(null);
 			}
 		}
-		
+
 		selectedPiece = null;
 		selectedPieceLocation = new Location();
 		rabbitCount = 0;
+		turnsTaken = 0;
 		holeLocations.clear();
+		moveStack.popAll();
+		redoStack.popAll();
 	}
+	
 	/**
-	 * method to access the squares
+	 * Method to access the squares
 	 * @return squares the array to be returned
 	 */
 	public Square[][] getSquares() {
 		return this.squares;
 	}
+	
 	/**
-	 * method to get a square at a particular location
+	 * Method to get a square at a particular location
 	 * @param location at which the x and y coordinates are accessed
 	 * @return squares at the location
 	 */
-	
+
 	public Square getSquareAtLocation(Location location) {
 		if (location.getX() >= BOARD_SIZE || location.getY() >= BOARD_SIZE) {
 			return null;
 		}
 		return squares[location.getX()][location.getY()];
 	}
-	
+
 	/**
 	 * Initializes the game to the selected level
 	 * @param level used to set the level of the game passed in as a parameter
@@ -94,38 +125,37 @@ public class Board {
 	private void initBoard(int level) {
 		// Create and add pieces into the board
 		switch (level) {
-			case 1:
-				this.initToLevel1();
-				break;
-				
-			case 2:
-				this.initToLevel2();
-				break;
+		case 1:
+			this.initToLevel1();
+			break;
 
-			case 3:
-				this.initToLevel3();
-				break;
-		
-			case 4:
-				this.initToLevel4();
-				break;
-				
-			case 5:
-				this.initToLevel5();
-				break;
-				
-			default:
-				this.initToLevel1();
-				break;
+		case 2:
+			this.initToLevel2();
+			break;
+
+		case 3:
+			this.initToLevel3();
+			break;
+
+		case 4:
+			this.initToLevel4();
+			break;
+
+		case 5:
+			this.initToLevel5();
+			break;
+
+		default:
+			this.initToLevel1();
+			break;
 		}
 	}
 
 	/**
-	 * Initialize the level 1 of the game
-	 * Method which creates and add pieces onto the board
+	 * Initialize the level 1 of the game Method which creates and add pieces onto the board
 	 */
 	private void initToLevel1() {
-		// Create and add pieces. 
+		// Create and add pieces.
 		squares[0][0].setPiece(new Hole());
 		squares[1][0].setPiece(new Mushroom());
 		squares[2][0].setPiece(new Mushroom());
@@ -147,21 +177,21 @@ public class Board {
 		// Store the number of rabbits.
 		rabbitCount = 2;
 	}
+	
 	/**
-	 * Initialize the level 2 of the game
-	 * Method which creates and add pieces onto the board
+	 * Initialize the level 2 of the game Method which creates and add pieces onto the board
 	 */
 	private void initToLevel2() {
-		// Create and add pieces. 
+		// Create and add pieces.
 		squares[0][0].setPiece(new Hole());
 		squares[4][0].setPiece(new Hole());
 		squares[4][1].setPiece(new Mushroom());
 		squares[0][2].setPiece(new Rabbit(Rabbit.RABBIT_COLORS.Gray));
 		squares[1][2].setPiece(new Mushroom());
-		
+
 		Hole hole = new Hole();
 		hole.setPiece(new Rabbit(Rabbit.RABBIT_COLORS.White));
-		
+
 		squares[2][2].setPiece(hole);
 		squares[3][2].setPiece(new Mushroom());
 		squares[4][2].setPiece(new Rabbit(Rabbit.RABBIT_COLORS.Brown));
@@ -174,17 +204,16 @@ public class Board {
 		holeLocations.add(new Location(2, 2));
 		holeLocations.add(new Location(0, 4));
 		holeLocations.add(new Location(4, 4));
-		
+
 		// Store the number of rabbits.
 		rabbitCount = 3;
 	}
 
 	/**
-	 * Initialize the level 3 of the game
-	 * Method which creates and add pieces onto the board
+	 * Initialize the level 3 of the game Method which creates and add pieces onto the board
 	 */
 	private void initToLevel3() {
-		// Create and add pieces. 
+		// Create and add pieces.
 		squares[0][0].setPiece(new Hole());
 		squares[3][0].setPiece(new Mushroom());
 		squares[4][0].setPiece(new Hole());
@@ -201,16 +230,16 @@ public class Board {
 		holeLocations.add(new Location(4, 0));
 		holeLocations.add(new Location(0, 4));
 		holeLocations.add(new Location(4, 4));
-		
+
 		// Store the number of rabbits.
 		rabbitCount = 1;
 	}
+	
 	/**
-	 * Initialize the level 4 of the game
-	 * Method which creates and add pieces onto the board
+	 * Initialize the level 4 of the game Method which creates and add pieces onto the board
 	 */
 	private void initToLevel4() {
-		// Create and add pieces. 
+		// Create and add pieces.
 		squares[0][0].setPiece(new Hole());
 		squares[1][0].setPiece(new Rabbit(Rabbit.RABBIT_COLORS.White));
 		squares[4][0].setPiece(new Hole());
@@ -229,19 +258,19 @@ public class Board {
 		holeLocations.add(new Location(2, 2));
 		holeLocations.add(new Location(0, 4));
 		holeLocations.add(new Location(4, 4));
-		
+
 		// Store the number of rabbits.
 		rabbitCount = 1;
 	}
+	
 	/**
-	 * Initialize the level 5 of the game
-	 * Method which creates and add pieces onto the board
+	 * Initialize the level 5 of the game Method which creates and add pieces onto the board
 	 */
 	private void initToLevel5() {
-		// Create and add pieces. 
+		// Create and add pieces.
 		squares[0][0].setPiece(new Hole());
 		squares[3][0].setPiece(new Rabbit(Rabbit.RABBIT_COLORS.White));
-		squares[4][0].setPiece(new Mushroom());	
+		squares[4][0].setPiece(new Mushroom());
 		squares[0][1].setPiece(new Fox(new Location(1, 1), true, false));
 		squares[1][1].setPiece(new Fox(new Location(0, 1), true, true));
 		squares[2][2].setPiece(new Hole());
@@ -257,13 +286,14 @@ public class Board {
 		holeLocations.add(new Location(2, 2));
 		holeLocations.add(new Location(0, 4));
 		holeLocations.add(new Location(4, 4));
-		
+
 		// Store the number of rabbits.
 		rabbitCount = 1;
 	}
+	
 	/**
 	 * Method that removes a piece from the given location.
-	 * @param location of the piece 
+	 * @param location of the piece
 	 */
 	public void removePiece(Location location) {
 		int x = location.getX();
@@ -271,11 +301,11 @@ public class Board {
 
 		// If there is a piece at that location.
 		if (squares[x][y].hasPiece()) {
-			
+
 			// Get the piece.
 			Piece piece = squares[x][y].getPiece();
 
-			// If the piece is a hole. 
+			// If the piece is a hole.
 			if (piece.getType() == PieceType.HOLE) {
 				Hole hole = (Hole) piece;
 
@@ -288,11 +318,11 @@ public class Board {
 				squares[x][y].removePiece();
 			}
 
-			// Clear out the selected piece and its location.
+			// Clear out the selected piece
 			selectedPiece = null;
-			selectedPieceLocation.clear();
 		}
 	}
+	
 	/**
 	 * Method that selects the piece in order to perform operations on it
 	 * @param location of the piece
@@ -302,7 +332,7 @@ public class Board {
 		int x = location.getX();
 		int y = location.getY();
 		Piece piece = squares[x][y].getPiece();
-		
+
 		// No piece is located at that spot
 		if (piece == null) {
 			return false;
@@ -324,7 +354,7 @@ public class Board {
 			return false;
 		}
 
-		// if the piece cannot be moved. 
+		// if the piece cannot be moved.
 		else if (!piece.isMovable()) {
 			return false;
 		}
@@ -335,9 +365,10 @@ public class Board {
 
 		return true;
 	}
+	
 	/**
-	 * checks if the piece can move or not
-	 * @param oldLocation initial location of the piece 
+	 * checks if the piece can move or not 
+	 * @param oldLocation initial location of the piece
 	 * @param newLocation new location of the piece to be moved to
 	 * @param piece this is the piece that is to be moved
 	 * @return true if the piece can be moved to be new location, return false if it can't be moved
@@ -347,39 +378,73 @@ public class Board {
 			Rabbit rabbit = (Rabbit) selectedPiece;
 			return rabbit.move(oldLocation, newLocation, this);
 		}
-		
+
 		else if (selectedPiece.getType() == PieceType.FOX) {
 			Fox fox = (Fox) selectedPiece;
 			return fox.move(oldLocation, newLocation, this);
 		}
-		
+
 		return false;
 	}
-
+	
 	/**
-	 * Method that moves the piece from the initial location to the new location
+	 * Method that moves the piece from the initial location to the new location 
 	 * @param oldLocation initial location of the piece to be moved
 	 * @param newLocation new location of the piece
 	 * @param piece piece that is moved
 	 */
-	public boolean movePiece(Location oldLocation, Location newLocation, Piece piece) {
+	public boolean movePiece(Location oldLocation, Location newLocation, Piece piece, boolean userMove, boolean redo) {
 		int x = newLocation.getX();
 		int y = newLocation.getY();
 		Piece locationPiece = squares[x][y].getPiece();
 
-		// If the location where is piece is about to moved is empty or it is same location.
+		// If the location where is piece is about to moved is empty or it is same
+		// location.
 		if (locationPiece == null || locationPiece == piece) {
+			if (userMove) {
+				// Clear the redo stack if a move was made between an undo and a redo.
+				// Clearing the stack, to prevent redoing to an invalid location.
+				if (!redoStack.isEmpty()) {
+					redoStack.popAll();
+				}
+				moveStack.push(oldLocation, newLocation, piece);
+			}
+			
+			else if (!redo) {
+				moveStack.push(oldLocation, newLocation, piece);
+			}
+			
+			else {
+				redoStack.push(oldLocation, newLocation, piece);
+			}
 			squares[x][y].setPiece(piece);
 			this.removePiece(oldLocation);
 			return true;
 		}
 
-		// If the location where is piece is about to moved a hole and the moving piece is a rabbit.
+		// If the location where is piece is about to moved a hole and the moving piece
+		// is a rabbit.
 		else if (locationPiece.getType() == PieceType.HOLE && piece.getType() == PieceType.RABBIT) {
 			Hole hole = (Hole) locationPiece;
 			if (!hole.isOccupied()) {
+				if (userMove) {
+					// Clear the redo stack if a move was made between an undo and a redo.
+					// Clearing the stack, to prevent redoing to an invalid location.
+					if (!redoStack.isEmpty()) {
+						redoStack.popAll();
+					}
+					moveStack.push(oldLocation, newLocation, piece);
+				}
+				
+				else if (!redo) {
+					moveStack.push(oldLocation, newLocation, piece);
+				}
+				
+				else {
+					redoStack.push(oldLocation, newLocation, piece);
+				}
 				// Add the piece in the hole.
-				hole.setPiece(selectedPiece);
+				hole.setPiece(userMove ? selectedPiece : piece);
 				this.removePiece(oldLocation);
 				return true;
 			}
@@ -390,35 +455,99 @@ public class Board {
 			return false;
 		}
 	}
+	
+	public boolean canMovePiece(Location newLocation, Piece piece) {
+		int x = newLocation.getX();
+		int y = newLocation.getY();
+		Piece locationPiece = squares[x][y].getPiece();
+
+		// If the location where is piece is about to moved is empty or it is same
+		// location.
+		if (locationPiece == null || locationPiece == piece) {
+			return true;
+		}
+
+		// If the location where is piece is about to moved a hole and the moving piece
+		// is a rabbit.
+		else if (locationPiece.getType() == PieceType.HOLE && piece.getType() == PieceType.RABBIT) {
+			Hole hole = (Hole) locationPiece;
+			if (!hole.isOccupied()) {
+
+				return true;
+			}
+			return false;
+		}
+
+		else {
+			return false;
+		}
+	}
+	
 	/**
-	 * Calls the canMove() method
-	 * sets the old location of the piece to null once the piece has moved to the new location
-	 * and clears the selected piece location
-	 * @param location on the board 
+	 * Calls the canMove() method sets the old location of the piece to null once
+	 * the piece has moved to the new location and clears the selected piece
+	 * location
+	 * @param location on the board
 	 * @return true if the operation is successful, else returns false if not successful
 	 */
 	public boolean move(Location location) {
 		if (this.canMove(selectedPieceLocation, location, selectedPiece)) {
 			selectedPiece = null;
 			selectedPieceLocation.clear();
+			turnsTaken++;
 			return true;
 		}
 
 		return false;
 	}
+	
+	/**
+	 * Function to undo a move.
+	 */
+	public void undo() {
+		Move move = moveStack.pop();
+		if (move == null) {
+			System.out.println("No moves were made to undo");
+			return;
+		}
+		
+		Location oldLocation = move.getOldLocation();
+		Location newLocation = move.getNewLocation();
+		Piece piece = move.getPiece();
+		this.movePiece(newLocation, oldLocation, piece, false, true);
+	}
+	
+	/**
+	 * Function to redo a move.
+	 */
+	public void redo() {
+		Move move = redoStack.pop();
+		if (move == null) {
+			System.out.println("No moves were undoed to redo");
+			return;
+		}
+		
+		Location oldLocation = move.getOldLocation();
+		Location newLocation = move.getNewLocation();
+		Piece piece = move.getPiece();
+		this.movePiece(newLocation, oldLocation, piece, false, false);
+	}
+	
+	
 	/**
 	 * Gets the board line 
 	 * @return String board line
 	 */
 	public String getBoardLine() {
 		String boardLine = "\n  ";
-        for (int i = 0; i < 21; i++) { 
-            boardLine += Board.BOARD_PRINT_CHAR; 
+		for (int i = 0; i < 21; i++) {
+			boardLine += Board.BOARD_PRINT_CHAR;
 		}
 
-		boardLine += "\n"; 
+		boardLine += "\n";
 		return boardLine;
 	}
+	
 	/**
 	 * Method returns a string representation of the board.
 	 * @return board contains the board as a string representation
@@ -426,7 +555,7 @@ public class Board {
 	public String toString() {
 		String board = "\n    A   B   C   D   E";
 		for (int y = 0; y < Board.BOARD_SIZE; y++) {
-			board += this.getBoardLine(); 
+			board += this.getBoardLine();
 			board += y + 1 + " ";
 
 			for (int x = 0; x < Board.BOARD_SIZE; x++) {
@@ -444,7 +573,7 @@ public class Board {
 	 * Gets the status of the hole and prints the text
 	 */
 	public void getHoleStatus() {
-		for (Location holeLocation: holeLocations) {
+		for (Location holeLocation : holeLocations) {
 			Hole hole = (Hole) squares[holeLocation.getX()][holeLocation.getY()].getPiece();
 			String text = holeLocation.toString();
 			text += " " + hole.getStatus();
@@ -453,24 +582,27 @@ public class Board {
 
 		System.out.println();
 	}
+	
 	/**
-	 * isGameWon checks all the holes on the board. If the number of rabbits in the game (rabbitCount)
-	 * is equal to the number of rabbits in the holes
-	 * the game is won and the method returns true
+	 * isGameWon checks all the holes on the board. If the number of rabbits in the
+	 * game (rabbitCount) is equal to the number of rabbits in the holes the game is
+	 * won and the method returns true
+	 * 
 	 * @return status of the game won or lost
 	 */
 	public boolean isGameWon() {
 		int count = 0;
-		for (Location holeLocation: holeLocations) {
+		for (Location holeLocation : holeLocations) {
 			Hole hole = (Hole) squares[holeLocation.getX()][holeLocation.getY()].getPiece();
-			if(hole.isOccupied() && hole.getPiece().getType() == PieceType.RABBIT) {
+			if (hole.isOccupied() && hole.getPiece().getType() == PieceType.RABBIT) {
 				count++;
 			}
 		}
-		
+
 		// Return true if all rabbits are in the hole.
 		return count == rabbitCount;
 	}
+	
 	/**
 	 * Prints the board
 	 */

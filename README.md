@@ -1,8 +1,8 @@
 # JumpIN
 
 Java code for the JumpIN game
-Currently working towards Milestone 1
-**Deadline: Oct 21st**
+Currently working towards Milestone 3
+**Deadline: Nov 18th**
 
 ## For Developers
 Please push to the development branch. Every once in a while, the code from the development branch will be code reviewed, verified and then merged into the main master branch. 
