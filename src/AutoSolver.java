@@ -21,7 +21,7 @@ public class AutoSolver {
 		this.view = view;
 	}
 	
-	private Location possibleMoveBasedOnDirection(Animal animal, Directions direction) {
+	private Location possibleMoveBasedOnDirection(AnimalTEMP animal, Directions direction) {
 		Location location = animal.getCurrentLocation();
 		Piece piece = animal.getPiece();
 		int i;
@@ -76,7 +76,7 @@ public class AutoSolver {
 		return possibleMove;
 	}
 	
-	private void findPossibleMoves(Animal animal) {
+	private void findPossibleMoves(AnimalTEMP animal) {
 		for (Directions direction: Directions.values()) {
 			Location possibleMove = this.possibleMoveBasedOnDirection(animal, direction);
 			if (possibleMove != null) {
@@ -85,8 +85,8 @@ public class AutoSolver {
 		}
 	}
 	
-	private ArrayList<Animal> getAnimalsWithLocation() {
-		ArrayList<Animal> animals = new ArrayList<>(); 
+	private ArrayList<AnimalTEMP> getAnimalsWithLocation() {
+		ArrayList<AnimalTEMP> animals = new ArrayList<>(); 
 		Piece piece = null;
 		int counter = 1;
 		for (int x = 0; x < Board.BOARD_SIZE; x++) {
@@ -94,7 +94,7 @@ public class AutoSolver {
 				if (squares[x][y].getPiece() != null) {
 					if (squares[x][y].getPiece().getType() == PieceType.RABBIT) {
 						piece = squares[x][y].getPiece();
-						Animal animal = new Animal(piece, squares[x][y].getLoc(), counter++);
+						AnimalTEMP animal = new AnimalTEMP(piece, squares[x][y].getLoc(), counter++);
 						animals.add(animal);
 					}
 					else if (squares[x][y].getPiece().getType() == PieceType.HOLE) {
@@ -105,7 +105,7 @@ public class AutoSolver {
 						}
 								
 						piece = hole.getPiece();
-						Animal animal = new Animal(piece, squares[x][y].getLoc(), counter++);
+						AnimalTEMP animal = new AnimalTEMP(piece, squares[x][y].getLoc(), counter++);
 						animals.add(animal);
 					}
 				}
@@ -115,7 +115,7 @@ public class AutoSolver {
 		return animals;
 	}
 	
-	private void moving(Animal animal) {
+	private void moving(AnimalTEMP animal) {
 		Location movingLocation = animal.getPossibleMove();
 		if (movingLocation != null) {
 			System.out.println("Moving " + animal.getAnimalNameAndID() + " to " + movingLocation);
@@ -128,14 +128,14 @@ public class AutoSolver {
 		}
 	}
 	
-	public void solve(int number, ArrayList<Animal> animals) {
+	public void solve(int number, ArrayList<AnimalTEMP> animals) {
 		System.out.println("----> " + number + " <----");
-		for (Animal animal: animals) {
+		for (AnimalTEMP animal: animals) {
 			this.findPossibleMoves(animal);
 			animal.print();
 		}
 		
-		for (Animal animal: animals) {
+		for (AnimalTEMP animal: animals) {
 			this.moving(animal);
 		}
 		
@@ -143,7 +143,7 @@ public class AutoSolver {
 	}
 	
 	public void autoSolve() {
-		ArrayList<Animal> animals = this.getAnimalsWithLocation();
+		ArrayList<AnimalTEMP> animals = this.getAnimalsWithLocation();
 		int counter = 1;
 		while (!board.isGameWon()) {
 			this.solve(counter++, animals);

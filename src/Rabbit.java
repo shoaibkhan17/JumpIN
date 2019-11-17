@@ -8,17 +8,7 @@
  * @author Md Aiman Sharif - 101062765
  * @author Shoaib Khan - 101033582
  */
-public class Rabbit extends Piece {
-	
-    /**
-     * Rabbits can be moved.
-     */
-    private static final boolean IS_MOVABLE = true;
-
-    /**
-     * Rabbits can be selected.
-     */
-    private static final boolean IS_SELECTABLE = true;
+public class Rabbit extends Animal {
 	
 	public static enum RABBIT_COLORS {Gray, White, Brown}
 	
@@ -27,8 +17,8 @@ public class Rabbit extends Piece {
 	/**
 	 * Default constructor
 	 */
-    public Rabbit(RABBIT_COLORS rabbitColor) {
-        super(PieceType.RABBIT, IS_MOVABLE, IS_SELECTABLE);
+    public Rabbit(RABBIT_COLORS rabbitColor, Location pieceLocation) {
+        super(PieceType.RABBIT, pieceLocation);
         this.rabbitColor = rabbitColor;
     }
 
@@ -80,7 +70,7 @@ public class Rabbit extends Piece {
 	 * @param board instance of board used to move the piece
 	 * @return true if the move can be made, else false if the move cannot be made
 	 */
-	public boolean move(Location oldLocation, Location newLocation, Board board) {
+	public boolean move(Location oldLocation, Location newLocation, Board board) {		
 		Square[][] squares = board.getSquares();
 		int x1 = oldLocation.getX();
 		int y1 = oldLocation.getY();

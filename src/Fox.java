@@ -9,17 +9,7 @@
  * @author Md Aiman Sharif - 101062765
  * @author Shoaib Khan - 101033582
  */
-public class Fox extends Piece {
-	
-    /**
-     * Foxes can be moved.
-     */
-    private static final boolean IS_MOVABLE = true;
-
-    /**
-     * Foxes can be selected.
-     */
-    private static final boolean IS_SELECTABLE = true;
+public class Fox extends Animal {
 
 	/**
 	 * Location of the other body of the fox piece.
@@ -43,8 +33,8 @@ public class Fox extends Piece {
 	 * @param horizontalMovement initializes horizontalLocation
 	 * @param tail initializes tail
 	 */
-	public Fox(Location bodyLocation, boolean horizontalMovement, boolean tail) {
-		super(PieceType.FOX, IS_MOVABLE, IS_SELECTABLE);
+	public Fox(Location pieceLocation, Location bodyLocation, boolean horizontalMovement, boolean tail) {
+		super(PieceType.FOX, pieceLocation);
 		this.bodyLocation = new Location();
 		this.bodyLocation.setX(bodyLocation.getX());
 		this.bodyLocation.setY(bodyLocation.getY());
@@ -166,7 +156,7 @@ public class Fox extends Piece {
 		}
 
 		// Create another fox with the new updated location. 
-		Fox temp = new Fox(newLocation, horizontalMovement, !this.tail);
+		Fox temp = new Fox(newLocation, newLocation, horizontalMovement, !this.tail);
 
 		// Move the fox to new location and remove it from the previous location.
 		if (board.movePiece(oldLocation, newLocation, this, true, false)) {

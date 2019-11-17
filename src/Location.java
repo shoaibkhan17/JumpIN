@@ -35,6 +35,11 @@ public class Location {
         this.x = x;
         this.y = y;
     }
+    
+    public Location(Location location) {
+    	this.x = location.getX();
+    	this.y = location.getY();
+    }
 
     /**
      * Gets the x coordinate

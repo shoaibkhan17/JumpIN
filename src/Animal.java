@@ -1,88 +1,60 @@
-import java.util.Stack;
-
 /**
- * ANIMAL CLASS JAVADOC TO BE DONE 
+ * An abstract Animal class that extends Piece.
+ * Contains the state descriptions and properties of the Animal Pieces
  * 
  * @author Khalil Aalab - 101070879
- * @author Kamaluddin Shakiri - 101054933
+ * @author Kamaluddin Shakirki - 101054933
  * @author Simon Yacoub - 101044159
  * @author Md Aiman Sharif - 101062765
  * @author Shoaib Khan - 101033582
  */
-public class Animal {
-	protected Piece piece;
-	protected Stack<Location> possibleMoves;
-	protected Stack<Location> previousMoves;
-	protected Location currentLocation;
-	private int animalID;
+public abstract class Animal extends Piece {
 	
-	public Animal(Piece piece, Location currentLocation, int animalID) {
-		this.piece = piece;
-		this.currentLocation = new Location();
-		this.currentLocation.setLocation(currentLocation);
-		this.animalID = animalID;
-		possibleMoves = new Stack<>();
-		previousMoves = new Stack<>();
+	/**
+	 * Animals can be moved. 
+	 */
+	private static final boolean isMovable = true; 
+
+	/**
+	 * Animals can be selected.
+	 */
+    private static final boolean isSelectable = true;
+    
+    /**
+     * ADD JAVA DOC
+     */
+    protected Location pieceLocation; 
+	
+	/** Default constructor.
+	 * @param type this is the type of the piece 
+	 */
+	public Animal(PieceType type, Location pieceLocation) {
+		super(type, isMovable, isSelectable);
+		this.pieceLocation = new Location(pieceLocation);
 	}
 	
-	public Location getCurrentLocation() {
-		return currentLocation;
+	/**
+	 * ADD JAVA DOC
+	 * @return
+	 */
+	public Location getPieceLocation() {
+		return pieceLocation;
 	}
 	
-	public void setCurrentLocation(Location currentLocation) {
-		this.currentLocation.setLocation(currentLocation);
+	/**
+	 * ADD JAVA DOC
+	 * @param pieceLocation
+	 */
+	public void setPieceLocation(Location pieceLocation) {
+		this.pieceLocation.setLocation(pieceLocation);
 	}
-	
-	public Piece getPiece() {
-		return piece;
-	}
-	
-	public void addPossibleMoves(Location possibleMove) {
-		Location location = new Location();
-		location.setLocation(possibleMove);
-		
-		if (!possibleMoves.contains(location) && !previousMoves.contains(location)) {
-			possibleMoves.push(location);
-		}
-	}
-	
-	public String getAnimalNameAndID() {
-		return piece.getType() + "" + animalID;
-	}
-	
-	public Location getPossibleMove() {
-		if (possibleMoves.isEmpty()) {
-			return null;
-		}
-		
-		Location location = possibleMoves.pop();
-		Location tempLocation = new Location();
-		tempLocation.setLocation(location);
-		previousMoves.push(tempLocation);
-		
-		if (possibleMoves.isEmpty()) {
-			previousMoves.clear();
-		}
-		
-		return location;
-	}
-	
-	public String getAllPossibleMovesString() {
-		String possibleMovesLocations = "";
-		Stack<Location> possibleMovesTemp = new Stack<>();
-		for (Location location : possibleMoves) {
-			possibleMovesTemp.add(location);
-		}
-		
-		while (!possibleMovesTemp.isEmpty()) {
-			possibleMovesLocations += possibleMovesTemp.pop() + " ";
-		}
-		
-		return possibleMovesLocations;
-	}
-	
-	public void print() {
-		String moveText = possibleMoves.size() == 0 ? "cannot move" : "can move to " + this.getAllPossibleMovesString();
-		System.out.println(piece.getType() + "" + animalID + " at " + currentLocation + " --> " + moveText);
-	}
+
+	/** 
+	 * The following is an abstract method which is implemented by the Pieces that can move.
+	 * @param oldLocation this is the initial location of the piece to be moved.
+	 * @param newLocation this is the new location of the piece.
+	 * @param board this is a parameter board passed in as an instance of the Board class.
+	 * @return boolean returns true if the move has been made, else returns false.
+	 */
+	public abstract boolean move(Location oldLocation, Location newLocation, Board board);
 }
