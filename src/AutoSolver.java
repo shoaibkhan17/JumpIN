@@ -65,11 +65,11 @@ public class AutoSolver {
 		
 		while (i < limit) {
 			Location newLocation = new Location(horizonal ? i : location.getX(), horizonal ? location.getY() : i);
-			if (rabbit.canMove(location, newLocation, board)) {
-				possibleMove = new Location();
-				possibleMove.setLocation(newLocation);
-			}
-			
+//			if (rabbit.canMove(location, newLocation, this)) {
+//				possibleMove = new Location();
+//				possibleMove.setLocation(newLocation);
+//			}
+//			
 			i++;
 		}
 		
@@ -121,7 +121,7 @@ public class AutoSolver {
 			System.out.println("Moving " + animal.getAnimalNameAndID() + " to " + movingLocation);
 			Piece piece = animal.getPiece();
 			Location currentLocation = animal.getCurrentLocation();
-			if (this.board.movePiece(currentLocation, movingLocation, piece, false, false)) {
+			if (this.board.movePiece(movingLocation, ((Animal) piece), false, false)) {
 				animal.setCurrentLocation(movingLocation);
 				this.view.updateView();
 			}

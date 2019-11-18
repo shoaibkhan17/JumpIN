@@ -12,8 +12,7 @@ import java.util.LinkedList;
  */
 public class Board {
 	protected Square[][] squares;
-	protected Piece selectedPiece;
-	protected Location selectedPieceLocation;
+	protected Animal selectedPiece;
 	protected LinkedList<Location> holeLocations;
 	protected int rabbitCount;
 	protected static final int BOARD_SIZE = 5;
@@ -33,7 +32,6 @@ public class Board {
 		squares = new Square[BOARD_SIZE][BOARD_SIZE];
 		holeLocations = new LinkedList<>();
 		selectedPiece = null;
-		selectedPieceLocation = new Location();
 		rabbitCount = 0;
 		turnsTaken = 0;
 		moveStack = new MoveStack();
@@ -89,7 +87,6 @@ public class Board {
 		}
 
 		selectedPiece = null;
-		selectedPieceLocation = new Location();
 		rabbitCount = 0;
 		turnsTaken = 0;
 		holeLocations.clear();
@@ -347,7 +344,6 @@ public class Board {
 
 				// Make that piece as the selected piece and store its location.
 				selectedPiece = hole.getPiece();
-				selectedPieceLocation.setLocation(location);
 				return true;
 			}
 
@@ -360,8 +356,7 @@ public class Board {
 		}
 
 		// get the selected piece from location x, y
-		selectedPiece = squares[x][y].getPiece();
-		selectedPieceLocation.setLocation(location);
+		selectedPiece = (Animal) squares[x][y].getPiece();
 
 		return true;
 	}
@@ -373,18 +368,13 @@ public class Board {
 	 * @param piece this is the piece that is to be moved
 	 * @return true if the piece can be moved to be new location, return false if it can't be moved
 	 */
-	private boolean canMove(Location oldLocation, Location newLocation, Piece piece) {
-		if (selectedPiece.getType() == PieceType.RABBIT) {
-			Rabbit rabbit = (Rabbit) selectedPiece;
-			return rabbit.move(oldLocation, newLocation, this);
+	private boolean canMove(Location newLocation, Animal animalPiece) {
+		// If the new location is the same as the old location.
+		if (selectedPiece.getPieceLocation().equals(newLocation)) {
+			return true;
 		}
-
-		else if (selectedPiece.getType() == PieceType.FOX) {
-			Fox fox = (Fox) selectedPiece;
-			return fox.move(oldLocation, newLocation, this);
-		}
-
-		return false;
+		
+		return animalPiece.canMove(newLocation, squares);
 	}
 	
 	/**
@@ -393,95 +383,136 @@ public class Board {
 	 * @param newLocation new location of the piece
 	 * @param piece piece that is moved
 	 */
-	public boolean movePiece(Location oldLocation, Location newLocation, Piece piece, boolean userMove, boolean redo) {
+	public boolean movePiece(Location newLocation, Animal animalPiece, boolean userMove, boolean redo) {
 		int x = newLocation.getX();
 		int y = newLocation.getY();
-		Piece locationPiece = squares[x][y].getPiece();
 
-		// If the location where is piece is about to moved is empty or it is same
-		// location.
-		if (locationPiece == null || locationPiece == piece) {
-			if (userMove) {
-				// Clear the redo stack if a move was made between an undo and a redo.
-				// Clearing the stack, to prevent redoing to an invalid location.
-				if (!redoStack.isEmpty()) {
-					redoStack.popAll();
-				}
-				moveStack.push(oldLocation, newLocation, piece);
-			}
-			
-			else if (!redo) {
-				moveStack.push(oldLocation, newLocation, piece);
+		// If the new location is the same as the old location.
+		if (animalPiece.getPieceLocation().equals(newLocation)) {
+			return true;
+		}
+		
+		switch (animalPiece.getType()) {
+		case RABBIT:
+			Piece locationPiece = squares[x][y].getPiece();
+			if (locationPiece != null && locationPiece.getType() == PieceType.HOLE) {
+				Hole hole = (Hole) locationPiece;
+				this.removePiece(animalPiece.getPieceLocation());
+				animalPiece.setPieceLocation(newLocation);
+				hole.setPiece(userMove ? animalPiece : animalPiece);
+				return true;
 			}
 			
 			else {
-				redoStack.push(oldLocation, newLocation, piece);
-			}
-			squares[x][y].setPiece(piece);
-			this.removePiece(oldLocation);
-			return true;
-		}
-
-		// If the location where is piece is about to moved a hole and the moving piece
-		// is a rabbit.
-		else if (locationPiece.getType() == PieceType.HOLE && piece.getType() == PieceType.RABBIT) {
-			Hole hole = (Hole) locationPiece;
-			if (!hole.isOccupied()) {
-				if (userMove) {
-					// Clear the redo stack if a move was made between an undo and a redo.
-					// Clearing the stack, to prevent redoing to an invalid location.
-					if (!redoStack.isEmpty()) {
-						redoStack.popAll();
-					}
-					moveStack.push(oldLocation, newLocation, piece);
-				}
-				
-				else if (!redo) {
-					moveStack.push(oldLocation, newLocation, piece);
-				}
-				
-				else {
-					redoStack.push(oldLocation, newLocation, piece);
-				}
-				// Add the piece in the hole.
-				hole.setPiece(userMove ? selectedPiece : piece);
-				this.removePiece(oldLocation);
+				this.removePiece(animalPiece.getPieceLocation());
+				animalPiece.setPieceLocation(newLocation);
+				squares[x][y].setPiece(animalPiece);
 				return true;
 			}
+			
+		case FOX:
+			Fox fox = (Fox) animalPiece;
+			this.removePiece(fox.getPieceLocation());
+			Location oldBodyLoc = new Location(fox.getBodyLocation());
+			Fox body = (Fox) squares[oldBodyLoc.getX()][oldBodyLoc.getY()].getPiece();
+			this.removePiece(oldBodyLoc);
+			fox.calcaulePieceLocation(newLocation, body);
+			Location foxLocation = new Location(fox.getPieceLocation());
+			squares[foxLocation.getX()][foxLocation.getY()].setPiece(animalPiece);
+			Location newBodyLoc = new Location(fox.getBodyLocation());
+			squares[newBodyLoc.getX()][newBodyLoc.getY()].setPiece(body);
+			return true;
+		
+		default:
 			return false;
 		}
-
-		else {
-			return false;
-		}
+		
+		
+//
+//		// If the location where is piece is about to moved is empty or it is same
+//		// location.
+//		if (locationPiece == null || locationPiece == piece) {
+//			if (userMove) {
+//				// Clear the redo stack if a move was made between an undo and a redo.
+//				// Clearing the stack, to prevent redoing to an invalid location.
+//				if (!redoStack.isEmpty()) {
+//					redoStack.popAll();
+//				}
+//				moveStack.push(oldLocation, newLocation, piece);
+//			}
+//			
+//			else if (!redo) {
+//				moveStack.push(oldLocation, newLocation, piece);
+//			}
+//			
+//			else {
+//				redoStack.push(oldLocation, newLocation, piece);
+//			}
+//			squares[x][y].setPiece(piece);
+//			this.removePiece(oldLocation);
+//			return true;
+//		}
+//
+//		// If the location where is piece is about to moved a hole and the moving piece
+//		// is a rabbit.
+//		else if (locationPiece.getType() == PieceType.HOLE && piece.getType() == PieceType.RABBIT) {
+//			Hole hole = (Hole) locationPiece;
+//			if (!hole.isOccupied()) {
+//				if (userMove) {
+//					// Clear the redo stack if a move was made between an undo and a redo.
+//					// Clearing the stack, to prevent redoing to an invalid location.
+//					if (!redoStack.isEmpty()) {
+//						redoStack.popAll();
+//					}
+//					moveStack.push(oldLocation, newLocation, piece);
+//				}
+//				
+//				else if (!redo) {
+//					moveStack.push(oldLocation, newLocation, piece);
+//				}
+//				
+//				else {
+//					redoStack.push(oldLocation, newLocation, piece);
+//				}
+//				// Add the piece in the hole.
+//				hole.setPiece(userMove ? selectedPiece : piece);
+//				this.removePiece(oldLocation);
+//				return true;
+//			}
+//			return false;
+//		}
+//
+//		else {
+//			return false;
+//		}
 	}
 	
-	public boolean canMovePiece(Location newLocation, Piece piece) {
-		int x = newLocation.getX();
-		int y = newLocation.getY();
-		Piece locationPiece = squares[x][y].getPiece();
-
-		// If the location where is piece is about to moved is empty or it is same
-		// location.
-		if (locationPiece == null || locationPiece == piece) {
-			return true;
-		}
-
-		// If the location where is piece is about to moved a hole and the moving piece
-		// is a rabbit.
-		else if (locationPiece.getType() == PieceType.HOLE && piece.getType() == PieceType.RABBIT) {
-			Hole hole = (Hole) locationPiece;
-			if (!hole.isOccupied()) {
-
-				return true;
-			}
-			return false;
-		}
-
-		else {
-			return false;
-		}
-	}
+//	public boolean canMovePiece(Location newLocation, Piece piece) {
+//		int x = newLocation.getX();
+//		int y = newLocation.getY();
+//		Piece locationPiece = squares[x][y].getPiece();
+//
+//		// If the location where is piece is about to moved is empty or it is same
+//		// location.
+//		if (locationPiece == null || locationPiece == piece) {
+//			return true;
+//		}
+//
+//		// If the location where is piece is about to moved a hole and the moving piece
+//		// is a rabbit.
+//		else if (locationPiece.getType() == PieceType.HOLE && piece.getType() == PieceType.RABBIT) {
+//			Hole hole = (Hole) locationPiece;
+//			if (!hole.isOccupied()) {
+//
+//				return true;
+//			}
+//			return false;
+//		}
+//
+//		else {
+//			return false;
+//		}
+//	}
 	
 	/**
 	 * Calls the canMove() method sets the old location of the piece to null once
@@ -490,14 +521,14 @@ public class Board {
 	 * @param location on the board
 	 * @return true if the operation is successful, else returns false if not successful
 	 */
-	public boolean move(Location location) {
-		if (this.canMove(selectedPieceLocation, location, selectedPiece)) {
-			selectedPiece = null;
-			selectedPieceLocation.clear();
-			turnsTaken++;
-			return true;
+	public boolean move(Location newLocation) {
+		if (this.canMove(newLocation, selectedPiece)) {
+			if (this.movePiece(newLocation, selectedPiece, true, false)) {
+				selectedPiece = null;
+				turnsTaken++;
+				return true;
+			}	
 		}
-
 		return false;
 	}
 	
@@ -514,7 +545,7 @@ public class Board {
 		Location oldLocation = move.getOldLocation();
 		Location newLocation = move.getNewLocation();
 		Piece piece = move.getPiece();
-		this.movePiece(newLocation, oldLocation, piece, false, true);
+//		this.movePiece(newLocation, oldLocation, piece, false, true);
 	}
 	
 	/**
@@ -530,7 +561,7 @@ public class Board {
 		Location oldLocation = move.getOldLocation();
 		Location newLocation = move.getNewLocation();
 		Piece piece = move.getPiece();
-		this.movePiece(newLocation, oldLocation, piece, false, false);
+//		this.movePiece(newLocation, oldLocation, piece, false, false);
 	}
 	
 	
@@ -608,7 +639,7 @@ public class Board {
 	 */
 	public void printBoard() {
 		if (selectedPiece != null) {
-			System.out.println("-- SELECTED PIECE " + selectedPiece + " at " + selectedPieceLocation + " --");
+			System.out.println("-- SELECTED PIECE " + selectedPiece + " at " + selectedPiece.getPieceLocation() + " --");
 		}
 		System.out.print(this.toString());
 		this.getHoleStatus();

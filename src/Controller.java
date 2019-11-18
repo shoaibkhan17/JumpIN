@@ -84,6 +84,11 @@ public class Controller {
 		Location location = square.getLoc();
 		if (board.move(location)) {
 			Piece selectedPiece = square.getPiece();
+			
+			if (selectedPiece == null) {
+				System.out.println("NOTHING THERE");
+				return;
+			}
 
 			// If the fox was moved
 			// Update and render the entire view

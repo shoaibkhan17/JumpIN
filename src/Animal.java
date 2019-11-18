@@ -51,10 +51,9 @@ public abstract class Animal extends Piece {
 
 	/** 
 	 * The following is an abstract method which is implemented by the Pieces that can move.
-	 * @param oldLocation this is the initial location of the piece to be moved.
 	 * @param newLocation this is the new location of the piece.
-	 * @param board this is a parameter board passed in as an instance of the Board class.
+	 * @param squares this is a parameter board passed in as an instance of the Board class.
 	 * @return boolean returns true if the move has been made, else returns false.
 	 */
-	public abstract boolean move(Location oldLocation, Location newLocation, Board board);
+	public abstract boolean canMove(Location newLocation, Square[][] squares);
 }
