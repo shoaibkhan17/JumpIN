@@ -292,7 +292,7 @@ class View {
 		JFrame popupFrame = new JFrame();
 		String message = "";
 		
-		if (board.getLevel() < Board.totalLevels) {
+		if (board.getLevel() < Board.TOTAL_LEVELS) {
 			message = "Congratulations on completing Level " + board.getLevel() + "!";
 			message += "\n";
 			message += "Turns taken - " + board.getTurnsTaken();
