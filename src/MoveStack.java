@@ -16,12 +16,8 @@ public class MoveStack {
 		movesMade = new ArrayList<>();
 	}
 	
-	public void push(Location oldLocation, Location newLocation, Piece piece) {
-		Location oldLoc = new Location();
-		oldLoc.setLocation(oldLocation);
-		Location newLoc = new Location();
-		newLoc.setLocation(newLocation);
-		Move move = new Move(oldLoc, newLoc, piece);
+	public void push(Location newLocation, Animal animalPiece) {
+		Move move = new Move(newLocation, animalPiece);
 		movesMade.add(move);
 	}
 	
@@ -31,6 +27,10 @@ public class MoveStack {
 	
 	public void popAll() {
 		movesMade.clear();
+	}
+	
+	public int size() {
+		return movesMade.size();
 	}
 	
 	public Move pop() {

@@ -377,6 +377,27 @@ public class Board {
 		return animalPiece.canMove(newLocation, squares);
 	}
 	
+	private void undoRedoHandler(Location newLocation, Animal animalPiece, boolean userMove, boolean redo) {
+		if (userMove) {
+			// Clear the redo stack if a move was made between an undo and a redo.
+			// Clearing the stack, to prevent redoing to an invalid location.
+			if (!redoStack.isEmpty()) {
+				redoStack.popAll();
+			}
+			moveStack.push(newLocation, animalPiece);
+		}
+		
+		else if (!redo) {
+			moveStack.push(newLocation, animalPiece);
+		}
+		
+		else {
+			redoStack.push(newLocation, animalPiece);
+		}
+//		
+//		System.out.println(moveStack.size());
+	}
+	
 	/**
 	 * Method that moves the piece from the initial location to the new location 
 	 * @param oldLocation initial location of the piece to be moved
@@ -397,6 +418,7 @@ public class Board {
 			Piece locationPiece = squares[x][y].getPiece();
 			if (locationPiece != null && locationPiece.getType() == PieceType.HOLE) {
 				Hole hole = (Hole) locationPiece;
+				this.undoRedoHandler(animalPiece.getPieceLocation(), animalPiece, userMove, redo);
 				this.removePiece(animalPiece.getPieceLocation());
 				animalPiece.setPieceLocation(newLocation);
 				hole.setPiece(userMove ? animalPiece : animalPiece);
@@ -404,9 +426,11 @@ public class Board {
 			}
 			
 			else {
+				this.undoRedoHandler(animalPiece.getPieceLocation(), animalPiece, userMove, redo);
 				this.removePiece(animalPiece.getPieceLocation());
 				animalPiece.setPieceLocation(newLocation);
 				squares[x][y].setPiece(animalPiece);
+				this.undoRedoHandler(newLocation, animalPiece, userMove, redo);
 				return true;
 			}
 			
@@ -421,6 +445,7 @@ public class Board {
 			squares[foxLocation.getX()][foxLocation.getY()].setPiece(animalPiece);
 			Location newBodyLoc = new Location(fox.getBodyLocation());
 			squares[newBodyLoc.getX()][newBodyLoc.getY()].setPiece(body);
+			this.undoRedoHandler(foxLocation, animalPiece, userMove, redo);
 			return true;
 		
 		default:
@@ -542,10 +567,9 @@ public class Board {
 			return;
 		}
 		
-		Location oldLocation = move.getOldLocation();
 		Location newLocation = move.getNewLocation();
-		Piece piece = move.getPiece();
-//		this.movePiece(newLocation, oldLocation, piece, false, true);
+		Animal animalPiece = move.getPiece();
+		this.movePiece(newLocation, animalPiece, false, true);
 	}
 	
 	/**
@@ -558,10 +582,9 @@ public class Board {
 			return;
 		}
 		
-		Location oldLocation = move.getOldLocation();
 		Location newLocation = move.getNewLocation();
-		Piece piece = move.getPiece();
-//		this.movePiece(newLocation, oldLocation, piece, false, false);
+		Animal animalPiece = move.getPiece();
+		this.movePiece(newLocation, animalPiece, false, false);
 	}
 	
 	

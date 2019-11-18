@@ -10,25 +10,19 @@
  */
 
 public class Move {
-	private Location oldLocation;
 	private Location newLocation;
-	private Piece piece; 
+	private Animal animalPiece; 
 	
-	public Move(Location oldLocation, Location newLocation, Piece piece) {
-		this.oldLocation = oldLocation;
-		this.newLocation = newLocation;
-		this.piece = piece;
-	}
-	
-	public Location getOldLocation() {
-		return oldLocation;
+	public Move(Location newLocation, Animal piece) {
+		this.newLocation = new Location(newLocation);
+		this.animalPiece = piece;
 	}
 	
 	public Location getNewLocation() {
 		return newLocation;
 	}
 	
-	public Piece getPiece() {
-		return piece;
+	public Animal getPiece() {
+		return animalPiece;
 	}
 }
