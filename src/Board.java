@@ -636,6 +636,21 @@ public class Board {
 	}
 	
 	/**
+	 * ADD JAVA DOC
+	 * @return
+	 */
+	public String getBoardState() {
+		String boardState = "";
+		for (int y = 0; y < Board.BOARD_SIZE; y++) {
+			for (int x = 0; x < Board.BOARD_SIZE; x++) {
+				boardState += squares[x][y];
+			}
+		}
+		
+		return boardState;
+	}
+	
+	/**
 	 * isGameWon checks all the holes on the board. If the number of rabbits in the
 	 * game (rabbitCount) is equal to the number of rabbits in the holes the game is
 	 * won and the method returns true
