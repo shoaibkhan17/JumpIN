@@ -8,17 +8,7 @@
  * @author Md Aiman Sharif - 101062765
  * @author Shoaib Khan - 101033582
  */
-public class Rabbit extends Piece {
-	
-    /**
-     * Rabbits can be moved.
-     */
-    private static final boolean IS_MOVABLE = true;
-
-    /**
-     * Rabbits can be selected.
-     */
-    private static final boolean IS_SELECTABLE = true;
+public class Rabbit extends Animal {
 	
 	public static enum RABBIT_COLORS {Gray, White, Brown}
 	
@@ -27,10 +17,11 @@ public class Rabbit extends Piece {
 	/**
 	 * Default constructor
 	 */
-    public Rabbit(RABBIT_COLORS rabbitColor) {
-        super(PieceType.RABBIT, IS_MOVABLE, IS_SELECTABLE);
+    public Rabbit(RABBIT_COLORS rabbitColor, Location pieceLocation) {
+        super(PieceType.RABBIT, pieceLocation);
         this.rabbitColor = rabbitColor;
     }
+
 
 	/**
 	 * Method that checks whether the move made by the Rabbit is valid or not
@@ -42,72 +33,73 @@ public class Rabbit extends Piece {
 	 * @return boolean true if the move is valid, false if the move is not valid
 	 */
 	private boolean checkValid(int constNumber, boolean x, int number1, int number2, Square[][] squares) {
-		
-		// Has to have a piece or pieces in the middle to move there. 
 		boolean pieceInMiddle = true;
-		int diff = Math.abs(number1 - number2) - 1;
-		int smallestNumber = number1 > number2 ? number2 : number1;
-
-		// Go through all the spaces the rabbit has moved and check if there is a piece there.
-		if (diff >= 1) {
-			for (int i = 0; i < diff; i++) {
-				Piece piece = squares[x ? constNumber : (smallestNumber + i + 1)][x ? (smallestNumber + i + 1) : constNumber].getPiece();
-				if (piece == null) {
-					pieceInMiddle = false;
-				}
-				
-				else if (piece.getType() == PieceType.HOLE) {
+		int diff = Math.abs(number1 - number2);
+		int min = Math.min(number1, number2);
+		int max = Math.max(number1, number2);
+		int numberToCheck = max == number2 ? max : min;
+		
+		if (diff == 1) {
+			return false;
+		}
+		
+		while ((min + 1) <= (max - 1)) {
+			Location location = new Location(x ? constNumber : (min + 1), x ? (min + 1) : constNumber);
+			Piece piece = squares[location.getX()][location.getY()].getPiece();
+			if (piece == null) {
+				pieceInMiddle = false;
+				break;
+			}
+			else {
+				if (piece.getType() == PieceType.HOLE) {
 					Hole hole = (Hole) piece;
 					if (!hole.isOccupied()) {
 						pieceInMiddle = false;
+						break;
 					}
 				}
 			}
-
-			// Return if there is a piece in the middle.
-			return pieceInMiddle;
+			min++;
 		}
-
-		else {
-			return false;
+		
+		// Check the last piece
+		if (pieceInMiddle) {
+			Location location = new Location(x ? constNumber : (numberToCheck), x ? (numberToCheck) : constNumber);
+			Piece piece = squares[location.getX()][location.getY()].getPiece();
+			if (piece != null) {
+				if (piece.getType() == PieceType.HOLE) {
+					Hole hole = (Hole) piece;
+					return !hole.isOccupied();
+				}
+				return false;
+				
+			}
+			return true;
 		}
+		
+		return false;
 	}
 
 	/**
 	 * Method to move the animal
-	 * @param oldLocation old location of the animal
 	 * @param newLocation new location of the animal
 	 * @param board instance of board used to move the piece
 	 * @return true if the move can be made, else false if the move cannot be made
 	 */
-	public boolean move(Location oldLocation, Location newLocation, Board board) {
-		Square[][] squares = board.getSquares();
-		int x1 = oldLocation.getX();
-		int y1 = oldLocation.getY();
+	public boolean canMove(Location newLocation, Square[][] squares) {		
+		int x1 = pieceLocation.getX();
+		int y1 = pieceLocation.getY();
 		int x2 = newLocation.getX();
 		int y2 = newLocation.getY();
 
-		// If the new location is the same as the old location.
-		if (oldLocation.equals(newLocation)) {
-			return true;
-		}
-
 		// If the x coordinate of the rabbit has not changed.
-		else if (oldLocation.getX() == newLocation.getX()) {
-			if (this.checkValid(x1, true, y1, y2, squares)) {
-				return board.movePiece(oldLocation, newLocation, this, true, false);
-			}
-
-			return false;
+		if (pieceLocation.getX() == newLocation.getX()) {			
+			return this.checkValid(x1, true, y1, y2, squares);
 		}
 
 		// If the y coordinate of the rabbit has not changed.
-		else if (oldLocation.getY() == newLocation.getY()) {
-			if (this.checkValid(y1, false, x1, x2, squares)) {
-				return board.movePiece(oldLocation, newLocation, this, true, false);
-			}
-
-			return false;
+		else if (pieceLocation.getY() == newLocation.getY()) {
+			return this.checkValid(y1, false, x1, x2, squares);
 		}
 
 		else {
@@ -115,38 +107,12 @@ public class Rabbit extends Piece {
 		}
 	}
 	
-	public boolean canMove(Location oldLocation, Location newLocation, Board board) {
-		Square[][] squares = board.getSquares();
-		int x1 = oldLocation.getX();
-		int y1 = oldLocation.getY();
-		int x2 = newLocation.getX();
-		int y2 = newLocation.getY();
-
-		// If the new location is the same as the old location.
-		if (oldLocation.equals(newLocation)) {
-			return true;
-		}
-
-		// If the x coordinate of the rabbit has not changed.
-		else if (oldLocation.getX() == newLocation.getX()) {
-			if (this.checkValid(x1, true, y1, y2, squares)) {
-				return board.canMovePiece(newLocation, this);
-			}
-
-			return false;
-		}
-
-		// If the y coordinate of the rabbit has not changed.
-		else if (oldLocation.getY() == newLocation.getY()) {
-			if (this.checkValid(y1, false, x1, x2, squares)) {
-				return board.canMovePiece(newLocation, this);
-			}
-
-			return false;
-		}
-
-		else {
-			return false;
-		}
+	@Override
+	public boolean equals(Object obj) {
+		if (this.getClass() == obj.getClass()) {
+			Rabbit rabbit = (Rabbit) obj;
+			return this.rabbitColor == rabbit.rabbitColor && this.pieceLocation.equals(rabbit.getPieceLocation());
+    	}
+    	return false;
 	}
 }

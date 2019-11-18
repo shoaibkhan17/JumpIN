@@ -1,4 +1,8 @@
 import java.util.ArrayList;
+import java.util.TreeSet;
+
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeNode;
 
 /**
  * AUTOSOLVER CLASS 
@@ -14,29 +18,34 @@ public class AutoSolver {
 	private Board board;
 	private Square[][] squares;
 	private View view;
+	private ArrayList<Move> moves;
+	private MoveStack movesTest;
+	private MoveStack moveHolder;
+	private TreeSet<String> boardStateTree;
+	private DefaultTreeModel treeTest;
+	private Node root;
+	private ArrayList<String> visitedStates;
 	
 	public AutoSolver(Board board, View view) {
 		this.board = board;
 		squares = board.getSquares();
 		this.view = view;
+		moves = new ArrayList<>();
+		movesTest = new MoveStack();
+		moveHolder = new MoveStack();
+		boardStateTree = new TreeSet<>();
+		visitedStates = new ArrayList<>();
+		visitedStates.add(board.getBoardState());
+		root = new Node(board.getBoardState());	
 	}
 	
 	private Location possibleMoveBasedOnDirection(Animal animal, Directions direction) {
-		Location location = animal.getCurrentLocation();
-		Piece piece = animal.getPiece();
+		Location location = animal.getPieceLocation();
 		int i;
 		boolean horizonal;
 		int limit;
 		Location possibleMove = null;
-		Rabbit rabbit = null;
-		
-		if (piece == null) {
-			return possibleMove;
-		}
-		
-		else if (piece.getType() == PieceType.RABBIT) {
-			rabbit = (Rabbit) piece;
-		}
+
 		
 		switch(direction) {
 		case UP:
@@ -65,11 +74,9 @@ public class AutoSolver {
 		
 		while (i < limit) {
 			Location newLocation = new Location(horizonal ? i : location.getX(), horizonal ? location.getY() : i);
-			if (rabbit.canMove(location, newLocation, board)) {
-				possibleMove = new Location();
-				possibleMove.setLocation(newLocation);
-			}
-			
+			if (animal.canMove(newLocation, squares)) {
+				possibleMove = new Location(newLocation);
+			}	
 			i++;
 		}
 		
@@ -80,22 +87,22 @@ public class AutoSolver {
 		for (Directions direction: Directions.values()) {
 			Location possibleMove = this.possibleMoveBasedOnDirection(animal, direction);
 			if (possibleMove != null) {
-				animal.addPossibleMoves(possibleMove);
+				movesTest.push(possibleMove, animal);
 			}
 		}
 	}
 	
 	private ArrayList<Animal> getAnimalsWithLocation() {
 		ArrayList<Animal> animals = new ArrayList<>(); 
-		Piece piece = null;
-		int counter = 1;
+		Animal animalPiece = null;
+//		int counter = 1;
 		for (int x = 0; x < Board.BOARD_SIZE; x++) {
 			for (int y = 0; y < Board.BOARD_SIZE; y++) {
 				if (squares[x][y].getPiece() != null) {
 					if (squares[x][y].getPiece().getType() == PieceType.RABBIT) {
-						piece = squares[x][y].getPiece();
-						Animal animal = new Animal(piece, squares[x][y].getLoc(), counter++);
-						animals.add(animal);
+						animalPiece = (Animal) squares[x][y].getPiece();
+//						AnimalTEMP animal = new AnimalTEMP(piece, squares[x][y].getLoc(), counter++);
+						animals.add(animalPiece);
 					}
 					else if (squares[x][y].getPiece().getType() == PieceType.HOLE) {
 						Hole hole = (Hole) squares[x][y].getPiece();
@@ -104,9 +111,8 @@ public class AutoSolver {
 							continue;
 						}
 								
-						piece = hole.getPiece();
-						Animal animal = new Animal(piece, squares[x][y].getLoc(), counter++);
-						animals.add(animal);
+						animalPiece = hole.getPiece();
+						animals.add(animalPiece);
 					}
 				}
 			}
@@ -115,44 +121,230 @@ public class AutoSolver {
 		return animals;
 	}
 	
-	private void moving(Animal animal) {
-		Location movingLocation = animal.getPossibleMove();
-		if (movingLocation != null) {
-			System.out.println("Moving " + animal.getAnimalNameAndID() + " to " + movingLocation);
-			Piece piece = animal.getPiece();
-			Location currentLocation = animal.getCurrentLocation();
-			if (this.board.movePiece(currentLocation, movingLocation, piece, false, false)) {
-				animal.setCurrentLocation(movingLocation);
-				this.view.updateView();
+//	private void moving(AnimalTEMP animal) {
+//		Location movingLocation = animal.getPossibleMove();
+//		if (movingLocation != null) {
+//			System.out.println("Moving " + animal.getAnimalNameAndID() + " to " + movingLocation);
+//			Piece piece = animal.getPiece();
+//			Location currentLocation = animal.getCurrentLocation();
+//			if (this.board.movePiece(movingLocation, ((Animal) piece), false, false)) {
+//				animal.setCurrentLocation(movingLocation);
+//				this.view.updateView();
+//			}
+//		}
+//	}
+	
+	private ArrayList<String> getBoardStatesFromPossibleMoves() {
+		
+		ArrayList<String> boardStates = new ArrayList<>();
+		String boardState = "";
+		
+		while(!movesTest.isEmpty()) {
+			Move move = movesTest.pop();
+			board.movePiece(move.getNewLocation(), move.getPiece(), true, false);
+			boardState = board.getBoardState();
+			
+			if (!visitedStates.contains(boardState)) {
+//				System.out.println("does not contain");
+				moveHolder.push(move.getNewLocation(), move.getPiece());
+//				System.out.println("does not contain");
+				boardStates.add(boardState);
 			}
+		
+			else {
+				
+//				if (movesTest.size() != 0) {
+//					moveHolder.pop();
+//					moveHolder.push(move.getNewLocation(), move.getPiece());
+//					board.undo();
+//				}
+				System.out.println("movesTest size" + movesTest.size());
+
+				System.out.println("contains" + boardState);
+//				Move a = moveHolder.peek();
+////				moveHolder.pop();
+//				System.out.println("already there "+ a);
+//				
+//				System.out.println("contents of move ");
+//				moveHolder.printAllMoves();
+			}
+			
+			board.undo();
 		}
+		
+		return boardStates;
 	}
 	
 	public void solve(int number, ArrayList<Animal> animals) {
+	
+		Node node;
+		if (root.getChildren().size() == 0) {
+			node = root;
+		}
+		
+		else {
+			node = root.getChildren().get(0);
+		}
+		
+//		while(!board.isGameWon()) {
+//			System.out.println("\n\n----> " + ++number + " <----");
+//			this.test(node, animals);
+//		}
 		System.out.println("----> " + number + " <----");
+		this.test(node, animals);
+//		System.out.println("\n\n----> " + ++number + " <----");
+//		this.test(node, animals);
+//		System.out.println("\n\n----> " + ++number + " <----");
+//		this.test(node, animals);
+//		System.out.println("\n\n----> " + ++number + " <----");
+//		this.test(node, animals);
+//		System.out.println("\n\n----> " + ++number + " <----");
+//		this.test(node, animals);
+//		System.out.println("\n\n----> " + ++number + " <----");
+//		this.test(node, animals);
+//		System.out.println("\n\n----> " + ++number + " <----");
+//		this.test(node, animals);
+//		
+		
+//		for (Animal animal: animals) {
+//			view.highlightSelectedSquare(board.getSquareAtLocation(animal.getPieceLocation()));
+//			this.findPossibleMoves(animal);
+//		}
+//		
+//		ArrayList<String> boardStates = this.getBoardStatesFromPossibleMoves();
+//		for (String s: boardStates) {
+//			System.out.println(s);
+//		}
+//		
+//		this.printMoves();
+		
+//		System.out.println("\n\n----> " + ++number + " <----");
+//		this.test(node, animals);
+		
+		
+//		System.out.println("----> " + ++number + " <----");
+//		this.test(animals);
+//		for (Animal animal: animals) {
+//			this.findPossibleMoves(animal);
+//		}
+//		
+//		for (String string : this.getBoardStatesFromPossibleMoves()) {
+//			System.out.println("contains in tree? :" + root.contains(new Node(string)));
+//			root.addChild(new Node(string));
+//		}
+////		this.test(animals);
+//		
+//		root.printTree(root, "-");
+//		System.out.println("");
+//		
+//		Node child = root.getChildren().get(0);
+//	
+//		
+//		// Making move
+//		System.out.println("working with state \n" + child);
+//		Move move = moveHolder.first();
+//		System.out.println("trying " + move);
+//		
+//		board.movePiece(move.getNewLocation(), move.getPiece(), true, false);
+//		
+//		System.out.println("current board state: " + board.getBoardState());
+//		view.updateView();
+//		System.out.println();
+//		
+//	
+//		// Round 2
+//		
+//		System.out.println("----> " + ++number + " <----");
+//		System.out.println("new possible moves");
+//		this.test(animals);
+
+
+		
+		
+//		
+//		root.getChildren().get(0).deleteNode();
+//		
+//		root.printTree(root, "-");
+	
+	}
+	
+	public void printMoves() {
+		for (Move move: moveHolder.getAllMoves()) {
+			System.out.println(move);
+		}
+	}
+	
+	public void test(Node node, ArrayList<Animal> animals) {
+		
+		System.out.println("moves to try:");
+		this.printMoves();
+		
+		int before = movesTest.size();
 		for (Animal animal: animals) {
 			this.findPossibleMoves(animal);
-			animal.print();
 		}
 		
-		for (Animal animal: animals) {
-			this.moving(animal);
+		int after = movesTest.size();
+		System.out.println(before == after);
+		
+		ArrayList<String> boardStates = this.getBoardStatesFromPossibleMoves();
+
+		
+		if (boardStates.size() == 0) {
+			System.out.println("got no new states");
+//			Node child = root.getChildren().get(0);
+//			if (child != null) {
+//				child.deleteNode();
+//			}
+			
+//			child.deleteNode();
 		}
 		
-		System.out.println("Game won: " + board.isGameWon() + "\n");
+		else {
+			System.out.println("got new states:");
+			for (String string : boardStates) {
+				System.out.println(string);
+				node.addChild(new Node(string));
+				visitedStates.add(string);
+			}
+		}
+		
+		
+		System.out.println("\ngot new moves:");
+		this.printMoves();
+		
+		Node child = root.getChildren().get(0);
+//		// Making move
+//		System.out.println("working with state \n" + child);
+		Move move = moveHolder.first();
+		System.out.println("\nTrying move:" + move);
+		
+//		if (board.canMove(move.getNewLocation(), move.getPiece())) {
+			board.movePiece(move.getNewLocation(), move.getPiece(), true, false);	
+//			System.out.println("\nTree\n");
+			
+//			root.printTree(root, "-");
+			view.updateView();
+		
+			
+			System.out.println("\nAll visited states:");
+			for (String string: visitedStates) {
+				System.out.println(string);
+			}
+//		}
 	}
 	
 	public void autoSolve() {
 		ArrayList<Animal> animals = this.getAnimalsWithLocation();
 		int counter = 1;
-		while (!board.isGameWon()) {
-			this.solve(counter++, animals);
-		}
+//		while (!board.isGameWon()) {
+//			this.solve(counter++, animals);
+//		}
 		
-		view.displayLevelCompeletePopup();
+//		view.displayLevelCompeletePopup();
 
 // 		For manually going through the auto solver
-//		this.solve(counter++, animals);
+		this.solve(counter++, animals);
 //		this.solve(counter++, animals);
 //		this.solve(counter++, animals);
 //		this.solve(counter++, animals);

@@ -5,7 +5,6 @@ import javax.swing.border.LineBorder;
 import javax.swing.*;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Event;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -54,6 +53,7 @@ class View {
 		highlightedSquares = new ArrayList<>();
 		this.init();
 		this.run();
+		controller.autoSolver();
 	}
 	
 	/**
