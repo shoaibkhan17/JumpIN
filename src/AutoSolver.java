@@ -35,7 +35,6 @@ public class AutoSolver {
 		moveHolder = new MoveStack();
 		boardStateTree = new TreeSet<>();
 		visitedStates = new ArrayList<>();
-		visitedStates.add(board.getBoardState());
 		root = new Node(board.getBoardState());	
 	}
 	
@@ -161,6 +160,11 @@ public class AutoSolver {
 				System.out.println("movesTest size" + movesTest.size());
 
 				System.out.println("contains" + boardState);
+				
+				if (movesTest.size() == 0 && boardStates.size() == 0) {
+					moveHolder.push(move.getNewLocation(), move.getPiece());
+					System.out.println("SPECIAL CASE");
+				}
 //				Move a = moveHolder.peek();
 ////				moveHolder.pop();
 //				System.out.println("already there "+ a);
@@ -190,6 +194,11 @@ public class AutoSolver {
 //			System.out.println("\n\n----> " + ++number + " <----");
 //			this.test(node, animals);
 //		}
+		
+//		while (!board.isGameWon()) {
+//			System.out.println("----> " + number + " <----");
+//			this.test(node, animals);
+//		}
 		System.out.println("----> " + number + " <----");
 		this.test(node, animals);
 //		System.out.println("\n\n----> " + ++number + " <----");
@@ -204,7 +213,13 @@ public class AutoSolver {
 //		this.test(node, animals);
 //		System.out.println("\n\n----> " + ++number + " <----");
 //		this.test(node, animals);
-//		
+//		System.out.println("\n\n----> " + ++number + " <----");
+//		this.test(node, animals);
+//		System.out.println("\n\n----> " + ++number + " <----");
+//		this.test(node, animals);
+//		System.out.println("\n\n----> " + ++number + " <----");
+//		this.test(node, animals);
+////		
 		
 //		for (Animal animal: animals) {
 //			view.highlightSelectedSquare(board.getSquareAtLocation(animal.getPieceLocation()));
@@ -276,22 +291,39 @@ public class AutoSolver {
 	
 	public void test(Node node, ArrayList<Animal> animals) {
 		
-		System.out.println("moves to try:");
-		this.printMoves();
-		
 		int before = movesTest.size();
 		for (Animal animal: animals) {
 			this.findPossibleMoves(animal);
 		}
 		
+		System.out.println("moves to try:");
+		this.printMoves();
+		
 		int after = movesTest.size();
-		System.out.println(before == after);
 		
 		ArrayList<String> boardStates = this.getBoardStatesFromPossibleMoves();
 
 		
 		if (boardStates.size() == 0) {
 			System.out.println("got no new states");
+			System.out.println("last visited state " + visitedStates.get(visitedStates.size() - 1));
+//			visitedStates.remove(visitedStates.size() - 1);
+			
+			System.out.println("new state" + visitedStates.size());
+			for (String string: visitedStates) {
+				System.out.println(string);
+			}
+			
+			System.out.println("overide move");
+			this.printMoves();
+			
+			Move move = moveHolder.first();
+			board.movePiece(move.getNewLocation(), move.getPiece(), true, false);
+			moveHolder.popAll();
+			view.updateView();
+			
+			return;
+
 //			Node child = root.getChildren().get(0);
 //			if (child != null) {
 //				child.deleteNode();
@@ -305,7 +337,6 @@ public class AutoSolver {
 			for (String string : boardStates) {
 				System.out.println(string);
 				node.addChild(new Node(string));
-				visitedStates.add(string);
 			}
 		}
 		
@@ -313,21 +344,29 @@ public class AutoSolver {
 		System.out.println("\ngot new moves:");
 		this.printMoves();
 		
-		Node child = root.getChildren().get(0);
+//		Node child = root.getChildren().get(0);
 //		// Making move
 //		System.out.println("working with state \n" + child);
 		Move move = moveHolder.first();
 		System.out.println("\nTrying move:" + move);
 		
+//		if (move == null) {
+//			board.undo();
+//			return;
+//		}
+		
 //		if (board.canMove(move.getNewLocation(), move.getPiece())) {
-			board.movePiece(move.getNewLocation(), move.getPiece(), true, false);	
+			board.movePiece(move.getNewLocation(), move.getPiece(), true, false);
+			visitedStates.add(boardStates.get(0));
+			moveHolder.popAll();
+			
 //			System.out.println("\nTree\n");
 			
 //			root.printTree(root, "-");
 			view.updateView();
 		
 			
-			System.out.println("\nAll visited states:");
+			System.out.println("\nAll visited states:" + visitedStates.size());
 			for (String string: visitedStates) {
 				System.out.println(string);
 			}

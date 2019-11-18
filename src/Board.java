@@ -643,7 +643,7 @@ public class Board {
 		String boardState = "";
 		for (int y = 0; y < Board.BOARD_SIZE; y++) {
 			for (int x = 0; x < Board.BOARD_SIZE; x++) {
-				boardState += squares[x][y];
+				boardState += squares[x][y].getPiece() == null ? "E" : squares[x][y];
 			}
 		}
 		
