@@ -38,13 +38,15 @@ public class AutoSolver {
 		visitedStates.add(board.getBoardState());
 		root = new Node(board.getBoardState());	
 	}
+
 	
-	private Location possibleMoveBasedOnDirection(Animal animal, Directions direction) {
+	private ArrayList<Location> possibleMoveBasedOnDirection(Animal animal, Directions direction) {
 		Location location = animal.getPieceLocation();
 		int i;
 		boolean horizonal;
 		int limit;
 		Location possibleMove = null;
+		ArrayList<Location> possibleMoves = new ArrayList<>();
 
 		
 		switch(direction) {
@@ -69,27 +71,48 @@ public class AutoSolver {
 			limit = Board.BOARD_SIZE;
 			break;
 		default:
-			return possibleMove;
+			return null;
 		}
 		
 		while (i < limit) {
 			Location newLocation = new Location(horizonal ? i : location.getX(), horizonal ? location.getY() : i);
 			if (animal.canMove(newLocation, squares)) {
 				possibleMove = new Location(newLocation);
+				possibleMoves.add(new Location(newLocation));
 			}	
 			i++;
 		}
 		
-		return possibleMove;
+		return possibleMoves;
 	}
 	
-	private void findPossibleMoves(Animal animal) {
-		for (Directions direction: Directions.values()) {
-			Location possibleMove = this.possibleMoveBasedOnDirection(animal, direction);
-			if (possibleMove != null) {
-				movesTest.push(possibleMove, animal);
+	private ArrayList<Move> findPossibleMoves(Location previousMove) {
+		ArrayList<Move> move = new ArrayList<>();
+		ArrayList<Animal> animals = this.getAnimalsWithLocation();
+		for (Animal animal: animals) {
+			for (Directions direction: Directions.values()) {
+				ArrayList<Location> possibleMoves = this.possibleMoveBasedOnDirection(animal, direction);
+				if (possibleMoves != null) {			
+					for (Location possibleMove: possibleMoves) {
+						if (previousMove == null) {
+							movesTest.push(possibleMove, animal);
+							move.add(new Move(possibleMove, animal));
+						}
+						
+						else {
+							System.out.println("previous move " + previousMove);
+							move.add(new Move(possibleMove, animal));
+	//						if (!possibleMove.isReverse(previousMove)) {
+								move.add(new Move(possibleMove, animal));
+	//						}
+	
+						}
+					}
+				}
+				
 			}
 		}
+		return move;
 	}
 	
 	private ArrayList<Animal> getAnimalsWithLocation() {
@@ -281,7 +304,7 @@ public class AutoSolver {
 		
 		int before = movesTest.size();
 		for (Animal animal: animals) {
-			this.findPossibleMoves(animal);
+//			this.findPossibleMoves(animal);
 		}
 		
 		int after = movesTest.size();
@@ -334,9 +357,105 @@ public class AutoSolver {
 //		}
 	}
 	
+	public void doAllMoves(ArrayList<Move> moves) {
+		System.out.println("got moves: ");
+		for (Move move: moves) {
+			System.out.print(move + " ");
+			if (board.canMove(move.getNewLocation(), move.getPiece())) {
+				board.movePiece(move.getNewLocation(), move.getPiece(), true, false);
+			}
+		}
+		view.updateView();
+	}
+	
+	public ArrayList<Move> puzzleBreadthSearch() {
+		ArrayList<ArrayList<Move>> superMoves = new ArrayList<ArrayList<Move>>();
+		superMoves.add(new ArrayList<Move>());
+		
+		int i = 0;
+		
+		do {
+			
+			this.doAllMoves(superMoves.get(i));
+
+			Location previousMove = null;
+			
+			if (superMoves.get(i).size() == 0) {
+				previousMove = null;
+			}
+			
+			else {
+				previousMove = superMoves.get(i).get(superMoves.get(i).size() - 1).getNewLocation();
+			}
+			
+			ArrayList<Move> moves = this.findPossibleMoves(previousMove);
+			
+			System.out.println("moves to try: " + moves);
+			
+			for (int j = 0; j < moves.size(); j++) {
+				ArrayList<Move> currMove = (ArrayList<Move>) superMoves.get(i).clone();
+				currMove.add(moves.get(j));
+				superMoves.add(currMove);
+				
+				try {
+					Move moveToTry = currMove.get(currMove.size()-1);
+					if (board.canMove(moveToTry.getNewLocation(), moveToTry.getPiece())) {
+						board.movePiece(moveToTry.getNewLocation(), moveToTry.getPiece(), true, false);
+					}
+				}
+				catch (Exception e) {}
+				
+				if (board.isGameWon()) {
+					return currMove;
+				}
+				
+				else {
+					board.undo();
+				}
+			}
+			
+			while(!board.moveStack.isEmpty()) {
+				board.undo();
+			}
+			i++;
+			if (superMoves.size() > 100000000) {
+				System.out.println("not far enough");
+				break;
+			}
+			
+			
+		} while (i < superMoves.size());
+		
+		return null;
+	}
+	
+	public Move getNextMove() {
+		ArrayList<Move> path;
+		try {
+			path = puzzleBreadthSearch();
+			return path.get(0);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		throw new RuntimeException("Failed to find solution");
+	}
+	
 	public void autoSolve() {
-		ArrayList<Animal> animals = this.getAnimalsWithLocation();
-		int counter = 1;
+		
+		System.out.println(this.getNextMove());
+
+		
+//		for (Animal animal: animals) {
+//			this.findPossibleMoves(animal, null);
+//		}
+		
+//		this.doAllMoves();
+		view.updateView();
+		
+		
+		
+		
+//		int counter = 1;
 //		while (!board.isGameWon()) {
 //			this.solve(counter++, animals);
 //		}
@@ -344,7 +463,7 @@ public class AutoSolver {
 //		view.displayLevelCompeletePopup();
 
 // 		For manually going through the auto solver
-		this.solve(counter++, animals);
+//		this.solve(counter++, animals);
 //		this.solve(counter++, animals);
 //		this.solve(counter++, animals);
 //		this.solve(counter++, animals);
