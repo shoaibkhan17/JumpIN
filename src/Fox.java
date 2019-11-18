@@ -66,6 +66,10 @@ public class Fox extends Animal {
 		return bodyLocation;
 	}
 	
+	/**
+	 * ADD JAVA DOC HERE
+	 * @param bodyLocation
+	 */
 	public void calculateLocationFromBody(Location bodyLocation) {
 		
 		System.out.println("CALCULATING FROM " + bodyLocation);
@@ -102,7 +106,14 @@ public class Fox extends Animal {
 		}
 	}
 	
-	public void calcaulePieceLocation(Location pieceLocation, Fox bodyFox) {
+	/**
+	 * ADD JAVA DOC HERE
+	 * @param pieceLocation
+	 * @param bodyFox
+	 * @return
+	 */
+	public String calcaulePieceLocation(Location pieceLocation, Fox bodyFox) {
+		String movementType = "";
 		// If tail was moved past the head
 		if (this.pieceLocation.comparesTo(bodyLocation, horizontalMovement) == 1) {
 			if (pieceLocation.comparesTo(this.pieceLocation, horizontalMovement) == 1) {
@@ -124,8 +135,6 @@ public class Fox extends Animal {
 				bodyFox.setPieceLocation(bodyLocation);
 				bodyFox.setOtherPieceLocation(this.pieceLocation);
 				
-//				System.out.println("head -> " + bodyLocation);
-//				System.out.println("tail -> " + this.pieceLocation);
 			}
 			
 			else {
@@ -148,9 +157,9 @@ public class Fox extends Animal {
 				bodyFox.setPieceLocation(bodyLocation);
 				bodyFox.setOtherPieceLocation(this.pieceLocation);
 				
-//				System.out.println("head -> " + bodyLocation);
-//				System.out.println("tail -> " + this.pieceLocation);
+				movementType = "head";
 			}
+			
 		}
 		
 		else if (bodyLocation.comparesTo(this.pieceLocation, horizontalMovement) == 1) {
@@ -173,9 +182,8 @@ public class Fox extends Animal {
 				
 				bodyFox.setPieceLocation(bodyLocation);
 				bodyFox.setOtherPieceLocation(this.pieceLocation);
-//				
-//				System.out.println("head -> " + this.pieceLocation);
-//				System.out.println("tail -> " + bodyLocation);
+				
+				movementType = "tail";
 			}
 			
 			else {
@@ -199,11 +207,13 @@ public class Fox extends Animal {
 				
 				bodyFox.setPieceLocation(bodyLocation);
 				bodyFox.setOtherPieceLocation(this.pieceLocation);
-//				
-//				System.out.println("head -> " + this.pieceLocation);
-//				System.out.println("tail -> " + bodyLocation);
+				
+				movementType = "head";
 			}
-		}	
+			
+		}
+		
+		return movementType;
 	}
 
 	/**

@@ -410,7 +410,7 @@ public class Board {
 		if (animalPiece.getPieceLocation().equals(newLocation)) {
 			return true;
 		}
-		
+			
 		switch (animalPiece.getType()) {
 		case RABBIT:
 			Piece locationPiece = squares[x][y].getPiece();
@@ -432,14 +432,17 @@ public class Board {
 			}
 			
 		case FOX:
-			System.out.println(animalPiece.getPieceLocation());
-			this.undoRedoHandler(animalPiece.getPieceLocation(), animalPiece, userMove, redo);
 			Fox fox = (Fox) animalPiece;
+			Location oldLoc = new Location(fox.getPieceLocation());
 			this.removePiece(fox.getPieceLocation());
 			Location oldBodyLoc = new Location(fox.getBodyLocation());
 			Fox body = (Fox) squares[oldBodyLoc.getX()][oldBodyLoc.getY()].getPiece();
 			this.removePiece(oldBodyLoc);
-			fox.calcaulePieceLocation(newLocation, body);
+			String movementType = fox.calcaulePieceLocation(newLocation, body);
+			System.out.println("oldLoc = " + oldLoc);
+			System.out.println("oldBodyLoc = " + oldBodyLoc);
+			System.out.println(movementType + " " + (movementType.equals("head") ? oldLoc : oldBodyLoc));
+			this.undoRedoHandler(movementType.equals("head") ? oldLoc : oldBodyLoc, fox, userMove, redo);
 			Location foxLocation = new Location(fox.getPieceLocation());
 			squares[foxLocation.getX()][foxLocation.getY()].setPiece(animalPiece);
 			Location newBodyLoc = new Location(fox.getBodyLocation());
