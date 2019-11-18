@@ -180,107 +180,8 @@ public class AutoSolver {
 	}
 	
 	public void solve(int number, ArrayList<Animal> animals) {
-	
-		Node node;
-		if (root.getChildren().size() == 0) {
-			node = root;
-		}
-		
-		else {
-			node = root.getChildren().get(0);
-		}
-		
-//		while(!board.isGameWon()) {
-//			System.out.println("\n\n----> " + ++number + " <----");
-//			this.test(node, animals);
-//		}
-		
-//		while (!board.isGameWon()) {
-//			System.out.println("----> " + number + " <----");
-//			this.test(node, animals);
-//		}
 		System.out.println("----> " + number + " <----");
-		this.test(node, animals);
-//		System.out.println("\n\n----> " + ++number + " <----");
-//		this.test(node, animals);
-//		System.out.println("\n\n----> " + ++number + " <----");
-//		this.test(node, animals);
-//		System.out.println("\n\n----> " + ++number + " <----");
-//		this.test(node, animals);
-//		System.out.println("\n\n----> " + ++number + " <----");
-//		this.test(node, animals);
-//		System.out.println("\n\n----> " + ++number + " <----");
-//		this.test(node, animals);
-//		System.out.println("\n\n----> " + ++number + " <----");
-//		this.test(node, animals);
-//		System.out.println("\n\n----> " + ++number + " <----");
-//		this.test(node, animals);
-//		System.out.println("\n\n----> " + ++number + " <----");
-//		this.test(node, animals);
-//		System.out.println("\n\n----> " + ++number + " <----");
-//		this.test(node, animals);
-////		
-		
-//		for (Animal animal: animals) {
-//			view.highlightSelectedSquare(board.getSquareAtLocation(animal.getPieceLocation()));
-//			this.findPossibleMoves(animal);
-//		}
-//		
-//		ArrayList<String> boardStates = this.getBoardStatesFromPossibleMoves();
-//		for (String s: boardStates) {
-//			System.out.println(s);
-//		}
-//		
-//		this.printMoves();
-		
-//		System.out.println("\n\n----> " + ++number + " <----");
-//		this.test(node, animals);
-		
-		
-//		System.out.println("----> " + ++number + " <----");
-//		this.test(animals);
-//		for (Animal animal: animals) {
-//			this.findPossibleMoves(animal);
-//		}
-//		
-//		for (String string : this.getBoardStatesFromPossibleMoves()) {
-//			System.out.println("contains in tree? :" + root.contains(new Node(string)));
-//			root.addChild(new Node(string));
-//		}
-////		this.test(animals);
-//		
-//		root.printTree(root, "-");
-//		System.out.println("");
-//		
-//		Node child = root.getChildren().get(0);
-//	
-//		
-//		// Making move
-//		System.out.println("working with state \n" + child);
-//		Move move = moveHolder.first();
-//		System.out.println("trying " + move);
-//		
-//		board.movePiece(move.getNewLocation(), move.getPiece(), true, false);
-//		
-//		System.out.println("current board state: " + board.getBoardState());
-//		view.updateView();
-//		System.out.println();
-//		
-//	
-//		// Round 2
-//		
-//		System.out.println("----> " + ++number + " <----");
-//		System.out.println("new possible moves");
-//		this.test(animals);
-
-
-		
-		
-//		
-//		root.getChildren().get(0).deleteNode();
-//		
-//		root.printTree(root, "-");
-	
+		this.test(animals);
 	}
 	
 	public void printMoves() {
@@ -289,18 +190,15 @@ public class AutoSolver {
 		}
 	}
 	
-	public void test(Node node, ArrayList<Animal> animals) {
+	public void test(ArrayList<Animal> animals) {
 		
-		int before = movesTest.size();
 		for (Animal animal: animals) {
 			this.findPossibleMoves(animal);
 		}
 		
 		System.out.println("moves to try:");
 		this.printMoves();
-		
-		int after = movesTest.size();
-		
+				
 		ArrayList<String> boardStates = this.getBoardStatesFromPossibleMoves();
 
 		
@@ -336,7 +234,7 @@ public class AutoSolver {
 			System.out.println("got new states:");
 			for (String string : boardStates) {
 				System.out.println(string);
-				node.addChild(new Node(string));
+//				node.addChild(new Node(string));
 			}
 		}
 		
@@ -384,7 +282,7 @@ public class AutoSolver {
 
 // 		For manually going through the auto solver
 		this.solve(counter++, animals);
-//		this.solve(counter++, animals);
+		this.solve(counter++, animals);
 //		this.solve(counter++, animals);
 //		this.solve(counter++, animals);
 //		this.solve(counter++, animals);
