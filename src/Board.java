@@ -394,8 +394,6 @@ public class Board {
 		else {
 			redoStack.push(newLocation, animalPiece);
 		}
-//		
-//		System.out.println(moveStack.size());
 	}
 	
 	/**
@@ -430,11 +428,12 @@ public class Board {
 				this.removePiece(animalPiece.getPieceLocation());
 				animalPiece.setPieceLocation(newLocation);
 				squares[x][y].setPiece(animalPiece);
-				this.undoRedoHandler(newLocation, animalPiece, userMove, redo);
 				return true;
 			}
 			
 		case FOX:
+			System.out.println(animalPiece.getPieceLocation());
+			this.undoRedoHandler(animalPiece.getPieceLocation(), animalPiece, userMove, redo);
 			Fox fox = (Fox) animalPiece;
 			this.removePiece(fox.getPieceLocation());
 			Location oldBodyLoc = new Location(fox.getBodyLocation());
@@ -445,7 +444,6 @@ public class Board {
 			squares[foxLocation.getX()][foxLocation.getY()].setPiece(animalPiece);
 			Location newBodyLoc = new Location(fox.getBodyLocation());
 			squares[newBodyLoc.getX()][newBodyLoc.getY()].setPiece(body);
-			this.undoRedoHandler(foxLocation, animalPiece, userMove, redo);
 			return true;
 		
 		default:
