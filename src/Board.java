@@ -368,9 +368,9 @@ public class Board {
 	 * @param piece this is the piece that is to be moved
 	 * @return true if the piece can be moved to be new location, return false if it can't be moved
 	 */
-	private boolean canMove(Location newLocation, Animal animalPiece) {
+	protected boolean canMove(Location newLocation, Animal animalPiece) {
 		// If the new location is the same as the old location.
-		if (selectedPiece.getPieceLocation().equals(newLocation)) {
+		if (animalPiece.getPieceLocation().equals(newLocation)) {
 			return true;
 		}
 		

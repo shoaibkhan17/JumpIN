@@ -31,6 +31,6 @@ public class Move {
 	}
 	
 	public String toString() {
-		return animalPiece +  " " + newLocation;
+		return animalPiece.getPieceLocation() +  "->" + newLocation;
 	}
 }

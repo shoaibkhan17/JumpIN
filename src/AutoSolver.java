@@ -23,7 +23,8 @@ public class AutoSolver {
 	private MoveStack moveHolder;
 	private TreeSet<String> boardStateTree;
 	private DefaultTreeModel treeTest;
-	private Node<String> root;
+	private Node root;
+	private ArrayList<String> visitedStates;
 	
 	public AutoSolver(Board board, View view) {
 		this.board = board;
@@ -33,6 +34,9 @@ public class AutoSolver {
 		movesTest = new MoveStack();
 		moveHolder = new MoveStack();
 		boardStateTree = new TreeSet<>();
+		visitedStates = new ArrayList<>();
+		visitedStates.add(board.getBoardState());
+		root = new Node(board.getBoardState());	
 	}
 	
 	private Location possibleMoveBasedOnDirection(Animal animal, Directions direction) {
@@ -133,14 +137,38 @@ public class AutoSolver {
 	private ArrayList<String> getBoardStatesFromPossibleMoves() {
 		
 		ArrayList<String> boardStates = new ArrayList<>();
-		String boardState;
+		String boardState = "";
 		
 		while(!movesTest.isEmpty()) {
 			Move move = movesTest.pop();
-			moveHolder.push(move.getNewLocation(), move.getPiece());
 			board.movePiece(move.getNewLocation(), move.getPiece(), true, false);
 			boardState = board.getBoardState();
-			boardStates.add(boardState);
+			
+			if (!visitedStates.contains(boardState)) {
+//				System.out.println("does not contain");
+				moveHolder.push(move.getNewLocation(), move.getPiece());
+//				System.out.println("does not contain");
+				boardStates.add(boardState);
+			}
+		
+			else {
+				
+//				if (movesTest.size() != 0) {
+//					moveHolder.pop();
+//					moveHolder.push(move.getNewLocation(), move.getPiece());
+//					board.undo();
+//				}
+				System.out.println("movesTest size" + movesTest.size());
+
+				System.out.println("contains" + boardState);
+//				Move a = moveHolder.peek();
+////				moveHolder.pop();
+//				System.out.println("already there "+ a);
+//				
+//				System.out.println("contents of move ");
+//				moveHolder.printAllMoves();
+			}
+			
 			board.undo();
 		}
 		
@@ -148,30 +176,162 @@ public class AutoSolver {
 	}
 	
 	public void solve(int number, ArrayList<Animal> animals) {
+	
+		Node node;
+		if (root.getChildren().size() == 0) {
+			node = root;
+		}
 		
-		root = new Node<>(board.getBoardState());	
+		else {
+			node = root.getChildren().get(0);
+		}
+		
+//		while(!board.isGameWon()) {
+//			System.out.println("\n\n----> " + ++number + " <----");
+//			this.test(node, animals);
+//		}
 		System.out.println("----> " + number + " <----");
-		for (Animal animal: animals) {
-			this.findPossibleMoves(animal);
-		}
+		this.test(node, animals);
+//		System.out.println("\n\n----> " + ++number + " <----");
+//		this.test(node, animals);
+//		System.out.println("\n\n----> " + ++number + " <----");
+//		this.test(node, animals);
+//		System.out.println("\n\n----> " + ++number + " <----");
+//		this.test(node, animals);
+//		System.out.println("\n\n----> " + ++number + " <----");
+//		this.test(node, animals);
+//		System.out.println("\n\n----> " + ++number + " <----");
+//		this.test(node, animals);
+//		System.out.println("\n\n----> " + ++number + " <----");
+//		this.test(node, animals);
+//		
 		
-		for (String string : this.getBoardStatesFromPossibleMoves()) {
-			root.addChild(new Node<String>(string));
-		}
+//		for (Animal animal: animals) {
+//			view.highlightSelectedSquare(board.getSquareAtLocation(animal.getPieceLocation()));
+//			this.findPossibleMoves(animal);
+//		}
+//		
+//		ArrayList<String> boardStates = this.getBoardStatesFromPossibleMoves();
+//		for (String s: boardStates) {
+//			System.out.println(s);
+//		}
+//		
+//		this.printMoves();
+		
+//		System.out.println("\n\n----> " + ++number + " <----");
+//		this.test(node, animals);
 		
 		
-		root.printTree(root, "-");
-		System.out.println("");
-		
-		
-		System.out.println("trying " + moveHolder.first());
+//		System.out.println("----> " + ++number + " <----");
+//		this.test(animals);
+//		for (Animal animal: animals) {
+//			this.findPossibleMoves(animal);
+//		}
+//		
+//		for (String string : this.getBoardStatesFromPossibleMoves()) {
+//			System.out.println("contains in tree? :" + root.contains(new Node(string)));
+//			root.addChild(new Node(string));
+//		}
+////		this.test(animals);
+//		
+//		root.printTree(root, "-");
+//		System.out.println("");
+//		
+//		Node child = root.getChildren().get(0);
+//	
+//		
+//		// Making move
+//		System.out.println("working with state \n" + child);
+//		Move move = moveHolder.first();
+//		System.out.println("trying " + move);
+//		
+//		board.movePiece(move.getNewLocation(), move.getPiece(), true, false);
+//		
+//		System.out.println("current board state: " + board.getBoardState());
+//		view.updateView();
+//		System.out.println();
+//		
+//	
+//		// Round 2
+//		
+//		System.out.println("----> " + ++number + " <----");
+//		System.out.println("new possible moves");
+//		this.test(animals);
+
+
 		
 		
 //		
 //		root.getChildren().get(0).deleteNode();
 //		
 //		root.printTree(root, "-");
+	
+	}
+	
+	public void printMoves() {
+		for (Move move: moveHolder.getAllMoves()) {
+			System.out.println(move);
+		}
+	}
+	
+	public void test(Node node, ArrayList<Animal> animals) {
 		
+		System.out.println("moves to try:");
+		this.printMoves();
+		
+		int before = movesTest.size();
+		for (Animal animal: animals) {
+			this.findPossibleMoves(animal);
+		}
+		
+		int after = movesTest.size();
+		System.out.println(before == after);
+		
+		ArrayList<String> boardStates = this.getBoardStatesFromPossibleMoves();
+
+		
+		if (boardStates.size() == 0) {
+			System.out.println("got no new states");
+//			Node child = root.getChildren().get(0);
+//			if (child != null) {
+//				child.deleteNode();
+//			}
+			
+//			child.deleteNode();
+		}
+		
+		else {
+			System.out.println("got new states:");
+			for (String string : boardStates) {
+				System.out.println(string);
+				node.addChild(new Node(string));
+				visitedStates.add(string);
+			}
+		}
+		
+		
+		System.out.println("\ngot new moves:");
+		this.printMoves();
+		
+		Node child = root.getChildren().get(0);
+//		// Making move
+//		System.out.println("working with state \n" + child);
+		Move move = moveHolder.first();
+		System.out.println("\nTrying move:" + move);
+		
+//		if (board.canMove(move.getNewLocation(), move.getPiece())) {
+			board.movePiece(move.getNewLocation(), move.getPiece(), true, false);	
+//			System.out.println("\nTree\n");
+			
+//			root.printTree(root, "-");
+			view.updateView();
+		
+			
+			System.out.println("\nAll visited states:");
+			for (String string: visitedStates) {
+				System.out.println(string);
+			}
+//		}
 	}
 	
 	public void autoSolve() {

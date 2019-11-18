@@ -1,82 +1,95 @@
  import java.util.ArrayList;
 import java.util.List;
 
-public class Node<T> {
+public class Node {
  
- private T data = null;
+	 private String data = null;
+	 
+	 private List<Node> children = new ArrayList<>();
+	 
+	 private Node parent = null;
+	 
+	 public Node(String data) {
+		 this.data = data;
+	 }
  
- private List<Node<T>> children = new ArrayList<>();
+	 public Node addChild(Node child) {
+		 child.setParent(this);
+		 this.children.add(child);
+		 return child;
+	 }
+	 
+	 public void addChildren(List<Node> children) {
+		 children.forEach(each -> each.setParent(this));
+		 this.children.addAll(children);
+	 }
+	 
+	 public boolean contains(Node node) {
+		 
+//		 System.out.println("comparing");
+//		 System.out.println(data);
+//		 System.out.println(node.data);
+//		 System.out.println("done");
+		 return children.contains(node) || data.equals(node.data);
+	 }
+	 
+	 public List<Node> getChildren() {
+		 return children;
+	 }
+	 
+	 public String getData() {
+		 return data;
+	 }
+	 
+	 public void setData(String data) {
+		 this.data = data;
+	 }
+	 
+	 private void setParent(Node parent) {
+		 this.parent = parent;
+	 }
+	 
+	 public Node getParent() {
+		 return parent;
+	 }
+	 
+	 public String toString() {
+		 return (String) data;
+	 }
  
- private Node<T> parent = null;
- 
- public Node(T data) {
- this.data = data;
- }
- 
- public Node<T> addChild(Node<T> child) {
- child.setParent(this);
- this.children.add(child);
- return child;
- }
- 
- public void addChildren(List<Node<T>> children) {
- children.forEach(each -> each.setParent(this));
- this.children.addAll(children);
- }
- 
- public List<Node<T>> getChildren() {
- return children;
- }
- 
- public T getData() {
- return data;
- }
- 
- public void setData(T data) {
- this.data = data;
- }
- 
- private void setParent(Node<T> parent) {
- this.parent = parent;
- }
- 
- public Node<T> getParent() {
- return parent;
- }
- 
- public String toString() {
-	 return (String) data;
- }
- 
- 	public void printTree(Node<T> node, String appender) {
+ 	public void printTree(Node node, String appender) {
 	   System.out.println(appender + node.getData());
 	   node.getChildren().forEach(each ->  printTree(each, appender + appender));
 	 }
  	
  	public void deleteNode() {
  		 if (parent != null) {
- 		 int index = this.parent.getChildren().indexOf(this);
- 		 this.parent.getChildren().remove(this);
- 		 for (Node<T> each : getChildren()) {
- 		 each.setParent(this.parent);
+	 		 int index = this.parent.getChildren().indexOf(this);
+	 		 this.parent.getChildren().remove(this);
+	 		 for (Node each : getChildren()) {
+	 			 each.setParent(this.parent);
+	 		 }
+	 		 
+	 		 this.parent.getChildren().addAll(index, this.getChildren());
+ 		 } 
+ 		 
+ 		 else {
+ 			 deleteRootNode();
  		 }
- 		 this.parent.getChildren().addAll(index, this.getChildren());
- 		 } else {
- 		 deleteRootNode();
- 		 }
+ 		 
  		 this.getChildren().clear();
  		}
  		 
-	public Node<T> deleteRootNode() {
+	public Node deleteRootNode() {
 		 if (parent != null) {
 		 throw new IllegalStateException("deleteRootNode not called on root");
 		 }
-		 Node<T> newParent = null;
+		 Node newParent = null;
 		 if (!getChildren().isEmpty()) {
 		 newParent = getChildren().get(0);
 		 newParent.setParent(null);
 		 getChildren().remove(0);
-		 for (Node<T> each : getChildren()) {
+		 for (Node each : getChildren()) {
 		 each.setParent(newParent);
 		 }
 		 newParent.getChildren().addAll(getChildren());
