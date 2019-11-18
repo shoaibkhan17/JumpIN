@@ -25,4 +25,12 @@ public class Move {
 	public Animal getPiece() {
 		return animalPiece;
 	}
+	
+	public void printMove() {
+		System.out.println(this.toString());
+	}
+	
+	public String toString() {
+		return animalPiece +  " " + newLocation;
+	}
 }

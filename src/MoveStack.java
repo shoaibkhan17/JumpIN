@@ -33,6 +33,14 @@ public class MoveStack {
 		return movesMade.size();
 	}
 	
+	public Move first() {
+		if (movesMade.isEmpty()) {
+			return null;
+		}
+	
+		return movesMade.remove(0);	
+	}
+	
 	public Move pop() {
 		if (movesMade.isEmpty()) {
 			return null;
@@ -50,5 +58,22 @@ public class MoveStack {
 		
 		Move move = movesMade.get(movesMade.size() - 1);
 		return move;
+	}
+	
+	public ArrayList<Move> getAllMoves() {
+		ArrayList<Move> moves = new ArrayList<>();
+		
+		for (int i = movesMade.size() - 1; i >= 0; i--) {
+			moves.add(movesMade.get(i));
+		}
+		
+		return moves;
+		
+	}
+	
+	public void printAllMoves() {
+		for (Move move: movesMade) {
+			move.printMove();
+		}
 	}
 }
