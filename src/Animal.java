@@ -13,12 +13,12 @@ public abstract class Animal extends Piece {
 	/**
 	 * Animals can be moved. 
 	 */
-	private static final boolean isMovable = true; 
+	private static final boolean IS_MOVABLE = true; 
 
 	/**
 	 * Animals can be selected.
 	 */
-    private static final boolean isSelectable = true;
+    private static final boolean IS_SELECTABLE = true;
     
     /**
      * ADD JAVA DOC
@@ -29,7 +29,7 @@ public abstract class Animal extends Piece {
 	 * @param type this is the type of the piece 
 	 */
 	public Animal(PieceType type, Location pieceLocation) {
-		super(type, isMovable, isSelectable);
+		super(type, IS_MOVABLE, IS_SELECTABLE);
 		this.pieceLocation = new Location(pieceLocation);
 	}
 	
