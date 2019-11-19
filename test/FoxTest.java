@@ -20,6 +20,7 @@ public class FoxTest {
 	Fox fox;
 	Board board;
 	Location bodyLocation;
+	Location foxLocation;
 	
 	/**
 	 * Set up method for the Fox test class.
@@ -28,7 +29,8 @@ public class FoxTest {
 	@Before
 	public void setUp() throws Exception {
 		bodyLocation = new Location(1, 4);
-		fox = new Fox(bodyLocation, false, false);
+		foxLocation = new Location(1, 3);
+		fox = new Fox(foxLocation, bodyLocation, false, false);
 		board = new Board(5);
 	}
 
@@ -39,11 +41,13 @@ public class FoxTest {
 	@After
 	public void tearDown() throws Exception {
 		bodyLocation = null;
+		foxLocation = null;
 		fox = null;
 		board = null;
 		assertNull(bodyLocation);
 		assertNull(fox);
 		assertNull(board);
+		assertNull(foxLocation);
 	}
 
 	/**
@@ -68,9 +72,8 @@ public class FoxTest {
 	@Test
 	public void testValidMove() {
 		Square[][] squares = board.getSquares();
-		Location foxLocation = squares[1][3].getLoc();
 		Location location = new Location(1, 2);
-		assertTrue(fox.move(foxLocation, location, board));
+		assertTrue(fox.canMove(location, squares));
 	}
 	
 	/**
@@ -79,9 +82,8 @@ public class FoxTest {
 	@Test
 	public void testInvalidMove() {
 		Square[][] squares = board.getSquares();
-		Location foxLocation = squares[1][3].getLoc();
 		Location location = new Location(4, 2);
-		assertFalse(fox.move(foxLocation, location, board));
+		assertFalse(fox.canMove(location, squares));
 	}
 
 	/**

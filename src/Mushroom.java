@@ -16,7 +16,7 @@ public class Mushroom extends Piece {
     private static final boolean IS_MOVABLE = false;
 
     /**
-     * Mushrooms are not selectable.
+     * Mushrooms are not selectable
      */
     private static final boolean IS_SELECTABLE = false;
 

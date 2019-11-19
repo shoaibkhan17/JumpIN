@@ -20,9 +20,9 @@ import org.junit.Test;
 public class BoardTest {
 	private int testingLevel;
 	private static final int HOLE_COUNT_AT_LEVEL1 = 5; 
-	private static final int RABBIT_COUNT_AT_LEVEL1 = 2;
-	private static final int HOLE_COUNT_AT_LEVEL3 = 4;
-	private static final int RABBIT_COUNT_AT_LEVEL3 = 1;
+	private static final int RABBIT_COUNT_AT_LEVEL1 = 1;
+	private static final int HOLE_COUNT_AT_LEVEL3 = 5;
+	private static final int RABBIT_COUNT_AT_LEVEL3 = 2;
 	private Board board;
 	private Square squares[][];
 	
@@ -32,7 +32,7 @@ public class BoardTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		testingLevel = 1;
+		testingLevel = 3;
 		board = new Board(testingLevel);
 		squares = board.getSquares();
 	}
@@ -57,9 +57,8 @@ public class BoardTest {
 	public void testBoard() {
 		board = new Board(testingLevel);
 		assertNotNull(squares);
-		assertEquals(HOLE_COUNT_AT_LEVEL1, board.holeLocations.size());
-		assertEquals(RABBIT_COUNT_AT_LEVEL1, board.rabbitCount);
-		assertEquals(new Location(), board.selectedPieceLocation);
+		assertEquals(HOLE_COUNT_AT_LEVEL3, board.holeLocations.size());
+		assertEquals(RABBIT_COUNT_AT_LEVEL3, board.rabbitCount);
 		assertNull(board.selectedPiece);
 	}
 
@@ -82,7 +81,6 @@ public class BoardTest {
 		Piece rabbit = squares[rabbitLocation.getX()][rabbitLocation.getY()].getPiece();
 		assertTrue(board.selectPiece(rabbitLocation));
 		assertEquals(rabbit, board.selectedPiece);
-		assertEquals(rabbitLocation, board.selectedPieceLocation);
 	}
 	
 	/**
@@ -91,7 +89,6 @@ public class BoardTest {
 	@Test
 	public void testSelectInvalidPiece() {
 		assertFalse(board.selectPiece(new Location(3, 1)));
-		assertEquals(new Location(), board.selectedPieceLocation);
 		assertNull(board.selectedPiece);
 	}
 
@@ -100,12 +97,12 @@ public class BoardTest {
 	 */
 	@Test
 	public void testMovePiece() {
-		Location oldLoc = new Location(2, 1);
-		Piece piece = squares[oldLoc.getX()][oldLoc.getY()].getPiece();
-		Location newLoc = new Location(2, 3);
+		Location oldLoc = new Location(3, 0);
+		Animal animal = (Animal) squares[oldLoc.getX()][oldLoc.getY()].getPiece();
+		Location newLoc = new Location(3, 2);
 		board.selectPiece(oldLoc);
-		board.movePiece(oldLoc, newLoc, piece, false, false);
-		assertEquals(piece, squares[newLoc.getX()][newLoc.getY()].getPiece());
+		board.movePiece(newLoc, animal, true, false);
+		assertEquals(animal, (Animal) squares[newLoc.getX()][newLoc.getY()].getPiece());
 	}
 
 	/**
@@ -175,11 +172,10 @@ public class BoardTest {
 	 */
 	@Test
 	public void testChangeLevel() {
-		board.changeLevel(3);
+		board.changeLevel(1);
 		assertNotNull(squares);
-		assertEquals(HOLE_COUNT_AT_LEVEL3, board.holeLocations.size());
-		assertEquals(RABBIT_COUNT_AT_LEVEL3, board.rabbitCount);
-		assertEquals(new Location(), board.selectedPieceLocation);
+		assertEquals(HOLE_COUNT_AT_LEVEL1, board.holeLocations.size());
+		assertEquals(RABBIT_COUNT_AT_LEVEL1, board.rabbitCount);
 		assertNull(board.selectedPiece);
 	}
 }
