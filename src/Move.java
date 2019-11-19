@@ -1,6 +1,6 @@
 
 /**
- * Move class to contain the animal that is about to be moved or is moved.
+ * Move class to contain the animal that is about to be moved or is moved
  * 
  * @author Khalil Aalab - 101070879
  * @author Kamaluddin Shakiri - 101054933
@@ -14,9 +14,9 @@ public class Move {
 	private Animal animalPiece; 
 	
 	/**
-	 * Default constructor
-	 * @param newLocation
-	 * @param piece
+	 * Default constructor initializing instance variables
+	 * @param newLocation this is the location to where the animal will be moved to 
+	 * @param piece this is the piece that will be moved
 	 */
 	public Move(Location newLocation, Animal piece) {
 		this.newLocation = new Location(newLocation);
@@ -25,7 +25,7 @@ public class Move {
 	
 	/**
 	 * Method to get the new location of the animal
-	 * @return
+	 * @return newLocation the new location to where the animal will be moved to
 	 */
 	public Location getNewLocation() {
 		return newLocation;
@@ -33,22 +33,22 @@ public class Move {
 	
 	/**
 	 * Method to get the animal
-	 * @return
+	 * @return animalPiece this is the animal piece which is returned by this method
 	 */
 	public Animal getPiece() {
 		return animalPiece;
 	}
 	
 	/**
-	 * Method to print the animal move.
+	 * Method to print the animal move
 	 */
 	public void printMove() {
 		System.out.println(this.toString());
 	}
 	
 	/**
-	 * Method to get the animal move string.
-	 * @return string
+	 * Method to get the animal move string
+	 * @return String representation of the animal piece movement and new location
 	 */
 	@Override
 	public String toString() {

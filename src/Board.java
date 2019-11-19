@@ -433,7 +433,7 @@ public class Board {
 			Location oldBodyLoc = new Location(fox.getBodyLocation());
 			Fox body = (Fox) squares[oldBodyLoc.getX()][oldBodyLoc.getY()].getPiece();
 			this.removePiece(oldBodyLoc);
-			String movementType = fox.calcaulePieceLocation(newLocation, body);
+			String movementType = fox.calculatePieceLocation(newLocation, body);
 			this.undoRedoHandler(movementType.equals("head") ? oldLoc : oldBodyLoc, fox, userMove, redo);
 			Location foxLocation = new Location(fox.getPieceLocation());
 			squares[foxLocation.getX()][foxLocation.getY()].setPiece(animalPiece);

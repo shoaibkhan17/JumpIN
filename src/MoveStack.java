@@ -2,6 +2,7 @@ import java.util.ArrayList;
 
 /**
  * Custom stack created for Undo and Redo
+ * And for auto solving
  * 
  * @author Khalil Aalab - 101070879
  * @author Kamaluddin Shakiri - 101054933
