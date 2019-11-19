@@ -105,7 +105,6 @@ public class MoveStack {
 		}
 		
 		return moves;
-		
 	}
 	
 	/**

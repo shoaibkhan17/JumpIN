@@ -10,7 +10,7 @@
  */
 public class Rabbit extends Animal {
 	
-	public static enum RABBIT_COLORS {Gray, White, Brown}
+	public static enum RABBIT_COLORS {GRAY, WHITE, BROWN}
 	
 	protected RABBIT_COLORS rabbitColor;
 

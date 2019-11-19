@@ -55,6 +55,9 @@ public class Move {
 		return animalPiece.getPieceLocation() +  "->" + newLocation;
 	}
 	
+	/**
+	 * Equals method implemented
+	 */
 	public boolean equals(Object o) {
 	    if (this == o)
 	        return true;
