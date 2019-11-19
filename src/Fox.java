@@ -110,7 +110,7 @@ public class Fox extends Animal {
 	 * @param bodyFox
 	 * @return
 	 */
-	public String calcaulePieceLocation(Location pieceLocation, Fox bodyFox) {
+	public String calculatePieceLocation(Location pieceLocation, Fox bodyFox) {
 		String movementType = "";
 		if (this.pieceLocation.comparesTo(bodyLocation, horizontalMovement) == 1) {
 			if (pieceLocation.comparesTo(this.pieceLocation, horizontalMovement) == 1) {
