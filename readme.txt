@@ -134,14 +134,11 @@ made.
 ------------Mushroom is a subclass of the Piece class and cannot be moved or selected. It's only purpose is
 as an obstacle on the board. 
 
-- Node Class:
-
-------------The Node class is a class that store information about itself and nodes it is attached to. This 
-class is used by the AutoSolver.
 
 - Parser Class:
 
------------Used to parse user input for text-based version
+-----------Used to parse user input for text-based version. It is used because it seperates processing 
+the user input from the actual game logic (decoupling)
 
 - Piece Class:
 
@@ -158,10 +155,11 @@ extends Piece.
 
 -----------Rabbit is a subclass of the abstract Animal class. It can be moved by jumping over other obstacles.
 Rabbit contains it's location and is responsible for handing movement of the rabbit by updating it's location.
+A Rabbit also has a colour, which is important when distinguishing when there are multiple rabbits on the board
 
 - Square Class:
 
------------The Square class extends JButton. Squares appear on the GUI as buttons. Each square retains it's
+-----------The Square class extends JButton. Squares appear on the GUI as buttons. Each square retains its
 location and the piece on top of it.
 
 - View Class:
@@ -178,8 +176,6 @@ Changes since last iteration:
 -Modifying JMenuBar to have new options such as undo, redo etc.
 -Allow for unlimited redo/undo using a stack to keep track of moves.
 -Auto-solver feature has been added.
--Tell user minimum number of moves to win the level.
-
 ---------------------------------------------------------------------------------------------------
 Future Road Map: 
 
