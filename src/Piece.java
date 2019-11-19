@@ -1,3 +1,5 @@
+import java.io.Serializable;
+
 /**
  * Piece is a abstract class that prints out the type of the piece.
  * This class also checks and stores the value if a piece can be move.
@@ -8,7 +10,7 @@
  * @author Md Aiman Sharif - 101062765
  * @author Shoaib Khan - 101033582
  */
-public abstract class Piece {
+public abstract class Piece implements Serializable{
 
     /**
      * Type of the piece.

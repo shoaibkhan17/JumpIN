@@ -1,3 +1,5 @@
+import java.io.Serializable;
+
 import javax.swing.JButton;
 
 /**
@@ -11,7 +13,7 @@ import javax.swing.JButton;
  * @author Shoaib Khan - 101033582
  */
 @SuppressWarnings("serial")
-public class Square extends JButton {
+public class Square extends JButton implements Serializable {
     private Piece piece;
     private Location location;
 

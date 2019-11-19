@@ -18,7 +18,7 @@ public class Controller {
 	private View view;
 	private Square oldSelectSquare;
 	private static final String SAVED_GAME_PATH = "SavedGames/";
-	
+
 	/**
 	 * Default constructor initializes instance variables
 	 * 
@@ -155,31 +155,53 @@ public class Controller {
 	/**
 	 * Method to save the game Will be implemented in milestone 4
 	 */
-	public void save(String fileName) {
+	public boolean save(String fileName) {
 		File f = new File(SAVED_GAME_PATH + fileName);
-		String str = "Fox And Rabbits Save";
 		try {
 			FileOutputStream writer = new FileOutputStream(f);
-			writer.write(str.getBytes());
+			ObjectOutputStream out = new ObjectOutputStream(writer);
+			out.writeObject(board);
+			out.close();
 			writer.close();
+			System.out.println("Object has been serialized");
+			return true;
 		} catch (IOException e1) {
-			e1.printStackTrace();
+			//e1.printStackTrace();
+			return false;
 		}
 	}
 
 	/**
 	 * Method to load the game Will be implemented in milestone 4
-	 * @param fileName 
+	 * 
+	 * @param fileName
 	 */
 	public void load(String fileName) {
-		System.out.println(fileName);
+		try {
+			FileInputStream file = new FileInputStream(SAVED_GAME_PATH + fileName);
+			ObjectInputStream in = new ObjectInputStream(file);
+
+			board = (Board) in.readObject();
+			view.updateView();
+			
+			in.close();
+			file.close();
+		}
+
+		catch (IOException ex) {
+			System.out.println("IOException is caught");
+		}
+
+		catch (ClassNotFoundException ex) {
+			System.out.println("ClassNotFoundException is caught");
+		}
 	}
-	
-	public String[] getLoadOptions(){
+
+	public String[] getLoadOptions() {
 		File saveDirectory = new File(SAVED_GAME_PATH);
 		File[] savedGameFiles = saveDirectory.listFiles();
 		String[] loadOptions = new String[savedGameFiles.length];
-		for(int i = 0; i < savedGameFiles.length; i++) {
+		for (int i = 0; i < savedGameFiles.length; i++) {
 			loadOptions[i] = savedGameFiles[i].getName();
 		}
 		return loadOptions;

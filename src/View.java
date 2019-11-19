@@ -166,7 +166,11 @@ class View {
 	public void save() {
 		String fileName = JOptionPane.showInputDialog(frame, "Enter file name");
 		if (fileName != null) {
-			controller.save(fileName);
+			if(controller.save(fileName)) {
+				JOptionPane.showMessageDialog(frame, "Your file has been saved.");
+			}else {
+				JOptionPane.showMessageDialog(frame, "Your file could not be saved. Avoid using special characters.");
+			}
 		}
 	}
 

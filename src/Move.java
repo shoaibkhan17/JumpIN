@@ -1,3 +1,4 @@
+import java.io.Serializable;
 
 /**
  * Move class to contain the animal that is about to be moved or is moved
@@ -9,7 +10,7 @@
  * @author Shoaib Khan - 101033582
  */
 
-public class Move {
+public class Move implements Serializable {
 	private Location newLocation;
 	private Animal animalPiece; 
 	

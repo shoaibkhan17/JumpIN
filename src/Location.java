@@ -1,3 +1,5 @@
+import java.io.Serializable;
+
 /**
  * Location class holding the location of the x and y coordinates.
  * 
@@ -7,7 +9,7 @@
  * @author Md Aiman Sharif - 101062765
  * @author Shoaib Khan - 101033582
  */
-public class Location {
+public class Location implements Serializable{
 
     /**
      * X coordinate

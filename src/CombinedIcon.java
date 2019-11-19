@@ -1,5 +1,7 @@
 import java.awt.Component;
 import java.awt.Graphics;
+import java.io.Serializable;
+
 import javax.swing.Icon;
 /**
  * CombinedIcon class is a class which contains the properties of the icon in the game
@@ -11,7 +13,7 @@ import javax.swing.Icon;
  * @author Md Aiman Sharif - 101062765
  * @author Shoaib Khan - 101033582
  */
-public class CombinedIcon implements Icon {
+public class CombinedIcon implements Icon, Serializable{
     private Icon frontIcon;
     private Icon backIcon;
 
