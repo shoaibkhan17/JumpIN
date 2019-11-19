@@ -23,7 +23,7 @@ public class Hole extends Piece {
     /**
      * Inner piece.
      */
-    private Piece innerPiece;
+    private Animal innerPiece;
 
     /**
      * Default constructor initializing instance variables
@@ -37,7 +37,7 @@ public class Hole extends Piece {
      * Method which sets the piece
      * @param piece to be set
      */
-    public void setPiece(Piece piece) {
+    public void setPiece(Animal piece) {
         this.innerPiece = piece;
     }
 
@@ -53,7 +53,7 @@ public class Hole extends Piece {
      * @return innerPiece piece that gets returned.
      */
 
-    public Piece getPiece() {
+    public Animal getPiece() {
         return this.innerPiece;
     }
 
@@ -66,8 +66,8 @@ public class Hole extends Piece {
     }
 
     /**
-     * Method to gets the status of the hole.
-     * @return String containing the status of the hole.
+     * Method to gets the status of the hole
+     * @return String containing the status of the hole
      */
     public String getStatus() {
         String text = "Hole is ";
@@ -77,7 +77,7 @@ public class Hole extends Piece {
 
     /**
      * String representation and calls to toString methods
-     * @return the inner piece string or the hole string. 
+     * @return the inner piece string or the hole string
      */
     public String toString() {
         return isOccupied() ? this.innerPiece.toString() : super.toString();

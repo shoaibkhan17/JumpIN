@@ -12,13 +12,12 @@ import java.util.LinkedList;
  */
 public class Board {
 	protected Square[][] squares;
-	protected Piece selectedPiece;
-	protected Location selectedPieceLocation;
+	protected Animal selectedPiece;
 	protected LinkedList<Location> holeLocations;
 	protected int rabbitCount;
 	protected static final int BOARD_SIZE = 5;
 	protected static final char BOARD_PRINT_CHAR = '*';
-	protected static final int totalLevels = 5;
+	protected static final int TOTAL_LEVELS = 5;
 	protected MoveStack moveStack;
 	protected MoveStack redoStack;
 	private int currentLevel;
@@ -33,7 +32,6 @@ public class Board {
 		squares = new Square[BOARD_SIZE][BOARD_SIZE];
 		holeLocations = new LinkedList<>();
 		selectedPiece = null;
-		selectedPieceLocation = new Location();
 		rabbitCount = 0;
 		turnsTaken = 0;
 		moveStack = new MoveStack();
@@ -89,7 +87,6 @@ public class Board {
 		}
 
 		selectedPiece = null;
-		selectedPieceLocation = new Location();
 		rabbitCount = 0;
 		turnsTaken = 0;
 		holeLocations.clear();
@@ -157,15 +154,66 @@ public class Board {
 	private void initToLevel1() {
 		// Create and add pieces.
 		squares[0][0].setPiece(new Hole());
+		squares[4][0].setPiece(new Hole());
+		squares[4][1].setPiece(new Mushroom());
+		squares[2][2].setPiece(new Hole());
+		squares[0][2].setPiece(new Rabbit(Rabbit.RABBIT_COLORS.Gray, new Location(0, 2)));
+		squares[0][3].setPiece(new Mushroom());
+		squares[0][4].setPiece(new Hole());
+		squares[4][4].setPiece(new Hole());
+
+		// Store the hold locations.
+		holeLocations.add(new Location(0, 0));
+		holeLocations.add(new Location(4, 0));
+		holeLocations.add(new Location(2, 2));
+		holeLocations.add(new Location(0, 4));
+		holeLocations.add(new Location(4, 4));
+
+		// Store the number of rabbits.
+		rabbitCount = 1;
+	}
+	
+	/**
+	 * Initialize the level 2 of the game Method which creates and add pieces onto the board
+	 */
+	private void initToLevel2() {
+		// Create and add pieces.
+		squares[0][0].setPiece(new Hole());
+		squares[4][0].setPiece(new Hole());
+		squares[4][1].setPiece(new Mushroom());
+		squares[4][2].setPiece(new Mushroom());
+		squares[2][2].setPiece(new Hole());
+		squares[2][3].setPiece(new Rabbit(Rabbit.RABBIT_COLORS.White, new Location(2, 3)));
+		squares[3][3].setPiece(new Mushroom());
+		squares[0][4].setPiece(new Hole());
+		squares[4][4].setPiece(new Hole());
+
+		// Store the hold locations.
+		holeLocations.add(new Location(0, 0));
+		holeLocations.add(new Location(4, 0));
+		holeLocations.add(new Location(2, 2));
+		holeLocations.add(new Location(0, 4));
+		holeLocations.add(new Location(4, 4));
+
+		// Store the number of rabbits.
+		rabbitCount = 1;
+	}
+
+	/**
+	 * Initialize the level 3 of the game Method which creates and add pieces onto the board
+	 */
+	private void initToLevel3() {		
+		// Create and add pieces.
+		squares[0][0].setPiece(new Hole());
 		squares[1][0].setPiece(new Mushroom());
 		squares[2][0].setPiece(new Mushroom());
 		squares[4][0].setPiece(new Hole());
 		squares[3][1].setPiece(new Mushroom());
 		squares[2][2].setPiece(new Hole());
-		squares[3][0].setPiece(new Rabbit(Rabbit.RABBIT_COLORS.White));
+		squares[3][0].setPiece(new Rabbit(Rabbit.RABBIT_COLORS.White, new Location(3, 0)));
 		squares[0][4].setPiece(new Hole());
 		squares[4][4].setPiece(new Hole());
-		squares[4][2].setPiece(new Rabbit(Rabbit.RABBIT_COLORS.Brown));
+		squares[4][2].setPiece(new Rabbit(Rabbit.RABBIT_COLORS.Brown, new Location(4, 2)));
 
 		// Store the hold locations.
 		holeLocations.add(new Location(0, 0));
@@ -179,77 +227,20 @@ public class Board {
 	}
 	
 	/**
-	 * Initialize the level 2 of the game Method which creates and add pieces onto the board
-	 */
-	private void initToLevel2() {
-		// Create and add pieces.
-		squares[0][0].setPiece(new Hole());
-		squares[4][0].setPiece(new Hole());
-		squares[4][1].setPiece(new Mushroom());
-		squares[0][2].setPiece(new Rabbit(Rabbit.RABBIT_COLORS.Gray));
-		squares[1][2].setPiece(new Mushroom());
-
-		Hole hole = new Hole();
-		hole.setPiece(new Rabbit(Rabbit.RABBIT_COLORS.White));
-
-		squares[2][2].setPiece(hole);
-		squares[3][2].setPiece(new Mushroom());
-		squares[4][2].setPiece(new Rabbit(Rabbit.RABBIT_COLORS.Brown));
-		squares[0][4].setPiece(new Hole());
-		squares[4][4].setPiece(new Hole());
-
-		// Store the hold locations.
-		holeLocations.add(new Location(0, 0));
-		holeLocations.add(new Location(4, 0));
-		holeLocations.add(new Location(2, 2));
-		holeLocations.add(new Location(0, 4));
-		holeLocations.add(new Location(4, 4));
-
-		// Store the number of rabbits.
-		rabbitCount = 3;
-	}
-
-	/**
-	 * Initialize the level 3 of the game Method which creates and add pieces onto the board
-	 */
-	private void initToLevel3() {
-		// Create and add pieces.
-		squares[0][0].setPiece(new Hole());
-		squares[3][0].setPiece(new Mushroom());
-		squares[4][0].setPiece(new Hole());
-		squares[1][1].setPiece(new Mushroom());
-		squares[2][1].setPiece(new Rabbit(Rabbit.RABBIT_COLORS.Gray));
-		squares[3][1].setPiece(new Fox(new Location(4, 1), true, false));
-		squares[4][1].setPiece(new Fox(new Location(3, 1), true, true));
-		squares[2][2].setPiece(new Mushroom());
-		squares[0][4].setPiece(new Hole());
-		squares[4][4].setPiece(new Hole());
-
-		// Store the hold locations.
-		holeLocations.add(new Location(0, 0));
-		holeLocations.add(new Location(4, 0));
-		holeLocations.add(new Location(0, 4));
-		holeLocations.add(new Location(4, 4));
-
-		// Store the number of rabbits.
-		rabbitCount = 1;
-	}
-	
-	/**
 	 * Initialize the level 4 of the game Method which creates and add pieces onto the board
 	 */
 	private void initToLevel4() {
 		// Create and add pieces.
 		squares[0][0].setPiece(new Hole());
-		squares[1][0].setPiece(new Rabbit(Rabbit.RABBIT_COLORS.White));
+		squares[3][4].setPiece(new Rabbit(Rabbit.RABBIT_COLORS.Gray, new Location(3, 4)));
 		squares[4][0].setPiece(new Hole());
 		squares[0][1].setPiece(new Mushroom());
 		squares[0][2].setPiece(new Mushroom());
 		squares[2][2].setPiece(new Hole());
-		squares[1][3].setPiece(new Fox(new Location(1, 4), false, false));
-		squares[2][3].setPiece(new Mushroom());
+		squares[1][0].setPiece(new Fox(new Location(1, 0), new Location(1, 1), false, false));
+		squares[2][4].setPiece(new Mushroom());
 		squares[0][4].setPiece(new Hole());
-		squares[1][4].setPiece(new Fox(new Location(1, 3), false, true));
+		squares[1][1].setPiece(new Fox(new Location(1, 1), new Location(1, 0), false, true));
 		squares[4][4].setPiece(new Hole());
 
 		// Store the hold locations.
@@ -269,16 +260,17 @@ public class Board {
 	private void initToLevel5() {
 		// Create and add pieces.
 		squares[0][0].setPiece(new Hole());
-		squares[3][0].setPiece(new Rabbit(Rabbit.RABBIT_COLORS.White));
-		squares[4][0].setPiece(new Mushroom());
-		squares[0][1].setPiece(new Fox(new Location(1, 1), true, false));
-		squares[1][1].setPiece(new Fox(new Location(0, 1), true, true));
+		squares[4][1].setPiece(new Rabbit(Rabbit.RABBIT_COLORS.Brown, new Location(4, 1)));
+		squares[4][0].setPiece(new Hole());
+		squares[0][1].setPiece(new Fox(new Location(0, 1), new Location(1, 1), true, false));
+		squares[1][1].setPiece(new Fox(new Location(1, 1), new Location(0, 1), true, true));
 		squares[2][2].setPiece(new Hole());
 		squares[3][2].setPiece(new Mushroom());
-		squares[1][3].setPiece(new Fox(new Location(1, 4), false, false));
+		squares[1][3].setPiece(new Fox(new Location(1, 3), new Location(1, 4), false, false));
 		squares[0][4].setPiece(new Hole());
-		squares[1][4].setPiece(new Fox(new Location(1, 3), false, true));
+		squares[1][4].setPiece(new Fox(new Location(1, 4), new Location(1, 3), false, true));
 		squares[2][4].setPiece(new Mushroom());
+		squares[3][4].setPiece(new Mushroom());
 		squares[4][4].setPiece(new Hole());
 
 		// Store the hold locations.
@@ -347,7 +339,6 @@ public class Board {
 
 				// Make that piece as the selected piece and store its location.
 				selectedPiece = hole.getPiece();
-				selectedPieceLocation.setLocation(location);
 				return true;
 			}
 
@@ -360,8 +351,7 @@ public class Board {
 		}
 
 		// get the selected piece from location x, y
-		selectedPiece = squares[x][y].getPiece();
-		selectedPieceLocation.setLocation(location);
+		selectedPiece = (Animal) squares[x][y].getPiece();
 
 		return true;
 	}
@@ -373,18 +363,32 @@ public class Board {
 	 * @param piece this is the piece that is to be moved
 	 * @return true if the piece can be moved to be new location, return false if it can't be moved
 	 */
-	private boolean canMove(Location oldLocation, Location newLocation, Piece piece) {
-		if (selectedPiece.getType() == PieceType.RABBIT) {
-			Rabbit rabbit = (Rabbit) selectedPiece;
-			return rabbit.move(oldLocation, newLocation, this);
+	protected boolean canMove(Location newLocation, Animal animalPiece) {
+		// If the new location is the same as the old location.
+		if (animalPiece.getPieceLocation().equals(newLocation)) {
+			return true;
 		}
-
-		else if (selectedPiece.getType() == PieceType.FOX) {
-			Fox fox = (Fox) selectedPiece;
-			return fox.move(oldLocation, newLocation, this);
+		
+		return animalPiece.canMove(newLocation, squares);
+	}
+	
+	private void undoRedoHandler(Location newLocation, Animal animalPiece, boolean userMove, boolean redo) {
+		if (userMove) {
+			// Clear the redo stack if a move was made between an undo and a redo.
+			// Clearing the stack, to prevent redoing to an invalid location.
+			if (!redoStack.isEmpty()) {
+				redoStack.popAll();
+			}
+			moveStack.push(newLocation, animalPiece);
 		}
-
-		return false;
+		
+		else if (!redo) {
+			moveStack.push(newLocation, animalPiece);
+		}
+		
+		else {
+			redoStack.push(newLocation, animalPiece);
+		}
 	}
 	
 	/**
@@ -393,92 +397,51 @@ public class Board {
 	 * @param newLocation new location of the piece
 	 * @param piece piece that is moved
 	 */
-	public boolean movePiece(Location oldLocation, Location newLocation, Piece piece, boolean userMove, boolean redo) {
+	public boolean movePiece(Location newLocation, Animal animalPiece, boolean userMove, boolean redo) {
 		int x = newLocation.getX();
 		int y = newLocation.getY();
-		Piece locationPiece = squares[x][y].getPiece();
 
-		// If the location where is piece is about to moved is empty or it is same
-		// location.
-		if (locationPiece == null || locationPiece == piece) {
-			if (userMove) {
-				// Clear the redo stack if a move was made between an undo and a redo.
-				// Clearing the stack, to prevent redoing to an invalid location.
-				if (!redoStack.isEmpty()) {
-					redoStack.popAll();
-				}
-				moveStack.push(oldLocation, newLocation, piece);
-			}
+		// If the new location is the same as the old location.
+		if (animalPiece.getPieceLocation().equals(newLocation)) {
+			return true;
+		}
 			
-			else if (!redo) {
-				moveStack.push(oldLocation, newLocation, piece);
+		switch (animalPiece.getType()) {
+		case RABBIT:
+			Piece locationPiece = squares[x][y].getPiece();
+			if (locationPiece != null && locationPiece.getType() == PieceType.HOLE) {
+				Hole hole = (Hole) locationPiece;
+				this.undoRedoHandler(animalPiece.getPieceLocation(), animalPiece, userMove, redo);
+				this.removePiece(animalPiece.getPieceLocation());
+				animalPiece.setPieceLocation(newLocation);
+				hole.setPiece(userMove ? animalPiece : animalPiece);
+				return true;
 			}
 			
 			else {
-				redoStack.push(oldLocation, newLocation, piece);
-			}
-			squares[x][y].setPiece(piece);
-			this.removePiece(oldLocation);
-			return true;
-		}
-
-		// If the location where is piece is about to moved a hole and the moving piece
-		// is a rabbit.
-		else if (locationPiece.getType() == PieceType.HOLE && piece.getType() == PieceType.RABBIT) {
-			Hole hole = (Hole) locationPiece;
-			if (!hole.isOccupied()) {
-				if (userMove) {
-					// Clear the redo stack if a move was made between an undo and a redo.
-					// Clearing the stack, to prevent redoing to an invalid location.
-					if (!redoStack.isEmpty()) {
-						redoStack.popAll();
-					}
-					moveStack.push(oldLocation, newLocation, piece);
-				}
-				
-				else if (!redo) {
-					moveStack.push(oldLocation, newLocation, piece);
-				}
-				
-				else {
-					redoStack.push(oldLocation, newLocation, piece);
-				}
-				// Add the piece in the hole.
-				hole.setPiece(userMove ? selectedPiece : piece);
-				this.removePiece(oldLocation);
+				this.undoRedoHandler(animalPiece.getPieceLocation(), animalPiece, userMove, redo);
+				this.removePiece(animalPiece.getPieceLocation());
+				animalPiece.setPieceLocation(newLocation);
+				squares[x][y].setPiece(animalPiece);
 				return true;
 			}
-			return false;
-		}
-
-		else {
-			return false;
-		}
-	}
-	
-	public boolean canMovePiece(Location newLocation, Piece piece) {
-		int x = newLocation.getX();
-		int y = newLocation.getY();
-		Piece locationPiece = squares[x][y].getPiece();
-
-		// If the location where is piece is about to moved is empty or it is same
-		// location.
-		if (locationPiece == null || locationPiece == piece) {
+			
+		case FOX:
+			Fox fox = (Fox) animalPiece;
+			Location oldLoc = new Location(fox.getPieceLocation());
+			this.removePiece(fox.getPieceLocation());
+			Location oldBodyLoc = new Location(fox.getBodyLocation());
+			Fox body = (Fox) squares[oldBodyLoc.getX()][oldBodyLoc.getY()].getPiece();
+			this.removePiece(oldBodyLoc);
+			String movementType = fox.calculatePieceLocation(newLocation, body);
+			this.undoRedoHandler(movementType.equals("head") ? oldLoc : oldBodyLoc, fox, userMove, redo);
+			Location foxLocation = new Location(fox.getPieceLocation());
+			squares[foxLocation.getX()][foxLocation.getY()].setPiece(animalPiece);
+			Location newBodyLoc = new Location(fox.getBodyLocation());
+			squares[newBodyLoc.getX()][newBodyLoc.getY()].setPiece(body);
 			return true;
-		}
-
-		// If the location where is piece is about to moved a hole and the moving piece
-		// is a rabbit.
-		else if (locationPiece.getType() == PieceType.HOLE && piece.getType() == PieceType.RABBIT) {
-			Hole hole = (Hole) locationPiece;
-			if (!hole.isOccupied()) {
-
-				return true;
-			}
-			return false;
-		}
-
-		else {
+		
+		default:
 			return false;
 		}
 	}
@@ -490,14 +453,14 @@ public class Board {
 	 * @param location on the board
 	 * @return true if the operation is successful, else returns false if not successful
 	 */
-	public boolean move(Location location) {
-		if (this.canMove(selectedPieceLocation, location, selectedPiece)) {
-			selectedPiece = null;
-			selectedPieceLocation.clear();
-			turnsTaken++;
-			return true;
+	public boolean move(Location newLocation) {
+		if (this.canMove(newLocation, selectedPiece)) {
+			if (this.movePiece(newLocation, selectedPiece, true, false)) {
+				selectedPiece = null;
+				turnsTaken++;
+				return true;
+			}	
 		}
-
 		return false;
 	}
 	
@@ -511,10 +474,9 @@ public class Board {
 			return;
 		}
 		
-		Location oldLocation = move.getOldLocation();
 		Location newLocation = move.getNewLocation();
-		Piece piece = move.getPiece();
-		this.movePiece(newLocation, oldLocation, piece, false, true);
+		Animal animalPiece = move.getPiece();
+		this.movePiece(newLocation, animalPiece, false, true);
 	}
 	
 	/**
@@ -527,10 +489,9 @@ public class Board {
 			return;
 		}
 		
-		Location oldLocation = move.getOldLocation();
 		Location newLocation = move.getNewLocation();
-		Piece piece = move.getPiece();
-		this.movePiece(newLocation, oldLocation, piece, false, false);
+		Animal animalPiece = move.getPiece();
+		this.movePiece(newLocation, animalPiece, false, false);
 	}
 	
 	
@@ -584,6 +545,21 @@ public class Board {
 	}
 	
 	/**
+	 * Method to get the board state
+	 * @return boardState
+	 */
+	public String getBoardState() {
+		String boardState = "";
+		for (int y = 0; y < Board.BOARD_SIZE; y++) {
+			for (int x = 0; x < Board.BOARD_SIZE; x++) {
+				boardState += squares[x][y].getPiece() == null ? "E" : squares[x][y];
+			}
+		}
+		
+		return boardState;
+	}
+	
+	/**
 	 * isGameWon checks all the holes on the board. If the number of rabbits in the
 	 * game (rabbitCount) is equal to the number of rabbits in the holes the game is
 	 * won and the method returns true
@@ -608,7 +584,7 @@ public class Board {
 	 */
 	public void printBoard() {
 		if (selectedPiece != null) {
-			System.out.println("-- SELECTED PIECE " + selectedPiece + " at " + selectedPieceLocation + " --");
+			System.out.println("-- SELECTED PIECE " + selectedPiece + " at " + selectedPiece.getPieceLocation() + " --");
 		}
 		System.out.print(this.toString());
 		this.getHoleStatus();

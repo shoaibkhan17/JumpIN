@@ -5,7 +5,6 @@ import javax.swing.border.LineBorder;
 import javax.swing.*;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Event;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -28,7 +27,7 @@ class View {
 	private Controller controller;
 	private ArrayList<Square> highlightedSquares;
 	
-	private final static String gameInstructions = "Basic Information\r\n" + 
+	private final static String GAME_INSTRUCTIONS = "Basic Information\r\n" + 
 			"- Currently five levels are developed.\r\n" + 
 			"- The goal of the game is to place all the rabbits inside the holes.\r\n" + 
 			"- Rabbits can jump over objects, including mushrooms, foxes and other rabbits\r\n" + 
@@ -49,11 +48,10 @@ class View {
 	 * Constructor to initialize the instance variables
 	 */
 	public View() {
-		board = new Board(1);
-		controller = new Controller(board, this);
-		highlightedSquares = new ArrayList<>();
+		this.board = new Board(1);
+		this.controller = new Controller(board, this);
+		this.highlightedSquares = new ArrayList<>();
 		this.init();
-		this.run();
 	}
 	
 	/**
@@ -106,13 +104,13 @@ class View {
 		
 		// Help Menu and Items
 		JMenu help = new JMenu("Help");
-		help.add(this.createMenuItem("Instrcutions" , (event) -> JOptionPane.showMessageDialog(frame, View.gameInstructions)));
-		help.add(this.createMenuItem("Auto-Solve", (event) -> controller.autoSolver()));	
+		help.add(this.createMenuItem("Instructions" , (event) -> JOptionPane.showMessageDialog(frame, View.GAME_INSTRUCTIONS)));
 		
 		// Level Option Menu and Items
 		JMenu levelSelect = new JMenu("Level Options");
 		levelSelect.add(this.createMenuItem("Reset Level", (event) -> this.reset()));
 		levelSelect.add(this.createMenuItem("Level Select", (event) -> this.levelSelect()));
+		levelSelect.add(this.createMenuItem("Auto-Solve", (event) -> controller.autoSolver()));	
 	
 		// Adding menu into the menu bar.
 		menuBar.add(file);
@@ -126,8 +124,8 @@ class View {
 	
 	
 	/**
-	 * Method to save the game.
-	 * Will be implemented in milestone 4.
+	 * Method to save the game
+	 * Will be implemented in milestone 4
 	 */
 	private void save() {
 		JOptionPane.showMessageDialog(frame, "Save feature to be implemented in Milestone 4");
@@ -135,8 +133,8 @@ class View {
 	}
 	
 	/**
-	 * Method to load the game.
-	 * Will be implemented in milestone 4.
+	 * Method to load the game
+	 * Will be implemented in milestone 4
 	 */
 	private void load() {
 		JOptionPane.showMessageDialog(frame, "Load feature to be implemented in Milestone 4");
@@ -151,10 +149,17 @@ class View {
 		int option = JOptionPane.showConfirmDialog(popupFrame, "Are you sure you want to reset level " + board.getLevel());
 		
 		if (option == 0) {
-			board.changeLevel(board.getLevel());
-			this.setButtonsEnabled(true);
-			this.updateView();
+			this.resetView();
 		}
+	}
+	
+	/**
+	 * Method to update the view after reset.
+	 */
+	public void resetView() {
+		board.changeLevel(board.getLevel());
+		this.setButtonsEnabled(true);
+		this.updateView();
 	}
 	
 	/**
@@ -292,10 +297,8 @@ class View {
 		JFrame popupFrame = new JFrame();
 		String message = "";
 		
-		if (board.getLevel() < Board.totalLevels) {
+		if (board.getLevel() < Board.TOTAL_LEVELS) {
 			message = "Congratulations on completing Level " + board.getLevel() + "!";
-			message += "\n";
-			message += "Turns taken - " + board.getTurnsTaken();
 			message += "\n";
 			message += "Press OK to play level " + (board.getLevel() + 1);
 			JOptionPane.showMessageDialog(popupFrame, message);
@@ -305,8 +308,6 @@ class View {
 		
 		else {
 			message = "Congratulations on completing the game!";
-			message += "\n";
-			message += "Turns taken - " + board.getTurnsTaken();
 			JOptionPane.showMessageDialog(popupFrame, message);
 			this.setButtonsEnabled(false);
 		}
@@ -349,6 +350,7 @@ class View {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		new View();
+		View view = new View();
+		view.run();
 	}
 }

@@ -43,7 +43,7 @@ public class PieceTest {
 	 */
 	@Test
 	public void testPiece() {
-		piece = new Rabbit(Rabbit.RABBIT_COLORS.Gray);
+		piece = new Rabbit(Rabbit.RABBIT_COLORS.Gray, new Location(0, 0));
 		assertEquals(piece.getType(), PieceType.RABBIT);
 	}
 

@@ -19,7 +19,11 @@ import org.junit.runners.Suite.SuiteClasses;
 	ParserTest.class,
 	PieceTest.class,
 	RabbitTest.class,
-	SquareTest.class
+	SquareTest.class,
+	AnimalTest.class,
+	MoveTest.class,
+	AutoSolverTest.class,
+	MoveStackTest.class
 	})
 
 /**
