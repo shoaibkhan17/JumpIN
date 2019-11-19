@@ -48,6 +48,19 @@ public abstract class Animal extends Piece {
 	public void setPieceLocation(Location pieceLocation) {
 		this.pieceLocation.setLocation(pieceLocation);
 	}
+	
+	public boolean equals(Object o) {
+	    if (this == o)
+	        return true;
+	    if (o == null)
+	        return false;
+	    if (getClass() != o.getClass())
+	        return false;
+	    Animal a = (Animal) o;
+	    return this.pieceLocation.equals(a.pieceLocation)
+	    		&& this.getType().equals(a.getType());
+	           
+	}
 
 	/** 
 	 * The following is an abstract method which is implemented by the Pieces that can move.

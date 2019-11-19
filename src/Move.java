@@ -54,4 +54,16 @@ public class Move {
 	public String toString() {
 		return animalPiece.getPieceLocation() +  "->" + newLocation;
 	}
+	
+	public boolean equals(Object o) {
+	    if (this == o)
+	        return true;
+	    if (o == null)
+	        return false;
+	    if (getClass() != o.getClass())
+	        return false;
+	    Move m = (Move) o;
+	    return this.animalPiece.equals(m.animalPiece)
+	            && this.newLocation.equals(m.newLocation);
+	}
 }
