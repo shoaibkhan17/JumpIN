@@ -49,6 +49,9 @@ public abstract class Animal extends Piece {
 		this.pieceLocation.setLocation(pieceLocation);
 	}
 	
+	/**
+	 * Equals method implemented
+	 */
 	public boolean equals(Object o) {
 	    if (this == o)
 	        return true;

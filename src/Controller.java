@@ -1,7 +1,7 @@
 import java.awt.event.ActionEvent;
 
 /**
- * Controller class which holds the controller for the game What does this do???
+ * Controller class which holds the controller for the game
  * 
  * @author Khalil Aalab - 101070879
  * @author Kamaluddin Shakiri - 101054933
@@ -133,6 +133,10 @@ public class Controller {
 		view.updateView();
 	}
 
+	/**
+	 * Method which lets the user select the level 
+	 * @param level to be selected
+	 */
 	public void levelSelect(Integer level) {
 		board.changeLevel(level);
 		view.updateView();
