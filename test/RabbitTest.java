@@ -25,7 +25,7 @@ public class RabbitTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		rabbit = new Rabbit(Rabbit.RABBIT_COLORS.Brown);
+		rabbit = new Rabbit(Rabbit.RABBIT_COLORS.Brown, new Location(3,0));
 		board = new Board(1);
 	}
 
@@ -62,10 +62,9 @@ public class RabbitTest {
 	 */
 	@Test
 	public void testValidMove() {
-		Square[][] squares = board.getSquares();
-		Location rabbitLocation = squares[3][0].getLoc();
 		Location location = new Location(3, 2);
-		assertTrue(rabbit.move(rabbitLocation, location, board));
+		assertTrue(board.canMove(location, rabbit));
+		assertTrue(board.movePiece(location, rabbit, true, false));
 	}
 	
 	/**
@@ -73,9 +72,18 @@ public class RabbitTest {
 	 */
 	@Test
 	public void testInvalidMove() {
-		Square[][] squares = board.getSquares();
-		Location rabbitLocation = squares[3][0].getLoc();
 		Location location = new Location(3, 3);
-		assertFalse(rabbit.move(rabbitLocation, location, board));
+		assertFalse(board.canMove(location, rabbit));
+		assertTrue(board.movePiece(location, rabbit, true, false));
+	}
+	
+	@Test
+	public void testRabbitInHole() {
+		Location holeLocation = new Location(0, 0);
+		Square[][] squares = board.getSquares();
+		Hole hole = (Hole) squares[holeLocation.getX()][holeLocation.getY()].getPiece();
+		assertFalse(hole.isOccupied());
+		assertTrue(board.movePiece(holeLocation, rabbit, true, false));
+		assertTrue(hole.isOccupied());
 	}
 }
