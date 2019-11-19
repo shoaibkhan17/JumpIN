@@ -59,7 +59,6 @@ public class BoardTest {
 		assertNotNull(squares);
 		assertEquals(HOLE_COUNT_AT_LEVEL1, board.holeLocations.size());
 		assertEquals(RABBIT_COUNT_AT_LEVEL1, board.rabbitCount);
-		assertEquals(new Location(), board.selectedPieceLocation);
 		assertNull(board.selectedPiece);
 	}
 
@@ -82,7 +81,6 @@ public class BoardTest {
 		Piece rabbit = squares[rabbitLocation.getX()][rabbitLocation.getY()].getPiece();
 		assertTrue(board.selectPiece(rabbitLocation));
 		assertEquals(rabbit, board.selectedPiece);
-		assertEquals(rabbitLocation, board.selectedPieceLocation);
 	}
 	
 	/**
@@ -91,7 +89,6 @@ public class BoardTest {
 	@Test
 	public void testSelectInvalidPiece() {
 		assertFalse(board.selectPiece(new Location(3, 1)));
-		assertEquals(new Location(), board.selectedPieceLocation);
 		assertNull(board.selectedPiece);
 	}
 
@@ -104,7 +101,7 @@ public class BoardTest {
 		Piece piece = squares[oldLoc.getX()][oldLoc.getY()].getPiece();
 		Location newLoc = new Location(2, 3);
 		board.selectPiece(oldLoc);
-		board.movePiece(oldLoc, newLoc, piece, false, false);
+		board.movePiece(newLoc, (Animal) piece, false, false);
 		assertEquals(piece, squares[newLoc.getX()][newLoc.getY()].getPiece());
 	}
 
@@ -179,7 +176,6 @@ public class BoardTest {
 		assertNotNull(squares);
 		assertEquals(HOLE_COUNT_AT_LEVEL3, board.holeLocations.size());
 		assertEquals(RABBIT_COUNT_AT_LEVEL3, board.rabbitCount);
-		assertEquals(new Location(), board.selectedPieceLocation);
 		assertNull(board.selectedPiece);
 	}
 }
