@@ -163,7 +163,6 @@ public class Controller {
 			out.writeObject(board);
 			out.close();
 			writer.close();
-			System.out.println("Object has been serialized");
 			return true;
 		} catch (IOException e1) {
 			//e1.printStackTrace();
@@ -182,6 +181,7 @@ public class Controller {
 			ObjectInputStream in = new ObjectInputStream(file);
 
 			board = (Board) in.readObject();
+			view.setBoard(board);
 			view.updateView();
 			
 			in.close();

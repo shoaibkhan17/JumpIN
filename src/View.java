@@ -365,6 +365,10 @@ class View {
 		boolean cornerPiece = loc.getX() % 2 == 0 && loc.getY() % 2 == 0;
 		square.setBackground(cornerPiece ? CORNER_SQUARE_COLOR : MAIN_SQUARE_COLOR);
 	}
+	
+	public void setBoard(Board newBoard) {
+		board = newBoard;
+	}
 
 	/**
 	 * Main method used to run the game and display the view
