@@ -52,7 +52,6 @@ class View {
 		this.controller = new Controller(board, this);
 		this.highlightedSquares = new ArrayList<>();
 		this.init();
-		this.run();
 	}
 	
 	/**
@@ -351,6 +350,7 @@ class View {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		new View();
+		View view = new View();
+		view.run();
 	}
 }

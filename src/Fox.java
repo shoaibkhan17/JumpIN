@@ -236,9 +236,7 @@ public class Fox extends Animal {
 		// Goes through this condition if the move is greater than 1 square.
 		for(int i = 0; i <= diff; i++) {
 			Location location = new Location(x ? constNumber : (smallestNumber + i), x ? (smallestNumber + i) : constNumber);
-
 			Piece piece = squares[location.getX()][location.getY()].getPiece();
-			System.out.println(location);
 			if (piece != null) {
 				if (piece.getType() == PieceType.FOX) {
 					if (!location.equals(bodyLocation) && !location.equals(pieceLocation)) {
