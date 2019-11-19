@@ -60,8 +60,8 @@ User Manual (For milestone 1):
 --After every move, a text is printed which displays the hole status.
 --The purpose of this is to let the users know if there is a rabbit inside the hole. 
 
--Information on deselecting a piece.
---If you select a piece and then want to deselect it, just place it back it its own location.
+-Information on de-selecting a piece.
+--If you select a piece and then want to de-select it, just place it back it its own location.
 
 ---------------------------------------------------------------------------------------------------
 Design Decisions:
@@ -69,7 +69,6 @@ Design Decisions:
 - Overall: 
 
 ---------Separating the model, view and controller in accordance with the MVC model
----------checks if the Board is completed after each successful move. 
 ---------The Board is set to be complete once all the Rabbits are placed in the Holes.
 
 - Animal Class:
@@ -80,7 +79,7 @@ own movement.
 
 - AutoSolver Class:
 ---------The AutoSolver class is a class that attempts to solve a level of JumpIn by trying different moves
-and comparing game state. It does this by creating and searching through a tree of Nodes.
+and comparing game state. It does this by creating and searching through all the possible moves.
 
 - Board Class:
  
@@ -95,7 +94,7 @@ is to combine the icon of a rabbit and a hole when a rabbit is in a hole.
 
 - Controller Class:
 
-----------The controller class's purpose is to recieve events that occur on the GUI and then
+----------The controller class' purpose is to receive events that occur on the GUI and then
 handle these events.It handles the event by interpreting the kind of event that occurred and, calling
 the appropriate methods to adjust the board and update the view. 
 
@@ -126,7 +125,7 @@ it was moved to. This class is utilized by the undo/redo functionality to undo m
 
 - MoveStack Class:
 
------------The Movestack class is used to make an instance of a stack that contains moves. A stack was used 
+-----------The MoveStack class is used to make an instance of a stack that contains moves. A stack was used 
 because when undoing, you want to undo the last move made, and when redoing, you want to redo the last undo 
 made.
 
@@ -167,8 +166,7 @@ location and the piece on top of it.
 
 - View Class:
 
-----------The View class is a class that builds and displays a visual represe
-ntation of the model as a GUI. It has a controller, which it alerts when a button or 
+----------The View class is a class that builds and displays a visual representation of the model as a GUI. It has a controller, which it alerts when a button or 
 menu is clicked and, a Board which it uses to build the GUI. 
 
 ---------------------------------------------------------------------------------------------------
@@ -188,5 +186,5 @@ Future Road Map:
 -Show all available locations user can move when they select a piece
 -Allow hints to be given to the user within the GUI
 -Allow for game to be saved/loaded
--Add game level builder
+-Add game level builder and use auto-solver to validate if level is solvable
 ---------------------------------------------------------------------------------------------------
