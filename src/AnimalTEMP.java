@@ -10,7 +10,6 @@ import java.util.Stack;
  * @author Shoaib Khan - 101033582
  */
 
-
 // RENAMING THE ANIMAL CLASS FOR NOW.
 // USING THE NAME ANIMAL FOR THE FOX AND THE RABBIT CLASSES
 public class AnimalTEMP {
