@@ -1139,16 +1139,6 @@ PieceType</string>
   </void>
   <void method="connect">
    <object class="com.horstmann.violet.ClassRelationshipEdge">
-<<<<<<< HEAD
-    <void property="endArrowHead">
-     <object class="com.horstmann.violet.ArrowHead" field="V"/>
-    </void>
-    <void property="lineStyle">
-     <object class="com.horstmann.violet.LineStyle" field="DOTTED"/>
-    </void>
-   </object>
-   <object idref="ClassNode16"/>
-=======
     <void property="bentStyle">
      <object class="com.horstmann.violet.BentStyle" field="HVH"/>
     </void>
@@ -1169,7 +1159,6 @@ PieceType</string>
     </void>
    </object>
    <object idref="ClassNode18"/>
->>>>>>> 29bf666... UML Updated
    <object idref="ClassNode17"/>
   </void>
   <void property="minBounds">
