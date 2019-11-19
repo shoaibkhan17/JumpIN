@@ -48,12 +48,11 @@ class View {
 	 * Constructor to initialize the instance variables
 	 */
 	public View() {
-		board = new Board(2);
+		board = new Board(4);
 		controller = new Controller(board, this);
 		highlightedSquares = new ArrayList<>();
 		this.init();
 		this.run();
-		controller.autoSolver();
 	}
 	
 	/**

@@ -98,9 +98,8 @@ public class AutoSolver {
 		for (int x = 0; x < Board.BOARD_SIZE; x++) {
 			for (int y = 0; y < Board.BOARD_SIZE; y++) {
 				if (squares[x][y].getPiece() != null) {
-					if (squares[x][y].getPiece().getType() == PieceType.RABBIT) {
+					if (squares[x][y].getPiece().getType() == PieceType.RABBIT || squares[x][y].getPiece().getType() == PieceType.FOX) {
 						animalPiece = (Animal) squares[x][y].getPiece();
-//						AnimalTEMP animal = new AnimalTEMP(piece, squares[x][y].getLoc(), counter++);
 						animals.add(animalPiece);
 					}
 					else if (squares[x][y].getPiece().getType() == PieceType.HOLE) {
@@ -278,17 +277,13 @@ public class AutoSolver {
 //			this.solve(counter++, animals);
 //		}
 		
+		this.solve(counter++, animals);
+		this.solve(counter++, animals);
+		this.solve(counter++, animals);
+		this.solve(counter++, animals);
+//		this.solve(counter++, animals);
+		
 //		view.displayLevelCompeletePopup();
-
-// 		For manually going through the auto solver
-		this.solve(counter++, animals);
-		this.solve(counter++, animals);
-//		this.solve(counter++, animals);
-//		this.solve(counter++, animals);
-//		this.solve(counter++, animals);
-//		this.solve(counter++, animals);
-//		this.solve(counter++, animals);
-//		this.solve(counter++, animals);
 				
 	}
 }

@@ -154,6 +154,78 @@ public class Board {
 	private void initToLevel1() {
 		// Create and add pieces.
 		squares[0][0].setPiece(new Hole());
+		squares[4][0].setPiece(new Hole());
+		squares[4][1].setPiece(new Mushroom());
+		squares[2][2].setPiece(new Hole());
+		squares[0][2].setPiece(new Rabbit(Rabbit.RABBIT_COLORS.Gray, new Location(0, 2)));
+		squares[0][3].setPiece(new Mushroom());
+		squares[0][4].setPiece(new Hole());
+		squares[4][4].setPiece(new Hole());
+
+		// Store the hold locations.
+		holeLocations.add(new Location(0, 0));
+		holeLocations.add(new Location(4, 0));
+		holeLocations.add(new Location(2, 2));
+		holeLocations.add(new Location(0, 4));
+		holeLocations.add(new Location(4, 4));
+
+		// Store the number of rabbits.
+		rabbitCount = 1;
+	}
+	
+	/**
+	 * Initialize the level 2 of the game Method which creates and add pieces onto the board
+	 */
+	private void initToLevel2() {
+		// Create and add pieces.
+		squares[0][0].setPiece(new Hole());
+		squares[4][0].setPiece(new Hole());
+		squares[4][1].setPiece(new Mushroom());
+		squares[4][2].setPiece(new Mushroom());
+		squares[2][2].setPiece(new Hole());
+		squares[2][3].setPiece(new Rabbit(Rabbit.RABBIT_COLORS.White, new Location(2, 3)));
+		squares[3][3].setPiece(new Mushroom());
+		squares[0][4].setPiece(new Hole());
+		squares[4][4].setPiece(new Hole());
+
+		// Store the hold locations.
+		holeLocations.add(new Location(0, 0));
+		holeLocations.add(new Location(4, 0));
+		holeLocations.add(new Location(2, 2));
+		holeLocations.add(new Location(0, 4));
+		holeLocations.add(new Location(4, 4));
+
+		// Store the number of rabbits.
+		rabbitCount = 1;
+	}
+
+	/**
+	 * Initialize the level 3 of the game Method which creates and add pieces onto the board
+	 */
+	private void initToLevel3() {
+//		// Create and add pieces.
+//		squares[0][0].setPiece(new Hole());
+//		squares[3][0].setPiece(new Mushroom());
+//		squares[4][0].setPiece(new Hole());
+//		squares[1][1].setPiece(new Mushroom());
+//		squares[2][1].setPiece(new Rabbit(Rabbit.RABBIT_COLORS.Gray, new Location(2, 1)));
+//		squares[3][1].setPiece(new Fox(new Location(3, 1), new Location(4, 1), true, false));
+//		squares[4][1].setPiece(new Fox(new Location(4, 1), new Location(3, 1), true, true));
+//		squares[2][2].setPiece(new Mushroom());
+//		squares[0][4].setPiece(new Hole());
+//		squares[4][4].setPiece(new Hole());
+//
+//		// Store the hold locations.
+//		holeLocations.add(new Location(0, 0));
+//		holeLocations.add(new Location(4, 0));
+//		holeLocations.add(new Location(0, 4));
+//		holeLocations.add(new Location(4, 4));
+//
+//		// Store the number of rabbits.
+//		rabbitCount = 1;
+		
+		// Create and add pieces.
+		squares[0][0].setPiece(new Hole());
 		squares[1][0].setPiece(new Mushroom());
 		squares[2][0].setPiece(new Mushroom());
 		squares[4][0].setPiece(new Hole());
@@ -173,63 +245,6 @@ public class Board {
 
 		// Store the number of rabbits.
 		rabbitCount = 2;
-	}
-	
-	/**
-	 * Initialize the level 2 of the game Method which creates and add pieces onto the board
-	 */
-	private void initToLevel2() {
-		// Create and add pieces.
-		squares[0][0].setPiece(new Hole());
-		squares[4][0].setPiece(new Hole());
-		squares[4][1].setPiece(new Mushroom());
-		squares[0][2].setPiece(new Rabbit(Rabbit.RABBIT_COLORS.Gray, new Location(0, 2)));
-		squares[1][2].setPiece(new Mushroom());
-
-		Hole hole = new Hole();
-		hole.setPiece(new Rabbit(Rabbit.RABBIT_COLORS.White, new Location(2, 2)));
-
-		squares[2][2].setPiece(hole);
-		squares[3][2].setPiece(new Mushroom());
-		squares[4][2].setPiece(new Rabbit(Rabbit.RABBIT_COLORS.Brown, new Location(4, 2)));
-		squares[0][4].setPiece(new Hole());
-		squares[4][4].setPiece(new Hole());
-
-		// Store the hold locations.
-		holeLocations.add(new Location(0, 0));
-		holeLocations.add(new Location(4, 0));
-		holeLocations.add(new Location(2, 2));
-		holeLocations.add(new Location(0, 4));
-		holeLocations.add(new Location(4, 4));
-
-		// Store the number of rabbits.
-		rabbitCount = 3;
-	}
-
-	/**
-	 * Initialize the level 3 of the game Method which creates and add pieces onto the board
-	 */
-	private void initToLevel3() {
-		// Create and add pieces.
-		squares[0][0].setPiece(new Hole());
-		squares[3][0].setPiece(new Mushroom());
-		squares[4][0].setPiece(new Hole());
-		squares[1][1].setPiece(new Mushroom());
-		squares[2][1].setPiece(new Rabbit(Rabbit.RABBIT_COLORS.Gray, new Location(2, 1)));
-		squares[3][1].setPiece(new Fox(new Location(3, 1), new Location(4, 1), true, false));
-		squares[4][1].setPiece(new Fox(new Location(4, 1), new Location(3, 1), true, true));
-		squares[2][2].setPiece(new Mushroom());
-		squares[0][4].setPiece(new Hole());
-		squares[4][4].setPiece(new Hole());
-
-		// Store the hold locations.
-		holeLocations.add(new Location(0, 0));
-		holeLocations.add(new Location(4, 0));
-		holeLocations.add(new Location(0, 4));
-		holeLocations.add(new Location(4, 4));
-
-		// Store the number of rabbits.
-		rabbitCount = 1;
 	}
 	
 	/**
