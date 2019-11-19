@@ -1,9 +1,9 @@
 /**
- * An abstract Animal class that extends Piece.
+ * An abstract Animal class that extends Piece
  * Contains the state descriptions and properties of the Animal Pieces
  * 
  * @author Khalil Aalab - 101070879
- * @author Kamaluddin Shakirki - 101054933
+ * @author Kamaluddin Shakiri - 101054933
  * @author Simon Yacoub - 101044159
  * @author Md Aiman Sharif - 101062765
  * @author Shoaib Khan - 101033582
@@ -11,21 +11,21 @@
 public abstract class Animal extends Piece {
 	
 	/**
-	 * Animals can be moved. 
+	 * Animals can be moved
 	 */
 	private static final boolean IS_MOVABLE = true; 
 
 	/**
-	 * Animals can be selected.
+	 * Animals can be selected
 	 */
     private static final boolean IS_SELECTABLE = true;
     
     /**
-     * ADD JAVA DOC
+     * Location of Animal
      */
     protected Location pieceLocation; 
 	
-	/** Default constructor.
+	/** Default constructor
 	 * @param type this is the type of the piece 
 	 */
 	public Animal(PieceType type, Location pieceLocation) {
@@ -34,16 +34,16 @@ public abstract class Animal extends Piece {
 	}
 	
 	/**
-	 * ADD JAVA DOC
-	 * @return
+	 * Method that returns the location of the piece
+	 * @return pieceLocation this is the location of the piece
 	 */
 	public Location getPieceLocation() {
 		return pieceLocation;
 	}
 	
 	/**
-	 * ADD JAVA DOC
-	 * @param pieceLocation
+	 * Method that sets the location of the piece 
+	 * @param pieceLocation this is the location that is to
 	 */
 	public void setPieceLocation(Location pieceLocation) {
 		this.pieceLocation.setLocation(pieceLocation);

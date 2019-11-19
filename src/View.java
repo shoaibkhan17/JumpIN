@@ -27,7 +27,7 @@ class View {
 	private Controller controller;
 	private ArrayList<Square> highlightedSquares;
 	
-	private final static String gameInstructions = "Basic Information\r\n" + 
+	private final static String GAME_INSTRUCTIONS = "Basic Information\r\n" + 
 			"- Currently five levels are developed.\r\n" + 
 			"- The goal of the game is to place all the rabbits inside the holes.\r\n" + 
 			"- Rabbits can jump over objects, including mushrooms, foxes and other rabbits\r\n" + 
@@ -106,7 +106,7 @@ class View {
 		
 		// Help Menu and Items
 		JMenu help = new JMenu("Help");
-		help.add(this.createMenuItem("Instrcutions" , (event) -> JOptionPane.showMessageDialog(frame, View.gameInstructions)));
+		help.add(this.createMenuItem("Instructions" , (event) -> JOptionPane.showMessageDialog(frame, View.GAME_INSTRUCTIONS)));
 		help.add(this.createMenuItem("Auto-Solve", (event) -> controller.autoSolver()));	
 		
 		// Level Option Menu and Items
@@ -126,8 +126,8 @@ class View {
 	
 	
 	/**
-	 * Method to save the game.
-	 * Will be implemented in milestone 4.
+	 * Method to save the game
+	 * Will be implemented in milestone 4
 	 */
 	private void save() {
 		JOptionPane.showMessageDialog(frame, "Save feature to be implemented in Milestone 4");
@@ -135,8 +135,8 @@ class View {
 	}
 	
 	/**
-	 * Method to load the game.
-	 * Will be implemented in milestone 4.
+	 * Method to load the game
+	 * Will be implemented in milestone 4
 	 */
 	private void load() {
 		JOptionPane.showMessageDialog(frame, "Load feature to be implemented in Milestone 4");

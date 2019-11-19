@@ -51,8 +51,7 @@ public class Controller {
 	 * Method to select a square or a piece, this method gets triggered when a
 	 * button is pressed in this case by 'mouse"
 	 * 
-	 * @param event
-	 *            the event that takes care of the correspondence event
+	 * @param event the event that takes care of the correspondence event
 	 */
 	public void select(ActionEvent event) {
 		Square square = (Square) event.getSource();
@@ -76,8 +75,7 @@ public class Controller {
 	/**
 	 * Method to move a piece from its location to a different location
 	 * 
-	 * @param event
-	 *            which handles what happens after the button is pressed
+	 * @param event which handles what happens after the button is pressed
 	 */
 	public void move(ActionEvent event) {
 		Square square = (Square) event.getSource();
