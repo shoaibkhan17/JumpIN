@@ -25,7 +25,7 @@ public class RabbitTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		rabbit = new Rabbit(Rabbit.RABBIT_COLORS.Brown);
+		rabbit = new Rabbit(Rabbit.RABBIT_COLORS.Brown, new Location(0, 2));
 		board = new Board(1);
 	}
 
@@ -63,9 +63,8 @@ public class RabbitTest {
 	@Test
 	public void testValidMove() {
 		Square[][] squares = board.getSquares();
-		Location rabbitLocation = squares[3][0].getLoc();
-		Location location = new Location(3, 2);
-		assertTrue(rabbit.move(rabbitLocation, location, board));
+		Location location = new Location(0, 4);
+		assertTrue(rabbit.canMove(location, squares));
 	}
 	
 	/**
@@ -74,8 +73,7 @@ public class RabbitTest {
 	@Test
 	public void testInvalidMove() {
 		Square[][] squares = board.getSquares();
-		Location rabbitLocation = squares[3][0].getLoc();
 		Location location = new Location(3, 3);
-		assertFalse(rabbit.move(rabbitLocation, location, board));
+		assertFalse(rabbit.canMove(location, squares));
 	}
 }

@@ -72,7 +72,6 @@ public class FoxTest {
 	@Test
 	public void testValidMove() {
 		Square[][] squares = board.getSquares();
-		Location foxLocation = squares[1][3].getLoc();
 		Location location = new Location(1, 2);
 		assertTrue(fox.canMove(location, squares));
 	}
@@ -83,7 +82,6 @@ public class FoxTest {
 	@Test
 	public void testInvalidMove() {
 		Square[][] squares = board.getSquares();
-		Location foxLocation = squares[1][3].getLoc();
 		Location location = new Location(4, 2);
 		assertFalse(fox.canMove(location, squares));
 	}
