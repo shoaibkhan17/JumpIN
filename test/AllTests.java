@@ -21,7 +21,8 @@ import org.junit.runners.Suite.SuiteClasses;
 	RabbitTest.class,
 	SquareTest.class,
 	AnimalTest.class,
-	MoveTest.class
+	MoveTest.class,
+	AutoSolverTest.class
 	})
 
 /**
