@@ -27,7 +27,7 @@ public class HoleTest {
 	@Before
 	public void setUp() throws Exception {
 		hole = new Hole();
-		innerPiece = new Rabbit(Rabbit.RABBIT_COLORS.White);
+		innerPiece = new Rabbit(Rabbit.RABBIT_COLORS.White, new Location(0, 0));
 	}
 
 	/**

@@ -154,6 +154,57 @@ public class Board {
 	private void initToLevel1() {
 		// Create and add pieces.
 		squares[0][0].setPiece(new Hole());
+		squares[4][0].setPiece(new Hole());
+		squares[4][1].setPiece(new Mushroom());
+		squares[2][2].setPiece(new Hole());
+		squares[0][2].setPiece(new Rabbit(Rabbit.RABBIT_COLORS.Gray, new Location(0, 2)));
+		squares[0][3].setPiece(new Mushroom());
+		squares[0][4].setPiece(new Hole());
+		squares[4][4].setPiece(new Hole());
+
+		// Store the hold locations.
+		holeLocations.add(new Location(0, 0));
+		holeLocations.add(new Location(4, 0));
+		holeLocations.add(new Location(2, 2));
+		holeLocations.add(new Location(0, 4));
+		holeLocations.add(new Location(4, 4));
+
+		// Store the number of rabbits.
+		rabbitCount = 1;
+	}
+	
+	/**
+	 * Initialize the level 2 of the game Method which creates and add pieces onto the board
+	 */
+	private void initToLevel2() {
+		// Create and add pieces.
+		squares[0][0].setPiece(new Hole());
+		squares[4][0].setPiece(new Hole());
+		squares[4][1].setPiece(new Mushroom());
+		squares[4][2].setPiece(new Mushroom());
+		squares[2][2].setPiece(new Hole());
+		squares[2][3].setPiece(new Rabbit(Rabbit.RABBIT_COLORS.White, new Location(2, 3)));
+		squares[3][3].setPiece(new Mushroom());
+		squares[0][4].setPiece(new Hole());
+		squares[4][4].setPiece(new Hole());
+
+		// Store the hold locations.
+		holeLocations.add(new Location(0, 0));
+		holeLocations.add(new Location(4, 0));
+		holeLocations.add(new Location(2, 2));
+		holeLocations.add(new Location(0, 4));
+		holeLocations.add(new Location(4, 4));
+
+		// Store the number of rabbits.
+		rabbitCount = 1;
+	}
+
+	/**
+	 * Initialize the level 3 of the game Method which creates and add pieces onto the board
+	 */
+	private void initToLevel3() {		
+		// Create and add pieces.
+		squares[0][0].setPiece(new Hole());
 		squares[1][0].setPiece(new Mushroom());
 		squares[2][0].setPiece(new Mushroom());
 		squares[4][0].setPiece(new Hole());
@@ -176,77 +227,20 @@ public class Board {
 	}
 	
 	/**
-	 * Initialize the level 2 of the game Method which creates and add pieces onto the board
-	 */
-	private void initToLevel2() {
-		// Create and add pieces.
-		squares[0][0].setPiece(new Hole());
-		squares[4][0].setPiece(new Hole());
-		squares[4][1].setPiece(new Mushroom());
-		squares[0][2].setPiece(new Rabbit(Rabbit.RABBIT_COLORS.Gray, new Location(0, 2)));
-		squares[1][2].setPiece(new Mushroom());
-
-		Hole hole = new Hole();
-		hole.setPiece(new Rabbit(Rabbit.RABBIT_COLORS.White, new Location(2, 2)));
-
-		squares[2][2].setPiece(hole);
-		squares[3][2].setPiece(new Mushroom());
-		squares[4][2].setPiece(new Rabbit(Rabbit.RABBIT_COLORS.Brown, new Location(4, 2)));
-		squares[0][4].setPiece(new Hole());
-		squares[4][4].setPiece(new Hole());
-
-		// Store the hold locations.
-		holeLocations.add(new Location(0, 0));
-		holeLocations.add(new Location(4, 0));
-		holeLocations.add(new Location(2, 2));
-		holeLocations.add(new Location(0, 4));
-		holeLocations.add(new Location(4, 4));
-
-		// Store the number of rabbits.
-		rabbitCount = 3;
-	}
-
-	/**
-	 * Initialize the level 3 of the game Method which creates and add pieces onto the board
-	 */
-	private void initToLevel3() {
-		// Create and add pieces.
-		squares[0][0].setPiece(new Hole());
-		squares[3][0].setPiece(new Mushroom());
-		squares[4][0].setPiece(new Hole());
-		squares[1][1].setPiece(new Mushroom());
-		squares[2][1].setPiece(new Rabbit(Rabbit.RABBIT_COLORS.Gray, new Location(2, 1)));
-		squares[3][1].setPiece(new Fox(new Location(3, 1), new Location(4, 1), true, false));
-		squares[4][1].setPiece(new Fox(new Location(4, 1), new Location(3, 1), true, true));
-		squares[2][2].setPiece(new Mushroom());
-		squares[0][4].setPiece(new Hole());
-		squares[4][4].setPiece(new Hole());
-
-		// Store the hold locations.
-		holeLocations.add(new Location(0, 0));
-		holeLocations.add(new Location(4, 0));
-		holeLocations.add(new Location(0, 4));
-		holeLocations.add(new Location(4, 4));
-
-		// Store the number of rabbits.
-		rabbitCount = 1;
-	}
-	
-	/**
 	 * Initialize the level 4 of the game Method which creates and add pieces onto the board
 	 */
 	private void initToLevel4() {
 		// Create and add pieces.
 		squares[0][0].setPiece(new Hole());
-		squares[1][0].setPiece(new Rabbit(Rabbit.RABBIT_COLORS.White, new Location(1, 0)));
+		squares[3][4].setPiece(new Rabbit(Rabbit.RABBIT_COLORS.Gray, new Location(3, 4)));
 		squares[4][0].setPiece(new Hole());
 		squares[0][1].setPiece(new Mushroom());
 		squares[0][2].setPiece(new Mushroom());
 		squares[2][2].setPiece(new Hole());
-		squares[1][3].setPiece(new Fox(new Location(1, 3), new Location(1, 4), false, false));
-		squares[2][3].setPiece(new Mushroom());
+		squares[1][0].setPiece(new Fox(new Location(1, 0), new Location(1, 1), false, false));
+		squares[2][4].setPiece(new Mushroom());
 		squares[0][4].setPiece(new Hole());
-		squares[1][4].setPiece(new Fox(new Location(1, 4), new Location(1, 3), false, true));
+		squares[1][1].setPiece(new Fox(new Location(1, 1), new Location(1, 0), false, true));
 		squares[4][4].setPiece(new Hole());
 
 		// Store the hold locations.
@@ -266,8 +260,8 @@ public class Board {
 	private void initToLevel5() {
 		// Create and add pieces.
 		squares[0][0].setPiece(new Hole());
-		squares[3][0].setPiece(new Rabbit(Rabbit.RABBIT_COLORS.White, new Location(3, 0)));
-		squares[4][0].setPiece(new Mushroom());
+		squares[4][1].setPiece(new Rabbit(Rabbit.RABBIT_COLORS.Brown, new Location(4, 1)));
+		squares[4][0].setPiece(new Hole());
 		squares[0][1].setPiece(new Fox(new Location(0, 1), new Location(1, 1), true, false));
 		squares[1][1].setPiece(new Fox(new Location(1, 1), new Location(0, 1), true, true));
 		squares[2][2].setPiece(new Hole());
@@ -276,6 +270,7 @@ public class Board {
 		squares[0][4].setPiece(new Hole());
 		squares[1][4].setPiece(new Fox(new Location(1, 4), new Location(1, 3), false, true));
 		squares[2][4].setPiece(new Mushroom());
+		squares[3][4].setPiece(new Mushroom());
 		squares[4][4].setPiece(new Hole());
 
 		// Store the hold locations.
@@ -449,93 +444,7 @@ public class Board {
 		default:
 			return false;
 		}
-		
-		
-//
-//		// If the location where is piece is about to moved is empty or it is same
-//		// location.
-//		if (locationPiece == null || locationPiece == piece) {
-//			if (userMove) {
-//				// Clear the redo stack if a move was made between an undo and a redo.
-//				// Clearing the stack, to prevent redoing to an invalid location.
-//				if (!redoStack.isEmpty()) {
-//					redoStack.popAll();
-//				}
-//				moveStack.push(oldLocation, newLocation, piece);
-//			}
-//			
-//			else if (!redo) {
-//				moveStack.push(oldLocation, newLocation, piece);
-//			}
-//			
-//			else {
-//				redoStack.push(oldLocation, newLocation, piece);
-//			}
-//			squares[x][y].setPiece(piece);
-//			this.removePiece(oldLocation);
-//			return true;
-//		}
-//
-//		// If the location where is piece is about to moved a hole and the moving piece
-//		// is a rabbit.
-//		else if (locationPiece.getType() == PieceType.HOLE && piece.getType() == PieceType.RABBIT) {
-//			Hole hole = (Hole) locationPiece;
-//			if (!hole.isOccupied()) {
-//				if (userMove) {
-//					// Clear the redo stack if a move was made between an undo and a redo.
-//					// Clearing the stack, to prevent redoing to an invalid location.
-//					if (!redoStack.isEmpty()) {
-//						redoStack.popAll();
-//					}
-//					moveStack.push(oldLocation, newLocation, piece);
-//				}
-//				
-//				else if (!redo) {
-//					moveStack.push(oldLocation, newLocation, piece);
-//				}
-//				
-//				else {
-//					redoStack.push(oldLocation, newLocation, piece);
-//				}
-//				// Add the piece in the hole.
-//				hole.setPiece(userMove ? selectedPiece : piece);
-//				this.removePiece(oldLocation);
-//				return true;
-//			}
-//			return false;
-//		}
-//
-//		else {
-//			return false;
-//		}
 	}
-	
-//	public boolean canMovePiece(Location newLocation, Piece piece) {
-//		int x = newLocation.getX();
-//		int y = newLocation.getY();
-//		Piece locationPiece = squares[x][y].getPiece();
-//
-//		// If the location where is piece is about to moved is empty or it is same
-//		// location.
-//		if (locationPiece == null || locationPiece == piece) {
-//			return true;
-//		}
-//
-//		// If the location where is piece is about to moved a hole and the moving piece
-//		// is a rabbit.
-//		else if (locationPiece.getType() == PieceType.HOLE && piece.getType() == PieceType.RABBIT) {
-//			Hole hole = (Hole) locationPiece;
-//			if (!hole.isOccupied()) {
-//
-//				return true;
-//			}
-//			return false;
-//		}
-//
-//		else {
-//			return false;
-//		}
-//	}
 	
 	/**
 	 * Calls the canMove() method sets the old location of the piece to null once
@@ -636,8 +545,8 @@ public class Board {
 	}
 	
 	/**
-	 * ADD JAVA DOC
-	 * @return
+	 * Method to get the board state
+	 * @return boardState
 	 */
 	public String getBoardState() {
 		String boardState = "";

@@ -19,10 +19,8 @@ public class Controller {
 	/**
 	 * Default constructor initializes instance variables
 	 * 
-	 * @param board
-	 *            of the game
-	 * @param view
-	 *            instance of view
+	 * @param board of the game
+	 * @param view instance of view
 	 */
 	public Controller(Board board, View view) {
 		this.board = board;
@@ -31,11 +29,10 @@ public class Controller {
 	}
 
 	/**
-	 * Method to handle the event, this method gets triggered when a button is
+	 * Controller method to handle the event, this method gets triggered when a button is
 	 * pressed
 	 * 
-	 * @param event
-	 *            of type ActionEvent that takes care of the correspondence event
+	 * @param event of type ActionEvent that takes care of the correspondence event
 	 */
 	public void eventHandler(ActionEvent event) {
 		if (board.selectedPiece == null) {
@@ -48,7 +45,7 @@ public class Controller {
 	}
 
 	/**
-	 * Method to select a square or a piece, this method gets triggered when a
+	 * Controller method to select a square or a piece, this method gets triggered when a
 	 * button is pressed in this case by 'mouse"
 	 * 
 	 * @param event the event that takes care of the correspondence event
@@ -73,7 +70,7 @@ public class Controller {
 	}
 
 	/**
-	 * Method to move a piece from its location to a different location
+	 * Controller method to move a piece from its location to a different location
 	 * 
 	 * @param event which handles what happens after the button is pressed
 	 */
@@ -84,13 +81,12 @@ public class Controller {
 			Piece selectedPiece = square.getPiece();
 			
 			if (selectedPiece == null) {
-				System.out.println("NOTHING THERE");
 				return;
 			}
 
 			// If the fox was moved
 			// Update and render the entire view
-			if (selectedPiece.getType() == PieceType.FOX) {
+			else if (selectedPiece.getType() == PieceType.FOX) {
 				view.updateView();
 			}
 
@@ -110,16 +106,19 @@ public class Controller {
 	}
 
 	/**
-	 * Controller function for auto solving the game.
+	 * Controller method for auto solving the game.
 	 */
 	public void autoSolver() {
-		System.out.println("AUTO SOLVING THE GAME\n");
+		view.resetView();
 		AutoSolver solver = new AutoSolver(board, view);
-		solver.autoSolve();
+		boolean sucessful = solver.autoSolve();
+		if (sucessful) {
+			view.displayLevelCompeletePopup();
+		}
 	}
 
 	/**
-	 * Controller undo function to undo a move.
+	 * Controller undo method to undo a move.
 	 */
 	public void undo() {
 		board.undo();
@@ -127,7 +126,7 @@ public class Controller {
 	}
 
 	/**
-	 * Controller redo function to redo a move.
+	 * Controller redo method to redo a move.
 	 */
 	public void redo() {
 		board.redo();
@@ -135,9 +134,7 @@ public class Controller {
 	}
 
 	public void levelSelect(Integer level) {
-
 		board.changeLevel(level);
 		view.updateView();
-
 	}
 }

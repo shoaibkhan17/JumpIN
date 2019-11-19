@@ -67,12 +67,10 @@ public class Fox extends Animal {
 	}
 	
 	/**
-	 * ADD JAVA DOC HERE
+	 * Method to calculate the location of the fox from its body location
 	 * @param bodyLocation
 	 */
 	public void calculateLocationFromBody(Location bodyLocation) {
-		
-		System.out.println("CALCULATING FROM " + bodyLocation);
 		if (!tail) {
 			int x = 0;
 			int y = 0;
@@ -107,17 +105,15 @@ public class Fox extends Animal {
 	}
 	
 	/**
-	 * ADD JAVA DOC HERE
+	 * Method to calculate the fox piece and body location after a sucessful move.
 	 * @param pieceLocation
 	 * @param bodyFox
 	 * @return
 	 */
 	public String calcaulePieceLocation(Location pieceLocation, Fox bodyFox) {
 		String movementType = "";
-		// If tail was moved past the head
 		if (this.pieceLocation.comparesTo(bodyLocation, horizontalMovement) == 1) {
 			if (pieceLocation.comparesTo(this.pieceLocation, horizontalMovement) == 1) {
-				System.out.println("A - working");
 				this.pieceLocation.setLocation(pieceLocation);
 				int x = 0;
 				int y = 0;
@@ -134,11 +130,10 @@ public class Fox extends Animal {
 				bodyLocation.setLocation(new Location(x, y));
 				bodyFox.setPieceLocation(bodyLocation);
 				bodyFox.setOtherPieceLocation(this.pieceLocation);
-				
+				movementType = "tail";
 			}
 			
 			else {
-				System.out.println("B - working");
 				bodyLocation.setLocation(pieceLocation);			
 				int x = 0;
 				int y = 0;
@@ -152,11 +147,9 @@ public class Fox extends Animal {
 					x = bodyLocation.getX();
 				}
 				
-				this.pieceLocation.setLocation(new Location(x, y));
-				
+				this.pieceLocation.setLocation(new Location(x, y));			
 				bodyFox.setPieceLocation(bodyLocation);
-				bodyFox.setOtherPieceLocation(this.pieceLocation);
-				
+				bodyFox.setOtherPieceLocation(this.pieceLocation);				
 				movementType = "head";
 			}
 			
@@ -164,7 +157,6 @@ public class Fox extends Animal {
 		
 		else if (bodyLocation.comparesTo(this.pieceLocation, horizontalMovement) == 1) {
 			if (bodyLocation.comparesTo(pieceLocation, horizontalMovement) == 1) {
-				System.out.println("C - working");
 				this.pieceLocation.setLocation(pieceLocation);
 				int x = 0;
 				int y = 0;
@@ -178,17 +170,13 @@ public class Fox extends Animal {
 					x = this.pieceLocation.getX();
 				}
 				
-				bodyLocation.setLocation(new Location(x, y));
-				
+				bodyLocation.setLocation(new Location(x, y));				
 				bodyFox.setPieceLocation(bodyLocation);
-				bodyFox.setOtherPieceLocation(this.pieceLocation);
-				
+				bodyFox.setOtherPieceLocation(this.pieceLocation);				
 				movementType = "tail";
 			}
 			
-			else {
-				System.out.println("D - working");
-				
+			else {				
 				bodyLocation.setLocation(pieceLocation);
 				
 				int x = 0;
@@ -203,14 +191,11 @@ public class Fox extends Animal {
 					x = bodyLocation.getX();
 				}
 				
-				this.pieceLocation.setLocation(new Location(x, y));
-				
+				this.pieceLocation.setLocation(new Location(x, y));				
 				bodyFox.setPieceLocation(bodyLocation);
-				bodyFox.setOtherPieceLocation(this.pieceLocation);
-				
+				bodyFox.setOtherPieceLocation(this.pieceLocation);				
 				movementType = "head";
-			}
-			
+			}			
 		}
 		
 		return movementType;
@@ -241,116 +226,34 @@ public class Fox extends Animal {
 		int diff = Math.abs(number1 - number2);
 		int smallestNumber = number1 > number2 ? number2 : number1;
 		
+		if (diff == 1) {
+			Location location = new  Location(x ? constNumber : number2, x ? number2 : constNumber);
+			Piece piece = squares[location.getX()][location.getY()].getPiece();
+			return piece == null;
+		}
+		
 		// Go through all the spaces the fox has moved and check if there is a piece in the middle.
 		// Goes through this condition if the move is greater than 1 square.
-			for(int i = 0; i < diff; i++) {
-				Location location = new Location(x ? constNumber : (smallestNumber + i), x ? (smallestNumber + i) : constNumber);
-				Piece piece = squares[location.getX()][location.getY()].getPiece();
-				if (piece != null) {
-					if (piece.getType() == PieceType.FOX) {
-						if (!location.equals(bodyLocation) && !location.equals(pieceLocation)) {
-							noPieceInMiddle = false;
-						}
-					}
-					else {
-						noPieceInMiddle = false;	
+		for(int i = 0; i <= diff; i++) {
+			Location location = new Location(x ? constNumber : (smallestNumber + i), x ? (smallestNumber + i) : constNumber);
+
+			Piece piece = squares[location.getX()][location.getY()].getPiece();
+			System.out.println(location);
+			if (piece != null) {
+				if (piece.getType() == PieceType.FOX) {
+					if (!location.equals(bodyLocation) && !location.equals(pieceLocation)) {
+						noPieceInMiddle = false;
 					}
 				}
+				else {
+					noPieceInMiddle = false;	
+				}
 			}
+		}
 			
 			// Return if there is a piece in the middle.
 			return noPieceInMiddle;
 	}
-
-//	/**
-//	 * Function to move itself and the other body part of the fox to their new locations.
-//	 * @param oldLocationGreater used to check whether the old location is greater than the previous location
-//	 * @param oldLocation previous location of the fox
-//	 * @param newLocation used to set the new location of the fox
-//	 * @param board used to select the board and then move the piece 
-//	 * @return boolean returns true if the piece can be moved, else returns false if the piece cannot be moved
-//	 */
-//	private boolean moveItselfAndBody(boolean oldLocationGreater, Location oldLocation, Location newLocation, Board board) {
-//		Location tempLocation; 
-//
-//		// If the old location was greater than the previous location
-//		if (oldLocationGreater) {
-//			
-//			// If the fox can only move in the horizontal location. 
-//			if (horizontalMovement) {
-//				tempLocation = new Location(newLocation.getX() + 1, newLocation.getY());
-//			}
-//
-//			// If the fox can only move in the vertical location. 
-//			else {
-//				tempLocation = new Location(newLocation.getX(), newLocation.getY() + 1);
-//			}
-//		}
-//
-//		// If the old location was smaller than the previous location. 
-//		else {
-//
-//			// If the fox can only move in the horizontal location. 
-//			if (horizontalMovement) {
-//				tempLocation = new Location(newLocation.getX() - 1, newLocation.getY());
-//			}
-//
-//			// If the fox can only move in the vertical location. 
-//			else {
-//				tempLocation = new Location(newLocation.getX(), newLocation.getY() - 1);
-//			}
-//		}
-//
-//		// Create another fox with the new updated location. 
-//		Fox temp = new Fox(newLocation, newLocation, horizontalMovement, !this.tail);
-//
-//		// Move the fox to new location and remove it from the previous location.
-//		if (board.movePiece(oldLocation, newLocation, this, true, false)) {
-//
-//			// Move the body part to the new location and remove it from the previous location.
-//			if (board.movePiece(bodyLocation, tempLocation, temp, true, false)) {
-//
-//				// Update the fox's body part's new location. 
-//				this.bodyLocation = tempLocation;
-//				return true;
-//			}
-//		}
-//
-//		return false;
-//	}
-
-	/**
-	 * Function that validates the movement and decides if the fox can be moved or not.
-	 * -If a horizontal fox wants to move left, it needs to be moved by it's head.
-	 * -if a horizontal fox wants to move right, it needs to be moved by it's tail.
-	 * -If a vertical fox wants to move up, it needs to be moved by it's head.
-	 * -if a vertical fox wants to move down, it needs to be moved by it's tail.
-	 * 
-	 * NOTE: Still need to fix that where if a tail was selected to move right, it 
-	 * 		 should move the head and then the tail with it.
-	 * @param oldLocation old location of the fox
-	 * @param newLocation new location of the fox
-	 * @param board instance of board used for setting the location of x and y to new location
-	 * @return boolean returns true if the move is validated, else returns false if move is not validated
-	 */
-//	private boolean moveValidation(Location oldLocation, Location newLocation, Square[][] squares) {
-//		boolean oldLocationGreater = oldLocation.comparesTo(newLocation, horizontalMovement) == 1;
-//
-//		// If it is the head piece and the new location is smaller than tail's location. 
-////		if (!this.tail && newLocation.comparesTo(bodyLocation, horizontalMovement) == -1) {
-////			return this.moveItselfAndBody(oldLocationGreater, oldLocation, newLocation, board);
-////		}
-////
-////		// If it is the tail piece and the new location is greater than head's location. 
-////		else if (this.tail && newLocation.comparesTo(bodyLocation, horizontalMovement) == 1) {
-////			return this.moveItselfAndBody(oldLocationGreater, oldLocation, newLocation, board);
-////		}
-//
-//		// Need to check if that is not the case, then use the head/tail to move it. And then move the 
-//		// body part with it.
-//
-//		return false;
-//	}
 
 	/**
 	 * Function to move the animal to a new location 
@@ -359,7 +262,6 @@ public class Fox extends Animal {
 	 * @return boolean true if the move has been made, else false if the move could not be made
 	 */
 	public boolean canMove(Location newLocation, Square[][] squares) {		
-//		System.out.println("trying to move fox");
 		int x1 = pieceLocation.getX();
 		int y1 = pieceLocation.getY();
 		int x2 = newLocation.getX();
