@@ -260,8 +260,8 @@ public class Board {
 	private void initToLevel5() {
 		// Create and add pieces.
 		squares[0][0].setPiece(new Hole());
-		squares[3][0].setPiece(new Rabbit(Rabbit.RABBIT_COLORS.White, new Location(3, 0)));
-		squares[4][0].setPiece(new Mushroom());
+		squares[4][1].setPiece(new Rabbit(Rabbit.RABBIT_COLORS.Brown, new Location(4, 1)));
+		squares[4][0].setPiece(new Hole());
 		squares[0][1].setPiece(new Fox(new Location(0, 1), new Location(1, 1), true, false));
 		squares[1][1].setPiece(new Fox(new Location(1, 1), new Location(0, 1), true, true));
 		squares[2][2].setPiece(new Hole());
@@ -270,6 +270,7 @@ public class Board {
 		squares[0][4].setPiece(new Hole());
 		squares[1][4].setPiece(new Fox(new Location(1, 4), new Location(1, 3), false, true));
 		squares[2][4].setPiece(new Mushroom());
+		squares[3][4].setPiece(new Mushroom());
 		squares[4][4].setPiece(new Hole());
 
 		// Store the hold locations.
