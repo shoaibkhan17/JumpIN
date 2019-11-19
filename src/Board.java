@@ -444,93 +444,7 @@ public class Board {
 		default:
 			return false;
 		}
-		
-		
-//
-//		// If the location where is piece is about to moved is empty or it is same
-//		// location.
-//		if (locationPiece == null || locationPiece == piece) {
-//			if (userMove) {
-//				// Clear the redo stack if a move was made between an undo and a redo.
-//				// Clearing the stack, to prevent redoing to an invalid location.
-//				if (!redoStack.isEmpty()) {
-//					redoStack.popAll();
-//				}
-//				moveStack.push(oldLocation, newLocation, piece);
-//			}
-//			
-//			else if (!redo) {
-//				moveStack.push(oldLocation, newLocation, piece);
-//			}
-//			
-//			else {
-//				redoStack.push(oldLocation, newLocation, piece);
-//			}
-//			squares[x][y].setPiece(piece);
-//			this.removePiece(oldLocation);
-//			return true;
-//		}
-//
-//		// If the location where is piece is about to moved a hole and the moving piece
-//		// is a rabbit.
-//		else if (locationPiece.getType() == PieceType.HOLE && piece.getType() == PieceType.RABBIT) {
-//			Hole hole = (Hole) locationPiece;
-//			if (!hole.isOccupied()) {
-//				if (userMove) {
-//					// Clear the redo stack if a move was made between an undo and a redo.
-//					// Clearing the stack, to prevent redoing to an invalid location.
-//					if (!redoStack.isEmpty()) {
-//						redoStack.popAll();
-//					}
-//					moveStack.push(oldLocation, newLocation, piece);
-//				}
-//				
-//				else if (!redo) {
-//					moveStack.push(oldLocation, newLocation, piece);
-//				}
-//				
-//				else {
-//					redoStack.push(oldLocation, newLocation, piece);
-//				}
-//				// Add the piece in the hole.
-//				hole.setPiece(userMove ? selectedPiece : piece);
-//				this.removePiece(oldLocation);
-//				return true;
-//			}
-//			return false;
-//		}
-//
-//		else {
-//			return false;
-//		}
 	}
-	
-//	public boolean canMovePiece(Location newLocation, Piece piece) {
-//		int x = newLocation.getX();
-//		int y = newLocation.getY();
-//		Piece locationPiece = squares[x][y].getPiece();
-//
-//		// If the location where is piece is about to moved is empty or it is same
-//		// location.
-//		if (locationPiece == null || locationPiece == piece) {
-//			return true;
-//		}
-//
-//		// If the location where is piece is about to moved a hole and the moving piece
-//		// is a rabbit.
-//		else if (locationPiece.getType() == PieceType.HOLE && piece.getType() == PieceType.RABBIT) {
-//			Hole hole = (Hole) locationPiece;
-//			if (!hole.isOccupied()) {
-//
-//				return true;
-//			}
-//			return false;
-//		}
-//
-//		else {
-//			return false;
-//		}
-//	}
 	
 	/**
 	 * Calls the canMove() method sets the old location of the piece to null once
@@ -631,8 +545,8 @@ public class Board {
 	}
 	
 	/**
-	 * ADD JAVA DOC
-	 * @return
+	 * Method to get the board state
+	 * @return boardState
 	 */
 	public String getBoardState() {
 		String boardState = "";

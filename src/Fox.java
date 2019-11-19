@@ -67,7 +67,7 @@ public class Fox extends Animal {
 	}
 	
 	/**
-	 * ADD JAVA DOC HERE
+	 * Method to calculate the location of the fox from its body location
 	 * @param bodyLocation
 	 */
 	public void calculateLocationFromBody(Location bodyLocation) {
@@ -105,7 +105,7 @@ public class Fox extends Animal {
 	}
 	
 	/**
-	 * ADD JAVA DOC HERE
+	 * Method to calculate the fox piece and body location after a sucessful move.
 	 * @param pieceLocation
 	 * @param bodyFox
 	 * @return
