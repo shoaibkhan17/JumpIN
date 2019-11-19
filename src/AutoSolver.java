@@ -281,7 +281,6 @@ public class AutoSolver {
 		this.solve(counter++, animals);
 		this.solve(counter++, animals);
 		this.solve(counter++, animals);
-//		this.solve(counter++, animals);
 		
 //		view.displayLevelCompeletePopup();
 				

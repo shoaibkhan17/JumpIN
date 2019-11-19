@@ -241,22 +241,30 @@ public class Fox extends Animal {
 		int diff = Math.abs(number1 - number2);
 		int smallestNumber = number1 > number2 ? number2 : number1;
 		
+		if (diff == 1) {
+			Location location = new  Location(x ? constNumber : number2, x ? number2 : constNumber);
+			Piece piece = squares[location.getX()][location.getY()].getPiece();
+			return piece == null;
+		}
+		
 		// Go through all the spaces the fox has moved and check if there is a piece in the middle.
 		// Goes through this condition if the move is greater than 1 square.
-			for(int i = 0; i < diff; i++) {
-				Location location = new Location(x ? constNumber : (smallestNumber + i), x ? (smallestNumber + i) : constNumber);
-				Piece piece = squares[location.getX()][location.getY()].getPiece();
-				if (piece != null) {
-					if (piece.getType() == PieceType.FOX) {
-						if (!location.equals(bodyLocation) && !location.equals(pieceLocation)) {
-							noPieceInMiddle = false;
-						}
-					}
-					else {
-						noPieceInMiddle = false;	
+		for(int i = 0; i < diff; i++) {
+			Location location = new Location(x ? constNumber : (smallestNumber + i), x ? (smallestNumber + i) : constNumber);
+
+			Piece piece = squares[location.getX()][location.getY()].getPiece();
+			System.out.println(location);
+			if (piece != null) {
+				if (piece.getType() == PieceType.FOX) {
+					if (!location.equals(bodyLocation) && !location.equals(pieceLocation)) {
+						noPieceInMiddle = false;
 					}
 				}
+				else {
+					noPieceInMiddle = false;	
+				}
 			}
+		}
 			
 			// Return if there is a piece in the middle.
 			return noPieceInMiddle;

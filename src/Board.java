@@ -202,28 +202,7 @@ public class Board {
 	/**
 	 * Initialize the level 3 of the game Method which creates and add pieces onto the board
 	 */
-	private void initToLevel3() {
-//		// Create and add pieces.
-//		squares[0][0].setPiece(new Hole());
-//		squares[3][0].setPiece(new Mushroom());
-//		squares[4][0].setPiece(new Hole());
-//		squares[1][1].setPiece(new Mushroom());
-//		squares[2][1].setPiece(new Rabbit(Rabbit.RABBIT_COLORS.Gray, new Location(2, 1)));
-//		squares[3][1].setPiece(new Fox(new Location(3, 1), new Location(4, 1), true, false));
-//		squares[4][1].setPiece(new Fox(new Location(4, 1), new Location(3, 1), true, true));
-//		squares[2][2].setPiece(new Mushroom());
-//		squares[0][4].setPiece(new Hole());
-//		squares[4][4].setPiece(new Hole());
-//
-//		// Store the hold locations.
-//		holeLocations.add(new Location(0, 0));
-//		holeLocations.add(new Location(4, 0));
-//		holeLocations.add(new Location(0, 4));
-//		holeLocations.add(new Location(4, 4));
-//
-//		// Store the number of rabbits.
-//		rabbitCount = 1;
-		
+	private void initToLevel3() {		
 		// Create and add pieces.
 		squares[0][0].setPiece(new Hole());
 		squares[1][0].setPiece(new Mushroom());
@@ -253,15 +232,15 @@ public class Board {
 	private void initToLevel4() {
 		// Create and add pieces.
 		squares[0][0].setPiece(new Hole());
-		squares[1][0].setPiece(new Rabbit(Rabbit.RABBIT_COLORS.White, new Location(1, 0)));
+		squares[3][4].setPiece(new Rabbit(Rabbit.RABBIT_COLORS.Gray, new Location(3, 4)));
 		squares[4][0].setPiece(new Hole());
 		squares[0][1].setPiece(new Mushroom());
 		squares[0][2].setPiece(new Mushroom());
 		squares[2][2].setPiece(new Hole());
-		squares[1][3].setPiece(new Fox(new Location(1, 3), new Location(1, 4), false, false));
-		squares[2][3].setPiece(new Mushroom());
+		squares[1][0].setPiece(new Fox(new Location(1, 0), new Location(1, 1), false, false));
+		squares[2][4].setPiece(new Mushroom());
 		squares[0][4].setPiece(new Hole());
-		squares[1][4].setPiece(new Fox(new Location(1, 4), new Location(1, 3), false, true));
+		squares[1][1].setPiece(new Fox(new Location(1, 1), new Location(1, 0), false, true));
 		squares[4][4].setPiece(new Hole());
 
 		// Store the hold locations.
