@@ -80,10 +80,6 @@ public class Location {
         x = -1;
         y = -1;
     }
-    
-    public boolean isReverse(Location location) {
-    	 return x == location.getY() && y == location.getY();
-    }
 
     /**
      * Method that sets the location
