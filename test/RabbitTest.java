@@ -25,7 +25,7 @@ public class RabbitTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		rabbit = new Rabbit(Rabbit.RABBIT_COLORS.Brown, new Location(3,0));
+		rabbit = new Rabbit(Rabbit.RABBIT_COLORS.Brown, new Location(0, 2));
 		board = new Board(1);
 	}
 
@@ -62,7 +62,7 @@ public class RabbitTest {
 	 */
 	@Test
 	public void testValidMove() {
-		Location location = new Location(3, 2);
+		Location location = new Location(0, 4);
 		assertTrue(board.canMove(location, rabbit));
 		assertTrue(board.movePiece(location, rabbit, true, false));
 	}
