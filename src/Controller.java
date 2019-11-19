@@ -84,13 +84,12 @@ public class Controller {
 			Piece selectedPiece = square.getPiece();
 			
 			if (selectedPiece == null) {
-				System.out.println("NOTHING THERE");
 				return;
 			}
 
 			// If the fox was moved
 			// Update and render the entire view
-			if (selectedPiece.getType() == PieceType.FOX) {
+			else if (selectedPiece.getType() == PieceType.FOX) {
 				view.updateView();
 			}
 
@@ -113,9 +112,12 @@ public class Controller {
 	 * Controller function for auto solving the game.
 	 */
 	public void autoSolver() {
-		System.out.println("AUTO SOLVING THE GAME\n");
+		view.resetView();
 		AutoSolver solver = new AutoSolver(board, view);
-		solver.autoSolve();
+		boolean sucessful = solver.autoSolve();
+		if (sucessful) {
+			view.displayLevelCompeletePopup();
+		}
 	}
 
 	/**
@@ -135,9 +137,7 @@ public class Controller {
 	}
 
 	public void levelSelect(Integer level) {
-
 		board.changeLevel(level);
 		view.updateView();
-
 	}
 }

@@ -38,7 +38,6 @@ public class AutoSolver {
 		int limit;
 		Location possibleMove = null;
 
-		
 		switch(direction) {
 		case UP:
 			i = 0;
@@ -138,19 +137,7 @@ public class AutoSolver {
 		return boardStates;
 	}
 	
-	public void solve(int number, ArrayList<Animal> animals) {
-		System.out.println("----> " + number + " <----");
-		this.test(animals);
-	}
-	
-	public void printMoves() {
-		for (Move move: moveHolder.getAllMoves()) {
-			System.out.println(move);
-		}
-	}
-	
-	public void test(ArrayList<Animal> animals) {
-		
+	public void solve(ArrayList<Animal> animals) {
 		for (Animal animal: animals) {
 			this.findPossibleMoves(animal);
 		}
@@ -161,7 +148,6 @@ public class AutoSolver {
 			Move move = moveHolder.first();
 			board.movePiece(move.getNewLocation(), move.getPiece(), true, false);
 			moveHolder.popAll();
-			view.updateView();
 			return;
 		}
 
@@ -169,19 +155,33 @@ public class AutoSolver {
 		board.movePiece(move.getNewLocation(), move.getPiece(), true, false);
 		visitedStates.add(boardStates.get(0));
 		moveHolder.popAll();
-		view.updateView();
+		
 	}
 	
-	public void autoSolve() {
+	public void printMoves() {
+		for (Move move: moveHolder.getAllMoves()) {
+			System.out.println(move);
+		}
+	}
+	
+	public boolean autoSolve() {
 		ArrayList<Animal> animals = this.getAnimalsWithLocation();
 		int counter = 1;
-		while (!board.isGameWon()) {
-			this.solve(counter++, animals);
+		while (!board.isGameWon()) {		
+			try {
+				this.solve(animals);
+				view.updateView();
+				counter++;
+			} catch (Exception e) {
+				System.out.println("Failed to find a solution");
+			}
 			
-			if (counter == 10000) {
+			if (counter == 1000) {
+				System.out.println("Failed to find a solution");
+				break;
 			}
 		}
 		
-		view.displayLevelCompeletePopup();
+		return this.board.isGameWon();
 	}
 }

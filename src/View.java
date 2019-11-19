@@ -106,12 +106,12 @@ class View {
 		// Help Menu and Items
 		JMenu help = new JMenu("Help");
 		help.add(this.createMenuItem("Instructions" , (event) -> JOptionPane.showMessageDialog(frame, View.GAME_INSTRUCTIONS)));
-		help.add(this.createMenuItem("Auto-Solve", (event) -> controller.autoSolver()));	
 		
 		// Level Option Menu and Items
 		JMenu levelSelect = new JMenu("Level Options");
 		levelSelect.add(this.createMenuItem("Reset Level", (event) -> this.reset()));
 		levelSelect.add(this.createMenuItem("Level Select", (event) -> this.levelSelect()));
+		levelSelect.add(this.createMenuItem("Auto-Solve", (event) -> controller.autoSolver()));	
 	
 		// Adding menu into the menu bar.
 		menuBar.add(file);
@@ -150,10 +150,17 @@ class View {
 		int option = JOptionPane.showConfirmDialog(popupFrame, "Are you sure you want to reset level " + board.getLevel());
 		
 		if (option == 0) {
-			board.changeLevel(board.getLevel());
-			this.setButtonsEnabled(true);
-			this.updateView();
+			this.resetView();
 		}
+	}
+	
+	/**
+	 * Method to update the view after reset.
+	 */
+	public void resetView() {
+		board.changeLevel(board.getLevel());
+		this.setButtonsEnabled(true);
+		this.updateView();
 	}
 	
 	/**
@@ -294,8 +301,6 @@ class View {
 		if (board.getLevel() < Board.TOTAL_LEVELS) {
 			message = "Congratulations on completing Level " + board.getLevel() + "!";
 			message += "\n";
-			message += "Turns taken - " + board.getTurnsTaken();
-			message += "\n";
 			message += "Press OK to play level " + (board.getLevel() + 1);
 			JOptionPane.showMessageDialog(popupFrame, message);
 			board.changeLevel(board.getLevel() + 1);
@@ -304,8 +309,6 @@ class View {
 		
 		else {
 			message = "Congratulations on completing the game!";
-			message += "\n";
-			message += "Turns taken - " + board.getTurnsTaken();
 			JOptionPane.showMessageDialog(popupFrame, message);
 			this.setButtonsEnabled(false);
 		}
