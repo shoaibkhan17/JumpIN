@@ -19,25 +19,24 @@ public class AutoSolver {
 	private ArrayList<String> visitedStates;
 	
 	/**
-	 * Default constrcutor
-	 * @param board
-	 * @param view
+	 * Default constructor initializing instance variables
+	 * @param board instance of Board
+	 * @param view instance of View
 	 */
 	public AutoSolver(Board board, View view) {
 		this.board = board;
-		squares = board.getSquares();
+		this.squares = board.getSquares();
 		this.view = view;
-		possibleMovesHolder = new MoveStack();
-		moveHolder = new MoveStack();
-		visitedStates = new ArrayList<>();
+		this.possibleMovesHolder = new MoveStack();
+		this.moveHolder = new MoveStack();
+		this.visitedStates = new ArrayList<>();
 	}
 	
 	/**
-	 * Method to find all possible location the animal can moved to based on the direction
-	 * provided.
-	 * @param animal
-	 * @param direction
-	 * @return
+	 * Method to find all possible location the animal can moved to based on the direction provided
+	 * @param animal to be moved in the possible direction
+	 * @param direction direction that the animal will be moved in
+	 * @return possibleMove this is the possible move that can be made
 	 */
 	private Location possibleMoveBasedOnDirection(Animal animal, Directions direction) {
 		Location location = animal.getPieceLocation();
@@ -76,6 +75,7 @@ public class AutoSolver {
 			if (animal.canMove(newLocation, squares)) {
 				possibleMove = new Location(newLocation);
 			}	
+			
 			i++;
 		}
 		
@@ -83,8 +83,8 @@ public class AutoSolver {
 	}
 	
 	/**
-	 * Method to find all the possible moves for a paticular animal
-	 * @param animal
+	 * Method to find all the possible moves for a particular animal
+	 * @param animal possible moves that can be found for a fox or rabbit
 	 */
 	private void findPossibleMoves(Animal animal) {
 		for (Directions direction: Directions.values()) {
@@ -96,9 +96,10 @@ public class AutoSolver {
 	}
 	
 	/**
-	 * Method to get all animals in the game.
-	 * @return
+	 * Method to get all animals in the game
+	 * @return animals an ArrayList containing all the animals in the game
 	 */
+	
 	private ArrayList<Animal> getAnimalsInGame() {
 		ArrayList<Animal> animals = new ArrayList<>(); 
 		Animal animalPiece = null;
@@ -127,8 +128,8 @@ public class AutoSolver {
 	}
 	
 	/**
-	 * Method to get all the possible board states from each possible move.
-	 * @return
+	 * Method to get all the possible board states from each possible move
+	 * @return boardStates an ArrayList containing all the possible board states
 	 */
 	private ArrayList<String> getBoardStatesFromPossibleMoves() {
 		
@@ -158,8 +159,8 @@ public class AutoSolver {
 	}
 	
 	/**
-	 * Method to auto move the animal in order to solve the game.
-	 * @param animals
+	 * Method to auto move the animal in order to solve the game
+	 * @param animals that can be moved in order to solve the game
 	 */
 	public void solve(ArrayList<Animal> animals) {
 		for (Animal animal: animals) {
@@ -192,8 +193,8 @@ public class AutoSolver {
 	}
 	
 	/**
-	 * Method to auto solve the game.
-	 * @return
+	 * Method to auto solve the game
+	 * @return true if solved, else return false if cannot be solved
 	 */
 	public boolean autoSolve() {
 		ArrayList<Animal> animals = this.getAnimalsInGame();

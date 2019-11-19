@@ -48,7 +48,7 @@ public class Controller {
 	 * Controller method to select a square or a piece, this method gets triggered when a
 	 * button is pressed in this case by 'mouse"
 	 * 
-	 * @param event the event that takes care of the correspondence event
+	 * @param event that takes care of the correspondence event
 	 */
 	public void select(ActionEvent event) {
 		Square square = (Square) event.getSource();
@@ -106,7 +106,7 @@ public class Controller {
 	}
 
 	/**
-	 * Controller method for auto solving the game.
+	 * Controller method for auto solving the game
 	 */
 	public void autoSolver() {
 		view.resetView();
@@ -118,7 +118,7 @@ public class Controller {
 	}
 
 	/**
-	 * Controller undo method to undo a move.
+	 * Controller undo method to undo a move
 	 */
 	public void undo() {
 		board.undo();
@@ -126,7 +126,7 @@ public class Controller {
 	}
 
 	/**
-	 * Controller redo method to redo a move.
+	 * Controller redo method to redo a move
 	 */
 	public void redo() {
 		board.redo();

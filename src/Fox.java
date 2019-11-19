@@ -12,18 +12,18 @@
 public class Fox extends Animal {
 
 	/**
-	 * Location of the other body of the fox piece.
+	 * Location of the other body of the fox piece
 	 */
 	private Location bodyLocation;
 
 	/**
-	 * Direction where the fox can move.
-	 * Horizontal or vertical.
+	 * Direction where the fox can move
+	 * Horizontal or vertical
 	 */
 	private boolean horizontalMovement;
 
 	/**
-	 * If this is the tail of the fox.
+	 * If this is the tail of the fox
 	 */
 	private boolean tail;
 
@@ -44,7 +44,7 @@ public class Fox extends Animal {
 	
 	/**
 	 * returns the tail
-	 * @return tail
+	 * @return tail of the Fox
 	 */
 	public boolean isTail() {
 		return tail;
@@ -68,7 +68,7 @@ public class Fox extends Animal {
 	
 	/**
 	 * Method to calculate the location of the fox from its body location
-	 * @param bodyLocation
+	 * @param bodyLocation used to calculate the location from the bodyLocation of the Fox
 	 */
 	public void calculateLocationFromBody(Location bodyLocation) {
 		if (!tail) {
@@ -105,12 +105,12 @@ public class Fox extends Animal {
 	}
 	
 	/**
-	 * Method to calculate the fox piece and body location after a sucessful move.
-	 * @param pieceLocation
-	 * @param bodyFox
-	 * @return
+	 * Method to calculate the fox piece and body location after a successful move
+	 * @param pieceLocation this is the location of the piece
+	 * @param bodyFox this is the body of the Fox that will be use to set location
+	 * @return movementType tail or head depending on the location of the piece selected
 	 */
-	public String calcaulePieceLocation(Location pieceLocation, Fox bodyFox) {
+	public String calculatePieceLocation(Location pieceLocation, Fox bodyFox) {
 		String movementType = "";
 		if (this.pieceLocation.comparesTo(bodyLocation, horizontalMovement) == 1) {
 			if (pieceLocation.comparesTo(this.pieceLocation, horizontalMovement) == 1) {
