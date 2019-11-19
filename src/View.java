@@ -48,9 +48,9 @@ class View {
 	 * Constructor to initialize the instance variables
 	 */
 	public View() {
-		board = new Board(1);
-		controller = new Controller(board, this);
-		highlightedSquares = new ArrayList<>();
+		this.board = new Board(1);
+		this.controller = new Controller(board, this);
+		this.highlightedSquares = new ArrayList<>();
 		this.init();
 		this.run();
 	}
