@@ -153,7 +153,10 @@ public class Controller {
 	}
 
 	/**
-	 * Method to save the game Will be implemented in milestone 4
+	 * Saves the state of the board in a file in the SavedGames folder.
+	 * It does this by using serialization to write the state of the
+	 * board to file in the SavedGames folder
+	 * @param {String} fileName The name the save file will be saved as, given by user
 	 */
 	public boolean save(String fileName) {
 		File f = new File(SAVED_GAME_PATH + fileName);
@@ -174,8 +177,10 @@ public class Controller {
 	}
 
 	/**
-	 * Saves the state of the board in a file in the SavedGames folder
-	 * @param {String} fileName
+	 * Loads a save file from the SavedGames folder. It does this 
+	 * by deserializing the board from the file then calling view.setBoard()
+	 * 
+	 * @param {String} fileName The name of the file to be loaded
 	 */
 	public void load(String fileName) {
 		try {

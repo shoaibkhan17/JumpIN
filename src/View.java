@@ -103,8 +103,8 @@ class View {
 
 		// File Menu and Items
 		JMenu file = new JMenu("File");
-		file.add(this.createMenuItem("Save", (event) -> this.save()));
-		file.add(this.createMenuItem("Load", (event) -> this.load(controller.getLoadOptions())));
+		file.add(this.createMenuItem("Save", (event) -> this.displaySaveDialog()));
+		file.add(this.createMenuItem("Load", (event) -> this.displayLoadDialog()));
 		file.add(this.createMenuItem("Exit", (event) -> System.exit(0)));
 
 		// Edit Menu and Items
@@ -170,7 +170,12 @@ class View {
 
 	}
 
-	public void save() {
+	/**
+	 * Displays a pop up which takes a file name from the user.
+	 * If the file name is valid it calls controller.save(fileName)
+	 * which saves the state of the board
+	 */
+	public void displaySaveDialog() {
 		String fileName = JOptionPane.showInputDialog(frame, "Enter file name");
 		if (fileName != null) {
 			if(controller.save(fileName)) {
@@ -181,7 +186,14 @@ class View {
 		}
 	}
 
-	public void load(String[] loadOptions) {
+	/**
+	 * Displays a pop up with all available save files 
+	 * to load. When the user selects a file it calls controller.load(loadFile)
+	 * which loads the save
+	 */
+	public void displayLoadDialog() {
+		String[] loadOptions = controller.getLoadOptions();
+		
 		if (loadOptions.length != 0) {
 
 			String loadFile = (String) JOptionPane.showInputDialog(frame, "Which save would you like to load?", "Load",
