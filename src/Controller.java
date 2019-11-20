@@ -160,9 +160,12 @@ public class Controller {
 		try {
 			FileOutputStream writer = new FileOutputStream(f);
 			ObjectOutputStream out = new ObjectOutputStream(writer);
+			
 			out.writeObject(board);
+			
 			out.close();
 			writer.close();
+			
 			return true;
 		} catch (IOException e1) {
 			//e1.printStackTrace();
@@ -171,25 +174,23 @@ public class Controller {
 	}
 
 	/**
-	 * Method to load the game Will be implemented in milestone 4
-	 * 
-	 * @param fileName
+	 * Saves the state of the board in a file in the SavedGames folder
+	 * @param {String} fileName
 	 */
 	public void load(String fileName) {
 		try {
 			FileInputStream file = new FileInputStream(SAVED_GAME_PATH + fileName);
 			ObjectInputStream in = new ObjectInputStream(file);
 
-			board = (Board) in.readObject();
-			view.setBoard(board);
-			view.updateView();
+			Board newBoard = (Board) in.readObject();
+			view.setBoard(newBoard);
 			
 			in.close();
 			file.close();
 		}
 
 		catch (IOException ex) {
-			System.out.println("IOException is caught");
+			//Do nothing (user pressed cancel)
 		}
 
 		catch (ClassNotFoundException ex) {
@@ -197,6 +198,12 @@ public class Controller {
 		}
 	}
 
+	/**
+	 * Searches the SavedGames folder for all save files
+	 * and returns an array of string containing the save
+	 * file names.
+	 * @return {String[]} loadOptions: The name of all possible save that can be loaded
+	 */
 	public String[] getLoadOptions() {
 		File saveDirectory = new File(SAVED_GAME_PATH);
 		File[] savedGameFiles = saveDirectory.listFiles();

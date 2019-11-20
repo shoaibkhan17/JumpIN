@@ -56,6 +56,13 @@ class View {
 		this.highlightedSquares = new ArrayList<>();
 		this.init();
 	}
+	
+	public View(Board board) {
+		this.board = board;
+		this.controller = new Controller(board, this);
+		this.highlightedSquares = new ArrayList<>();
+		this.init();
+	}
 
 	/**
 	 * Method to call the initFrame, initMenu and the initView methods
@@ -366,8 +373,15 @@ class View {
 		square.setBackground(cornerPiece ? CORNER_SQUARE_COLOR : MAIN_SQUARE_COLOR);
 	}
 	
+	/**
+	 * Creates a new view based off a new board.
+	 * @param {Board} newBoard The board that will be used to create the new view.
+	 */
 	public void setBoard(Board newBoard) {
-		board = newBoard;
+		frame.dispose();
+		View newView = new View(newBoard);
+		newView.run();
+		
 	}
 
 	/**
