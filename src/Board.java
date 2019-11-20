@@ -11,7 +11,7 @@ import java.util.LinkedList;
  * @author Md Aiman Sharif - 101062765
  * @author Shoaib Khan - 101033582
  */
-public class Board implements Serializable{
+public class Board implements Serializable {
 	protected Square[][] squares;
 	protected Animal selectedPiece;
 	protected LinkedList<Location> holeLocations;

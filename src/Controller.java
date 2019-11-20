@@ -159,19 +159,16 @@ public class Controller {
 	 * @param {String} fileName The name the save file will be saved as, given by user
 	 */
 	public boolean save(String fileName) {
-		File f = new File(SAVED_GAME_PATH + fileName);
 		try {
-			FileOutputStream writer = new FileOutputStream(f);
-			ObjectOutputStream out = new ObjectOutputStream(writer);
-			
-			out.writeObject(board);
-			
+			File file = new File(SAVED_GAME_PATH + fileName);
+			FileOutputStream writer = new FileOutputStream(file);
+			ObjectOutputStream out = new ObjectOutputStream(writer);		
+			out.writeObject(board);		
 			out.close();
-			writer.close();
-			
+			writer.close();			
 			return true;
 		} catch (IOException e1) {
-			//e1.printStackTrace();
+//			e1.printStackTrace();
 			return false;
 		}
 	}
@@ -195,6 +192,7 @@ public class Controller {
 		}
 
 		catch (IOException ex) {
+			System.out.println("something happened");
 			//Do nothing (user pressed cancel)
 		}
 
@@ -218,5 +216,4 @@ public class Controller {
 		}
 		return loadOptions;
 	}
-
 }

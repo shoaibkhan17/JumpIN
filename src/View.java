@@ -176,12 +176,12 @@ class View {
 	 * which saves the state of the board
 	 */
 	public void displaySaveDialog() {
-		String fileName = JOptionPane.showInputDialog(frame, "Enter file name");
+		String fileName = JOptionPane.showInputDialog(frame, "Enter file name.\nNo special character allowed.");
 		if (fileName != null) {
-			if(controller.save(fileName)) {
+			if (controller.save(fileName)) {
 				JOptionPane.showMessageDialog(frame, "Your file has been saved.");
-			}else {
-				JOptionPane.showMessageDialog(frame, "Your file could not be saved. Avoid using special characters.");
+			} else {
+				JOptionPane.showMessageDialog(frame, "Your file could not be saved. Please try again.");
 			}
 		}
 	}
@@ -195,13 +195,11 @@ class View {
 		String[] loadOptions = controller.getLoadOptions();
 		
 		if (loadOptions.length != 0) {
-
-			String loadFile = (String) JOptionPane.showInputDialog(frame, "Which save would you like to load?", "Load",
+			String loadFile = (String) JOptionPane.showInputDialog(frame, "Which save would you like to load?", "Load", 
 					JOptionPane.QUESTION_MESSAGE, null, loadOptions, null);
-
 			controller.load(loadFile);
-		}else {
-			JOptionPane.showMessageDialog(frame, "Save some games first.");
+		} else {
+			JOptionPane.showMessageDialog(frame, "No save data to load.");
 		}
 	}
 
