@@ -24,6 +24,23 @@ public class Board implements Serializable {
 	private int currentLevel;
 	private int turnsTaken;
 	
+	
+	public Board() {
+		squares = new Square[BOARD_SIZE][BOARD_SIZE];
+		holeLocations = new LinkedList<>();
+		selectedPiece = null;
+		rabbitCount = 0;
+		turnsTaken = 0;
+		moveStack = new MoveStack();
+		redoStack = new MoveStack();
+		
+		for (int x = 0; x < Board.BOARD_SIZE; x++) {
+			for (int y = 0; y < Board.BOARD_SIZE; y++) {
+				this.squares[x][y] = new Square(new Location(x, y));
+			}
+		}
+	}
+	
 	/** 
 	 * Constructor to initialize the instance variables
 	 * @param level this is the level of the game
@@ -153,25 +170,8 @@ public class Board implements Serializable {
 	 * Initialize the level 1 of the game Method which creates and add pieces onto the board
 	 */
 	private void initToLevel1() {
-		// Create and add pieces.
-		squares[0][0].setPiece(new Hole());
-		squares[4][0].setPiece(new Hole());
-		squares[4][1].setPiece(new Mushroom());
-		squares[2][2].setPiece(new Hole());
-		squares[0][2].setPiece(new Rabbit(Rabbit.RABBIT_COLORS.Gray, new Location(0, 2)));
-		squares[0][3].setPiece(new Mushroom());
-		squares[0][4].setPiece(new Hole());
-		squares[4][4].setPiece(new Hole());
-
-		// Store the hold locations.
-		holeLocations.add(new Location(0, 0));
-		holeLocations.add(new Location(4, 0));
-		holeLocations.add(new Location(2, 2));
-		holeLocations.add(new Location(0, 4));
-		holeLocations.add(new Location(4, 4));
-
-		// Store the number of rabbits.
-		rabbitCount = 1;
+		LevelBuilder levelBuilder = new LevelBuilder(1, this);
+		levelBuilder.buildLevel();
 	}
 	
 	/**
