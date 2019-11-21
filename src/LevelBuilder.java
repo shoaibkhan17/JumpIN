@@ -13,11 +13,13 @@ public class LevelBuilder extends DefaultHandler {
 	private Board board;
 	private Square[][] squares;
 	private int level;
-	private enum XMLTerms {Level, LevelNumber, Mushroom, Coordinate1, Coordinate2, Rabbit, Color, RabbitCount}
+	private enum XMLTerms {Level, LevelNumber, Mushroom, Coordinate1, Coordinate2, Rabbit, Color, RabbitCount, Fox, Movement}
 	private Piece currentPiece;
 	private Location currentLocation;
+	private Location foxBodyLocation;
 	private Rabbit.RABBIT_COLORS currentRabbitColor;
 	private ArrayList<Location> possibleHoleLocations; 
+	private Boolean horizontalMovement;
 	     
     public LevelBuilder(int level, Board board) {
         this.board = board;
@@ -25,6 +27,8 @@ public class LevelBuilder extends DefaultHandler {
         this.level = level;
         currentPiece = null;
         currentLocation = null;
+        foxBodyLocation = null;
+        horizontalMovement = null;
         possibleHoleLocations = new ArrayList<>();
         possibleHoleLocations.add(new Location(0, 0));
         possibleHoleLocations.add(new Location(4, 0));
@@ -34,58 +38,30 @@ public class LevelBuilder extends DefaultHandler {
     }
     
     @Override
-    public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
-//    	System.out.println("Start: " + qName);
-    	
+    public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {    	
     	current = XMLTerms.valueOf(qName);
-//    	System.out.println("current at "+ current);
-    	
-//    	switch (current) {
-//			case Color:
-//				break;
-//			case Coordinate1:
-//				break;
-//			case Coordinate2:
-//				break;
-//			case Level:
-//				break;
-//			case LevelNumber:
-//				break;
-//			case Mushroom:
-//				currentPiece = new Mushroom();
-//				break;
-//			case Rabbit:
-//				break;
-//			default:
-//				break;
-//	    }
     }
     
     @Override
     public void endElement(String uri, String localName, String qName) throws SAXException {
     	XMLTerms endElement = XMLTerms.valueOf(qName);
     	switch (endElement) {
-		case Color:
-			break;
-		case Coordinate1:
-			break;
-		case Coordinate2:
-			break;
-		case Level:
-			break;
-		case LevelNumber:
-			break;
-		case Mushroom:
-			currentPiece = new Mushroom();
-			squares[currentLocation.getX()][currentLocation.getY()].setPiece(currentPiece);
-			break;
-		case Rabbit:
-			currentPiece = new Rabbit(currentRabbitColor, currentLocation);
-			squares[currentLocation.getX()][currentLocation.getY()].setPiece(currentPiece);
-			break;
-		default:
-			break;
-    	
+			case Mushroom:
+				currentPiece = new Mushroom();
+				squares[currentLocation.getX()][currentLocation.getY()].setPiece(currentPiece);
+				break;
+			case Rabbit:
+				currentPiece = new Rabbit(currentRabbitColor, currentLocation);
+				squares[currentLocation.getX()][currentLocation.getY()].setPiece(currentPiece);
+				break;
+			case Fox:
+				currentPiece = new Fox(currentLocation, foxBodyLocation, horizontalMovement, false);
+				Piece foxBody = new Fox(foxBodyLocation, currentLocation, horizontalMovement, true);
+				squares[currentLocation.getX()][currentLocation.getY()].setPiece(currentPiece);
+				squares[foxBodyLocation.getX()][foxBodyLocation.getY()].setPiece(foxBody);
+				break;
+			default:
+				break;
     	}
     }
     
@@ -105,18 +81,19 @@ public class LevelBuilder extends DefaultHandler {
 				currentLocation = new Location(Integer.parseInt(coord[0]), Integer.parseInt(coord[1]));				
 				break;
 			case Coordinate2:
-				break;
-			case Level:
+				String[] bodyCoord = string.split(",");
+				foxBodyLocation = new Location(Integer.parseInt(bodyCoord[0]), Integer.parseInt(bodyCoord[1]));	
 				break;
 			case LevelNumber:
-				break;
-			case Mushroom:
-				break;
-			case Rabbit:
+				if (Integer.parseInt(string) != level) {
+					throw new SAXException("The level does not match the xml.");
+				}
 				break;
 			case RabbitCount:
 				board.rabbitCount = Integer.parseInt(string);
 				break;
+			case Movement:
+				horizontalMovement = string.contains("Horizontal");
 			default:
 				break;
 	    	}
@@ -124,7 +101,6 @@ public class LevelBuilder extends DefaultHandler {
          
     public void parseJSON() throws Exception {  	
     	File file = new File(LEVELS_PATH + "level" + level + ".xml");	
-    	System.out.println("in file " + file.getName());	
         SAXParserFactory SAXFactory = SAXParserFactory.newDefaultInstance();
         SAXParser SAXParser = SAXFactory.newSAXParser();
         SAXParser.parse(file, this);
@@ -134,14 +110,33 @@ public class LevelBuilder extends DefaultHandler {
     	for (Location holeLoc: possibleHoleLocations) {
     		int x = holeLoc.getX();
     		int y = holeLoc.getY();
+    		
+    		// No piece where the hole is being placed.
     		if (!squares[x][y].hasPiece()) {
     			board.holeLocations.add(holeLoc);
     			squares[x][y].setPiece(new Hole());
     		}
     		
-    		// Check if rabbit, then add it to hole
-    		// Check if mushroom, then dont add hole
-    		// Check if fox, then invalidate the level
+    		// There is a piece, where a hole is being placed.
+    		else {
+    			Piece piece = squares[x][y].getPiece();
+    			switch (piece.getType()) {
+				case FOX:
+					throw new Exception("Foxes cannot be placed there");
+				case HOLE:
+					throw new Exception("Holes should not be added to the xml file");
+				case RABBIT:
+					Rabbit rabbit = (Rabbit) piece;
+					Hole hole = new Hole();
+					hole.setPiece(rabbit);
+					squares[x][y].setPiece(hole);
+					board.holeLocations.add(holeLoc);
+					break;
+				default:
+					break;
+    			
+    			}
+    		}
     	}
     	
     }
@@ -152,15 +147,14 @@ public class LevelBuilder extends DefaultHandler {
 			this.addHoles();
 			return true;
 		} catch (Exception e) {
-//			e.printStackTrace();
+			e.printStackTrace();
 			return false;
 		}
-    	
     }
     
 	public static void main(String[] args) {
 		Board board = new Board();
-		int level = 1;
+		int level = 4;
 		LevelBuilder levelBuilder = new LevelBuilder(level, board);
 		levelBuilder.board.printBoard();
 		levelBuilder.buildLevel();
