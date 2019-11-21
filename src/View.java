@@ -165,7 +165,10 @@ class View {
 				"Level Select", JOptionPane.QUESTION_MESSAGE, null, possibilities, 1);
 
 		if (level != null) {
-			controller.levelSelect(level);
+			boolean valid = controller.levelSelect(level);
+			if (!valid) {
+				JOptionPane.showMessageDialog(frame, "level" + level + ".xml does not contain a valid level.");
+			}
 		}
 
 	}
@@ -335,7 +338,10 @@ class View {
 			message += "\n";
 			message += "Press OK to play level " + (board.getLevel() + 1);
 			JOptionPane.showMessageDialog(popupFrame, message);
-			board.changeLevel(board.getLevel() + 1);
+			boolean valid = board.changeLevel(board.getLevel() + 1);
+			if (!valid) {
+				JOptionPane.showMessageDialog(frame, "level" + board.getLevel() + ".xml does not contain a valid level.");
+			}
 			this.updateView();
 		}
 

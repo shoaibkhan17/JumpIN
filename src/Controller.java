@@ -143,13 +143,14 @@ public class Controller {
 
 	/**
 	 * Method which lets the user select the level
+	 * @param level to be selected.
+	 * @returns true if it a valid solvable level. 
 	 * 
-	 * @param level
-	 *            to be selected
 	 */
-	public void levelSelect(Integer level) {
-		board.changeLevel(level);
+	public boolean levelSelect(Integer level) {
+		boolean valid = board.changeLevel(level);
 		view.updateView();
+		return valid;
 	}
 
 	/**

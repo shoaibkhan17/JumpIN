@@ -46,7 +46,6 @@ public class Board implements Serializable {
 	 * @param level this is the level of the game
 	 */
 	public Board(int level) {
-
 		squares = new Square[BOARD_SIZE][BOARD_SIZE];
 		holeLocations = new LinkedList<>();
 		selectedPiece = null;
@@ -84,13 +83,14 @@ public class Board implements Serializable {
 	}
 	
 	/**
-	 * Method to change the level of the game
-	 * @param level this is the level of the game which is to be changed
+	 * Method to change the level of the game.
+	 * @param level this is the level of the game which is to be changed.
+	 * @returns true if it a valid solvable level. 
 	 */
-	public void changeLevel(int level) {
+	public boolean changeLevel(int level) {
 		this.reinitialize();
 		this.currentLevel = level;
-		this.initBoard(level);
+		return this.initBoard(level);
 	}
 
 	/**
@@ -136,11 +136,13 @@ public class Board implements Serializable {
 	/**
 	 * Initializes the game to the selected level
 	 * @param level used to set the level of the game passed in as a parameter
+	 * @returns true if it a valid solvable level. 
 	 */
-	private void initBoard(int level) {
+	private boolean initBoard(int level) {
 		LevelBuilder levelBuilder = new LevelBuilder(level, this);
-		levelBuilder.buildLevel();
+		boolean valid = levelBuilder.buildLevel();
 		levelBuilder = null;
+		return valid;
 	}
 	
 	/**
