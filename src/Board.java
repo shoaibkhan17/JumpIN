@@ -172,59 +172,25 @@ public class Board implements Serializable {
 	private void initToLevel1() {
 		LevelBuilder levelBuilder = new LevelBuilder(1, this);
 		levelBuilder.buildLevel();
+		levelBuilder = null;
 	}
 	
 	/**
 	 * Initialize the level 2 of the game Method which creates and add pieces onto the board
 	 */
 	private void initToLevel2() {
-		// Create and add pieces.
-		squares[0][0].setPiece(new Hole());
-		squares[4][0].setPiece(new Hole());
-		squares[4][1].setPiece(new Mushroom());
-		squares[4][2].setPiece(new Mushroom());
-		squares[2][2].setPiece(new Hole());
-		squares[2][3].setPiece(new Rabbit(Rabbit.RABBIT_COLORS.White, new Location(2, 3)));
-		squares[3][3].setPiece(new Mushroom());
-		squares[0][4].setPiece(new Hole());
-		squares[4][4].setPiece(new Hole());
-
-		// Store the hold locations.
-		holeLocations.add(new Location(0, 0));
-		holeLocations.add(new Location(4, 0));
-		holeLocations.add(new Location(2, 2));
-		holeLocations.add(new Location(0, 4));
-		holeLocations.add(new Location(4, 4));
-
-		// Store the number of rabbits.
-		rabbitCount = 1;
+		LevelBuilder levelBuilder = new LevelBuilder(2, this);
+		levelBuilder.buildLevel();
+		levelBuilder = null;
 	}
 
 	/**
 	 * Initialize the level 3 of the game Method which creates and add pieces onto the board
 	 */
 	private void initToLevel3() {		
-		// Create and add pieces.
-		squares[0][0].setPiece(new Hole());
-		squares[1][0].setPiece(new Mushroom());
-		squares[2][0].setPiece(new Mushroom());
-		squares[4][0].setPiece(new Hole());
-		squares[3][1].setPiece(new Mushroom());
-		squares[2][2].setPiece(new Hole());
-		squares[3][0].setPiece(new Rabbit(Rabbit.RABBIT_COLORS.White, new Location(3, 0)));
-		squares[0][4].setPiece(new Hole());
-		squares[4][4].setPiece(new Hole());
-		squares[4][2].setPiece(new Rabbit(Rabbit.RABBIT_COLORS.Brown, new Location(4, 2)));
-
-		// Store the hold locations.
-		holeLocations.add(new Location(0, 0));
-		holeLocations.add(new Location(4, 0));
-		holeLocations.add(new Location(2, 2));
-		holeLocations.add(new Location(0, 4));
-		holeLocations.add(new Location(4, 4));
-
-		// Store the number of rabbits.
-		rabbitCount = 2;
+		LevelBuilder levelBuilder = new LevelBuilder(3, this);
+		levelBuilder.buildLevel();
+		levelBuilder = null;
 	}
 	
 	/**

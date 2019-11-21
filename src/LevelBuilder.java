@@ -135,8 +135,13 @@ public class LevelBuilder extends DefaultHandler {
     		int x = holeLoc.getX();
     		int y = holeLoc.getY();
     		if (!squares[x][y].hasPiece()) {
+    			board.holeLocations.add(holeLoc);
     			squares[x][y].setPiece(new Hole());
     		}
+    		
+    		// Check if rabbit, then add it to hole
+    		// Check if mushroom, then dont add hole
+    		// Check if fox, then invalidate the level
     	}
     	
     }
