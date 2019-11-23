@@ -18,7 +18,7 @@ public class Board implements Serializable {
 	protected int rabbitCount;
 	protected static final int BOARD_SIZE = 5;
 	protected static final char BOARD_PRINT_CHAR = '*';
-	protected static final int TOTAL_LEVELS = 5;
+	protected static final int TOTAL_LEVELS = 8;
 	protected MoveStack moveStack;
 	protected MoveStack redoStack;
 	private int currentLevel;
