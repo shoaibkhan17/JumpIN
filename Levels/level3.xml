@@ -1,0 +1,26 @@
+<Level>
+    <LevelNumber>3</LevelNumber>
+	<RabbitCount>2</RabbitCount>
+	
+    <Mushroom>
+        <Coordinate1>1,0</Coordinate1>
+    </Mushroom>
+    
+    <Mushroom>
+        <Coordinate1>2,0</Coordinate1>
+    </Mushroom>
+    
+    <Mushroom>
+        <Coordinate1>3,1</Coordinate1>
+    </Mushroom>
+    
+    <Rabbit>
+        <Coordinate1>3,0</Coordinate1>
+        <Color>White</Color>
+    </Rabbit>
+    
+    <Rabbit>
+        <Coordinate1>4,2</Coordinate1>
+        <Color>Brown</Color>
+    </Rabbit>  
+</Level>

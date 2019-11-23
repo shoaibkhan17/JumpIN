@@ -1,3 +1,4 @@
+import java.io.Serializable;
 import java.util.LinkedList;
 
 /**
@@ -10,7 +11,7 @@ import java.util.LinkedList;
  * @author Md Aiman Sharif - 101062765
  * @author Shoaib Khan - 101033582
  */
-public class Board {
+public class Board implements Serializable {
 	protected Square[][] squares;
 	protected Animal selectedPiece;
 	protected LinkedList<Location> holeLocations;
@@ -23,12 +24,28 @@ public class Board {
 	private int currentLevel;
 	private int turnsTaken;
 	
+	
+	public Board() {
+		squares = new Square[BOARD_SIZE][BOARD_SIZE];
+		holeLocations = new LinkedList<>();
+		selectedPiece = null;
+		rabbitCount = 0;
+		turnsTaken = 0;
+		moveStack = new MoveStack();
+		redoStack = new MoveStack();
+		
+		for (int x = 0; x < Board.BOARD_SIZE; x++) {
+			for (int y = 0; y < Board.BOARD_SIZE; y++) {
+				this.squares[x][y] = new Square(new Location(x, y));
+			}
+		}
+	}
+	
 	/** 
 	 * Constructor to initialize the instance variables
 	 * @param level this is the level of the game
 	 */
 	public Board(int level) {
-
 		squares = new Square[BOARD_SIZE][BOARD_SIZE];
 		holeLocations = new LinkedList<>();
 		selectedPiece = null;
@@ -66,13 +83,14 @@ public class Board {
 	}
 	
 	/**
-	 * Method to change the level of the game
-	 * @param level this is the level of the game which is to be changed
+	 * Method to change the level of the game.
+	 * @param level this is the level of the game which is to be changed.
+	 * @returns true if it a valid solvable level. 
 	 */
-	public void changeLevel(int level) {
+	public boolean changeLevel(int level) {
 		this.reinitialize();
 		this.currentLevel = level;
-		this.initBoard(level);
+		return this.initBoard(level);
 	}
 
 	/**
@@ -118,169 +136,13 @@ public class Board {
 	/**
 	 * Initializes the game to the selected level
 	 * @param level used to set the level of the game passed in as a parameter
+	 * @returns true if it a valid solvable level. 
 	 */
-	private void initBoard(int level) {
-		// Create and add pieces into the board
-		switch (level) {
-		case 1:
-			this.initToLevel1();
-			break;
-
-		case 2:
-			this.initToLevel2();
-			break;
-
-		case 3:
-			this.initToLevel3();
-			break;
-
-		case 4:
-			this.initToLevel4();
-			break;
-
-		case 5:
-			this.initToLevel5();
-			break;
-
-		default:
-			this.initToLevel1();
-			break;
-		}
-	}
-
-	/**
-	 * Initialize the level 1 of the game Method which creates and add pieces onto the board
-	 */
-	private void initToLevel1() {
-		// Create and add pieces.
-		squares[0][0].setPiece(new Hole());
-		squares[4][0].setPiece(new Hole());
-		squares[4][1].setPiece(new Mushroom());
-		squares[2][2].setPiece(new Hole());
-		squares[0][2].setPiece(new Rabbit(Rabbit.RABBIT_COLORS.Gray, new Location(0, 2)));
-		squares[0][3].setPiece(new Mushroom());
-		squares[0][4].setPiece(new Hole());
-		squares[4][4].setPiece(new Hole());
-
-		// Store the hold locations.
-		holeLocations.add(new Location(0, 0));
-		holeLocations.add(new Location(4, 0));
-		holeLocations.add(new Location(2, 2));
-		holeLocations.add(new Location(0, 4));
-		holeLocations.add(new Location(4, 4));
-
-		// Store the number of rabbits.
-		rabbitCount = 1;
-	}
-	
-	/**
-	 * Initialize the level 2 of the game Method which creates and add pieces onto the board
-	 */
-	private void initToLevel2() {
-		// Create and add pieces.
-		squares[0][0].setPiece(new Hole());
-		squares[4][0].setPiece(new Hole());
-		squares[4][1].setPiece(new Mushroom());
-		squares[4][2].setPiece(new Mushroom());
-		squares[2][2].setPiece(new Hole());
-		squares[2][3].setPiece(new Rabbit(Rabbit.RABBIT_COLORS.White, new Location(2, 3)));
-		squares[3][3].setPiece(new Mushroom());
-		squares[0][4].setPiece(new Hole());
-		squares[4][4].setPiece(new Hole());
-
-		// Store the hold locations.
-		holeLocations.add(new Location(0, 0));
-		holeLocations.add(new Location(4, 0));
-		holeLocations.add(new Location(2, 2));
-		holeLocations.add(new Location(0, 4));
-		holeLocations.add(new Location(4, 4));
-
-		// Store the number of rabbits.
-		rabbitCount = 1;
-	}
-
-	/**
-	 * Initialize the level 3 of the game Method which creates and add pieces onto the board
-	 */
-	private void initToLevel3() {		
-		// Create and add pieces.
-		squares[0][0].setPiece(new Hole());
-		squares[1][0].setPiece(new Mushroom());
-		squares[2][0].setPiece(new Mushroom());
-		squares[4][0].setPiece(new Hole());
-		squares[3][1].setPiece(new Mushroom());
-		squares[2][2].setPiece(new Hole());
-		squares[3][0].setPiece(new Rabbit(Rabbit.RABBIT_COLORS.White, new Location(3, 0)));
-		squares[0][4].setPiece(new Hole());
-		squares[4][4].setPiece(new Hole());
-		squares[4][2].setPiece(new Rabbit(Rabbit.RABBIT_COLORS.Brown, new Location(4, 2)));
-
-		// Store the hold locations.
-		holeLocations.add(new Location(0, 0));
-		holeLocations.add(new Location(4, 0));
-		holeLocations.add(new Location(2, 2));
-		holeLocations.add(new Location(0, 4));
-		holeLocations.add(new Location(4, 4));
-
-		// Store the number of rabbits.
-		rabbitCount = 2;
-	}
-	
-	/**
-	 * Initialize the level 4 of the game Method which creates and add pieces onto the board
-	 */
-	private void initToLevel4() {
-		// Create and add pieces.
-		squares[0][0].setPiece(new Hole());
-		squares[3][4].setPiece(new Rabbit(Rabbit.RABBIT_COLORS.Gray, new Location(3, 4)));
-		squares[4][0].setPiece(new Hole());
-		squares[0][1].setPiece(new Mushroom());
-		squares[0][2].setPiece(new Mushroom());
-		squares[2][2].setPiece(new Hole());
-		squares[1][0].setPiece(new Fox(new Location(1, 0), new Location(1, 1), false, false));
-		squares[2][4].setPiece(new Mushroom());
-		squares[0][4].setPiece(new Hole());
-		squares[1][1].setPiece(new Fox(new Location(1, 1), new Location(1, 0), false, true));
-		squares[4][4].setPiece(new Hole());
-
-		// Store the hold locations.
-		holeLocations.add(new Location(0, 0));
-		holeLocations.add(new Location(4, 0));
-		holeLocations.add(new Location(2, 2));
-		holeLocations.add(new Location(0, 4));
-		holeLocations.add(new Location(4, 4));
-
-		// Store the number of rabbits.
-		rabbitCount = 1;
-	}
-	
-	/**
-	 * Initialize the level 5 of the game Method which creates and add pieces onto the board
-	 */
-	private void initToLevel5() {
-		// Create and add pieces.
-		squares[0][0].setPiece(new Hole());
-		squares[4][1].setPiece(new Rabbit(Rabbit.RABBIT_COLORS.Brown, new Location(4, 1)));
-		squares[4][0].setPiece(new Hole());
-		squares[0][1].setPiece(new Fox(new Location(0, 1), new Location(1, 1), true, false));
-		squares[1][1].setPiece(new Fox(new Location(1, 1), new Location(0, 1), true, true));
-		squares[2][2].setPiece(new Hole());
-		squares[3][2].setPiece(new Mushroom());
-		squares[1][3].setPiece(new Fox(new Location(1, 3), new Location(1, 4), false, false));
-		squares[0][4].setPiece(new Hole());
-		squares[1][4].setPiece(new Fox(new Location(1, 4), new Location(1, 3), false, true));
-		squares[2][4].setPiece(new Mushroom());
-		squares[3][4].setPiece(new Mushroom());
-		squares[4][4].setPiece(new Hole());
-
-		// Store the hold locations.
-		holeLocations.add(new Location(0, 0));
-		holeLocations.add(new Location(2, 2));
-		holeLocations.add(new Location(0, 4));
-		holeLocations.add(new Location(4, 4));
-
-		// Store the number of rabbits.
-		rabbitCount = 1;
+	private boolean initBoard(int level) {
+		LevelBuilder levelBuilder = new LevelBuilder(level, this);
+		boolean valid = levelBuilder.buildLevel();
+		levelBuilder = null;
+		return valid;
 	}
 	
 	/**
