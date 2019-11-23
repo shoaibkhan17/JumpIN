@@ -1,32 +1,27 @@
 <Level>
     <LevelNumber>4</LevelNumber>
-	<RabbitCount>3</RabbitCount>
+	<RabbitCount>1</RabbitCount>
 	
     <Mushroom>
-        <Coordinate1>4,1</Coordinate1>
+        <Coordinate1>0,1</Coordinate1>
     </Mushroom>
     
     <Mushroom>
-        <Coordinate1>1,2</Coordinate1>
+        <Coordinate1>0,2</Coordinate1>
     </Mushroom>
     
     <Mushroom>
-        <Coordinate1>3,2</Coordinate1>
+        <Coordinate1>2,4</Coordinate1>
     </Mushroom>
     
     <Rabbit>
-        <Coordinate1>0,2</Coordinate1>
+        <Coordinate1>3,4</Coordinate1>
         <Color>Gray</Color>
     </Rabbit>
     
-    <Rabbit>
-        <Coordinate1>2,2</Coordinate1>
-        <Color>White</Color>
-    </Rabbit>
-    
-    <Rabbit>
-        <Coordinate1>4,2</Coordinate1>
-        <Color>Brown</Color>
-    </Rabbit>
-
+    <Fox>
+        <Coordinate1>1,0</Coordinate1>
+        <Coordinate2>1,1</Coordinate2>
+        <Movement>Vertical</Movement>
+    </Fox>  
 </Level>
