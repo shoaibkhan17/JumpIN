@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * @author Shoaib Khan - 101033582
  */
 
-public class Controller {
+public class Controller implements Runnable {
 
 	private Board board;
 	private View view;
@@ -118,11 +118,8 @@ public class Controller {
 	 */
 	public void autoSolver() {
 		view.resetView();
-		AutoSolver solver = new AutoSolver(board, view);
-		boolean sucessful = solver.autoSolve();
-		if (sucessful) {
-			view.displayLevelCompeletePopup();
-		}
+		Thread thread = new Thread(this);
+		thread.start();
 	}
 
 	/**
@@ -216,5 +213,14 @@ public class Controller {
 			loadOptions[i] = savedGameFiles[i].getName();
 		}
 		return loadOptions;
+	}
+
+	@Override
+	public void run() {
+		AutoSolver solver = new AutoSolver(board, view);
+		boolean sucessful = solver.autoSolve();
+		if (sucessful) {
+			view.displayLevelCompeletePopup();
+		}
 	}
 }

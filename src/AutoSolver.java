@@ -18,6 +18,7 @@ public class AutoSolver {
 	private MoveStack moveHolder;
 	private ArrayList<String> visitedStates;
 	private ArrayList<Animal> animalsInGame;
+	private static final int SLEEP_TIMER = 100;
 	
 	/**
 	 * Default constructor initializing instance variables
@@ -205,6 +206,7 @@ public class AutoSolver {
 			try {
 				this.solve();
 				view.updateView();
+				Thread.sleep(SLEEP_TIMER);
 				counter++;
 			} catch (Exception e) {
 				System.out.println("Failed to find a solution");
