@@ -174,7 +174,6 @@ public class AutoSolver {
 			}
 		}
 		
-		this.printMoves();
 		Move moveToMake = this.moveHolder.pop();
 		
 		if (moveToMake != null) {
