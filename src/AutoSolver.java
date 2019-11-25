@@ -40,12 +40,12 @@ public class AutoSolver {
 	 * @param direction direction that the animal will be moved in
 	 * @return possibleMove this is the possible move that can be made
 	 */
-	private Location possibleMoveBasedOnDirection(Animal animal, Directions direction) {
+	private ArrayList<Location> possibleMoveBasedOnDirection(Animal animal, Directions direction) {
 		Location location = animal.getPieceLocation();
 		int i;
 		boolean horizonal;
 		int limit;
-		Location possibleMove = null;
+		ArrayList<Location> possibleMoves = new ArrayList<>();
 
 		switch(direction) {
 		case UP:
@@ -69,19 +69,19 @@ public class AutoSolver {
 			limit = Board.BOARD_SIZE;
 			break;
 		default:
-			return possibleMove;
+			return null;
 		}
 		
 		while (i < limit) {
 			Location newLocation = new Location(horizonal ? i : location.getX(), horizonal ? location.getY() : i);
 			if (animal.canMove(newLocation, squares)) {
-				possibleMove = new Location(newLocation);
+				possibleMoves.add(new Location(newLocation));
 			}	
 			
 			i++;
 		}
 		
-		return possibleMove;
+		return possibleMoves;
 	}
 	
 	/**
@@ -90,15 +90,17 @@ public class AutoSolver {
 	 */
 	private void findPossibleMoves(Animal animal) {
 		for (Directions direction: Directions.values()) {
-			Location possibleMove = this.possibleMoveBasedOnDirection(animal, direction);
-			if (possibleMove != null) {
-				possibleMovesHolder.push(possibleMove, animal);
+			ArrayList<Location> possibleMoves =  this.possibleMoveBasedOnDirection(animal, direction);
+			if (possibleMoves != null) {
+				for (Location possibleMove: possibleMoves) {
+					possibleMovesHolder.push(possibleMove, animal);
+				}
 			}
 		}
 	}
 	
 	/**
-	 * Method to get all animals in the game
+	 * Method to get all the animals in the game
 	 */	
 	private void getAnimalsInGame() {
 		Animal animalPiece = null;
@@ -124,37 +126,11 @@ public class AutoSolver {
 		}	
 	}
 	
-	/**
-	 * Method to get all the possible board states from each possible move
-	 * @return boardStates an ArrayList containing all the possible board states
-	 */
-	private ArrayList<String> getBoardStatesFromPossibleMoves() {
-		
-		ArrayList<String> boardStates = new ArrayList<>();
-		String boardState = "";
-		
-		while(!possibleMovesHolder.isEmpty()) {
-			Move move = possibleMovesHolder.pop();
-			board.movePiece(move.getNewLocation(), move.getPiece(), true, false);
-			boardState = board.getBoardState();
-			
-			if (!visitedStates.contains(boardState)) {
-				moveHolder.push(move.getNewLocation(), move.getPiece());
-				boardStates.add(boardState);
-			}
-		
-			else {
-				if (possibleMovesHolder.size() == 0 && boardStates.size() == 0) {
-					moveHolder.push(move.getNewLocation(), move.getPiece());
-				}
-			}
-			
-			board.undo();
-		}
-		
-		return boardStates;
-	}
 	
+	/**
+	 * Method to filter all the possible moves.
+	 * @return
+	 */
 	public MoveStack filterMoves() {
 		MoveStack filtedMoves = new MoveStack();
 		String boardState = "";
@@ -178,29 +154,7 @@ public class AutoSolver {
 	 * Method to auto move the animal in order to solve the game
 	 * @param animals that can be moved in order to solve the game
 	 */
-	public void solve(ArrayList<Animal> animals) {
-		for (Animal animal: animals) {
-			this.findPossibleMoves(animal);
-		}
-				
-		ArrayList<String> boardStates = this.getBoardStatesFromPossibleMoves();
-
-		if (boardStates.size() == 0) {	
-			Move move = moveHolder.first();
-			board.movePiece(move.getNewLocation(), move.getPiece(), true, false);
-			moveHolder.popAll();
-			return;
-		}
-
-		Move move = moveHolder.first();
-		board.movePiece(move.getNewLocation(), move.getPiece(), true, false);
-		visitedStates.add(boardStates.get(0));
-		moveHolder.popAll();
-		
-	}
-	
-	
-	public void solveTest() {
+	public void solve() {
 		for (Animal animal: this.animalsInGame) {
 			this.findPossibleMoves(animal);
 		}
@@ -208,7 +162,6 @@ public class AutoSolver {
 		MoveStack filteredMoves = this.filterMoves();
 		
 		if (filteredMoves.isEmpty()) {
-			System.out.println("got no moves to make\n\n");
 			board.undo();
 			return;
 		}
@@ -224,14 +177,12 @@ public class AutoSolver {
 		this.printMoves();
 		Move moveToMake = this.moveHolder.pop();
 		
-
 		if (moveToMake != null) {
-			System.out.println("trying" + moveToMake + "\n\n");
 			board.movePiece(moveToMake.getNewLocation(), moveToMake.getPiece(), true, false);
 			visitedStates.add(board.getBoardState());
 		}
 		
-		
+		moveHolder.popAll();
 	}
 	
 	/**
@@ -250,32 +201,15 @@ public class AutoSolver {
 	public boolean autoSolve() {
 		visitedStates.add(board.getBoardState());
 		this.getAnimalsInGame();
-		int counter = 1;
-		
-//		try {
-//			this.solveTest();
-////			this.solveTest();
-////			this.solveTest();
-////			this.solveTest();
-////			this.solveTest();
-////			this.solveTest();
-////			this.solveTest();
-////			this.solveTest();
-////			this.solveTest();
-////			this.solveTest();
-////			
-//			view.updateView();
-//		} catch (Exception e) {
-//			System.out.println("Error" +  e);
-//		}
-		
+		int counter = 1;		
 		while (!board.isGameWon()) {		
 			try {
-				this.solveTest();
+				this.solve();
 				view.updateView();
 				counter++;
 			} catch (Exception e) {
 				System.out.println("Failed to find a solution");
+				break;
 			}
 			
 			if (counter == 1000) {
