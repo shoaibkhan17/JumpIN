@@ -40,6 +40,10 @@ public class MoveStack implements Serializable{
 		return movesMade.isEmpty();
 	}
 	
+	public boolean contains(Move move) {
+		return movesMade.contains(move);
+	}
+	
 	/**
 	 * Method to pop all the elements in the stack
 	 */

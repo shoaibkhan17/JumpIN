@@ -17,6 +17,7 @@ public class AutoSolver {
 	private MoveStack possibleMovesHolder;
 	private MoveStack moveHolder;
 	private ArrayList<String> visitedStates;
+	private ArrayList<Animal> animalsInGame;
 	
 	/**
 	 * Default constructor initializing instance variables
@@ -30,6 +31,7 @@ public class AutoSolver {
 		this.possibleMovesHolder = new MoveStack();
 		this.moveHolder = new MoveStack();
 		this.visitedStates = new ArrayList<>();
+		this.animalsInGame = new ArrayList<>();
 	}
 	
 	/**
@@ -97,18 +99,15 @@ public class AutoSolver {
 	
 	/**
 	 * Method to get all animals in the game
-	 * @return animals an ArrayList containing all the animals in the game
-	 */
-	
-	private ArrayList<Animal> getAnimalsInGame() {
-		ArrayList<Animal> animals = new ArrayList<>(); 
+	 */	
+	private void getAnimalsInGame() {
 		Animal animalPiece = null;
 		for (int x = 0; x < Board.BOARD_SIZE; x++) {
 			for (int y = 0; y < Board.BOARD_SIZE; y++) {
 				if (squares[x][y].getPiece() != null) {
 					if (squares[x][y].getPiece().getType() == PieceType.RABBIT || squares[x][y].getPiece().getType() == PieceType.FOX) {
 						animalPiece = (Animal) squares[x][y].getPiece();
-						animals.add(animalPiece);
+						this.animalsInGame.add(animalPiece);
 					}
 					else if (squares[x][y].getPiece().getType() == PieceType.HOLE) {
 						Hole hole = (Hole) squares[x][y].getPiece();
@@ -118,13 +117,11 @@ public class AutoSolver {
 						}
 								
 						animalPiece = hole.getPiece();
-						animals.add(animalPiece);
+						this.animalsInGame.add(animalPiece);
 					}
 				}
 			}
-		}
-		
-		return animals;
+		}	
 	}
 	
 	/**
@@ -158,6 +155,25 @@ public class AutoSolver {
 		return boardStates;
 	}
 	
+	public MoveStack filterMoves() {
+		MoveStack filtedMoves = new MoveStack();
+		String boardState = "";
+		while(!possibleMovesHolder.isEmpty()) {
+			Move move = possibleMovesHolder.pop();
+			
+			board.movePiece(move.getNewLocation(), move.getPiece(), true, false);
+			boardState = board.getBoardState();
+			
+			if (!visitedStates.contains(boardState)) {
+				filtedMoves.push(move.getNewLocation(), move.getPiece());
+			}
+			
+			board.undo();
+		}
+		
+		return filtedMoves;
+	}
+	
 	/**
 	 * Method to auto move the animal in order to solve the game
 	 * @param animals that can be moved in order to solve the game
@@ -183,6 +199,41 @@ public class AutoSolver {
 		
 	}
 	
+	
+	public void solveTest() {
+		for (Animal animal: this.animalsInGame) {
+			this.findPossibleMoves(animal);
+		}
+		
+		MoveStack filteredMoves = this.filterMoves();
+		
+		if (filteredMoves.isEmpty()) {
+			System.out.println("got no moves to make\n\n");
+			board.undo();
+			return;
+		}
+		
+		else {
+			for (Move filteredMove: filteredMoves.getAllMoves()) {
+				if (!moveHolder.contains(filteredMove)) {
+					moveHolder.push(filteredMove.getNewLocation(), filteredMove.getPiece());
+				}
+			}
+		}
+		
+		this.printMoves();
+		Move moveToMake = this.moveHolder.pop();
+		
+
+		if (moveToMake != null) {
+			System.out.println("trying" + moveToMake + "\n\n");
+			board.movePiece(moveToMake.getNewLocation(), moveToMake.getPiece(), true, false);
+			visitedStates.add(board.getBoardState());
+		}
+		
+		
+	}
+	
 	/**
 	 * Method to print all the moves. 
 	 */
@@ -197,11 +248,30 @@ public class AutoSolver {
 	 * @return true if solved, else return false if cannot be solved
 	 */
 	public boolean autoSolve() {
-		ArrayList<Animal> animals = this.getAnimalsInGame();
+		visitedStates.add(board.getBoardState());
+		this.getAnimalsInGame();
 		int counter = 1;
+		
+//		try {
+//			this.solveTest();
+////			this.solveTest();
+////			this.solveTest();
+////			this.solveTest();
+////			this.solveTest();
+////			this.solveTest();
+////			this.solveTest();
+////			this.solveTest();
+////			this.solveTest();
+////			this.solveTest();
+////			
+//			view.updateView();
+//		} catch (Exception e) {
+//			System.out.println("Error" +  e);
+//		}
+		
 		while (!board.isGameWon()) {		
 			try {
-				this.solve(animals);
+				this.solveTest();
 				view.updateView();
 				counter++;
 			} catch (Exception e) {
