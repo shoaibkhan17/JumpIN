@@ -11,7 +11,13 @@ import java.util.ArrayList;
  * @author Md Aiman Sharif - 101062765
  * @author Shoaib Khan - 101033582
  */
-public class MoveStack implements Serializable{
+public class MoveStack implements Serializable {
+	
+	/**
+	 * Serial version UID for serialization and de-serialization
+	 */
+	private static final long serialVersionUID = 8L;
+	
 	private ArrayList<Move> movesMade;
 	
 	/**
@@ -40,6 +46,11 @@ public class MoveStack implements Serializable{
 		return movesMade.isEmpty();
 	}
 	
+	/**
+	 * Method to check in a move object exists in the stack.
+	 * @param move
+	 * @return
+	 */
 	public boolean contains(Move move) {
 		return movesMade.contains(move);
 	}

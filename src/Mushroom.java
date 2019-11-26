@@ -11,6 +11,11 @@
 public class Mushroom extends Piece {
 
     /**
+	 * Serial version UID for serialization and de-serialization
+	 */
+	private static final long serialVersionUID = 9L;
+
+	/**
      * Mushrooms are not movable,
      */
     private static final boolean IS_MOVABLE = false;

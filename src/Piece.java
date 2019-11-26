@@ -10,9 +10,14 @@ import java.io.Serializable;
  * @author Md Aiman Sharif - 101062765
  * @author Shoaib Khan - 101033582
  */
-public abstract class Piece implements Serializable{
+public abstract class Piece implements Serializable {
 
     /**
+	 * Serial version UID for serialization and de-serialization
+	 */
+	private static final long serialVersionUID = 10L;
+
+	/**
      * Type of the piece.
      */
     private PieceType type;

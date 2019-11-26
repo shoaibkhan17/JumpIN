@@ -12,9 +12,15 @@ import javax.swing.JButton;
  * @author Md Aiman Sharif - 101062765
  * @author Shoaib Khan - 101033582
  */
-@SuppressWarnings("serial")
+
 public class Square extends JButton implements Serializable {
-    private Piece piece;
+	
+    /**
+	 * Serial version UID for serialization and de-serialization
+	 */
+	private static final long serialVersionUID = -7455601251274147628L;
+	
+	private Piece piece;
     private Location location;
 
     /**
