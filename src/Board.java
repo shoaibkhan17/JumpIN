@@ -390,6 +390,7 @@ public class Board implements Serializable {
 	 * Method returns a string representation of the board.
 	 * @return board contains the board as a string representation
 	 */
+	@Override
 	public String toString() {
 		String board = "\n    A   B   C   D   E";
 		for (int y = 0; y < Board.BOARD_SIZE; y++) {
