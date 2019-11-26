@@ -11,6 +11,11 @@
 public abstract class Animal extends Piece {
 	
 	/**
+	 * Serial version UID for serialization and de-serialization 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
 	 * Animals can be moved
 	 */
 	private static final boolean IS_MOVABLE = true; 

@@ -11,7 +11,14 @@ import java.util.LinkedList;
  * @author Md Aiman Sharif - 101062765
  * @author Shoaib Khan - 101033582
  */
-public class Board implements Serializable {
+
+public class Board implements Serializable {	
+	
+	/**
+	 * Serial version UID for serialization and de-serialization 
+	 */
+	private static final long serialVersionUID = 2L;
+	
 	protected Square[][] squares;
 	protected Animal selectedPiece;
 	protected LinkedList<Location> holeLocations;
@@ -24,7 +31,10 @@ public class Board implements Serializable {
 	private int currentLevel;
 	private int turnsTaken;
 	
-	
+	/**
+	 * Default constructor with no params.
+	 * Initializes the object.
+	 */
 	public Board() {
 		squares = new Square[BOARD_SIZE][BOARD_SIZE];
 		holeLocations = new LinkedList<>();
@@ -125,7 +135,6 @@ public class Board implements Serializable {
 	 * @param location at which the x and y coordinates are accessed
 	 * @return squares at the location
 	 */
-
 	public Square getSquareAtLocation(Location location) {
 		if (location.getX() >= BOARD_SIZE || location.getY() >= BOARD_SIZE) {
 			return null;
@@ -234,6 +243,13 @@ public class Board implements Serializable {
 		return animalPiece.canMove(newLocation, squares);
 	}
 	
+	/**
+	 * Undo and redo method handler for the board object.
+	 * @param newLocation
+	 * @param animalPiece
+	 * @param userMove
+	 * @param redo
+	 */
 	private void undoRedoHandler(Location newLocation, Animal animalPiece, boolean userMove, boolean redo) {
 		if (userMove) {
 			// Clear the redo stack if a move was made between an undo and a redo.
@@ -356,7 +372,6 @@ public class Board implements Serializable {
 		this.movePiece(newLocation, animalPiece, false, false);
 	}
 	
-	
 	/**
 	 * Gets the board line 
 	 * @return String board line
@@ -375,6 +390,7 @@ public class Board implements Serializable {
 	 * Method returns a string representation of the board.
 	 * @return board contains the board as a string representation
 	 */
+	@Override
 	public String toString() {
 		String board = "\n    A   B   C   D   E";
 		for (int y = 0; y < Board.BOARD_SIZE; y++) {

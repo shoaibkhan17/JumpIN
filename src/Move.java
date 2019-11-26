@@ -11,6 +11,11 @@ import java.io.Serializable;
  */
 
 public class Move implements Serializable {
+	/**
+	 * Serial version UID for serialization and de-serialization
+	 */
+	private static final long serialVersionUID = 7L;
+	
 	private Location newLocation;
 	private Animal animalPiece; 
 	
@@ -59,6 +64,7 @@ public class Move implements Serializable {
 	/**
 	 * Equals method implemented
 	 */
+	@Override
 	public boolean equals(Object o) {
 	    if (this == o)
 	        return true;

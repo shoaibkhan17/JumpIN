@@ -7,9 +7,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -23,7 +20,7 @@ import java.util.ArrayList;
  * @author Shoaib Khan - 101033582
  */
 
-class View {
+public class View {
 
 	private JFrame frame;
 	private Board board;
@@ -57,6 +54,10 @@ class View {
 		this.init();
 	}
 	
+	/**
+	 * Constructor to initialize the instance variables 
+	 * @param board
+	 */
 	public View(Board board) {
 		this.board = board;
 		this.controller = new Controller(board, this);
@@ -85,6 +86,12 @@ class View {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
+	/**
+	 * Method to create the menu items.
+	 * @param name
+	 * @param actionListener
+	 * @return
+	 */
 	private JMenuItem createMenuItem(String name, ActionListener actionListener) {
 		JMenuItem item = new JMenuItem(name);
 		item.setBackground(Color.LIGHT_GRAY);
@@ -212,9 +219,7 @@ class View {
 
 	/**
 	 * Method to enable or disable the buttons on the squares
-	 * 
-	 * @param enabled
-	 *            true or false to enable to disable the buttons
+	 * @param enabled true or false to enable to disable the buttons
 	 */
 	private void setButtonsEnabled(boolean enabled) {
 		for (int y = 0; y < Board.BOARD_SIZE; y++) {
@@ -244,11 +249,8 @@ class View {
 
 	/**
 	 * Method to create Button on the GUI
-	 * 
-	 * @param square
-	 *            on the board used to set different attributes
-	 * @param cornerPiece
-	 *            variable used to check if it is a corner piece
+	 * @param square on the board used to set different attributes
+	 * @param cornerPiece variable used to check if it is a corner piece
 	 * @return square on the board
 	 */
 	private JButton createButton(Square square, boolean cornerPiece) {
@@ -273,9 +275,7 @@ class View {
 
 	/**
 	 * Method to handle the image and the implementation of the switch cases
-	 * 
-	 * @param square
-	 *            on which the image is placed on, used to set the icon
+	 * @param square on which the image is placed on, used to set the icon
 	 */
 
 	protected void imageHandler(Square square) {
@@ -359,9 +359,7 @@ class View {
 	/**
 	 * Method to highlight the selected square so the player can see the selected
 	 * piece
-	 * 
-	 * @param square
-	 *            of which the color is to be set
+	 * @param square of which the color is to be set
 	 */
 	protected void highlightSelectedSquare(Square square) {
 		square.setBackground(SELECTED_SQUARE_COLOR);
@@ -383,9 +381,7 @@ class View {
 
 	/**
 	 * Method to clear the highlight of the selected square
-	 * 
-	 * @param square
-	 *            which is to be cleared from the highlight
+	 * @param square which is to be cleared from the highlight
 	 */
 	protected void clearHighlight(Square square) {
 		Location loc = square.getLoc();
@@ -406,12 +402,10 @@ class View {
 
 	/**
 	 * Main method used to run the game and display the view
-	 * 
 	 * @param args
 	 */
 	public static void main(String[] args) {
 		View view = new View();
 		view.run();
 	}
-
 }

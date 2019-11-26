@@ -7,6 +7,17 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+/**
+ * DOCUMENT LEFT TO BE DONE 
+ * TODO
+ * 
+ * @author Khalil Aalab - 101070879
+ * @author Kamaluddin Shakiri - 101054933
+ * @author Simon Yacoub - 101044159
+ * @author Md Aiman Sharif - 101062765
+ * @author Shoaib Khan - 101033582
+ *
+ */
 public class LevelBuilder extends DefaultHandler {
 	private static final String LEVELS_PATH = "Levels/";
 	private XMLTerms current;
@@ -20,7 +31,7 @@ public class LevelBuilder extends DefaultHandler {
 	private Rabbit.RABBIT_COLORS currentRabbitColor;
 	private ArrayList<Location> possibleHoleLocations; 
 	private Boolean horizontalMovement;
-	     
+	
     public LevelBuilder(int level, Board board) {
         this.board = board;
         squares = board.getSquares();
@@ -151,13 +162,4 @@ public class LevelBuilder extends DefaultHandler {
 			return false;
 		}
     }
-    
-	public static void main(String[] args) {
-		Board board = new Board();
-		int level = 4;
-		LevelBuilder levelBuilder = new LevelBuilder(level, board);
-		levelBuilder.board.printBoard();
-		levelBuilder.buildLevel();
-		levelBuilder.board.printBoard();
-	}
 }

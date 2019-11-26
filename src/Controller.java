@@ -1,6 +1,5 @@
 import java.awt.event.ActionEvent;
 import java.io.*;
-import java.util.ArrayList;
 
 /**
  * Controller class which holds the controller for the game
@@ -12,7 +11,7 @@ import java.util.ArrayList;
  * @author Shoaib Khan - 101033582
  */
 
-public class Controller {
+public class Controller implements Runnable {
 
 	private Board board;
 	private View view;
@@ -22,10 +21,8 @@ public class Controller {
 	/**
 	 * Default constructor initializes instance variables
 	 * 
-	 * @param board
-	 *            of the game
-	 * @param view
-	 *            instance of view
+	 * @param board of the game
+	 * @param view instance of view
 	 */
 	public Controller(Board board, View view) {
 		this.board = board;
@@ -37,8 +34,7 @@ public class Controller {
 	 * Controller method to handle the event, this method gets triggered when a
 	 * button is pressed
 	 * 
-	 * @param event
-	 *            of type ActionEvent that takes care of the correspondence event
+	 * @param event of type ActionEvent that takes care of the correspondence event
 	 */
 	public void eventHandler(ActionEvent event) {
 		if (board.selectedPiece == null) {
@@ -54,8 +50,7 @@ public class Controller {
 	 * Controller method to select a square or a piece, this method gets triggered
 	 * when a button is pressed in this case by 'mouse"
 	 * 
-	 * @param event
-	 *            that takes care of the correspondence event
+	 * @param event that takes care of the correspondence event
 	 */
 	public void select(ActionEvent event) {
 		Square square = (Square) event.getSource();
@@ -79,8 +74,7 @@ public class Controller {
 	/**
 	 * Controller method to move a piece from its location to a different location
 	 * 
-	 * @param event
-	 *            which handles what happens after the button is pressed
+	 * @param event which handles what happens after the button is pressed
 	 */
 	public void move(ActionEvent event) {
 		Square square = (Square) event.getSource();
@@ -118,11 +112,8 @@ public class Controller {
 	 */
 	public void autoSolver() {
 		view.resetView();
-		AutoSolver solver = new AutoSolver(board, view);
-		boolean sucessful = solver.autoSolve();
-		if (sucessful) {
-			view.displayLevelCompeletePopup();
-		}
+		Thread thread = new Thread(this);
+		thread.start();
 	}
 
 	/**
@@ -169,7 +160,6 @@ public class Controller {
 			writer.close();			
 			return true;
 		} catch (IOException e1) {
-//			e1.printStackTrace();
 			return false;
 		}
 	}
@@ -216,5 +206,19 @@ public class Controller {
 			loadOptions[i] = savedGameFiles[i].getName();
 		}
 		return loadOptions;
+	}
+
+	/**
+	 * Method that runs on a different thread.
+	 * Run the auto solver loop on this thread.
+	 * So, the view can update and render on the other thread.
+	 */
+	@Override
+	public void run() {
+		AutoSolver solver = new AutoSolver(board, view);
+		boolean sucessful = solver.autoSolve();
+		if (sucessful) {
+			view.displayLevelCompeletePopup();
+		}
 	}
 }
