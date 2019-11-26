@@ -31,26 +31,6 @@ public class Board implements Serializable {
 	private int currentLevel;
 	private int turnsTaken;
 	
-	/**
-	 * Default constructor with no params.
-	 * Initializes the object.
-	 */
-	public Board() {
-		squares = new Square[BOARD_SIZE][BOARD_SIZE];
-		holeLocations = new LinkedList<>();
-		selectedPiece = null;
-		rabbitCount = 0;
-		turnsTaken = 0;
-		moveStack = new MoveStack();
-		redoStack = new MoveStack();
-		
-		for (int x = 0; x < Board.BOARD_SIZE; x++) {
-			for (int y = 0; y < Board.BOARD_SIZE; y++) {
-				this.squares[x][y] = new Square(new Location(x, y));
-			}
-		}
-	}
-	
 	/** 
 	 * Constructor to initialize the instance variables
 	 * @param level this is the level of the game
@@ -63,7 +43,7 @@ public class Board implements Serializable {
 		turnsTaken = 0;
 		moveStack = new MoveStack();
 		redoStack = new MoveStack();
-		this.currentLevel = level;
+		currentLevel = level;
 		
 		// Initializes the Squares.
 		for (int x = 0; x < Board.BOARD_SIZE; x++) {
@@ -74,6 +54,29 @@ public class Board implements Serializable {
 
 		// Sets the level of the game.
 		this.initBoard(level);
+	}
+	
+	/**
+	 * Constructor to initialize the instance variables
+	 * Used to load the board object from another board object
+	 * @param board 
+	 */
+	public Board(Board board) {
+		squares = new Square[BOARD_SIZE][BOARD_SIZE];
+		holeLocations = board.holeLocations;
+		selectedPiece = board.selectedPiece;
+		rabbitCount = board.rabbitCount;
+		turnsTaken = board.turnsTaken;
+		moveStack = board.moveStack;
+		redoStack = board.redoStack;
+		currentLevel = board.currentLevel;
+		
+		// Initializes the Squares.
+		for (int x = 0; x < Board.BOARD_SIZE; x++) {
+			for (int y = 0; y < Board.BOARD_SIZE; y++) {
+				this.squares[x][y] = new Square(board.squares[x][y]);
+			}
+		}
 	}
 
 	/**

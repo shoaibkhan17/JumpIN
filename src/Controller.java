@@ -169,26 +169,23 @@ public class Controller implements Runnable {
 	 * by deserializing the board from the file then calling view.setBoard()
 	 * 
 	 * @param {String} fileName The name of the file to be loaded
+	 * @return the loaded board object
 	 */
-	public void load(String fileName) {
+	public Board load(String fileName) {
 		try {
 			FileInputStream file = new FileInputStream(SAVED_GAME_PATH + fileName);
 			ObjectInputStream in = new ObjectInputStream(file);
-
-			Board newBoard = (Board) in.readObject();
-			view.setBoard(newBoard);
-			
+			Board loadedBoard = (Board) in.readObject();
 			in.close();
 			file.close();
+			board = new Board(loadedBoard);
+			board.printBoard();
+			return loadedBoard;
 		}
 
-		catch (IOException ex) {
+		catch (Exception e) {
 			System.out.println("something happened");
-			//Do nothing (user pressed cancel)
-		}
-
-		catch (ClassNotFoundException ex) {
-			System.out.println("ClassNotFoundException is caught");
+			return null;
 		}
 	}
 
