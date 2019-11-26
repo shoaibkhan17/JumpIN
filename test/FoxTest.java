@@ -18,6 +18,7 @@ import org.junit.Test;
 
 public class FoxTest {
 	Fox fox;
+	Fox bodyFox;
 	Board board;
 	Location bodyLocation;
 	Location foxLocation;
@@ -28,9 +29,10 @@ public class FoxTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		bodyLocation = new Location(1, 4);
-		foxLocation = new Location(1, 3);
+		bodyLocation = new Location(1, 1);
+		foxLocation = new Location(1, 0);
 		fox = new Fox(foxLocation, bodyLocation, false, false);
+		bodyFox = new Fox(bodyLocation, foxLocation, false, true);
 		board = new Board(5);
 	}
 
@@ -67,22 +69,79 @@ public class FoxTest {
 	}
 
 	/**
-	 * Method to test moving the fox to a valid location.
+	 * Method to test moving the fox to a valid location by head.
 	 */
 	@Test
-	public void testValidMove() {
+	public void testValidMoveByHead() {
 		Square[][] squares = board.getSquares();
-		Location location = new Location(1, 2);
+		Location location = new Location(1, 3);
 		assertTrue(fox.canMove(location, squares));
 	}
 	
 	/**
-	 * Method to test moving the fox to an invalid location.
+	 * Method to test moving the fox to a valid location by tail.
 	 */
 	@Test
-	public void testInvalidMove() {
+	public void testValidMoveByTail() {
 		Square[][] squares = board.getSquares();
-		Location location = new Location(4, 2);
+		Location location = new Location(1, 3);
+		assertTrue(bodyFox.canMove(location, squares));
+	}
+	
+	/**
+	 * Method to test selecting itself head and head.
+	 */
+	@Test
+	public void testSelectingItselfHead() {
+		Square[][] squares = board.getSquares();
+		assertTrue(fox.canMove(foxLocation, squares));
+	}
+	
+	/**
+	 * Method to test selecting itsself tail and tail.
+	 */
+	@Test
+	public void testSelectingItselfBody() {
+		Square[][] squares = board.getSquares();
+		assertTrue(bodyFox.canMove(bodyLocation, squares));
+	}
+	
+	/**
+	 * Method to test selecting body and head.
+	 */
+	@Test
+	public void testSelectingBodyHead() {
+		Square[][] squares = board.getSquares();
+		assertTrue(bodyFox.canMove(foxLocation, squares));
+	}
+	
+	/**
+	 * Method to test selecting head and body.
+	 */
+	@Test
+	public void testSelectingHeadBody() {
+		Square[][] squares = board.getSquares();
+		assertTrue(fox.canMove(bodyLocation, squares));
+	}
+	
+	/**
+	 * Method to test moving the fox to an invalid vertical location.
+	 */
+	@Test
+	public void testInvalidVerticalMove() {
+		Square[][] squares = board.getSquares();
+		squares[1][3].setPiece(new Mushroom());
+		Location location = new Location(1, 4);
+		assertFalse(fox.canMove(location, squares));
+	}
+	
+	/**
+	 * Method to test moving the fox to an invalid horizontal location.
+	 */
+	@Test
+	public void testInvalidHorizontalMove() {
+		Square[][] squares = board.getSquares();
+		Location location = new Location(3, 1);
 		assertFalse(fox.canMove(location, squares));
 	}
 

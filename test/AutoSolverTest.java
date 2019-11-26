@@ -4,7 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Test cases for the Auto solver class
+ * Test cases for the level builder class
  * 
  * @author Khalil Aalab - 101070879
  * @author Kamaluddin Shakiri - 101054933
@@ -50,7 +50,7 @@ public class AutoSolverTest {
 	public void testAutoSolveLevel1() {
 		board = new Board(1);
 		solver = new AutoSolver(board, view);
-		assertTrue(solver.autoSolve());
+		assertTrue(solver.autoSolve(0));
 		assertTrue(board.isGameWon());
 	}
 	
@@ -61,29 +61,29 @@ public class AutoSolverTest {
 	public void testAutoSolveLevel2() {
 		board = new Board(2);
 		solver = new AutoSolver(board, view);
-		assertTrue(solver.autoSolve());
+		assertTrue(solver.autoSolve(0));
 		assertTrue(board.isGameWon());
 	}
 	
 	/**
-	 * Test auto solve for level 1
+	 * Test auto solve for level 3
 	 */
 	@Test
 	public void testAutoSolveLevel3() {
 		board = new Board(3);
 		solver = new AutoSolver(board, view);
-		assertTrue(solver.autoSolve());
+		assertTrue(solver.autoSolve(0));
 		assertTrue(board.isGameWon());
 	}
 	
 	/**
-	 * Test auto solve for level 1
+	 * Test auto solve for level 4
 	 */
 	@Test
 	public void testAutoSolveLevel4() {
 		board = new Board(4);
 		solver = new AutoSolver(board, view);
-		assertTrue(solver.autoSolve());
+		assertTrue(solver.autoSolve(0));
 		assertTrue(board.isGameWon());
 	}
 	
@@ -94,7 +94,40 @@ public class AutoSolverTest {
 	public void testAutoSolveLevel5() {
 		board = new Board(5);
 		solver = new AutoSolver(board, view);
-		assertTrue(solver.autoSolve());
+		assertTrue(solver.autoSolve(0));
+		assertTrue(board.isGameWon());
+	}
+	
+	/**
+	 * Test auto solve for level 6
+	 */
+	@Test
+	public void testAutoSolveLevel6() {
+		board = new Board(5);
+		solver = new AutoSolver(board, view);
+		assertTrue(solver.autoSolve(0));
+		assertTrue(board.isGameWon());
+	}
+	
+	/**
+	 * Test auto solve for level 7
+	 */
+	@Test
+	public void testAutoSolveLevel7() {
+		board = new Board(6);
+		solver = new AutoSolver(board, view);
+		assertTrue(solver.autoSolve(0));
+		assertTrue(board.isGameWon());
+	}
+	
+	/**
+	 * Test auto solve for level 8
+	 */
+	@Test
+	public void testAutoSolveLevel8() {
+		board = new Board(7);
+		solver = new AutoSolver(board, view);
+		assertTrue(solver.autoSolve(0));
 		assertTrue(board.isGameWon());
 	}
 	
@@ -107,7 +140,7 @@ public class AutoSolverTest {
 		Square squares[][] = board.getSquares();
 		squares[4][1].removePiece();
 		solver = new AutoSolver(board, view);
-		assertFalse(solver.autoSolve());
+		assertFalse(solver.autoSolve(0));
 		assertFalse(board.isGameWon());
 	}
 }

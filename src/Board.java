@@ -372,7 +372,6 @@ public class Board implements Serializable {
 	public void undo() {
 		Move move = moveStack.pop();
 		if (move == null) {
-			System.out.println("No moves were made to undo");
 			return;
 		}
 		
@@ -387,7 +386,6 @@ public class Board implements Serializable {
 	public void redo() {
 		Move move = redoStack.pop();
 		if (move == null) {
-			System.out.println("No moves were undoed to redo");
 			return;
 		}
 		

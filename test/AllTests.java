@@ -23,7 +23,8 @@ import org.junit.runners.Suite.SuiteClasses;
 	AnimalTest.class,
 	MoveTest.class,
 	AutoSolverTest.class,
-	MoveStackTest.class
+	MoveStackTest.class,
+	LevelBuilderTest.class
 	})
 
 /**

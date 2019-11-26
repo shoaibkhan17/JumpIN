@@ -110,14 +110,14 @@ public class LevelBuilder extends DefaultHandler {
 	    	}
     }
          
-    public void parseJSON() throws Exception {  	
+    private void parseJSON() throws Exception {  	
     	File file = new File(LEVELS_PATH + "level" + level + ".xml");	
         SAXParserFactory SAXFactory = SAXParserFactory.newDefaultInstance();
         SAXParser SAXParser = SAXFactory.newSAXParser();
         SAXParser.parse(file, this);
     }
     
-    public void addHoles() throws Exception {
+    private void addHoles() throws Exception {
     	for (Location holeLoc: possibleHoleLocations) {
     		int x = holeLoc.getX();
     		int y = holeLoc.getY();
