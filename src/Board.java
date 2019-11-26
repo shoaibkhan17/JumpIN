@@ -270,14 +270,64 @@ public class Board implements Serializable {
 	}
 	
 	/**
+	 * Method to move the fox.
+	 * @param newLocation the new location
+	 * @param animalPiece the piece that is about to be moved
+	 * @param userMove If it is a user move or an automated move
+	 * @param redo if the move needs to be added to the redo stack 
+	 */
+	public void moveFox(Location newLocation, Animal animalPiece, boolean userMove, boolean redo) {
+		Fox fox = (Fox) animalPiece;
+		Location oldLoc = new Location(fox.getPieceLocation());
+		this.removePiece(fox.getPieceLocation());
+		Location oldBodyLoc = new Location(fox.getBodyLocation());
+		Fox body = (Fox) squares[oldBodyLoc.getX()][oldBodyLoc.getY()].getPiece();
+		this.removePiece(oldBodyLoc);
+		String movementType = fox.calculatePieceLocation(newLocation, body);
+		this.undoRedoHandler(movementType.equals("head") ? oldLoc : oldBodyLoc, fox, userMove, redo);
+		Location foxLocation = new Location(fox.getPieceLocation());
+		squares[foxLocation.getX()][foxLocation.getY()].setPiece(animalPiece);
+		Location newBodyLoc = new Location(fox.getBodyLocation());
+		squares[newBodyLoc.getX()][newBodyLoc.getY()].setPiece(body);
+	}
+	
+	/**
+	 * Method to move the rabbit.
+	 * @param newLocation the new location
+	 * @param animalPiece the piece that is about to be moved
+	 * @param userMove If it is a user move or an automated move
+	 * @param redo if the move needs to be added to the redo stack 
+	 */
+	public void moveRabbit(Location newLocation, Animal animalPiece, boolean userMove, boolean redo) {
+		int x = newLocation.getX();
+		int y = newLocation.getY();
+		
+		Piece locationPiece = squares[x][y].getPiece();
+		
+		if (locationPiece != null && locationPiece.getType() == PieceType.HOLE) {
+			Hole hole = (Hole) locationPiece;
+			this.undoRedoHandler(animalPiece.getPieceLocation(), animalPiece, userMove, redo);
+			this.removePiece(animalPiece.getPieceLocation());
+			animalPiece.setPieceLocation(newLocation);
+			hole.setPiece(userMove ? animalPiece : animalPiece);
+		}
+		
+		else {
+			this.undoRedoHandler(animalPiece.getPieceLocation(), animalPiece, userMove, redo);
+			this.removePiece(animalPiece.getPieceLocation());
+			animalPiece.setPieceLocation(newLocation);
+			squares[x][y].setPiece(animalPiece);
+		}
+	}
+	
+	/**
 	 * Method that moves the piece from the initial location to the new location 
 	 * @param oldLocation initial location of the piece to be moved
 	 * @param newLocation new location of the piece
 	 * @param piece piece that is moved
 	 */
 	public boolean movePiece(Location newLocation, Animal animalPiece, boolean userMove, boolean redo) {
-		int x = newLocation.getX();
-		int y = newLocation.getY();
+
 
 		// If the new location is the same as the old location.
 		if (animalPiece.getPieceLocation().equals(newLocation)) {
@@ -285,42 +335,16 @@ public class Board implements Serializable {
 		}
 			
 		switch (animalPiece.getType()) {
-		case RABBIT:
-			Piece locationPiece = squares[x][y].getPiece();
-			if (locationPiece != null && locationPiece.getType() == PieceType.HOLE) {
-				Hole hole = (Hole) locationPiece;
-				this.undoRedoHandler(animalPiece.getPieceLocation(), animalPiece, userMove, redo);
-				this.removePiece(animalPiece.getPieceLocation());
-				animalPiece.setPieceLocation(newLocation);
-				hole.setPiece(userMove ? animalPiece : animalPiece);
+			case RABBIT:
+				this.moveRabbit(newLocation, animalPiece, userMove, redo);
 				return true;
-			}
-			
-			else {
-				this.undoRedoHandler(animalPiece.getPieceLocation(), animalPiece, userMove, redo);
-				this.removePiece(animalPiece.getPieceLocation());
-				animalPiece.setPieceLocation(newLocation);
-				squares[x][y].setPiece(animalPiece);
+				
+			case FOX:
+				this.moveFox(newLocation, animalPiece, userMove, redo);
 				return true;
-			}
 			
-		case FOX:
-			Fox fox = (Fox) animalPiece;
-			Location oldLoc = new Location(fox.getPieceLocation());
-			this.removePiece(fox.getPieceLocation());
-			Location oldBodyLoc = new Location(fox.getBodyLocation());
-			Fox body = (Fox) squares[oldBodyLoc.getX()][oldBodyLoc.getY()].getPiece();
-			this.removePiece(oldBodyLoc);
-			String movementType = fox.calculatePieceLocation(newLocation, body);
-			this.undoRedoHandler(movementType.equals("head") ? oldLoc : oldBodyLoc, fox, userMove, redo);
-			Location foxLocation = new Location(fox.getPieceLocation());
-			squares[foxLocation.getX()][foxLocation.getY()].setPiece(animalPiece);
-			Location newBodyLoc = new Location(fox.getBodyLocation());
-			squares[newBodyLoc.getX()][newBodyLoc.getY()].setPiece(body);
-			return true;
-		
-		default:
-			return false;
+			default:
+				return false;
 		}
 	}
 	
