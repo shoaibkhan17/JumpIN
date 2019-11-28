@@ -20,7 +20,7 @@ import java.util.ArrayList;
  * @author Shoaib Khan - 101033582
  */
 
-public class View implements Runnable {
+public class View {
 
 	private JFrame frame;
 	private Board board;
@@ -211,13 +211,7 @@ public class View implements Runnable {
 		if (loadOptions.length != 0) {
 			String loadFile = (String) JOptionPane.showInputDialog(frame, "Which save would you like to load?", "Load", 
 					JOptionPane.QUESTION_MESSAGE, null, loadOptions, null);
-			Board loadedBoard = controller.load(loadFile);
-			
-			if (loadedBoard != null) {
-				Thread thread = new Thread(this);
-				thread.start();
-			}
-			
+			controller.load(loadFile);
 		} else {
 			JOptionPane.showMessageDialog(frame, "No save data to load.");
 		}
@@ -249,7 +243,7 @@ public class View implements Runnable {
 	/**
 	 * Method to set the Frame's visibility
 	 */
-	private void runView() {
+	private void run() {
 		frame.setVisible(true);
 	}
 
@@ -402,7 +396,7 @@ public class View implements Runnable {
 	public void setBoard(Board newBoard) {
 		frame.dispose();
 		View newView = new View(newBoard);
-		newView.runView();
+		newView.run();
 		
 	}
 
@@ -412,11 +406,6 @@ public class View implements Runnable {
 	 */
 	public static void main(String[] args) {
 		View view = new View();
-		view.runView();
-	}
-
-	@Override
-	public void run() {
-		this.updateView();
+		view.run();
 	}
 }

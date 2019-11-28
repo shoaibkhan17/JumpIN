@@ -38,21 +38,8 @@ public class Square extends JButton implements Serializable {
     public Square(Piece piece, Location location) {
     	super();
 		this.setFocusPainted(false);
-    	this.setPiece(piece);
-    	this.setLocation(location);
-    }
-    
-    /**
-     * Overloaded constructor
-     * Initialize the square object from another square object
-     * @param square
-     */
-    public Square(Square square) {
-    	super();
-    	this.setFocusPainted(false);
-    	this.setPiece(square.getPiece());
-    	this.setLocation(square.getLoc());
-    	this.setIcon(square.getIcon());
+        this.piece = piece;
+        this.location = location;
     }
 
     /**
