@@ -395,9 +395,12 @@ public class View {
 	 */
 	public void setBoard(Board newBoard) {
 		frame.dispose();
-		View newView = new View(newBoard);
-		newView.run();
-		
+		this.board = null;
+		this.controller = null;
+		this.board = newBoard;
+		this.controller = new Controller(newBoard, this);
+		this.init();
+		this.run();
 	}
 
 	/**
