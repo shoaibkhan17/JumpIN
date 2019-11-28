@@ -1,3 +1,4 @@
+import java.io.Serializable;
 
 /**
  * Move class to contain the animal that is about to be moved or is moved
@@ -9,7 +10,12 @@
  * @author Shoaib Khan - 101033582
  */
 
-public class Move {
+public class Move implements Serializable {
+	/**
+	 * Serial version UID for serialization and de-serialization
+	 */
+	private static final long serialVersionUID = 7L;
+	
 	private Location newLocation;
 	private Animal animalPiece; 
 	
@@ -58,6 +64,7 @@ public class Move {
 	/**
 	 * Equals method implemented
 	 */
+	@Override
 	public boolean equals(Object o) {
 	    if (this == o)
 	        return true;

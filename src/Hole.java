@@ -10,6 +10,11 @@
  */
 public class Hole extends Piece {
 
+	/**
+	 * Serial version UID for serialization and de-serialization 
+	 */
+	private static final long serialVersionUID = 5L;
+	
     /**
      * Holes cannot be moved.
      */

@@ -17,6 +17,8 @@ public class AutoSolver {
 	private MoveStack possibleMovesHolder;
 	private MoveStack moveHolder;
 	private ArrayList<String> visitedStates;
+	private ArrayList<Animal> animalsInGame;
+	public static final int SLEEP_TIMER = 100;
 	
 	/**
 	 * Default constructor initializing instance variables
@@ -30,6 +32,7 @@ public class AutoSolver {
 		this.possibleMovesHolder = new MoveStack();
 		this.moveHolder = new MoveStack();
 		this.visitedStates = new ArrayList<>();
+		this.animalsInGame = new ArrayList<>();
 	}
 	
 	/**
@@ -38,12 +41,12 @@ public class AutoSolver {
 	 * @param direction direction that the animal will be moved in
 	 * @return possibleMove this is the possible move that can be made
 	 */
-	private Location possibleMoveBasedOnDirection(Animal animal, Directions direction) {
+	private ArrayList<Location> possibleMoveBasedOnDirection(Animal animal, Directions direction) {
 		Location location = animal.getPieceLocation();
 		int i;
 		boolean horizonal;
 		int limit;
-		Location possibleMove = null;
+		ArrayList<Location> possibleMoves = new ArrayList<>();
 
 		switch(direction) {
 		case UP:
@@ -67,19 +70,19 @@ public class AutoSolver {
 			limit = Board.BOARD_SIZE;
 			break;
 		default:
-			return possibleMove;
+			return null;
 		}
 		
 		while (i < limit) {
 			Location newLocation = new Location(horizonal ? i : location.getX(), horizonal ? location.getY() : i);
 			if (animal.canMove(newLocation, squares)) {
-				possibleMove = new Location(newLocation);
+				possibleMoves.add(new Location(newLocation));
 			}	
 			
 			i++;
 		}
 		
-		return possibleMove;
+		return possibleMoves;
 	}
 	
 	/**
@@ -88,27 +91,26 @@ public class AutoSolver {
 	 */
 	private void findPossibleMoves(Animal animal) {
 		for (Directions direction: Directions.values()) {
-			Location possibleMove = this.possibleMoveBasedOnDirection(animal, direction);
-			if (possibleMove != null) {
-				possibleMovesHolder.push(possibleMove, animal);
+			ArrayList<Location> possibleMoves =  this.possibleMoveBasedOnDirection(animal, direction);
+			if (possibleMoves != null) {
+				for (Location possibleMove: possibleMoves) {
+					possibleMovesHolder.push(possibleMove, animal);
+				}
 			}
 		}
 	}
 	
 	/**
-	 * Method to get all animals in the game
-	 * @return animals an ArrayList containing all the animals in the game
-	 */
-	
-	private ArrayList<Animal> getAnimalsInGame() {
-		ArrayList<Animal> animals = new ArrayList<>(); 
+	 * Method to get all the animals in the game
+	 */	
+	private void getAnimalsInGame() {
 		Animal animalPiece = null;
 		for (int x = 0; x < Board.BOARD_SIZE; x++) {
 			for (int y = 0; y < Board.BOARD_SIZE; y++) {
 				if (squares[x][y].getPiece() != null) {
 					if (squares[x][y].getPiece().getType() == PieceType.RABBIT || squares[x][y].getPiece().getType() == PieceType.FOX) {
 						animalPiece = (Animal) squares[x][y].getPiece();
-						animals.add(animalPiece);
+						this.animalsInGame.add(animalPiece);
 					}
 					else if (squares[x][y].getPiece().getType() == PieceType.HOLE) {
 						Hole hole = (Hole) squares[x][y].getPiece();
@@ -118,69 +120,69 @@ public class AutoSolver {
 						}
 								
 						animalPiece = hole.getPiece();
-						animals.add(animalPiece);
+						this.animalsInGame.add(animalPiece);
 					}
 				}
 			}
-		}
-		
-		return animals;
+		}	
 	}
 	
+	
 	/**
-	 * Method to get all the possible board states from each possible move
-	 * @return boardStates an ArrayList containing all the possible board states
+	 * Method to filter all the possible moves.
+	 * @return
 	 */
-	private ArrayList<String> getBoardStatesFromPossibleMoves() {
-		
-		ArrayList<String> boardStates = new ArrayList<>();
+	public MoveStack filterMoves() {
+		MoveStack filtedMoves = new MoveStack();
 		String boardState = "";
-		
 		while(!possibleMovesHolder.isEmpty()) {
 			Move move = possibleMovesHolder.pop();
+			
 			board.movePiece(move.getNewLocation(), move.getPiece(), true, false);
 			boardState = board.getBoardState();
 			
 			if (!visitedStates.contains(boardState)) {
-				moveHolder.push(move.getNewLocation(), move.getPiece());
-				boardStates.add(boardState);
-			}
-		
-			else {
-				if (possibleMovesHolder.size() == 0 && boardStates.size() == 0) {
-					moveHolder.push(move.getNewLocation(), move.getPiece());
-				}
+				filtedMoves.push(move.getNewLocation(), move.getPiece());
 			}
 			
 			board.undo();
 		}
 		
-		return boardStates;
+		return filtedMoves;
 	}
 	
 	/**
 	 * Method to auto move the animal in order to solve the game
 	 * @param animals that can be moved in order to solve the game
 	 */
-	public void solve(ArrayList<Animal> animals) {
-		for (Animal animal: animals) {
+	public void solve() {
+		for (Animal animal: this.animalsInGame) {
 			this.findPossibleMoves(animal);
 		}
-				
-		ArrayList<String> boardStates = this.getBoardStatesFromPossibleMoves();
-
-		if (boardStates.size() == 0) {	
-			Move move = moveHolder.first();
-			board.movePiece(move.getNewLocation(), move.getPiece(), true, false);
-			moveHolder.popAll();
+		
+		MoveStack filteredMoves = this.filterMoves();
+		
+		if (filteredMoves.isEmpty()) {
+			board.undo();
 			return;
 		}
-
-		Move move = moveHolder.first();
-		board.movePiece(move.getNewLocation(), move.getPiece(), true, false);
-		visitedStates.add(boardStates.get(0));
-		moveHolder.popAll();
 		
+		else {
+			for (Move filteredMove: filteredMoves.getAllMoves()) {
+				if (!moveHolder.contains(filteredMove)) {
+					moveHolder.push(filteredMove.getNewLocation(), filteredMove.getPiece());
+				}
+			}
+		}
+		
+		Move moveToMake = this.moveHolder.pop();
+		
+		if (moveToMake != null) {
+			board.movePiece(moveToMake.getNewLocation(), moveToMake.getPiece(), true, false);
+			visitedStates.add(board.getBoardState());
+		}
+		
+		moveHolder.popAll();
 	}
 	
 	/**
@@ -196,16 +198,19 @@ public class AutoSolver {
 	 * Method to auto solve the game
 	 * @return true if solved, else return false if cannot be solved
 	 */
-	public boolean autoSolve() {
-		ArrayList<Animal> animals = this.getAnimalsInGame();
-		int counter = 1;
+	public boolean autoSolve(int sleepTimer) {
+		visitedStates.add(board.getBoardState());
+		this.getAnimalsInGame();
+		int counter = 1;		
 		while (!board.isGameWon()) {		
 			try {
-				this.solve(animals);
+				this.solve();
 				view.updateView();
+				Thread.sleep(sleepTimer);
 				counter++;
 			} catch (Exception e) {
 				System.out.println("Failed to find a solution");
+				break;
 			}
 			
 			if (counter == 1000) {

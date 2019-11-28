@@ -10,8 +10,20 @@
  */
 public class Rabbit extends Animal {
 	
+	/**
+	 * Serial version UID for serialization and de-serialization
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * Rabbit color enum
+	 *
+	 */
 	public static enum RABBIT_COLORS {Gray, White, Brown}
 	
+	/**
+	 * Rabbit color
+	 */
 	protected RABBIT_COLORS rabbitColor;
 
 	/**
@@ -107,6 +119,9 @@ public class Rabbit extends Animal {
 		}
 	}
 	
+	/**
+	 * Method to check if an object is equal to this object.
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this.getClass() == obj.getClass()) {

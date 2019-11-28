@@ -12,6 +12,11 @@
 public class Fox extends Animal {
 
 	/**
+	 * Serial version UID for serialization and de-serialization 
+	 */
+	private static final long serialVersionUID = 4L;
+
+	/**
 	 * Location of the other body of the fox piece
 	 */
 	private Location bodyLocation;
