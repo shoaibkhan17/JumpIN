@@ -36,19 +36,8 @@ public class Board implements Serializable {
 	 * Initializes the object.
 	 */
 	public Board() {
-		squares = new Square[BOARD_SIZE][BOARD_SIZE];
-		holeLocations = new LinkedList<>();
-		selectedPiece = null;
-		rabbitCount = 0;
-		turnsTaken = 0;
-		moveStack = new MoveStack();
-		redoStack = new MoveStack();
-		
-		for (int x = 0; x < Board.BOARD_SIZE; x++) {
-			for (int y = 0; y < Board.BOARD_SIZE; y++) {
-				this.squares[x][y] = new Square(new Location(x, y));
-			}
-		}
+		this.init();
+		this.initBoard(0);
 	}
 	
 	/** 
@@ -56,6 +45,16 @@ public class Board implements Serializable {
 	 * @param level this is the level of the game
 	 */
 	public Board(int level) {
+		this.init();
+		
+		// Sets the level of the game.
+		this.initBoard(level);
+	}
+	
+	/**
+	 * Method to initialize the board.
+	 */
+	private void init() {
 		squares = new Square[BOARD_SIZE][BOARD_SIZE];
 		holeLocations = new LinkedList<>();
 		selectedPiece = null;
@@ -63,18 +62,14 @@ public class Board implements Serializable {
 		turnsTaken = 0;
 		moveStack = new MoveStack();
 		redoStack = new MoveStack();
-		this.currentLevel = level;
 		
-		// Initializes the Squares.
 		for (int x = 0; x < Board.BOARD_SIZE; x++) {
 			for (int y = 0; y < Board.BOARD_SIZE; y++) {
 				this.squares[x][y] = new Square(new Location(x, y));
 			}
-		}
-
-		// Sets the level of the game.
-		this.initBoard(level);
+		} 
 	}
+	
 
 	/**
 	 * Method to get the current level of the board.

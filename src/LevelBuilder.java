@@ -32,10 +32,10 @@ public class LevelBuilder extends DefaultHandler {
 	private ArrayList<Location> possibleHoleLocations; 
 	private Boolean horizontalMovement;
 	
-    public LevelBuilder(int level, Board board) {
+	
+	public LevelBuilder(Board board) {
         this.board = board;
         squares = board.getSquares();
-        this.level = level;
         currentPiece = null;
         currentLocation = null;
         foxBodyLocation = null;
@@ -46,6 +46,11 @@ public class LevelBuilder extends DefaultHandler {
         possibleHoleLocations.add(new Location(2, 2));
         possibleHoleLocations.add(new Location(0, 4));
         possibleHoleLocations.add(new Location(4, 4));
+	}
+	
+    public LevelBuilder(int level, Board board) {
+    	this(board);
+        this.level = level;
     }
     
     @Override
@@ -154,7 +159,9 @@ public class LevelBuilder extends DefaultHandler {
     
     public Boolean buildLevel() {
     	try {
-			this.parseJSON();
+			if (level != 0) {
+				this.parseJSON();
+			}
 			this.addHoles();
 			return true;
 		} catch (Exception e) {
