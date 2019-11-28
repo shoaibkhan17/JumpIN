@@ -18,7 +18,7 @@ public class AutoSolver {
 	private MoveStack moveHolder;
 	private ArrayList<String> visitedStates;
 	private ArrayList<Animal> animalsInGame;
-	private static final int SLEEP_TIMER = 100;
+	public static final int SLEEP_TIMER = 100;
 	
 	/**
 	 * Default constructor initializing instance variables
@@ -198,7 +198,7 @@ public class AutoSolver {
 	 * Method to auto solve the game
 	 * @return true if solved, else return false if cannot be solved
 	 */
-	public boolean autoSolve() {
+	public boolean autoSolve(int sleepTimer) {
 		visitedStates.add(board.getBoardState());
 		this.getAnimalsInGame();
 		int counter = 1;		
@@ -206,7 +206,7 @@ public class AutoSolver {
 			try {
 				this.solve();
 				view.updateView();
-				Thread.sleep(SLEEP_TIMER);
+				Thread.sleep(sleepTimer);
 				counter++;
 			} catch (Exception e) {
 				System.out.println("Failed to find a solution");

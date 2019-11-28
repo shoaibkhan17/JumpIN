@@ -36,19 +36,8 @@ public class Board implements Serializable {
 	 * Initializes the object.
 	 */
 	public Board() {
-		squares = new Square[BOARD_SIZE][BOARD_SIZE];
-		holeLocations = new LinkedList<>();
-		selectedPiece = null;
-		rabbitCount = 0;
-		turnsTaken = 0;
-		moveStack = new MoveStack();
-		redoStack = new MoveStack();
-		
-		for (int x = 0; x < Board.BOARD_SIZE; x++) {
-			for (int y = 0; y < Board.BOARD_SIZE; y++) {
-				this.squares[x][y] = new Square(new Location(x, y));
-			}
-		}
+		this.init();
+		this.initBoard(0);
 	}
 	
 	/** 
@@ -56,6 +45,16 @@ public class Board implements Serializable {
 	 * @param level this is the level of the game
 	 */
 	public Board(int level) {
+		this.init();
+		
+		// Sets the level of the game.
+		this.initBoard(level);
+	}
+	
+	/**
+	 * Method to initialize the board.
+	 */
+	private void init() {
 		squares = new Square[BOARD_SIZE][BOARD_SIZE];
 		holeLocations = new LinkedList<>();
 		selectedPiece = null;
@@ -63,18 +62,14 @@ public class Board implements Serializable {
 		turnsTaken = 0;
 		moveStack = new MoveStack();
 		redoStack = new MoveStack();
-		this.currentLevel = level;
 		
-		// Initializes the Squares.
 		for (int x = 0; x < Board.BOARD_SIZE; x++) {
 			for (int y = 0; y < Board.BOARD_SIZE; y++) {
 				this.squares[x][y] = new Square(new Location(x, y));
 			}
-		}
-
-		// Sets the level of the game.
-		this.initBoard(level);
+		} 
 	}
+	
 
 	/**
 	 * Method to get the current level of the board.
@@ -270,14 +265,64 @@ public class Board implements Serializable {
 	}
 	
 	/**
+	 * Method to move the fox.
+	 * @param newLocation the new location
+	 * @param animalPiece the piece that is about to be moved
+	 * @param userMove If it is a user move or an automated move
+	 * @param redo if the move needs to be added to the redo stack 
+	 */
+	public void moveFox(Location newLocation, Animal animalPiece, boolean userMove, boolean redo) {
+		Fox fox = (Fox) animalPiece;
+		Location oldLoc = new Location(fox.getPieceLocation());
+		this.removePiece(fox.getPieceLocation());
+		Location oldBodyLoc = new Location(fox.getBodyLocation());
+		Fox body = (Fox) squares[oldBodyLoc.getX()][oldBodyLoc.getY()].getPiece();
+		this.removePiece(oldBodyLoc);
+		String movementType = fox.calculatePieceLocation(newLocation, body);
+		this.undoRedoHandler(movementType.equals("head") ? oldLoc : oldBodyLoc, fox, userMove, redo);
+		Location foxLocation = new Location(fox.getPieceLocation());
+		squares[foxLocation.getX()][foxLocation.getY()].setPiece(animalPiece);
+		Location newBodyLoc = new Location(fox.getBodyLocation());
+		squares[newBodyLoc.getX()][newBodyLoc.getY()].setPiece(body);
+	}
+	
+	/**
+	 * Method to move the rabbit.
+	 * @param newLocation the new location
+	 * @param animalPiece the piece that is about to be moved
+	 * @param userMove If it is a user move or an automated move
+	 * @param redo if the move needs to be added to the redo stack 
+	 */
+	public void moveRabbit(Location newLocation, Animal animalPiece, boolean userMove, boolean redo) {
+		int x = newLocation.getX();
+		int y = newLocation.getY();
+		
+		Piece locationPiece = squares[x][y].getPiece();
+		
+		if (locationPiece != null && locationPiece.getType() == PieceType.HOLE) {
+			Hole hole = (Hole) locationPiece;
+			this.undoRedoHandler(animalPiece.getPieceLocation(), animalPiece, userMove, redo);
+			this.removePiece(animalPiece.getPieceLocation());
+			animalPiece.setPieceLocation(newLocation);
+			hole.setPiece(userMove ? animalPiece : animalPiece);
+		}
+		
+		else {
+			this.undoRedoHandler(animalPiece.getPieceLocation(), animalPiece, userMove, redo);
+			this.removePiece(animalPiece.getPieceLocation());
+			animalPiece.setPieceLocation(newLocation);
+			squares[x][y].setPiece(animalPiece);
+		}
+	}
+	
+	/**
 	 * Method that moves the piece from the initial location to the new location 
 	 * @param oldLocation initial location of the piece to be moved
 	 * @param newLocation new location of the piece
 	 * @param piece piece that is moved
 	 */
 	public boolean movePiece(Location newLocation, Animal animalPiece, boolean userMove, boolean redo) {
-		int x = newLocation.getX();
-		int y = newLocation.getY();
+
 
 		// If the new location is the same as the old location.
 		if (animalPiece.getPieceLocation().equals(newLocation)) {
@@ -285,42 +330,16 @@ public class Board implements Serializable {
 		}
 			
 		switch (animalPiece.getType()) {
-		case RABBIT:
-			Piece locationPiece = squares[x][y].getPiece();
-			if (locationPiece != null && locationPiece.getType() == PieceType.HOLE) {
-				Hole hole = (Hole) locationPiece;
-				this.undoRedoHandler(animalPiece.getPieceLocation(), animalPiece, userMove, redo);
-				this.removePiece(animalPiece.getPieceLocation());
-				animalPiece.setPieceLocation(newLocation);
-				hole.setPiece(userMove ? animalPiece : animalPiece);
+			case RABBIT:
+				this.moveRabbit(newLocation, animalPiece, userMove, redo);
 				return true;
-			}
-			
-			else {
-				this.undoRedoHandler(animalPiece.getPieceLocation(), animalPiece, userMove, redo);
-				this.removePiece(animalPiece.getPieceLocation());
-				animalPiece.setPieceLocation(newLocation);
-				squares[x][y].setPiece(animalPiece);
+				
+			case FOX:
+				this.moveFox(newLocation, animalPiece, userMove, redo);
 				return true;
-			}
 			
-		case FOX:
-			Fox fox = (Fox) animalPiece;
-			Location oldLoc = new Location(fox.getPieceLocation());
-			this.removePiece(fox.getPieceLocation());
-			Location oldBodyLoc = new Location(fox.getBodyLocation());
-			Fox body = (Fox) squares[oldBodyLoc.getX()][oldBodyLoc.getY()].getPiece();
-			this.removePiece(oldBodyLoc);
-			String movementType = fox.calculatePieceLocation(newLocation, body);
-			this.undoRedoHandler(movementType.equals("head") ? oldLoc : oldBodyLoc, fox, userMove, redo);
-			Location foxLocation = new Location(fox.getPieceLocation());
-			squares[foxLocation.getX()][foxLocation.getY()].setPiece(animalPiece);
-			Location newBodyLoc = new Location(fox.getBodyLocation());
-			squares[newBodyLoc.getX()][newBodyLoc.getY()].setPiece(body);
-			return true;
-		
-		default:
-			return false;
+			default:
+				return false;
 		}
 	}
 	
@@ -348,7 +367,6 @@ public class Board implements Serializable {
 	public void undo() {
 		Move move = moveStack.pop();
 		if (move == null) {
-			System.out.println("No moves were made to undo");
 			return;
 		}
 		
@@ -363,7 +381,6 @@ public class Board implements Serializable {
 	public void redo() {
 		Move move = redoStack.pop();
 		if (move == null) {
-			System.out.println("No moves were undoed to redo");
 			return;
 		}
 		

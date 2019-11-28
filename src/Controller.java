@@ -216,7 +216,7 @@ public class Controller implements Runnable {
 	@Override
 	public void run() {
 		AutoSolver solver = new AutoSolver(board, view);
-		boolean sucessful = solver.autoSolve();
+		boolean sucessful = solver.autoSolve(AutoSolver.SLEEP_TIMER);
 		if (sucessful) {
 			view.displayLevelCompeletePopup();
 		}

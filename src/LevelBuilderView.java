@@ -3,15 +3,18 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.*;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 /**
- * View class is the 'View' of the MVC model It is the visual representation of
- * the JumpIN game
+ * 	Level builder view class
  * 
  * @author Khalil Aalab - 101070879
  * @author Kamaluddin Shakiri - 101054933
@@ -20,12 +23,13 @@ import java.util.ArrayList;
  * @author Shoaib Khan - 101033582
  */
 
-public class View {
+public class LevelBuilderView {
 
 	private JFrame frame;
 	private Board board;
 	private Controller controller;
 	private ArrayList<Square> highlightedSquares;
+	private ArrayList<Location> possibleHoleLocations;
 
 	private final static String GAME_INSTRUCTIONS = "Basic Information\r\n"
 			+ "- Currently five levels are developed.\r\n"
@@ -37,20 +41,27 @@ public class View {
 	 * Styling variables
 	 */
 	private final static Color MAIN_SQUARE_COLOR = new Color(2, 171, 80);
+	private final static Color TOOLBAR_COLOR = new Color(40, 90, 40);
 	private final static Color CORNER_SQUARE_COLOR = new Color(37, 177, 73);
 	private final static Color SELECTED_SQUARE_COLOR = new Color(51, 204, 255);
 	private final static Border LINE = new LineBorder(Color.white);
 	private final static Border MARGIN = new EmptyBorder(5, 15, 5, 15);
 	private final static Border COMPOUND = new CompoundBorder(LINE, MARGIN);
-	private final static Dimension VIEW_DIMENSION = new Dimension(500, 550);
+	private final static Dimension VIEW_DIMENSION = new Dimension(600, 550);
 
 	/**
 	 * Constructor to initialize the instance variables
 	 */
-	public View() {
-		this.board = new Board(1);
-		this.controller = new Controller(board, this);
-		this.highlightedSquares = new ArrayList<>();
+	public LevelBuilderView() {
+		this.board = new Board();
+        possibleHoleLocations = new ArrayList<>();
+        possibleHoleLocations.add(new Location(0, 0));
+        possibleHoleLocations.add(new Location(4, 0));
+        possibleHoleLocations.add(new Location(2, 2));
+        possibleHoleLocations.add(new Location(0, 4));
+        possibleHoleLocations.add(new Location(4, 4));
+//		this.controller = new Controller(board, this);
+//		this.highlightedSquares = new ArrayList<>();
 		this.init();
 	}
 	
@@ -58,10 +69,16 @@ public class View {
 	 * Constructor to initialize the instance variables 
 	 * @param board
 	 */
-	public View(Board board) {
+	public LevelBuilderView(Board board) {
 		this.board = board;
-		this.controller = new Controller(board, this);
-		this.highlightedSquares = new ArrayList<>();
+        possibleHoleLocations = new ArrayList<>();
+        possibleHoleLocations.add(new Location(0, 0));
+        possibleHoleLocations.add(new Location(4, 0));
+        possibleHoleLocations.add(new Location(2, 2));
+        possibleHoleLocations.add(new Location(0, 4));
+        possibleHoleLocations.add(new Location(4, 4));
+//		this.controller = new Controller(board, this);
+//		this.highlightedSquares = new ArrayList<>();
 		this.init();
 	}
 
@@ -70,22 +87,74 @@ public class View {
 	 */
 	private void init() {
 		this.initFrame();
-		this.initMenu();
+		this.initToolbar();
 		this.initView();
+		this.initMenu();
 	}
 
 	/**
 	 * Method to initialize the Frame
 	 */
 	private void initFrame() {
-		frame = new JFrame("JumpIN");
-		GridLayout grid = new GridLayout(Board.BOARD_SIZE, Board.BOARD_SIZE);
-		frame.setLayout(grid);
+		frame = new JFrame("Level Builder");
 		frame.setSize(VIEW_DIMENSION);
-		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
+	
+	/**
+	 * 
+	 */
+	private void initToolbar() {
+		JToolBar toolbar = new JToolBar(JToolBar.VERTICAL);
+		toolbar.setBackground(TOOLBAR_COLOR);
+		toolbar.setFloatable(false);
+        toolbar.add(this.addItemToToolbar("mushroom"));
+        toolbar.add(this.addItemToToolbar("rabbitbrown"));
+        toolbar.add(this.addItemToToolbar("rabbitgray"));
+        toolbar.add(this.addItemToToolbar("rabbitwhite"));
+        toolbar.add(this.addItemToToolbar("foxheadhorizontal"));
+        toolbar.add(this.addItemToToolbar("foxheadvertical"));
+        frame.add(toolbar, BorderLayout.WEST);
+	}
+	
+	/**
+	 * 
+	 * @param item
+	 * @return
+	 */
+	private JLabel addItemToToolbar(String item) {
+		var listener = new DragMouseAdapter();
+		String path = "src/assets/" + item + ".png";
+		ImageIcon icon = new ImageIcon(path);
+		JLabel label = new JLabel(icon);
+		label.setTransferHandler(new DragAndDropHandler(false));
+		label.addMouseListener(listener);
+		return label;
+	}
+	
+    private class DragMouseAdapter extends MouseAdapter {
 
+        public void mousePressed(MouseEvent e) {
+
+            var c = (JComponent) e.getSource();
+            var handler = c.getTransferHandler();
+            handler.exportAsDrag(c, e, TransferHandler.COPY);
+
+        }
+        
+        public void mouseReleased(MouseEvent e) {
+        	  JComponent c = (JComponent) e.getSource();
+        	  System.out.println(c);
+        	  
+//        	  if ()
+//              var source = (JLabel) e.getSource();
+//              var handler = c.getTransferHandler();
+//              handler.exportAsDrag(c, e, TransferHandler.COPY);
+        }
+        
+        public void mouseClicked(MouseEvent e) {}
+    }
+	
 	/**
 	 * Method to create the menu items.
 	 * @param name
@@ -110,49 +179,24 @@ public class View {
 
 		// File Menu and Items
 		JMenu file = new JMenu("File");
+		file.add(this.createMenuItem("Reset", (event) -> this.reset()));
 		file.add(this.createMenuItem("Save", (event) -> this.displaySaveDialog()));
-		file.add(this.createMenuItem("Load", (event) -> this.displayLoadDialog()));
-		file.add(this.createMenuItem("Exit", (event) -> System.exit(0)));
-
-		// Edit Menu and Items
-		JMenu edit = new JMenu("Edit");
-		edit.add(this.createMenuItem("Undo", (event) -> controller.undo()));
-		edit.add(this.createMenuItem("Redo", (event) -> controller.redo()));
-
-		// Help Menu and Items
-		JMenu help = new JMenu("Help");
-		help.add(this.createMenuItem("Instructions",
-				(event) -> JOptionPane.showMessageDialog(frame, View.GAME_INSTRUCTIONS)));
-
-		// Level Option Menu and Items
-		JMenu levelSelect = new JMenu("Level Options");
-		levelSelect.add(this.createMenuItem("Reset Level", (event) -> this.reset()));
-		levelSelect.add(this.createMenuItem("Level Select", (event) -> this.levelSelect()));
-		levelSelect.add(this.createMenuItem("Auto-Solve", (event) -> controller.autoSolver()));
-		levelSelect.add(this.createMenuItem("Level builder", (event) -> this.showLevelBuilderView()));
+		file.add(this.createMenuItem("Load", null));
 
 		// Adding menu into the menu bar.
 		menuBar.add(file);
-		menuBar.add(edit);
-		menuBar.add(help);
-		menuBar.add(levelSelect);
 
 		// Setting the menu bar.
 		frame.setJMenuBar(menuBar);
 	}
-	
-	private void showLevelBuilderView() {
-		LevelBuilderView levelBuilderView = new LevelBuilderView();
-		levelBuilderView.run();
-	}
 
 	/**
-	 * Method which resets the current level to its initial state Resets the level
+	 * Method which reset and delete all the pieces. 
 	 */
 	private void reset() {
 		JFrame popupFrame = new JFrame();
 		int option = JOptionPane.showConfirmDialog(popupFrame,
-				"Are you sure you want to reset level " + board.getLevel());
+				"Are you sure delete all the pieces placed?");
 
 		if (option == 0) {
 			this.resetView();
@@ -164,36 +208,13 @@ public class View {
 	 */
 	public void resetView() {
 		board.changeLevel(board.getLevel());
-		this.setButtonsEnabled(true);
 		this.updateView();
 	}
 
-	/**
-	 * Method that allows the user to select the level of their choice
-	 */
-	public void levelSelect() {
-		Integer[] possibilities = new Integer[Board.TOTAL_LEVELS];
-		
-		for (int i = 0; i < Board.TOTAL_LEVELS; i++) {
-			possibilities[i] = i + 1;
-		}
-
-		Integer level = (Integer) JOptionPane.showInputDialog(frame, "What Level would you like to play:",
-				"Level Select", JOptionPane.QUESTION_MESSAGE, null, possibilities, 1);
-
-		if (level != null) {
-			boolean valid = controller.levelSelect(level);
-			if (!valid) {
-				JOptionPane.showMessageDialog(frame, "level" + level + ".xml does not contain a valid level.");
-			}
-		}
-
-	}
 
 	/**
 	 * Displays a pop up which takes a file name from the user.
-	 * If the file name is valid it calls controller.save(fileName)
-	 * which saves the state of the board
+	 * If the file name is valid, it saves the xml content of the level to an xml file.
 	 */
 	public void displaySaveDialog() {
 		String fileName = JOptionPane.showInputDialog(frame, "Enter file name.\nNo special character allowed.");
@@ -207,9 +228,8 @@ public class View {
 	}
 
 	/**
-	 * Displays a pop up with all available save files 
-	 * to load. When the user selects a file it calls controller.load(loadFile)
-	 * which loads the save
+	 * Displays a pop up with all available saved levels files 
+	 * Loads the selected level.
 	 */
 	public void displayLoadDialog() {
 		String[] loadOptions = controller.getLoadOptions();
@@ -223,33 +243,27 @@ public class View {
 		}
 	}
 
-	/**
-	 * Method to enable or disable the buttons on the squares
-	 * @param enabled true or false to enable to disable the buttons
-	 */
-	private void setButtonsEnabled(boolean enabled) {
-		for (int y = 0; y < Board.BOARD_SIZE; y++) {
-			for (int x = 0; x < Board.BOARD_SIZE; x++) {
-				board.squares[x][y].setEnabled(enabled);
-			}
-		}
-	}
 
 	/**
-	 * Method which initializes the View of the game
+	 * Method which initializes the main view of the level builder.
 	 */
 	private void initView() {
+		JPanel mainView = new JPanel();
+		mainView.setLayout(new GridLayout(Board.BOARD_SIZE, Board.BOARD_SIZE));
+		
 		for (int y = 0; y < Board.BOARD_SIZE; y++) {
 			for (int x = 0; x < Board.BOARD_SIZE; x++) {
-				frame.add(this.createButton(board.squares[x][y], x % 2 == 0 && y % 2 == 0));
+				mainView.add(this.createButton(board.squares[x][y], x % 2 == 0 && y % 2 == 0));
 			}
 		}
+		
+		frame.add(mainView, BorderLayout.CENTER);
 	}
 
 	/**
 	 * Method to set the Frame's visibility
 	 */
-	private void run() {
+	public void run() {
 		frame.setVisible(true);
 	}
 
@@ -263,13 +277,14 @@ public class View {
 		square.setBorderPainted(cornerPiece);
 		square.setBackground(cornerPiece ? CORNER_SQUARE_COLOR : MAIN_SQUARE_COLOR);
 		square.setBorder(COMPOUND);
-		square.addActionListener((event) -> controller.eventHandler(event));
+		square.setTransferHandler(new DragAndDropHandler(true));
+//		square.addActionListener((event) -> this.clearIcon(event));
 		this.imageHandler(square);
 		return square;
 	}
 
 	/**
-	 * Method which updates the view of the board
+	 * Method which updates the level builder view
 	 */
 	protected void updateView() {
 		for (int y = 0; y < Board.BOARD_SIZE; y++) {
@@ -336,85 +351,11 @@ public class View {
 	}
 
 	/**
-	 * Method to display the level complete popup dialog message
-	 */
-
-	protected void displayLevelCompeletePopup() {
-		JFrame popupFrame = new JFrame();
-		String message = "";
-
-		if (board.getLevel() < Board.TOTAL_LEVELS) {
-			message = "Congratulations on completing Level " + board.getLevel() + "!";
-			message += "\n";
-			message += "Press OK to play level " + (board.getLevel() + 1);
-			JOptionPane.showMessageDialog(popupFrame, message);
-			boolean valid = board.changeLevel(board.getLevel() + 1);
-			if (!valid) {
-				JOptionPane.showMessageDialog(frame, "level" + board.getLevel() + ".xml does not contain a valid level.");
-			}
-			this.updateView();
-		}
-
-		else {
-			message = "Congratulations on completing the game!";
-			JOptionPane.showMessageDialog(popupFrame, message);
-			this.setButtonsEnabled(false);
-		}
-	}
-
-	/**
-	 * Method to highlight the selected square so the player can see the selected
-	 * piece
-	 * @param square of which the color is to be set
-	 */
-	protected void highlightSelectedSquare(Square square) {
-		square.setBackground(SELECTED_SQUARE_COLOR);
-		highlightedSquares.add(square);
-	}
-
-	/**
-	 * Method to unhighlight all highlighted squares in the view
-	 */
-	protected void unhighlightAllSquares() {
-		for (Square square : highlightedSquares) {
-			Location squareLocation = square.getLoc();
-			boolean cornerPiece = squareLocation.getX() % 2 == 0 && squareLocation.getY() % 2 == 0;
-			square.setBackground(cornerPiece ? CORNER_SQUARE_COLOR : MAIN_SQUARE_COLOR);
-		}
-
-		highlightedSquares.clear();
-	}
-
-	/**
-	 * Method to clear the highlight of the selected square
-	 * @param square which is to be cleared from the highlight
-	 */
-	protected void clearHighlight(Square square) {
-		Location loc = square.getLoc();
-		boolean cornerPiece = loc.getX() % 2 == 0 && loc.getY() % 2 == 0;
-		square.setBackground(cornerPiece ? CORNER_SQUARE_COLOR : MAIN_SQUARE_COLOR);
-	}
-	
-	/**
-	 * Creates a new view based off a new board.
-	 * @param {Board} newBoard The board that will be used to create the new view.
-	 */
-	public void setBoard(Board newBoard) {
-		frame.dispose();
-		this.board = null;
-		this.controller = null;
-		this.board = newBoard;
-		this.controller = new Controller(newBoard, this);
-		this.init();
-		this.run();
-	}
-
-	/**
-	 * Main method used to run the game and display the view
+	 * Main method for testing.
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		View view = new View();
-		view.run();
+		LevelBuilderView levelBuilderView = new LevelBuilderView();
+		levelBuilderView.run();
 	}
 }
