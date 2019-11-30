@@ -25,7 +25,7 @@ public class PieceTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		piece = new Mushroom();
+		piece = new Mushroom(new Location(0, 0));
 	}
 
 	/**

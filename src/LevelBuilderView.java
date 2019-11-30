@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -47,7 +48,6 @@ public class LevelBuilderView {
 		builder = new LevelBuilder(board);
 		this.init();
 	}
-	
 
 	/**
 	 * Method to call the initFrame, initMenu and the initView methods
@@ -95,14 +95,21 @@ public class LevelBuilderView {
 		// File Menu and Items
 		JMenu file = new JMenu("File");
 		file.add(this.createMenuItem("Reset", (event) -> this.reset()));
-//		file.add(this.createMenuItem("Save", (event) -> this.displaySaveDialog()));
-		file.add(this.createMenuItem("Load", null));
+		file.add(this.createMenuItem("Save", (event) -> this.levelBuilderSaveDialog()));
+		file.add(this.createMenuItem("Help", (event) -> this.showHelpDialog()));
+		file.add(this.createMenuItem("Exit", (event) -> System.exit(0)));
 
 		// Adding menu into the menu bar.
 		menuBar.add(file);
 
 		// Setting the menu bar.
 		frame.setJMenuBar(menuBar);
+	}
+	
+	public void showHelpDialog() {
+		JOptionPane.showMessageDialog(frame, "Select a square to add a piece on the board.\nClicking on the same piece will toggle the piece."
+				+ "\nNot all pieces can be added to every square.\nSo, some squares won't show foxes or mushrooms."
+				+ "\nOnce youre done, save the file.\nThen, close the builder and reopen the game.\nSelect your level from the level select option.\nEnjoy!");
 	}
 
 	/**
@@ -111,7 +118,7 @@ public class LevelBuilderView {
 	private void reset() {
 		JFrame popupFrame = new JFrame();
 		int option = JOptionPane.showConfirmDialog(popupFrame,
-				"Are you sure delete all the pieces placed?");
+				"Are you sure discard all the pieces placed?");
 
 		if (option == 0) {
 			this.resetView();
@@ -127,36 +134,26 @@ public class LevelBuilderView {
 	}
 
 
-//	/**
-//	 * Displays a pop up which takes a file name from the user.
-//	 * If the file name is valid, it saves the xml content of the level to an xml file.
-//	 */
-//	public void displaySaveDialog() {
-//		String fileName = JOptionPane.showInputDialog(frame, "Enter file name.\nNo special character allowed.");
-//		if (fileName != null) {
-//			if (controller.save(fileName)) {
-//				JOptionPane.showMessageDialog(frame, "Your file has been saved.");
-//			} else {
-//				JOptionPane.showMessageDialog(frame, "Your file could not be saved. Please try again.");
-//			}
-//		}
-//	}
-
-//	/**
-//	 * Displays a pop up with all available saved levels files 
-//	 * Loads the selected level.
-//	 */
-//	public void displayLoadDialog() {
-//		String[] loadOptions = controller.getLoadOptions();
-//		
-//		if (loadOptions.length != 0) {
-//			String loadFile = (String) JOptionPane.showInputDialog(frame, "Which save would you like to load?", "Load", 
-//					JOptionPane.QUESTION_MESSAGE, null, loadOptions, null);
-//			controller.load(loadFile);
-//		} else {
-//			JOptionPane.showMessageDialog(frame, "No save data to load.");
-//		}
-//	}
+	/**
+	 * Displays a pop up which takes a file name from the user.
+	 * If the file name is valid, it saves the xml content of the level to an xml file.
+	 */
+	public void levelBuilderSaveDialog() {
+		String level = JOptionPane.showInputDialog(frame, "Enter a level number.\nOnly numeric value accepted.");
+		if (level != null) {
+			try {
+				int levelNumber = Integer.parseInt(level);			
+				if (builder.saveFile(levelNumber)) {
+					JOptionPane.showMessageDialog(frame, "The custom level has been succesfully saved.\nTo play the level,"
+							+ " select the level under the level options in the main game.");
+				}				
+			} catch (NumberFormatException e) {
+				JOptionPane.showMessageDialog(frame, "File cannot be saved. Only number input expected.");
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(frame, "File cannot be saved.\n" + e.getLocalizedMessage());
+			}
+		}
+	}
 
 
 	/**
@@ -192,6 +189,10 @@ public class LevelBuilderView {
 		return square;
 	}
 	
+	/**
+	 * Button handler method for the squares.
+	 * @param event
+	 */
 	private void buttonClickHandler(ActionEvent event) {
 		Square square = (Square) event.getSource();
 		builder.buildHandler(square);
@@ -265,12 +266,12 @@ public class LevelBuilderView {
 		}
 	}
 
-	/**
-	 * Main method for testing.
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		LevelBuilderView levelBuilderView = new LevelBuilderView();
-		levelBuilderView.run();
-	}
+//	/**
+//	 * Main method for testing.
+//	 * @param args
+//	 */
+//	public static void main(String[] args) {
+//		LevelBuilderView levelBuilderView = new LevelBuilderView();
+//		levelBuilderView.run();
+//	}
 }

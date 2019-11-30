@@ -287,4 +287,20 @@ public class Fox extends Animal {
 
 		return false;
 	}
+	
+    /**
+     * Method to generate the xml structure of the object
+     */
+    public String toXML() {
+    	if (tail) {
+    		return "";
+    	}
+    	
+    	String xml = "    <Fox>\n";
+    	xml += "        <Coordinate1>" + pieceLocation.toStringNumeric() + "</Coordinate1>\n";
+    	xml += "        <Coordinate2>" + bodyLocation.toStringNumeric() + "</Coordinate2>\n";
+    	xml += "        <Movement>" + (horizontalMovement ? "Horizontal" : "Veritcal") + "</Movement>\n";
+    	xml += "    </Fox>";
+    	return xml;
+    }
 }

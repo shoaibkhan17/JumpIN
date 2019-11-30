@@ -130,7 +130,7 @@ public class Location implements Serializable {
      * @return String representation of the x and y coordinate
      */
     public String toStringNumeric() {
-        return "(" + x + "," + y + ")";
+        return x + "," + y;
     }
 
     /**

@@ -130,7 +130,7 @@ public class FoxTest {
 	@Test
 	public void testInvalidVerticalMove() {
 		Square[][] squares = board.getSquares();
-		squares[1][3].setPiece(new Mushroom());
+		squares[1][3].setPiece(new Mushroom(new Location(1, 3)));
 		Location location = new Location(1, 4);
 		assertFalse(fox.canMove(location, squares));
 	}

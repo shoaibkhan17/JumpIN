@@ -4,7 +4,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Test cases for the Auto solver class
+ * Test cases for the Auto solver class. Board uses the level builder class internally
+ * So, initializing board contributes towards testing the level builder parsing functionality.
  * 
  * @author Khalil Aalab - 101070879
  * @author Kamaluddin Shakiri - 101054933
@@ -12,11 +13,9 @@ import org.junit.Test;
  * @author Md Aiman Sharif - 101062765
  * @author Shoaib Khan - 101033582
  */
-
 public class LevelBuilderTest {
 	Board board;
 	AutoSolver solver;
-	LevelBuilder levelBuilder;
 
 	/**
 	 * Set up method for the auto solve class
@@ -34,9 +33,7 @@ public class LevelBuilderTest {
 	@After
 	public void tearDown() throws Exception {
 		board = null;
-		levelBuilder = null;
 		assertNull(board);
-		assertNull(levelBuilder);
 	}
 
 	/**
@@ -44,8 +41,8 @@ public class LevelBuilderTest {
 	 */
 	@Test
 	public void testBuildLevel1() {
-		levelBuilder = new LevelBuilder(1, board);	
-		assertTrue(levelBuilder.buildLevel());
+		board = new Board(1);
+		assertEquals(board.rabbitCount, 1);
 		assertFalse(board.isGameWon());
 	}
 	
@@ -54,8 +51,8 @@ public class LevelBuilderTest {
 	 */
 	@Test
 	public void testBuildLevel2() {
-		levelBuilder = new LevelBuilder(2, board);	
-		assertTrue(levelBuilder.buildLevel());
+		board = new Board(2);
+		assertEquals(board.rabbitCount, 1);
 		assertFalse(board.isGameWon());
 	}
 	
@@ -64,8 +61,8 @@ public class LevelBuilderTest {
 	 */
 	@Test
 	public void testBuildLevel3() {
-		levelBuilder = new LevelBuilder(3, board);	
-		assertTrue(levelBuilder.buildLevel());
+		board = new Board(3);
+		assertEquals(board.rabbitCount, 2);
 		assertFalse(board.isGameWon());
 	}
 	
@@ -74,8 +71,8 @@ public class LevelBuilderTest {
 	 */
 	@Test
 	public void testBuildLevel4() {
-		levelBuilder = new LevelBuilder(4, board);	
-		assertTrue(levelBuilder.buildLevel());
+		board = new Board(4);
+		assertEquals(board.rabbitCount, 3);
 		assertFalse(board.isGameWon());
 	}
 	
@@ -84,8 +81,8 @@ public class LevelBuilderTest {
 	 */
 	@Test
 	public void testBuildLevel5() {
-		levelBuilder = new LevelBuilder(5, board);	
-		assertTrue(levelBuilder.buildLevel());
+		board = new Board(5);
+		assertEquals(board.rabbitCount, 1);
 		assertFalse(board.isGameWon());
 	}
 	
@@ -94,8 +91,8 @@ public class LevelBuilderTest {
 	 */
 	@Test
 	public void testBuildLevel6() {
-		levelBuilder = new LevelBuilder(6, board);	
-		assertTrue(levelBuilder.buildLevel());
+		board = new Board(6);
+		assertEquals(board.rabbitCount, 1);
 		assertFalse(board.isGameWon());
 	}
 	
@@ -104,8 +101,8 @@ public class LevelBuilderTest {
 	 */
 	@Test
 	public void testBuildLevel7() {
-		levelBuilder = new LevelBuilder(7, board);	
-		assertTrue(levelBuilder.buildLevel());
+		board = new Board(7);
+		assertEquals(board.rabbitCount, 1);
 		assertFalse(board.isGameWon());
 	}
 	
@@ -114,8 +111,8 @@ public class LevelBuilderTest {
 	 */
 	@Test
 	public void testBuildLevel8() {
-		levelBuilder = new LevelBuilder(8, board);	
-		assertTrue(levelBuilder.buildLevel());
+		board = new Board(8);
+		assertEquals(board.rabbitCount, 1);
 		assertFalse(board.isGameWon());
 	}
 }

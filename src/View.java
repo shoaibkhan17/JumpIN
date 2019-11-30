@@ -171,13 +171,9 @@ public class View {
 	/**
 	 * Method that allows the user to select the level of their choice
 	 */
-	public void levelSelect() {
-		Integer[] possibilities = new Integer[Board.TOTAL_LEVELS];
+	public void levelSelect() {	
+		Integer[] possibilities = controller.getLevelOptions();
 		
-		for (int i = 0; i < Board.TOTAL_LEVELS; i++) {
-			possibilities[i] = i + 1;
-		}
-
 		Integer level = (Integer) JOptionPane.showInputDialog(frame, "What Level would you like to play:",
 				"Level Select", JOptionPane.QUESTION_MESSAGE, null, possibilities, 1);
 

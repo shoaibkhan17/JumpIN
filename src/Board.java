@@ -25,6 +25,11 @@ public class Board implements Serializable {
 	protected int rabbitCount;
 	protected static final int BOARD_SIZE = 5;
 	protected static final char BOARD_PRINT_CHAR = '*';
+	
+	/**
+	 * Total developed levels.
+	 * Custom levels do not count.
+	 */
 	protected static final int TOTAL_LEVELS = 8;
 	protected MoveStack moveStack;
 	protected MoveStack redoStack;
@@ -484,4 +489,21 @@ public class Board implements Serializable {
 		System.out.print(this.toString());
 		this.getHoleStatus();
 	}
+	
+    /**
+     * Method to generate the xml structure of the object
+     */
+    public String toXML() {
+    	
+    	String xml = "";
+		for (int y = 0; y < Board.BOARD_SIZE; y++) {
+			for (int x = 0; x < Board.BOARD_SIZE; x++) {
+				String internalXML = squares[x][y].toXML();
+				if (!internalXML.equals("")) {
+					xml += "\n" + internalXML;
+				}
+			}
+		}
+		return xml;
+    }
 }

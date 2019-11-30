@@ -207,6 +207,24 @@ public class Controller implements Runnable {
 		}
 		return loadOptions;
 	}
+	
+	/**
+	 * Method to get the level options for the level selection
+	 * @return Interger[] of levels
+	 */
+	public Integer[] getLevelOptions() {
+		File saveDirectory = new File(LevelBuilder.SAVED_LEVEL_PATH);
+		File[] savedGameFiles = saveDirectory.listFiles();
+		Integer levels[] = new Integer[savedGameFiles.length];
+		String[] loadOptions = new String[savedGameFiles.length];
+		for (int i = 0; i < savedGameFiles.length; i++) {
+			String fileName = savedGameFiles[i].getName();		
+			fileName = fileName.replace("level", "");
+			fileName = fileName.replace(".xml", "");
+			levels[i] = Integer.parseInt(fileName);
+		}
+		return levels;
+	}
 
 	/**
 	 * Method that runs on a different thread.

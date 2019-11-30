@@ -1,7 +1,13 @@
-import java.awt.event.ActionEvent;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import org.xml.sax.Attributes;
@@ -20,7 +26,6 @@ import org.xml.sax.helpers.DefaultHandler;
  *
  */
 public class LevelBuilder extends DefaultHandler {
-	private static final String LEVELS_PATH = "Levels/";
 	private XMLTerms current;
 	private Board board;
 	private Square[][] squares;
@@ -32,6 +37,7 @@ public class LevelBuilder extends DefaultHandler {
 	private Rabbit.RABBIT_COLORS currentRabbitColor;
 	private ArrayList<Location> possibleHoleLocations; 
 	private Boolean horizontalMovement;
+	public static final String SAVED_LEVEL_PATH = "Levels/";
 	
 	public LevelBuilder(Board board) {
         this.board = board;
@@ -57,8 +63,8 @@ public class LevelBuilder extends DefaultHandler {
         possibleHoleLocations.add(new Location(4, 4));
     }
     
-    private Piece createMushroom() {
-    	return new Mushroom();
+    private Piece createMushroom(Location location) {
+    	return new Mushroom(location);
     }
     
     private Rabbit createRabbit(Location location) {
@@ -139,7 +145,7 @@ public class LevelBuilder extends DefaultHandler {
 		Piece piece = square.getPiece();
     	switch (square.getCounter()) {
     	case 0:
-    		square.setPiece(this.createMushroom());
+    		square.setPiece(this.createMushroom(square.getLoc()));
     		square.setCounter(1);
     		break;
     	case 1:
@@ -182,7 +188,7 @@ public class LevelBuilder extends DefaultHandler {
     protected void buildHandler(Square square) {
     	
     	if (square.getPiece() == null) {
-    		square.setPiece(this.createMushroom());
+    		square.setPiece(this.createMushroom(square.getLoc()));
     		square.setCounter(1);
     	}
     	
@@ -209,6 +215,92 @@ public class LevelBuilder extends DefaultHandler {
     	}
     }
     
+    public void checkFileExists(String fileName) throws Exception {
+		File saveDirectory = new File(SAVED_LEVEL_PATH);
+		File[] savedGameFiles = saveDirectory.listFiles();
+		for (int i = 0; i < savedGameFiles.length; i++) {
+			if (fileName.equals(savedGameFiles[i].getName())) {
+				throw new Exception("Level " + level + " already exists.\nPlease the level under a different name.");
+			}
+		}
+		
+    }
+    
+    public Board deepCopyBoard() throws IOException, ClassNotFoundException {
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		ObjectOutput out = new ObjectOutputStream(bos);
+		out.writeObject(board);
+		out.flush();
+		byte[] yourBytes = bos.toByteArray();
+		bos.close();
+		ByteArrayInputStream bis = new ByteArrayInputStream(yourBytes);
+		ObjectInput in = new ObjectInputStream(bis);
+		Board deepClonedBoard = (Board) in.readObject();
+		in.close();
+		return deepClonedBoard;
+    }
+    
+    public void checkIfLevelIsSolvable() throws Exception {
+    	if (board.rabbitCount == 0 || board.rabbitCount > 5) {
+    		throw new Exception("The custom build level is not solvable.");
+    	}
+    	
+    	else {
+    		try {
+    			board.rabbitCount = this.getRabbitRount();
+    			Board deepClonedBoard = this.deepCopyBoard();
+    			AutoSolver solver = new AutoSolver(deepClonedBoard, null);
+    			boolean solvable = solver.autoSolve(0);
+    			
+    			if (!solvable) {
+    				throw new Exception("The custom build level is not solvable.");
+    			}
+    			
+    		} catch (IOException e) {
+    			e.printStackTrace();
+    			throw new Exception("Try again");
+    		} catch (ClassNotFoundException e) {
+    			e.printStackTrace();
+    			throw new Exception("Try again");
+    		}
+    	}
+    }
+    
+    public boolean saveFile(int level) throws Exception {
+    	String fileName = "level" + level + ".xml";
+    	board.rabbitCount = this.getRabbitRount();
+    	this.checkFileExists(fileName);
+    	this.checkIfLevelIsSolvable();
+    	FileWriter writer = new FileWriter(SAVED_LEVEL_PATH + fileName);
+    	writer.write(this.exportToXML(level));
+    	writer.close();
+    	return true;
+    }
+
+	private int getRabbitRount() {
+    	int count = 0;
+    	Square squares[][] = board.getSquares();
+		for (int y = 0; y < Board.BOARD_SIZE; y++) {
+			for (int x = 0; x < Board.BOARD_SIZE; x++) {
+				if (squares[x][y].hasPiece()) {
+					if (squares[x][y].getPiece().getType() == PieceType.RABBIT) {
+						count++;
+					}
+				}
+			}
+		}
+		return count;
+    }
+    
+    public String exportToXML(int level) {
+    	String xml = "<Level>\n";
+    	xml += "    <LevelNumber>" + level + "</LevelNumber>\n";
+    	xml += "    <RabbitCount>" + board.rabbitCount + "</RabbitCount>";
+    	xml += board.toXML() + "\n";
+    	xml += "</Level>";
+    	return xml;    	
+    }
+    
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {    	
     	current = XMLTerms.valueOf(qName);
@@ -219,7 +311,7 @@ public class LevelBuilder extends DefaultHandler {
     	XMLTerms endElement = XMLTerms.valueOf(qName);
     	switch (endElement) {
 			case Mushroom:
-				currentPiece = new Mushroom();
+				currentPiece = new Mushroom(currentLocation);
 				squares[currentLocation.getX()][currentLocation.getY()].setPiece(currentPiece);
 				break;
 			case Rabbit:
@@ -272,7 +364,7 @@ public class LevelBuilder extends DefaultHandler {
     }
          
     private void parseJSON() throws Exception {  	
-    	File file = new File(LEVELS_PATH + "level" + level + ".xml");	
+    	File file = new File(SAVED_LEVEL_PATH + "level" + level + ".xml");	
         SAXParserFactory SAXFactory = SAXParserFactory.newDefaultInstance();
         SAXParser SAXParser = SAXFactory.newSAXParser();
         SAXParser.parse(file, this);

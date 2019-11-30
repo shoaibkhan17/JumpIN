@@ -201,11 +201,13 @@ public class AutoSolver {
 	public boolean autoSolve(int sleepTimer) {
 		visitedStates.add(board.getBoardState());
 		this.getAnimalsInGame();
-		int counter = 1;		
+		int counter = 1;
 		while (!board.isGameWon()) {		
 			try {
 				this.solve();
-				view.updateView();
+				if (view != null) {
+					view.updateView();
+				}
 				Thread.sleep(sleepTimer);
 				counter++;
 			} catch (Exception e) {

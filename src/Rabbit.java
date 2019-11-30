@@ -130,4 +130,15 @@ public class Rabbit extends Animal {
     	}
     	return false;
 	}
+	
+    /**
+     * Method to generate the xml structure of the object
+     */
+    public String toXML() {
+    	String xml = "    <Rabbit>\n";
+    	xml += "        <Coordinate1>" + pieceLocation.toStringNumeric() + "</Coordinate1>\n";
+    	xml += "        <Color>" + rabbitColor + "</Color>\n";
+    	xml += "    </Rabbit>";
+    	return xml;
+    }
 }

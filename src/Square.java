@@ -117,4 +117,14 @@ public class Square extends JButton implements Serializable {
     public String toString() {
         return piece == null ? " " : piece.toString();
     }
+    
+    /**
+     * Method to generate the xml structure of the object
+     */
+    public String toXML() {
+    	if (piece != null) {
+    		return piece.toXML();
+    	}
+    	return "";
+    }
 }
