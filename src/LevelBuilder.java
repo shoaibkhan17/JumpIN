@@ -57,14 +57,15 @@ public class LevelBuilder extends DefaultHandler {
         possibleHoleLocations.add(new Location(4, 4));
     }
     
-    
     private Piece createMushroom() {
     	return new Mushroom();
     }
     
     private Rabbit createRabbit(Location location) {
-    	return new Rabbit(Rabbit.RABBIT_COLORS.Brown, location);
+    	int randomNumber = (int) (Math.random() * ((2 - 0) + 1));
+    	return new Rabbit(Rabbit.RABBIT_COLORS.values()[randomNumber], location);
     }
+    
     
     private Fox[] createFoxHorizontal(Location location) {
     	Fox[] foxes = new Fox[2];
@@ -72,9 +73,11 @@ public class LevelBuilder extends DefaultHandler {
     	if (location.getX() < 4) {
     		Location bodyLocation = new Location(location);
     		bodyLocation.setX(location.getX() + 1);
+    		if (board.getSquareAtLocation(bodyLocation).hasPiece()) {
+    			return null;
+    		}
     		foxes[0] = new Fox(location, bodyLocation, true, false);
     		foxes[1] = new Fox(bodyLocation, location, true, true);
-    		System.out.println(location + " " + bodyLocation);
     		return foxes;
     	}
     	
@@ -87,42 +90,48 @@ public class LevelBuilder extends DefaultHandler {
     	if (location.getY() < 4) {
     		Location bodyLocation = new Location(location);
     		bodyLocation.setY(location.getY() + 1);
+    		if (board.getSquareAtLocation(bodyLocation).hasPiece()) {
+    			return null;
+    		}
     		foxes[0] = new Fox(location, bodyLocation, false, false);
     		foxes[1] = new Fox(bodyLocation, location, false, true);
-    		System.out.println(location + " " + bodyLocation);
     		return foxes;
     	}
     	
     	return null;
     }
     
+    
     private void placeHorizontalFoxes(Square square) {
 		Fox[] horizontalFoxes = this.createFoxHorizontal(square.getLoc());
 		if (horizontalFoxes == null) {
-			System.out.println("horizontal fox cannot be placed there");
-			square.setCounter(4);
+			square.setCounter(3);
 			square.doClick();
 		}
 		
 		else {
 			square.setPiece(horizontalFoxes[0]);
-			board.getSquareAtLocation(horizontalFoxes[1].getPieceLocation()).setPiece(horizontalFoxes[1]);
-    		square.setCounter(3);			
+			Square secondSquare = board.getSquareAtLocation(horizontalFoxes[1].getPieceLocation());
+			secondSquare.setPiece(horizontalFoxes[1]);
+    		square.setCounter(3);	
+    		secondSquare.setCounter(5);
 		}
     }
     
     private void placeVericalFoxes(Square square) {
 		Fox[] verticalFoxes = this.createFoxVertical(square.getLoc());
 		if (verticalFoxes == null) {
-			System.out.println("vertical fox cannot be placed there");
-			
+			square.setCounter(5);
+			square.doClick();
 			
 		}
 		
 		else {
 			square.setPiece(verticalFoxes[0]);
-			board.getSquareAtLocation(verticalFoxes[1].getPieceLocation()).setPiece(verticalFoxes[1]);
-    		square.setCounter(4);		
+			Square secondSquare = board.getSquareAtLocation(verticalFoxes[1].getPieceLocation());
+			secondSquare.setPiece(verticalFoxes[1]);
+    		square.setCounter(4);
+    		secondSquare.setCounter(5);
 		}
     }
     
@@ -141,9 +150,11 @@ public class LevelBuilder extends DefaultHandler {
     		this.placeHorizontalFoxes(square);
     		break;
     	case 3: 
-    		Fox fox = (Fox) square.getPiece();
-    		board.getSquareAtLocation(fox.getBodyLocation()).removePiece();
-    		square.removePiece();
+    		if (piece.getType() == PieceType.FOX) {
+    			Fox fox = (Fox) square.getPiece();
+    			board.getSquareAtLocation(fox.getBodyLocation()).removePiece();
+    			square.removePiece();
+    		}
     		this.placeVericalFoxes(square);
     		break;
     	case 4:
@@ -152,15 +163,15 @@ public class LevelBuilder extends DefaultHandler {
         		board.getSquareAtLocation(removeFox.getBodyLocation()).removePiece();
         		square.removePiece();
     		}
-    		this.placeVericalFoxes(square);
-    		square.setCounter(5);
     		break;
     	case 5:
     		if (piece.getType() == PieceType.FOX) {
         		Fox removeFox = (Fox) square.getPiece();
-        		board.getSquareAtLocation(removeFox.getBodyLocation()).removePiece();
-        		square.removePiece();
-    		}
+        		Square secondSquare = board.getSquareAtLocation(removeFox.getBodyLocation());
+        		secondSquare.removePiece();
+        		secondSquare.setCounter(0);
+    		}   		
+    		square.removePiece();
     		square.setCounter(0);
     		break;
     	default:
@@ -171,7 +182,8 @@ public class LevelBuilder extends DefaultHandler {
     protected void buildHandler(Square square) {
     	
     	if (square.getPiece() == null) {
-    		this.addPiece(square);
+    		square.setPiece(this.createMushroom());
+    		square.setCounter(1);
     	}
     	
     	else {
@@ -294,11 +306,9 @@ public class LevelBuilder extends DefaultHandler {
 					break;
 				default:
 					break;
-    			
     			}
     		}
     	}
-    	
     }
     
     public Boolean buildLevel() {
