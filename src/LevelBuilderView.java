@@ -1,18 +1,8 @@
-import javax.swing.border.Border;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 import javax.swing.*;
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.File;
-import java.util.ArrayList;
 
 /**
  * 	Level builder view class
@@ -29,16 +19,6 @@ public class LevelBuilderView {
 	private JFrame frame;
 	private Board board;
 	private LevelBuilder builder;
-	
-	/**
-	 * Styling variables
-	 */
-	private final static Color MAIN_SQUARE_COLOR = new Color(2, 171, 80);
-	private final static Color CORNER_SQUARE_COLOR = new Color(37, 177, 73);
-	private final static Border LINE = new LineBorder(Color.white);
-	private final static Border MARGIN = new EmptyBorder(5, 15, 5, 15);
-	private final static Border COMPOUND = new CompoundBorder(LINE, MARGIN);
-	private final static Dimension VIEW_DIMENSION = new Dimension(500, 550);
 
 	/**
 	 * Constructor to initialize the instance variables
@@ -63,9 +43,9 @@ public class LevelBuilderView {
 	 */
 	private void initFrame() {
 		frame = new JFrame("Level Builder");
-		GridLayout grid = new GridLayout(Board.BOARD_SIZE, Board.BOARD_SIZE);
+		GridLayout grid = new GridLayout(Constants.BOARD_SIZE, Constants.BOARD_SIZE);
 		frame.setLayout(grid);
-		frame.setSize(VIEW_DIMENSION);
+		frame.setSize(Constants.VIEW_DIMENSION);
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
@@ -107,9 +87,7 @@ public class LevelBuilderView {
 	}
 	
 	public void showHelpDialog() {
-		JOptionPane.showMessageDialog(frame, "Select a square to add a piece on the board.\nClicking on the same piece will toggle the piece."
-				+ "\nNot all pieces can be added to every square.\nSo, some squares won't show foxes or mushrooms."
-				+ "\nOnce youre done, save the file.\nThen, close the builder and reopen the game.\nSelect your level from the level select option.\nEnjoy!");
+		JOptionPane.showMessageDialog(frame, Constants.LEVEL_BUILDER_INSTRUCTIONS);
 	}
 
 	/**
@@ -160,8 +138,8 @@ public class LevelBuilderView {
 	 * Method which initializes the main view of the level builder.
 	 */
 	private void initView() {
-		for (int y = 0; y < Board.BOARD_SIZE; y++) {
-			for (int x = 0; x < Board.BOARD_SIZE; x++) {
+		for (int y = 0; y < Constants.BOARD_SIZE; y++) {
+			for (int x = 0; x < Constants.BOARD_SIZE; x++) {
 				frame.add(this.createButton(board.squares[x][y], x % 2 == 0 && y % 2 == 0));
 			}
 		}
@@ -182,8 +160,8 @@ public class LevelBuilderView {
 	 */
 	private JButton createButton(Square square, boolean cornerPiece) {
 		square.setBorderPainted(cornerPiece);
-		square.setBackground(cornerPiece ? CORNER_SQUARE_COLOR : MAIN_SQUARE_COLOR);
-		square.setBorder(COMPOUND);
+		square.setBackground(cornerPiece ? Constants.CORNER_SQUARE_COLOR : Constants.MAIN_SQUARE_COLOR);
+		square.setBorder(Constants.COMPOUND);
 		square.addActionListener((event) -> this.buttonClickHandler(event));
 		this.imageHandler(square);
 		return square;
@@ -203,8 +181,8 @@ public class LevelBuilderView {
 	 * Method which updates the level builder view
 	 */
 	protected void updateView() {
-		for (int y = 0; y < Board.BOARD_SIZE; y++) {
-			for (int x = 0; x < Board.BOARD_SIZE; x++) {
+		for (int y = 0; y < Constants.BOARD_SIZE; y++) {
+			for (int x = 0; x < Constants.BOARD_SIZE; x++) {
 				this.imageHandler(board.squares[x][y]);
 			}
 		}

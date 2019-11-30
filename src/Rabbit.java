@@ -16,20 +16,14 @@ public class Rabbit extends Animal {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Rabbit color enum
-	 *
-	 */
-	public static enum RABBIT_COLORS {Gray, White, Brown}
-	
-	/**
 	 * Rabbit color
 	 */
-	protected RABBIT_COLORS rabbitColor;
+	protected Constants.RABBIT_COLORS rabbitColor;
 
 	/**
 	 * Default constructor
 	 */
-    public Rabbit(RABBIT_COLORS rabbitColor, Location pieceLocation) {
+    public Rabbit(Constants.RABBIT_COLORS rabbitColor, Location pieceLocation) {
         super(PieceType.RABBIT, pieceLocation);
         this.rabbitColor = rabbitColor;
     }

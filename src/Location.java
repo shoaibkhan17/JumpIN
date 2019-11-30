@@ -117,7 +117,7 @@ public class Location implements Serializable {
      */
     public String toString() {
         if (x != -1 && y != -1) {
-            return "(" + Parser.PossibleRows.values()[x] + "," + (y + 1) + ")"; 
+            return "(" + Constants.PossibleRows.values()[x] + "," + (y + 1) + ")"; 
         }
 
         else {

@@ -16,7 +16,6 @@ public class Controller implements Runnable {
 	private Board board;
 	private View view;
 	private Square oldSelectSquare;
-	private static final String SAVED_GAME_PATH = "SavedGames/";
 
 	/**
 	 * Default constructor initializes instance variables
@@ -152,7 +151,7 @@ public class Controller implements Runnable {
 	 */
 	public boolean save(String fileName) {
 		try {
-			File file = new File(SAVED_GAME_PATH + fileName);
+			File file = new File(Constants.SAVED_GAME_PATH + fileName);
 			FileOutputStream writer = new FileOutputStream(file);
 			ObjectOutputStream out = new ObjectOutputStream(writer);		
 			out.writeObject(board);		
@@ -172,7 +171,7 @@ public class Controller implements Runnable {
 	 */
 	public void load(String fileName) {
 		try {
-			FileInputStream file = new FileInputStream(SAVED_GAME_PATH + fileName);
+			FileInputStream file = new FileInputStream(Constants.SAVED_GAME_PATH + fileName);
 			ObjectInputStream in = new ObjectInputStream(file);
 
 			Board newBoard = (Board) in.readObject();
@@ -199,7 +198,7 @@ public class Controller implements Runnable {
 	 * @return {String[]} loadOptions: The name of all possible save that can be loaded
 	 */
 	public String[] getLoadOptions() {
-		File saveDirectory = new File(SAVED_GAME_PATH);
+		File saveDirectory = new File(Constants.SAVED_GAME_PATH);
 		File[] savedGameFiles = saveDirectory.listFiles();
 		String[] loadOptions = new String[savedGameFiles.length];
 		for (int i = 0; i < savedGameFiles.length; i++) {
@@ -213,10 +212,9 @@ public class Controller implements Runnable {
 	 * @return Interger[] of levels
 	 */
 	public Integer[] getLevelOptions() {
-		File saveDirectory = new File(LevelBuilder.SAVED_LEVEL_PATH);
+		File saveDirectory = new File(Constants.SAVED_LEVEL_PATH);
 		File[] savedGameFiles = saveDirectory.listFiles();
 		Integer levels[] = new Integer[savedGameFiles.length];
-		String[] loadOptions = new String[savedGameFiles.length];
 		for (int i = 0; i < savedGameFiles.length; i++) {
 			String fileName = savedGameFiles[i].getName();		
 			fileName = fileName.replace("level", "");
@@ -234,7 +232,7 @@ public class Controller implements Runnable {
 	@Override
 	public void run() {
 		AutoSolver solver = new AutoSolver(board, view);
-		boolean sucessful = solver.autoSolve(AutoSolver.SLEEP_TIMER);
+		boolean sucessful = solver.autoSolve(Constants.SLEEP_TIMER);
 		if (sucessful) {
 			view.displayLevelCompeletePopup();
 		}

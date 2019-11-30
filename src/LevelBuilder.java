@@ -17,7 +17,7 @@ import org.xml.sax.helpers.DefaultHandler;
 /**
  * DOCUMENT LEFT TO BE DONE 
  * TODO
- * 
+ * Constants
  * @author Khalil Aalab - 101070879
  * @author Kamaluddin Shakiri - 101054933
  * @author Simon Yacoub - 101044159
@@ -26,18 +26,16 @@ import org.xml.sax.helpers.DefaultHandler;
  *
  */
 public class LevelBuilder extends DefaultHandler {
-	private XMLTerms current;
+	private Constants.XMLTerms current;
 	private Board board;
 	private Square[][] squares;
 	private int level;
-	private enum XMLTerms {Level, LevelNumber, Mushroom, Coordinate1, Coordinate2, Rabbit, Color, RabbitCount, Fox, Movement}
 	private Piece currentPiece;
 	private Location currentLocation;
 	private Location foxBodyLocation;
-	private Rabbit.RABBIT_COLORS currentRabbitColor;
+	private Constants.RABBIT_COLORS currentRabbitColor;
 	private ArrayList<Location> possibleHoleLocations; 
 	private Boolean horizontalMovement;
-	public static final String SAVED_LEVEL_PATH = "Levels/";
 	
 	public LevelBuilder(Board board) {
         this.board = board;
@@ -69,7 +67,7 @@ public class LevelBuilder extends DefaultHandler {
     
     private Rabbit createRabbit(Location location) {
     	int randomNumber = (int) (Math.random() * ((2 - 0) + 1));
-    	return new Rabbit(Rabbit.RABBIT_COLORS.values()[randomNumber], location);
+    	return new Rabbit(Constants.RABBIT_COLORS.values()[randomNumber], location);
     }
     
     
@@ -216,7 +214,7 @@ public class LevelBuilder extends DefaultHandler {
     }
     
     public void checkFileExists(String fileName) throws Exception {
-		File saveDirectory = new File(SAVED_LEVEL_PATH);
+		File saveDirectory = new File(Constants.SAVED_LEVEL_PATH);
 		File[] savedGameFiles = saveDirectory.listFiles();
 		for (int i = 0; i < savedGameFiles.length; i++) {
 			if (fileName.equals(savedGameFiles[i].getName())) {
@@ -271,7 +269,7 @@ public class LevelBuilder extends DefaultHandler {
     	board.rabbitCount = this.getRabbitRount();
     	this.checkFileExists(fileName);
     	this.checkIfLevelIsSolvable();
-    	FileWriter writer = new FileWriter(SAVED_LEVEL_PATH + fileName);
+    	FileWriter writer = new FileWriter(Constants.SAVED_LEVEL_PATH + fileName);
     	writer.write(this.exportToXML(level));
     	writer.close();
     	return true;
@@ -280,8 +278,8 @@ public class LevelBuilder extends DefaultHandler {
 	private int getRabbitRount() {
     	int count = 0;
     	Square squares[][] = board.getSquares();
-		for (int y = 0; y < Board.BOARD_SIZE; y++) {
-			for (int x = 0; x < Board.BOARD_SIZE; x++) {
+		for (int y = 0; y < Constants.BOARD_SIZE; y++) {
+			for (int x = 0; x < Constants.BOARD_SIZE; x++) {
 				if (squares[x][y].hasPiece()) {
 					if (squares[x][y].getPiece().getType() == PieceType.RABBIT) {
 						count++;
@@ -303,12 +301,12 @@ public class LevelBuilder extends DefaultHandler {
     
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {    	
-    	current = XMLTerms.valueOf(qName);
+    	current = Constants.XMLTerms.valueOf(qName);
     }
     
     @Override
     public void endElement(String uri, String localName, String qName) throws SAXException {
-    	XMLTerms endElement = XMLTerms.valueOf(qName);
+    	Constants.XMLTerms endElement = Constants.XMLTerms.valueOf(qName);
     	switch (endElement) {
 			case Mushroom:
 				currentPiece = new Mushroom(currentLocation);
@@ -338,7 +336,7 @@ public class LevelBuilder extends DefaultHandler {
     	
     	switch (current) {
 			case Color:
-				currentRabbitColor = Rabbit.RABBIT_COLORS.valueOf(string);
+				currentRabbitColor = Constants.RABBIT_COLORS.valueOf(string);
 				break;
 			case Coordinate1:
 				String[] coord = string.split(",");
@@ -364,7 +362,7 @@ public class LevelBuilder extends DefaultHandler {
     }
          
     private void parseJSON() throws Exception {  	
-    	File file = new File(SAVED_LEVEL_PATH + "level" + level + ".xml");	
+    	File file = new File(Constants.SAVED_LEVEL_PATH + "level" + level + ".xml");	
         SAXParserFactory SAXFactory = SAXParserFactory.newDefaultInstance();
         SAXParser SAXParser = SAXFactory.newSAXParser();
         SAXParser.parse(file, this);

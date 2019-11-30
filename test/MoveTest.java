@@ -25,7 +25,7 @@ public class MoveTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		animal = new Rabbit(Rabbit.RABBIT_COLORS.Brown, new Location(0, 0));
+		animal = new Rabbit(Constants.RABBIT_COLORS.Brown, new Location(0, 0));
 		newLocation = new Location(1, 1);
 		move = new Move(newLocation, animal);
 	}
