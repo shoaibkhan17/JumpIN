@@ -28,7 +28,6 @@ public class Rabbit extends Animal {
         this.rabbitColor = rabbitColor;
     }
 
-
 	/**
 	 * Method that checks whether the move made by the Rabbit is valid or not
 	 * @param constNumber used for checking against the x value to see whether its a valid number
@@ -111,6 +110,38 @@ public class Rabbit extends Animal {
 		else {
 			return false;
 		}
+	}
+	
+	/**
+	 * Method to move the rabbit
+	 * @param newLocation
+	 * @param board
+	 * @param userMove
+	 * @param redo
+	 */
+	public boolean move(Location newLocation, Board board, boolean userMove, boolean redo) {
+		int x = newLocation.getX();
+		int y = newLocation.getY();
+		Square[][] squares = board.getSquares();
+		
+		Piece locationPiece = squares[x][y].getPiece();
+		
+		if (locationPiece != null && locationPiece.getType() == PieceType.HOLE) {
+			Hole hole = (Hole) locationPiece;
+			board.undoRedoHandler(this.getPieceLocation(), this, userMove, redo);
+			board.removePiece(this.getPieceLocation());
+			this.setPieceLocation(newLocation);
+			hole.setPiece(userMove ? this : this);
+		}
+		
+		else {
+			board.undoRedoHandler(this.getPieceLocation(), this, userMove, redo);
+			board.removePiece(this.getPieceLocation());
+			this.setPieceLocation(newLocation);
+			squares[x][y].setPiece(this);
+		}
+		
+		return true;
 	}
 	
 	/**

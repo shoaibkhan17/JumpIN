@@ -52,8 +52,10 @@ public class Constants {
 	/**
 	 * Total developed levels.
 	 * Custom levels do not count under the developed levels.
+	 * The 9th level is a custom level generated from the level builder.
+	 * The 9th level is not added under the developed levels.
 	 */
-	public static final int TOTAL_LEVELS = 9;
+	public static final int TOTAL_LEVELS = 8;
 	
 	/**
 	 * Button background color for the main empty square

@@ -77,4 +77,14 @@ public abstract class Animal extends Piece {
 	 * @return boolean returns true if the move has been made, else returns false.
 	 */
 	public abstract boolean canMove(Location newLocation, Square[][] squares);
+	
+	/**
+	 * Abstact method to move the animal
+	 * @param newLocation
+	 * @param board
+	 * @param userMove
+	 * @param redo
+	 * @return
+	 */
+	public abstract boolean move(Location newLocation, Board board, boolean userMove, boolean redo);
 }
