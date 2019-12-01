@@ -10,11 +10,7 @@
  */
 public class Parser {
 
-    /**
-     * Possible rows.
-     */
-    public enum PossibleRows {A, B, C, D, E}
-
+	
     /**
      * If it is a valid coordinate.
      */
@@ -92,7 +88,7 @@ public class Parser {
      */
     private boolean convertRowToInt(char text) {
         String check = text + "";
-        for (PossibleRows r: PossibleRows.values()) {
+        for (Constants.PossibleRows r: Constants.PossibleRows.values()) {
             if (r.name().equalsIgnoreCase(check)) {
                 location.setX(r.ordinal());
                 return true;

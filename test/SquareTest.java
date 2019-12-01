@@ -81,7 +81,7 @@ public class SquareTest {
 	 */
 	@Test
 	public void testSetPiece() {
-		Piece piece = new Mushroom();
+		Piece piece = new Mushroom(new Location(0, 0));
 		square.setPiece(piece);
 		assertTrue(square.hasPiece());
 		assertEquals(piece, square.getPiece());
@@ -92,7 +92,7 @@ public class SquareTest {
 	 */
 	@Test
 	public void testRemovePiece() {
-		Piece piece = new Mushroom();
+		Piece piece = new Mushroom(new Location(0, 0));
 		square.setPiece(piece);
 		assertTrue(square.hasPiece());
 		square.removePiece();
@@ -104,7 +104,7 @@ public class SquareTest {
 	 */
 	@Test
 	public void testGetPiece() {
-		Piece piece = new Mushroom();
+		Piece piece = new Mushroom(new Location(0, 0));
 		square.setPiece(piece);
 		assertEquals(piece, square.getPiece());
 	}
@@ -114,7 +114,7 @@ public class SquareTest {
 	 */
 	@Test
 	public void testGetPieceType() {
-		Piece piece = new Mushroom();
+		Piece piece = new Mushroom(new Location(0, 0));
 		square.setPiece(piece);
 		assertEquals(piece.getType(), square.getPiece().getType());
 	}

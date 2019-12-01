@@ -87,4 +87,11 @@ public class Hole extends Piece {
     public String toString() {
         return isOccupied() ? this.innerPiece.toString() : super.toString();
     }
+    
+    /**
+     * Method to generate the xml structure of the object
+     */
+    public String toXML() {
+    	return "";
+    }
 }

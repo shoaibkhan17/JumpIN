@@ -18,7 +18,6 @@ public class AutoSolver {
 	private MoveStack moveHolder;
 	private ArrayList<String> visitedStates;
 	private ArrayList<Animal> animalsInGame;
-	public static final int SLEEP_TIMER = 100;
 	
 	/**
 	 * Default constructor initializing instance variables
@@ -57,7 +56,7 @@ public class AutoSolver {
 		case DOWN:
 			i = location.getY() + 1;
 			horizonal = false;
-			limit = Board.BOARD_SIZE;
+			limit = Constants.BOARD_SIZE;
 			break;
 		case LEFT:
 			i = 0;
@@ -67,7 +66,7 @@ public class AutoSolver {
 		case RIGHT:
 			i = location.getX() + 1;
 			horizonal = true;
-			limit = Board.BOARD_SIZE;
+			limit = Constants.BOARD_SIZE;
 			break;
 		default:
 			return null;
@@ -105,8 +104,8 @@ public class AutoSolver {
 	 */	
 	private void getAnimalsInGame() {
 		Animal animalPiece = null;
-		for (int x = 0; x < Board.BOARD_SIZE; x++) {
-			for (int y = 0; y < Board.BOARD_SIZE; y++) {
+		for (int x = 0; x < Constants.BOARD_SIZE; x++) {
+			for (int y = 0; y < Constants.BOARD_SIZE; y++) {
 				if (squares[x][y].getPiece() != null) {
 					if (squares[x][y].getPiece().getType() == PieceType.RABBIT || squares[x][y].getPiece().getType() == PieceType.FOX) {
 						animalPiece = (Animal) squares[x][y].getPiece();
@@ -201,11 +200,13 @@ public class AutoSolver {
 	public boolean autoSolve(int sleepTimer) {
 		visitedStates.add(board.getBoardState());
 		this.getAnimalsInGame();
-		int counter = 1;		
+		int counter = 1;
 		while (!board.isGameWon()) {		
 			try {
 				this.solve();
-				view.updateView();
+				if (view != null) {
+					view.updateView();
+				}
 				Thread.sleep(sleepTimer);
 				counter++;
 			} catch (Exception e) {

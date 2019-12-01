@@ -23,9 +23,6 @@ public class Board implements Serializable {
 	protected Animal selectedPiece;
 	protected LinkedList<Location> holeLocations;
 	protected int rabbitCount;
-	protected static final int BOARD_SIZE = 5;
-	protected static final char BOARD_PRINT_CHAR = '*';
-	protected static final int TOTAL_LEVELS = 8;
 	protected MoveStack moveStack;
 	protected MoveStack redoStack;
 	private int currentLevel;
@@ -46,6 +43,7 @@ public class Board implements Serializable {
 	 */
 	public Board(int level) {
 		this.init();
+		currentLevel = level;
 		
 		// Sets the level of the game.
 		this.initBoard(level);
@@ -55,7 +53,7 @@ public class Board implements Serializable {
 	 * Method to initialize the board.
 	 */
 	private void init() {
-		squares = new Square[BOARD_SIZE][BOARD_SIZE];
+		squares = new Square[Constants.BOARD_SIZE][Constants.BOARD_SIZE];
 		holeLocations = new LinkedList<>();
 		selectedPiece = null;
 		rabbitCount = 0;
@@ -63,8 +61,8 @@ public class Board implements Serializable {
 		moveStack = new MoveStack();
 		redoStack = new MoveStack();
 		
-		for (int x = 0; x < Board.BOARD_SIZE; x++) {
-			for (int y = 0; y < Board.BOARD_SIZE; y++) {
+		for (int x = 0; x < Constants.BOARD_SIZE; x++) {
+			for (int y = 0; y < Constants.BOARD_SIZE; y++) {
 				this.squares[x][y] = new Square(new Location(x, y));
 			}
 		} 
@@ -103,8 +101,8 @@ public class Board implements Serializable {
 	 */
 	private void reinitialize() {
 		// Default values.
-		for (int x = 0; x < Board.BOARD_SIZE; x++) {
-			for (int y = 0; y < Board.BOARD_SIZE; y++) {
+		for (int x = 0; x < Constants.BOARD_SIZE; x++) {
+			for (int y = 0; y < Constants.BOARD_SIZE; y++) {
 				this.squares[x][y].setPiece(null);
 			}
 		}
@@ -131,7 +129,7 @@ public class Board implements Serializable {
 	 * @return squares at the location
 	 */
 	public Square getSquareAtLocation(Location location) {
-		if (location.getX() >= BOARD_SIZE || location.getY() >= BOARD_SIZE) {
+		if (location.getX() >= Constants.BOARD_SIZE || location.getY() >= Constants.BOARD_SIZE) {
 			return null;
 		}
 		return squares[location.getX()][location.getY()];
@@ -245,7 +243,7 @@ public class Board implements Serializable {
 	 * @param userMove
 	 * @param redo
 	 */
-	private void undoRedoHandler(Location newLocation, Animal animalPiece, boolean userMove, boolean redo) {
+	protected void undoRedoHandler(Location newLocation, Animal animalPiece, boolean userMove, boolean redo) {
 		if (userMove) {
 			// Clear the redo stack if a move was made between an undo and a redo.
 			// Clearing the stack, to prevent redoing to an invalid location.
@@ -265,57 +263,6 @@ public class Board implements Serializable {
 	}
 	
 	/**
-	 * Method to move the fox.
-	 * @param newLocation the new location
-	 * @param animalPiece the piece that is about to be moved
-	 * @param userMove If it is a user move or an automated move
-	 * @param redo if the move needs to be added to the redo stack 
-	 */
-	public void moveFox(Location newLocation, Animal animalPiece, boolean userMove, boolean redo) {
-		Fox fox = (Fox) animalPiece;
-		Location oldLoc = new Location(fox.getPieceLocation());
-		this.removePiece(fox.getPieceLocation());
-		Location oldBodyLoc = new Location(fox.getBodyLocation());
-		Fox body = (Fox) squares[oldBodyLoc.getX()][oldBodyLoc.getY()].getPiece();
-		this.removePiece(oldBodyLoc);
-		String movementType = fox.calculatePieceLocation(newLocation, body);
-		this.undoRedoHandler(movementType.equals("head") ? oldLoc : oldBodyLoc, fox, userMove, redo);
-		Location foxLocation = new Location(fox.getPieceLocation());
-		squares[foxLocation.getX()][foxLocation.getY()].setPiece(animalPiece);
-		Location newBodyLoc = new Location(fox.getBodyLocation());
-		squares[newBodyLoc.getX()][newBodyLoc.getY()].setPiece(body);
-	}
-	
-	/**
-	 * Method to move the rabbit.
-	 * @param newLocation the new location
-	 * @param animalPiece the piece that is about to be moved
-	 * @param userMove If it is a user move or an automated move
-	 * @param redo if the move needs to be added to the redo stack 
-	 */
-	public void moveRabbit(Location newLocation, Animal animalPiece, boolean userMove, boolean redo) {
-		int x = newLocation.getX();
-		int y = newLocation.getY();
-		
-		Piece locationPiece = squares[x][y].getPiece();
-		
-		if (locationPiece != null && locationPiece.getType() == PieceType.HOLE) {
-			Hole hole = (Hole) locationPiece;
-			this.undoRedoHandler(animalPiece.getPieceLocation(), animalPiece, userMove, redo);
-			this.removePiece(animalPiece.getPieceLocation());
-			animalPiece.setPieceLocation(newLocation);
-			hole.setPiece(userMove ? animalPiece : animalPiece);
-		}
-		
-		else {
-			this.undoRedoHandler(animalPiece.getPieceLocation(), animalPiece, userMove, redo);
-			this.removePiece(animalPiece.getPieceLocation());
-			animalPiece.setPieceLocation(newLocation);
-			squares[x][y].setPiece(animalPiece);
-		}
-	}
-	
-	/**
 	 * Method that moves the piece from the initial location to the new location 
 	 * @param oldLocation initial location of the piece to be moved
 	 * @param newLocation new location of the piece
@@ -328,19 +275,9 @@ public class Board implements Serializable {
 		if (animalPiece.getPieceLocation().equals(newLocation)) {
 			return true;
 		}
-			
-		switch (animalPiece.getType()) {
-			case RABBIT:
-				this.moveRabbit(newLocation, animalPiece, userMove, redo);
-				return true;
-				
-			case FOX:
-				this.moveFox(newLocation, animalPiece, userMove, redo);
-				return true;
-			
-			default:
-				return false;
-		}
+		
+		// Otherwise, move the piece
+		return animalPiece.move(newLocation, this, userMove, redo);
 	}
 	
 	/**
@@ -396,7 +333,7 @@ public class Board implements Serializable {
 	public String getBoardLine() {
 		String boardLine = "\n  ";
 		for (int i = 0; i < 21; i++) {
-			boardLine += Board.BOARD_PRINT_CHAR;
+			boardLine += Constants.BOARD_PRINT_CHAR;
 		}
 
 		boardLine += "\n";
@@ -410,15 +347,15 @@ public class Board implements Serializable {
 	@Override
 	public String toString() {
 		String board = "\n    A   B   C   D   E";
-		for (int y = 0; y < Board.BOARD_SIZE; y++) {
+		for (int y = 0; y < Constants.BOARD_SIZE; y++) {
 			board += this.getBoardLine();
 			board += y + 1 + " ";
 
-			for (int x = 0; x < Board.BOARD_SIZE; x++) {
-				board += BOARD_PRINT_CHAR + " " + squares[x][y].toString() + " ";
+			for (int x = 0; x < Constants.BOARD_SIZE; x++) {
+				board += Constants.BOARD_PRINT_CHAR + " " + squares[x][y].toString() + " ";
 			}
 
-			board += Board.BOARD_PRINT_CHAR;
+			board += Constants.BOARD_PRINT_CHAR;
 		}
 
 		board += this.getBoardLine() + '\n';
@@ -445,8 +382,8 @@ public class Board implements Serializable {
 	 */
 	public String getBoardState() {
 		String boardState = "";
-		for (int y = 0; y < Board.BOARD_SIZE; y++) {
-			for (int x = 0; x < Board.BOARD_SIZE; x++) {
+		for (int y = 0; y < Constants.BOARD_SIZE; y++) {
+			for (int x = 0; x < Constants.BOARD_SIZE; x++) {
 				boardState += squares[x][y].getPiece() == null ? "E" : squares[x][y];
 			}
 		}
@@ -484,4 +421,21 @@ public class Board implements Serializable {
 		System.out.print(this.toString());
 		this.getHoleStatus();
 	}
+	
+    /**
+     * Method to generate the xml structure of the object
+     */
+    public String toXML() {
+    	
+    	String xml = "";
+		for (int y = 0; y < Constants.BOARD_SIZE; y++) {
+			for (int x = 0; x < Constants.BOARD_SIZE; x++) {
+				String internalXML = squares[x][y].toXML();
+				if (!internalXML.equals("")) {
+					xml += "\n" + internalXML;
+				}
+			}
+		}
+		return xml;
+    }
 }

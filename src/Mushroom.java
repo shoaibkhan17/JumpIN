@@ -9,6 +9,11 @@
  * @author Shoaib Khan - 101033582
  */
 public class Mushroom extends Piece {
+	
+	/**
+	 * Location that is only used to generate the XML
+	 */
+	private Location location;
 
     /**
 	 * Serial version UID for serialization and de-serialization
@@ -28,7 +33,18 @@ public class Mushroom extends Piece {
     /**
      * Default constructor initializing instance variables
      */
-    public Mushroom() {
+    public Mushroom(Location location) {
         super(PieceType.MUSHROOM, IS_MOVABLE, IS_SELECTABLE);
+        this.location = location;
+    }
+    
+    /**
+     * Method to generate the xml structure of the object
+     */
+    public String toXML() {
+    	String xml = "    <Mushroom>\n";
+    	xml += "        <Coordinate1>" + location.toStringNumeric() + "</Coordinate1>\n";
+    	xml += "    </Mushroom>";
+    	return xml;
     }
 }

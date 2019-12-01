@@ -1,0 +1,26 @@
+<Level>
+    <LevelNumber>9</LevelNumber>
+    <RabbitCount>1</RabbitCount>
+    <Rabbit>
+        <Coordinate1>1,0</Coordinate1>
+        <Color>Gray</Color>
+    </Rabbit>
+    <Fox>
+        <Coordinate1>2,1</Coordinate1>
+        <Coordinate2>3,1</Coordinate2>
+        <Movement>Horizontal</Movement>
+    </Fox>
+    <Mushroom>
+        <Coordinate1>4,2</Coordinate1>
+    </Mushroom>
+    <Fox>
+        <Coordinate1>1,3</Coordinate1>
+        <Coordinate2>1,4</Coordinate2>
+        <Movement>Veritcal</Movement>
+    </Fox>
+    <Fox>
+        <Coordinate1>3,3</Coordinate1>
+        <Coordinate2>4,3</Coordinate2>
+        <Movement>Horizontal</Movement>
+    </Fox>
+</Level>

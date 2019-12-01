@@ -287,4 +287,44 @@ public class Fox extends Animal {
 
 		return false;
 	}
+	
+	/**
+	 * Method to move the fox
+	 * @param newLocation
+	 * @param board
+	 * @param userMove
+	 * @param redo
+	 */
+	public boolean move(Location newLocation, Board board, boolean userMove, boolean redo) {
+		Square[][] squares = board.getSquares();
+		Fox fox = (Fox) this;
+		Location oldLoc = new Location(fox.getPieceLocation());
+		board.removePiece(fox.getPieceLocation());
+		Location oldBodyLoc = new Location(fox.getBodyLocation());
+		Fox body = (Fox) squares[oldBodyLoc.getX()][oldBodyLoc.getY()].getPiece();
+		board.removePiece(oldBodyLoc);
+		String movementType = fox.calculatePieceLocation(newLocation, body);
+		board.undoRedoHandler(movementType.equals("head") ? oldLoc : oldBodyLoc, fox, userMove, redo);
+		Location foxLocation = new Location(fox.getPieceLocation());
+		squares[foxLocation.getX()][foxLocation.getY()].setPiece(this);
+		Location newBodyLoc = new Location(fox.getBodyLocation());
+		squares[newBodyLoc.getX()][newBodyLoc.getY()].setPiece(body);
+		return true;
+	}
+	
+    /**
+     * Method to generate the xml structure of the object
+     */
+    public String toXML() {
+    	if (tail) {
+    		return "";
+    	}
+    	
+    	String xml = "    <Fox>\n";
+    	xml += "        <Coordinate1>" + pieceLocation.toStringNumeric() + "</Coordinate1>\n";
+    	xml += "        <Coordinate2>" + bodyLocation.toStringNumeric() + "</Coordinate2>\n";
+    	xml += "        <Movement>" + (horizontalMovement ? "Horizontal" : "Veritcal") + "</Movement>\n";
+    	xml += "    </Fox>";
+    	return xml;
+    }
 }
