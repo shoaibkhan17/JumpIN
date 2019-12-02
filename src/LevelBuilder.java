@@ -271,7 +271,7 @@ public class LevelBuilder extends DefaultHandler {
 		File[] savedGameFiles = saveDirectory.listFiles();
 		for (int i = 0; i < savedGameFiles.length; i++) {
 			if (fileName.equals(savedGameFiles[i].getName())) {
-				throw new Exception("Level " + level + " already exists.\nPlease save under a different level.");
+				throw new Exception("Level " + fileName + " already exists.\nPlease the level under a different name.");
 			}
 		}
 		
