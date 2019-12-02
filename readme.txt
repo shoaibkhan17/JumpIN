@@ -92,6 +92,11 @@ class checks if the game has been won by checking if all the rabbits on the boar
 -----------CombinedIcon is a class that extends Icon and combines two icons together. It's purpose 
 is to combine the icon of a rabbit and a hole when a rabbit is in a hole. 
 
+- Constants Class:
+
+-----------CombinedIcon is a class that extends Icon and combines two icons together. It's purpose 
+is to combine the icon of a rabbit and a hole when a rabbit is in a hole. 
+
 - Controller Class:
 
 ----------The controller class' purpose is to receive events that occur on the GUI and then
@@ -163,6 +168,16 @@ A Rabbit also has a colour, which is important when distinguishing when there ar
 location and the piece on top of it.
 
 - View Class:
+
+----------The View class is a class that builds and displays a visual representation of the model as a GUI. It has a controller, which it alerts when a button or 
+menu is clicked and, a Board which it uses to build the GUI. 
+
+- LevelBuilder Class:
+
+----------The View class is a class that builds and displays a visual representation of the model as a GUI. It has a controller, which it alerts when a button or 
+menu is clicked and, a Board which it uses to build the GUI. 
+
+- LevelBuilderView Class:
 
 ----------The View class is a class that builds and displays a visual representation of the model as a GUI. It has a controller, which it alerts when a button or 
 menu is clicked and, a Board which it uses to build the GUI. 
