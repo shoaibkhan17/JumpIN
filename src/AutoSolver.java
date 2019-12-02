@@ -128,8 +128,8 @@ public class AutoSolver {
 	
 	
 	/**
-	 * Method to filter all the possible moves.
-	 * @return
+	 * Method to filter all the possible moves 
+	 * @return filtedMoves stack containing the moves
 	 */
 	public MoveStack filterMoves() {
 		MoveStack filtedMoves = new MoveStack();

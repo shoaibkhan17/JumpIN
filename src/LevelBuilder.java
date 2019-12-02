@@ -363,7 +363,7 @@ public class LevelBuilder extends DefaultHandler {
          
     private void parseJSON() throws Exception {  	
     	File file = new File(Constants.SAVED_LEVEL_PATH + "level" + level + ".xml");	
-        SAXParserFactory SAXFactory = SAXParserFactory.newDefaultInstance();
+        SAXParserFactory SAXFactory = SAXParserFactory.newInstance();
         SAXParser SAXParser = SAXFactory.newSAXParser();
         SAXParser.parse(file, this);
     }
