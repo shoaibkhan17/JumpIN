@@ -5,39 +5,35 @@
    <object class="com.horstmann.violet.ClassNode" id="ClassNode0">
     <void property="attributes">
      <void property="text">
-      <string>#squares[][]: Square
+      <string>-&lt;u&gt; serialVersionUID: long = 2L&lt;/u&gt;
+#squares[][]: Square
 #selectedPiece: Animal
-#holeLocations: LinkedList&lt;Location&gt;
 #holeLocations: LinkedList&lt;Location&gt;
 #rabbitCount: int
 # moveStack: MoveStack
+# redoStack: MoveStack
 -currentLevel: int
--turnsTaken: int
-#&lt;u&gt; BOARD_SIZE: int
-#&lt;u&gt; BOARD_PRINT_CHAR: char
-#&lt;u&gt;TOTAL_LEVELS: int
-</string>
+-turnsTaken: int</string>
      </void>
     </void>
     <void property="methods">
      <void property="text">
-      <string>+Board(level: int)
+      <string>+Board()
++Board(level: int)
+-init(): void
 +getLevel(): int
 +getTurnsTaken(): int
-+changeLevel(level: int): void
++changeLevel(level: int): boolean
 -reinitialize(): void
 +getSquares(): Square[][]
 +getSquareAtLocation(location: Location): Square
 -initBoard(level: int):void
--initToLevel1(): void
--initToLevel2(): void
--initToLevel3(): void
--initToLevel4(): void
--initToLevel5(): void
++removePiece(location: Location): void
+-selectPiece(location: Location): boolean
 +removePiece(location: Location): void
 +selectPiece(location: Location): boolean
 #canMove(newLocation: Location, animalPiece: Animal): boolean
--undeoRedoHandler(newLocation: Location, 
+-undeoRedoHandler(newLocation: Location, animalPiece: Animal, userMove: boolean, redo: boolean): void
 +movePiece(newLocation: Location, animalPiece: Animal, userMove: boolean, redo: boolean ): boolean
 +move(location: Location): boolean
 +undo(): void
@@ -47,7 +43,8 @@
 +getHoleStatus(): void
 +getBoardState(): String
 +isGameWon(): boolean
-+printBoard(): void</string>
++printBoard(): void
++ toXML(): String</string>
      </void>
     </void>
     <void property="name">
