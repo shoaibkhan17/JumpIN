@@ -15,13 +15,24 @@ import java.awt.event.ActionListener;
  */
 
 public class LevelBuilderView {
-
 	private JFrame frame;
 	private Board board;
 	private LevelBuilder builder;
 
 	/**
-	 * Constructor to initialize the instance variables
+	 * Styling variables
+	 */
+	private final static Color MAIN_SQUARE_COLOR = new Color(2, 171, 80);
+	private final static Color TOOLBAR_COLOR = new Color(40, 90, 40);
+	private final static Color CORNER_SQUARE_COLOR = new Color(37, 177, 73);
+	private final static Color SELECTED_SQUARE_COLOR = new Color(51, 204, 255);
+	private final static Border LINE = new LineBorder(Color.white);
+	private final static Border MARGIN = new EmptyBorder(5, 15, 5, 15);
+	private final static Border COMPOUND = new CompoundBorder(LINE, MARGIN);
+	private final static Dimension VIEW_DIMENSION = new Dimension(600, 550);
+
+	/**
+	 * Default Constructor initializing instance variables
 	 */
 	public LevelBuilderView() {
 		board = new Board();
@@ -49,6 +60,60 @@ public class LevelBuilderView {
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
+	
+	/**
+	 * Method to initialize the tool bar
+	 */
+	private void initToolbar() {
+		JToolBar toolbar = new JToolBar(JToolBar.VERTICAL);
+		toolbar.setBackground(TOOLBAR_COLOR);
+		toolbar.setFloatable(false);
+        toolbar.add(this.addItemToToolbar("mushroom"));
+        toolbar.add(this.addItemToToolbar("rabbitbrown"));
+        toolbar.add(this.addItemToToolbar("rabbitgray"));
+        toolbar.add(this.addItemToToolbar("rabbitwhite"));
+        toolbar.add(this.addItemToToolbar("foxheadhorizontal"));
+        toolbar.add(this.addItemToToolbar("foxheadvertical"));
+        frame.add(toolbar, BorderLayout.WEST);
+	}
+	
+	/**
+	 * 
+	 * @param item to be added to the tool bar
+	 * @return label 
+	 */
+	private JLabel addItemToToolbar(String item) {
+		DragMouseAdapter listener = new DragMouseAdapter();
+		String path = "src/assets/" + item + ".png";
+		ImageIcon icon = new ImageIcon(path);
+		JLabel label = new JLabel(icon);
+		label.setTransferHandler(new DragAndDropHandler(false));
+		label.addMouseListener(listener);
+		return label;
+	}
+	
+    private class DragMouseAdapter extends MouseAdapter {
+
+        public void mousePressed(MouseEvent e) {
+
+            JComponent c = (JComponent) e.getSource();
+            TransferHandler handler = c.getTransferHandler();
+            handler.exportAsDrag(c, e, TransferHandler.COPY);
+
+        }
+        
+        public void mouseReleased(MouseEvent e) {
+        	  JComponent c = (JComponent) e.getSource();
+        	  System.out.println(c);
+        	  
+//        	  if ()
+//              var source = (JLabel) e.getSource();
+//              var handler = c.getTransferHandler();
+//              handler.exportAsDrag(c, e, TransferHandler.COPY);
+        }
+        
+        public void mouseClicked(MouseEvent e) {}
+    }
 	
 	/**
 	 * Method to create the menu items.
@@ -91,7 +156,7 @@ public class LevelBuilderView {
 	}
 
 	/**
-	 * Method which reset and delete all the pieces. 
+	 * Method which reset and delete all the pieces
 	 */
 	private void reset() {
 		JFrame popupFrame = new JFrame();
@@ -104,13 +169,12 @@ public class LevelBuilderView {
 	}
 
 	/**
-	 * Method to update the view after reset.
+	 * Method to update the view after reset
 	 */
 	public void resetView() {
 		board.changeLevel(board.getLevel());
 		this.updateView();
 	}
-
 
 	/**
 	 * Displays a pop up which takes a file name from the user.
@@ -133,9 +197,24 @@ public class LevelBuilderView {
 		}
 	}
 
+	/**
+	 * Displays a pop up with all available saved levels files 
+	 * Loads the selected level
+	 */
+	public void displayLoadDialog() {
+		String[] loadOptions = controller.getLoadOptions();
+		
+		if (loadOptions.length != 0) {
+			String loadFile = (String) JOptionPane.showInputDialog(frame, "Which save would you like to load?", "Load", 
+					JOptionPane.QUESTION_MESSAGE, null, loadOptions, null);
+			controller.load(loadFile);
+		} else {
+			JOptionPane.showMessageDialog(frame, "No save data to load.");
+		}
+	}
 
 	/**
-	 * Method which initializes the main view of the level builder.
+	 * Method which initializes the main view of the level builder
 	 */
 	private void initView() {
 		for (int y = 0; y < Constants.BOARD_SIZE; y++) {

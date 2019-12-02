@@ -16,7 +16,6 @@ import java.util.ArrayList;
  */
 
 public class View {
-
 	private JFrame frame;
 	private Board board;
 	private Controller controller;
@@ -34,7 +33,7 @@ public class View {
 	
 	/**
 	 * Constructor to initialize the instance variables 
-	 * @param board
+	 * @param board instance of Board
 	 */
 	public View(Board board) {
 		this.board = board;
@@ -65,10 +64,10 @@ public class View {
 	}
 
 	/**
-	 * Method to create the menu items.
-	 * @param name
-	 * @param actionListener
-	 * @return
+	 * Method to create the menu items
+	 * @param name name of the menu
+	 * @param actionListener takes care of the corresponding action performed
+	 * @return item a JMenuItem
 	 */
 	private JMenuItem createMenuItem(String name, ActionListener actionListener) {
 		JMenuItem item = new JMenuItem(name);
@@ -119,6 +118,9 @@ public class View {
 		frame.setJMenuBar(menuBar);
 	}
 	
+	/**
+	 * Method which shows the GUI for the level builder
+	 */
 	private void showLevelBuilderView() {
 		LevelBuilderView levelBuilderView = new LevelBuilderView();
 		levelBuilderView.run();
@@ -138,7 +140,7 @@ public class View {
 	}
 
 	/**
-	 * Method to update the view after reset.
+	 * Method to update the view after reset
 	 */
 	public void resetView() {
 		board.changeLevel(board.getLevel());
@@ -165,7 +167,7 @@ public class View {
 	}
 
 	/**
-	 * Displays a pop up which takes a file name from the user.
+	 * Displays a pop up which takes a file name from the user
 	 * If the file name is valid it calls controller.save(fileName)
 	 * which saves the state of the board
 	 */
