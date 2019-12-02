@@ -194,7 +194,7 @@ public class Controller implements Runnable {
 	/**
 	 * Searches the SavedGames folder for all save files
 	 * and returns an array of string containing the save
-	 * file names
+	 * file names.
 	 * @return {String[]} loadOptions: The name of all possible save that can be loaded
 	 */
 	public String[] getLoadOptions() {
@@ -225,9 +225,9 @@ public class Controller implements Runnable {
 	}
 
 	/**
-	 * Method that runs on a different thread
-	 * Run the auto solver loop on this thread
-	 * So, the view can update and render on the other thread
+	 * Method that runs on a different thread.
+	 * Run the auto solver loop on this thread.
+	 * So, the view can update and render on the other thread.
 	 */
 	@Override
 	public void run() {
