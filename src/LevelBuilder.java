@@ -164,8 +164,9 @@ public class LevelBuilder extends DefaultHandler {
 		Fox[] verticalFoxes = this.createFoxVertical(square.getLoc());
 		if (verticalFoxes == null) {
 			square.setCounter(5);
-			square.doClick();
-			
+			if (square.hasPiece()) {
+				square.doClick();
+			}
 		}
 		
 		else {
