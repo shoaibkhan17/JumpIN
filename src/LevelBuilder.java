@@ -15,15 +15,14 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 /**
- * DOCUMENT LEFT TO BE DONE 
- * TODO
- * Constants
+ * Level Builder class containing logic that allows the user
+ * to build a custom level
+ * 
  * @author Khalil Aalab - 101070879
  * @author Kamaluddin Shakiri - 101054933
  * @author Simon Yacoub - 101044159
  * @author Md Aiman Sharif - 101062765
  * @author Shoaib Khan - 101033582
- *
  */
 public class LevelBuilder extends DefaultHandler {
 	private Constants.XMLTerms current;
@@ -37,16 +36,28 @@ public class LevelBuilder extends DefaultHandler {
 	private ArrayList<Location> possibleHoleLocations; 
 	private Boolean horizontalMovement;
 	
+	/**
+	 * Default Constructor initializing instance variables
+	 * @param board instance of Board
+	 */
 	public LevelBuilder(Board board) {
         this.board = board;
         this.init();
 	}
 	
+	/**
+	 * Overloaded constructor 
+	 * @param level level number
+	 * @param board instance of Board
+	 */
     public LevelBuilder(int level, Board board) {
     	this(board);
         this.level = level;
     }
     
+    /**
+     * Method to initialize the level builder object
+     */
     public void init() {
         squares = board.getSquares();
         currentPiece = null;
@@ -61,16 +72,31 @@ public class LevelBuilder extends DefaultHandler {
         possibleHoleLocations.add(new Location(4, 4));
     }
     
+    /**
+     * Method to create and return a mushroom object
+     * @param location the mushroom location
+     * @return Mushroom
+     */
     private Piece createMushroom(Location location) {
     	return new Mushroom(location);
     }
     
+    /**
+     * Method to create and return a rabbit object.
+     * Rabbit colors are choose in random.
+     * @param location the rabbit location
+     * @return Rabbit
+     */
     private Rabbit createRabbit(Location location) {
     	int randomNumber = (int) (Math.random() * ((2 - 0) + 1));
     	return new Rabbit(Constants.RABBIT_COLORS.values()[randomNumber], location);
     }
     
-    
+    /**
+     * Method to create and return a horizontal fox
+     * @param location the fox location
+     * @return Fox[] horizontal foxes
+     */
     private Fox[] createFoxHorizontal(Location location) {
     	Fox[] foxes = new Fox[2];
     	
@@ -88,6 +114,11 @@ public class LevelBuilder extends DefaultHandler {
     	return null;
     }
     
+    /**
+     * Method to create and return a vertical fox
+     * @param location the fox location
+     * @return Fox[] vertical foxes
+     */
     private Fox[] createFoxVertical(Location location) {
     	Fox[] foxes = new Fox[2];
     	
@@ -105,7 +136,10 @@ public class LevelBuilder extends DefaultHandler {
     	return null;
     }
     
-    
+    /**
+     * Method to place the horizontal foxes
+     * @param square the square to place the fox on. 
+     */
     private void placeHorizontalFoxes(Square square) {
 		Fox[] horizontalFoxes = this.createFoxHorizontal(square.getLoc());
 		if (horizontalFoxes == null) {
@@ -122,6 +156,10 @@ public class LevelBuilder extends DefaultHandler {
 		}
     }
     
+    /**
+     * Method to place the horizontal foxes
+     * @param square the square to place the fox on. 
+     */
     private void placeVericalFoxes(Square square) {
 		Fox[] verticalFoxes = this.createFoxVertical(square.getLoc());
 		if (verticalFoxes == null) {
@@ -139,6 +177,10 @@ public class LevelBuilder extends DefaultHandler {
 		}
     }
     
+    /**
+     * Method to add piece to the square
+     * @param square the square to add the piece on
+     */
     private void addPiece(Square square) {
 		Piece piece = square.getPiece();
     	switch (square.getCounter()) {
@@ -183,6 +225,11 @@ public class LevelBuilder extends DefaultHandler {
     	}
     }
     
+    /**
+     * Method to handle adding piece to the square.
+     * On click method
+     * @param square the source of the action event
+     */
     protected void buildHandler(Square square) {
     	
     	if (square.getPiece() == null) {
@@ -213,17 +260,28 @@ public class LevelBuilder extends DefaultHandler {
     	}
     }
     
+    /**
+     * Method to check if the file exists.
+     * @param fileName
+     * @throws Exception
+     */
     public void checkFileExists(String fileName) throws Exception {
 		File saveDirectory = new File(Constants.SAVED_LEVEL_PATH);
 		File[] savedGameFiles = saveDirectory.listFiles();
 		for (int i = 0; i < savedGameFiles.length; i++) {
 			if (fileName.equals(savedGameFiles[i].getName())) {
-				throw new Exception("Level " + level + " already exists.\nPlease the level under a different name.");
+				throw new Exception("Level " + level + " already exists.\nPlease save under a different level.");
 			}
 		}
 		
     }
     
+    /**
+     * Method to deep copy the board object using serialization
+     * @return
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
     public Board deepCopyBoard() throws IOException, ClassNotFoundException {
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		ObjectOutput out = new ObjectOutputStream(bos);
@@ -238,6 +296,10 @@ public class LevelBuilder extends DefaultHandler {
 		return deepClonedBoard;
     }
     
+    /**
+     * Method to check if the level is solvable
+     * @throws Exception
+     */
     public void checkIfLevelIsSolvable() throws Exception {
     	if (board.rabbitCount == 0 || board.rabbitCount > 5) {
     		throw new Exception("The custom build level is not solvable.");
@@ -264,6 +326,12 @@ public class LevelBuilder extends DefaultHandler {
     	}
     }
     
+    /**
+     * Method to save the file 
+     * @param level
+     * @return boolean
+     * @throws Exception
+     */
     public boolean saveFile(int level) throws Exception {
     	String fileName = "level" + level + ".xml";
     	board.rabbitCount = this.getRabbitRount();
@@ -275,6 +343,10 @@ public class LevelBuilder extends DefaultHandler {
     	return true;
     }
 
+    /**
+     * Method to get the rabbit count in the game
+     * @return int
+     */
 	private int getRabbitRount() {
     	int count = 0;
     	Square squares[][] = board.getSquares();
@@ -290,6 +362,11 @@ public class LevelBuilder extends DefaultHandler {
 		return count;
     }
     
+	/**
+	 * Method to generate the xml content of the game.
+	 * @param level
+	 * @return string
+	 */
     public String exportToXML(int level) {
     	String xml = "<Level>\n";
     	xml += "    <LevelNumber>" + level + "</LevelNumber>\n";
@@ -299,11 +376,38 @@ public class LevelBuilder extends DefaultHandler {
     	return xml;    	
     }
     
+    /**
+     * Method to parse the start tags of the xml file.
+     * 
+     * @param uri The Namespace URI, or the empty string if the
+     *        element has no Namespace URI or if Namespace
+     *        processing is not being performed.
+     * @param localName The local name (without prefix), or the
+     *        empty string if Namespace processing is not being
+     *        performed.
+     * @param qName The qualified name (with prefix), or the
+     *        empty string if qualified names are not available.
+     * @param attributes The attributes attached to the element.  If
+     *        there are no attributes, it shall be an empty
+     *        Attributes object.
+     */
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {    	
     	current = Constants.XMLTerms.valueOf(qName);
     }
     
+    /**
+     * Method to parse the end tags of the xml file.
+     * 
+     * @param uri The Namespace URI, or the empty string if the
+     *        element has no Namespace URI or if Namespace
+     *        processing is not being performed.
+     * @param localName The local name (without prefix), or the
+     *        empty string if Namespace processing is not being
+     *        performed.
+     * @param qName The qualified name (with prefix), or the
+     *        empty string if qualified names are not available.
+     */
     @Override
     public void endElement(String uri, String localName, String qName) throws SAXException {
     	Constants.XMLTerms endElement = Constants.XMLTerms.valueOf(qName);
@@ -327,6 +431,19 @@ public class LevelBuilder extends DefaultHandler {
     	}
     }
     
+    /**
+     * Receive notification of character data inside an element.
+     *
+     * <p>By default, do nothing.  Application writers may override this
+     * method to take specific actions for each chunk of character data
+     * (such as adding the data to a node or buffer, or printing it to
+     * a file).</p>
+     *
+     * @param ch The characters.
+     * @param start The start position in the character array.
+     * @param length The number of characters to use from the
+     *               character array.
+     */
     @Override
     public void characters(char ch[], int start, int length) throws SAXException {
     	String string = new String(ch, start, length);
@@ -360,14 +477,22 @@ public class LevelBuilder extends DefaultHandler {
 				break;
 	    	}
     }
-         
-    private void parseJSON() throws Exception {  	
+    
+    /**
+     * Method to parse the XML content from a file
+     * @throws Exception
+     */
+    private void parseXML() throws Exception {  	
     	File file = new File(Constants.SAVED_LEVEL_PATH + "level" + level + ".xml");	
         SAXParserFactory SAXFactory = SAXParserFactory.newInstance();
         SAXParser SAXParser = SAXFactory.newSAXParser();
         SAXParser.parse(file, this);
     }
     
+    /**
+     * Method to add holes to the board object.
+     * @throws Exception
+     */
     private void addHoles() throws Exception {
     	for (Location holeLoc: possibleHoleLocations) {
     		int x = holeLoc.getX();
@@ -401,10 +526,14 @@ public class LevelBuilder extends DefaultHandler {
     	}
     }
     
+    /**
+     * Method to build the level
+     * @return boolean
+     */
     public Boolean buildLevel() {
     	try {
 			if (level != 0) {
-				this.parseJSON();
+				this.parseXML();
 			}
 			this.addHoles();
 			return true;

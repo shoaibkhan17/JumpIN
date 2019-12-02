@@ -237,15 +237,15 @@ public class Board implements Serializable {
 	}
 	
 	/**
-	 * Undo and redo method handler for the board object.
-	 * @param newLocation
-	 * @param animalPiece
-	 * @param userMove
-	 * @param redo
+	 * Undo and redo method handler for the board object
+	 * @param newLocation this is the location to which the piece is moved to
+	 * @param animalPiece this is the piece to be moved
+	 * @param userMove if a user makes a move
+	 * @param redo true if a move is redone
 	 */
 	protected void undoRedoHandler(Location newLocation, Animal animalPiece, boolean userMove, boolean redo) {
 		if (userMove) {
-			// Clear the redo stack if a move was made between an undo and a redo.
+			// Clear the redo stack if a move was made between an undo and a re-do.
 			// Clearing the stack, to prevent redoing to an invalid location.
 			if (!redoStack.isEmpty()) {
 				redoStack.popAll();
@@ -378,7 +378,7 @@ public class Board implements Serializable {
 	
 	/**
 	 * Method to get the board state
-	 * @return boardState
+	 * @return boardState state of the board
 	 */
 	public String getBoardState() {
 		String boardState = "";

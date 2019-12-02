@@ -65,10 +65,10 @@ public class View {
 	}
 
 	/**
-	 * Method to create the menu items.
-	 * @param name
-	 * @param actionListener
-	 * @return
+	 * Method to create the menu items
+	 * @param name name of the menu
+	 * @param actionListener takes care of the corresponding action performed
+	 * @return item a JMenuItem
 	 */
 	private JMenuItem createMenuItem(String name, ActionListener actionListener) {
 		JMenuItem item = new JMenuItem(name);
@@ -119,6 +119,9 @@ public class View {
 		frame.setJMenuBar(menuBar);
 	}
 	
+	/**
+	 * Method which shows the GUI for the level builder
+	 */	
 	private void showLevelBuilderView() {
 		LevelBuilderView levelBuilderView = new LevelBuilderView();
 		levelBuilderView.run();
