@@ -9,8 +9,6 @@
  * @author Shoaib Khan - 101033582
  */
 public class Parser {
-
-	
     /**
      * If it is a valid coordinate.
      */

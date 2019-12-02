@@ -168,7 +168,7 @@ public class View {
 	}
 
 	/**
-	 * Displays a pop up which takes a file name from the user.
+	 * Displays a pop up which takes a file name from the user
 	 * If the file name is valid it calls controller.save(fileName)
 	 * which saves the state of the board
 	 */
@@ -373,7 +373,7 @@ public class View {
 	}
 	
 	/**
-	 * Creates a new view based off a new board.
+	 * Creates a new view based off a new board
 	 * @param {Board} newBoard The board that will be used to create the new view.
 	 */
 	public void setBoard(Board newBoard) {

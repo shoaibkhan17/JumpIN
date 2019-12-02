@@ -15,7 +15,6 @@ import java.awt.event.ActionListener;
  */
 
 public class LevelBuilderView {
-
 	private JFrame frame;
 	private Board board;
 	private LevelBuilder builder;
@@ -111,7 +110,6 @@ public class LevelBuilderView {
 		this.updateView();
 	}
 
-
 	/**
 	 * Displays a pop up which takes a file name from the user.
 	 * If the file name is valid, it saves the xml content of the level to an xml file.
@@ -133,9 +131,8 @@ public class LevelBuilderView {
 		}
 	}
 
-
 	/**
-	 * Method which initializes the main view of the level builder.
+	 * Method which initializes the main view of the level builder
 	 */
 	private void initView() {
 		for (int y = 0; y < Constants.BOARD_SIZE; y++) {
@@ -164,6 +161,7 @@ public class LevelBuilderView {
 		square.setBorder(Constants.COMPOUND);
 		square.addActionListener((event) -> this.buttonClickHandler(event));
 		this.imageHandler(square);
+		
 		return square;
 	}
 	
@@ -243,13 +241,4 @@ public class LevelBuilderView {
 			break;
 		}
 	}
-
-//	/**
-//	 * Main method for testing.
-//	 * @param args
-//	 */
-//	public static void main(String[] args) {
-//		LevelBuilderView levelBuilderView = new LevelBuilderView();
-//		levelBuilderView.run();
-//	}
 }

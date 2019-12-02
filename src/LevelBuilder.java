@@ -138,7 +138,7 @@ public class LevelBuilder extends DefaultHandler {
     
     /**
      * Method to place the horizontal foxes
-     * @param square the square to place the fox on. 
+     * @param square the square to place the fox on
      */
     private void placeHorizontalFoxes(Square square) {
 		Fox[] horizontalFoxes = this.createFoxHorizontal(square.getLoc());
@@ -158,7 +158,7 @@ public class LevelBuilder extends DefaultHandler {
     
     /**
      * Method to place the horizontal foxes
-     * @param square the square to place the fox on. 
+     * @param square the square to place the fox on
      */
     private void placeVericalFoxes(Square square) {
 		Fox[] verticalFoxes = this.createFoxVertical(square.getLoc());
@@ -226,7 +226,7 @@ public class LevelBuilder extends DefaultHandler {
     }
     
     /**
-     * Method to handle adding piece to the square.
+     * Method to handle adding piece to the square
      * On click method
      * @param square the source of the action event
      */
@@ -261,9 +261,9 @@ public class LevelBuilder extends DefaultHandler {
     }
     
     /**
-     * Method to check if the file exists.
-     * @param fileName
-     * @throws Exception
+     * Method to check if the file exists
+     * @param fileName name of the file
+     * @throws Exception thrown if exception occurs
      */
     public void checkFileExists(String fileName) throws Exception {
 		File saveDirectory = new File(Constants.SAVED_LEVEL_PATH);
@@ -278,9 +278,9 @@ public class LevelBuilder extends DefaultHandler {
     
     /**
      * Method to deep copy the board object using serialization
-     * @return
-     * @throws IOException
-     * @throws ClassNotFoundException
+     * @return deepClonedBoard copy of the board
+     * @throws IOException if exception occurs
+     * @throws ClassNotFoundException if exception occurs
      */
     public Board deepCopyBoard() throws IOException, ClassNotFoundException {
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -298,7 +298,7 @@ public class LevelBuilder extends DefaultHandler {
     
     /**
      * Method to check if the level is solvable
-     * @throws Exception
+     * @throws Exception if exception occurs
      */
     public void checkIfLevelIsSolvable() throws Exception {
     	if (board.rabbitCount == 0 || board.rabbitCount > 5) {
@@ -328,9 +328,9 @@ public class LevelBuilder extends DefaultHandler {
     
     /**
      * Method to save the file 
-     * @param level
-     * @return boolean
-     * @throws Exception
+     * @param level current level that is saved
+     * @return boolean true if it can be saved, else false if it cannot be saved
+     * @throws Exception if an exception occurs
      */
     public boolean saveFile(int level) throws Exception {
     	String fileName = "level" + level + ".xml";
@@ -345,7 +345,7 @@ public class LevelBuilder extends DefaultHandler {
 
     /**
      * Method to get the rabbit count in the game
-     * @return int
+     * @return int count, this is the count of the number of rabbits
      */
 	private int getRabbitRount() {
     	int count = 0;
@@ -363,9 +363,9 @@ public class LevelBuilder extends DefaultHandler {
     }
     
 	/**
-	 * Method to generate the xml content of the game.
-	 * @param level
-	 * @return string
+	 * Method to generate the XML content of the game
+	 * @param level for which the XML is generated
+	 * @return string containing the XML representation
 	 */
     public String exportToXML(int level) {
     	String xml = "<Level>\n";
@@ -373,11 +373,12 @@ public class LevelBuilder extends DefaultHandler {
     	xml += "    <RabbitCount>" + board.rabbitCount + "</RabbitCount>";
     	xml += board.toXML() + "\n";
     	xml += "</Level>";
-    	return xml;    	
+    	
+    	return xml;
     }
     
     /**
-     * Method to parse the start tags of the xml file.
+     * Method to parse the start tags of the xml file
      * 
      * @param uri The Namespace URI, or the empty string if the
      *        element has no Namespace URI or if Namespace
@@ -480,7 +481,7 @@ public class LevelBuilder extends DefaultHandler {
     
     /**
      * Method to parse the XML content from a file
-     * @throws Exception
+     * @throws Exception if an exception occurs
      */
     private void parseXML() throws Exception {  	
     	File file = new File(Constants.SAVED_LEVEL_PATH + "level" + level + ".xml");	
@@ -490,8 +491,8 @@ public class LevelBuilder extends DefaultHandler {
     }
     
     /**
-     * Method to add holes to the board object.
-     * @throws Exception
+     * Method to add holes to the board object
+     * @throws Exception if an exception occurs
      */
     private void addHoles() throws Exception {
     	for (Location holeLoc: possibleHoleLocations) {
@@ -528,7 +529,8 @@ public class LevelBuilder extends DefaultHandler {
     
     /**
      * Method to build the level
-     * @return boolean
+     * @return boolean true if the level can be build
+     * else returns false
      */
     public Boolean buildLevel() {
     	try {

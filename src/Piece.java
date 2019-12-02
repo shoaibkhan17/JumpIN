@@ -76,8 +76,8 @@ public abstract class Piece implements Serializable {
     }
     
     /**
-     * Abstract XML generator method.
-     * @return XML content of the piece.
+     * Abstract XML generator method
+     * @return XML content of the piece
      */
     public abstract String toXML();
 }

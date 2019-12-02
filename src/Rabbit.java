@@ -1,6 +1,6 @@
 /**
- * Rabbit is subclass of Piece class.
- * Rabbits can only jump if there is/are obstacles on their path.
+ * Rabbit is subclass of Piece class
+ * Rabbits can only jump if there is/are obstacles on their path
  * 
  * @author Khalil Aalab - 101070879
  * @author Kamaluddin Shakiri - 101054933
@@ -114,10 +114,11 @@ public class Rabbit extends Animal {
 	
 	/**
 	 * Method to move the rabbit
-	 * @param newLocation
-	 * @param board
-	 * @param userMove
-	 * @param redo
+	 * @param newLocation of the rabbit to be moved to
+	 * @param board instance of board
+	 * @param userMove to add things in the undo stack
+	 * @param redo a move
+	 * @return true if a move can be made, else false if a move cannot be made
 	 */
 	public boolean move(Location newLocation, Board board, boolean userMove, boolean redo) {
 		int x = newLocation.getX();
@@ -145,7 +146,7 @@ public class Rabbit extends Animal {
 	}
 	
 	/**
-	 * Method to check if an object is equal to this object.
+	 * Method to check if an object is equal to this object
 	 */
 	@Override
 	public boolean equals(Object obj) {
@@ -157,7 +158,7 @@ public class Rabbit extends Animal {
 	}
 	
     /**
-     * Method to generate the xml structure of the object
+     * Method to generate the XML structure of the object
      */
     public String toXML() {
     	String xml = "    <Rabbit>\n";

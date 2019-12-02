@@ -290,10 +290,11 @@ public class Fox extends Animal {
 	
 	/**
 	 * Method to move the fox
-	 * @param newLocation
-	 * @param board
-	 * @param userMove
-	 * @param redo
+	 * @param newLocation of the fox to be moved to
+	 * @param board instance of Board used to remove piece and call undoRedoHandler
+	 * @param userMove to add things in the undo stack
+	 * @param redo for redoing a move
+	 * @return true if a move can be made, else false if the move cannot be made
 	 */
 	public boolean move(Location newLocation, Board board, boolean userMove, boolean redo) {
 		Square[][] squares = board.getSquares();
