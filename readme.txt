@@ -185,17 +185,18 @@ menu is clicked and, a Board which it uses to build the GUI.
 ---------------------------------------------------------------------------------------------------
 Changes since last iteration:
 
--Fox movement has been fixed.
+-Updating/finalizing all documentation (UML class/sequence diagrams, Javadoc etc.)
+-Improved the auto-solver logic, and allows the level to be solved move-by-move to the user using threads
 -Changing contents of design document to explain in detail our design decisions.
--Creating JUnit tests for the functionality of the game and game logic.
--Modifying JMenuBar to have new options such as undo, redo etc.
--Allow for unlimited redo/undo using a stack to keep track of moves.
--Auto-solver feature has been added.
+-Updating the JUnit tests for the new classes
+-Modifying JMenuBar to have the new options such as level builder, level save/load etc.
+
 ---------------------------------------------------------------------------------------------------
-Future Road Map: 
+Optional Future Road Map (Not in Project Requirements): 
 
 -Show all available locations user can move when they select a piece
 -Allow hints to be given to the user within the GUI
--Allow for game to be saved/loaded
--Add game level builder and use auto-solver to validate if level is solvable
+-Provide sounds when game is won, and when any move is made
+-These sounds can correspond to each animal (fox vs. rabbit)
+
 ---------------------------------------------------------------------------------------------------
