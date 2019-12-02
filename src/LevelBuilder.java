@@ -269,9 +269,12 @@ public class LevelBuilder extends DefaultHandler {
     public void checkFileExists(String fileName) throws Exception {
 		File saveDirectory = new File(Constants.SAVED_LEVEL_PATH);
 		File[] savedGameFiles = saveDirectory.listFiles();
+		
+		
+		
 		for (int i = 0; i < savedGameFiles.length; i++) {
 			if (fileName.equals(savedGameFiles[i].getName())) {
-				throw new Exception("Level " + fileName + " already exists.\nPlease the level under a different name.");
+				throw new Exception("Level " + level + " already exists.\nPlease save under a different level number.");
 			}
 		}
 		
@@ -335,6 +338,7 @@ public class LevelBuilder extends DefaultHandler {
      */
     public boolean saveFile(int level) throws Exception {
     	String fileName = "level" + level + ".xml";
+    	this.level = level;
     	board.rabbitCount = this.getRabbitRount();
     	this.checkFileExists(fileName);
     	this.checkIfLevelIsSolvable();
