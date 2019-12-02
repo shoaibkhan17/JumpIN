@@ -160,7 +160,7 @@ public class LevelBuilder extends DefaultHandler {
      * Method to place the horizontal foxes
      * @param square the square to place the fox on
      */
-    private void placeVericalFoxes(Square square) {
+    private void placeVerticalFoxes(Square square) {
 		Fox[] verticalFoxes = this.createFoxVertical(square.getLoc());
 		if (verticalFoxes == null) {
 			square.setCounter(5);
@@ -202,7 +202,7 @@ public class LevelBuilder extends DefaultHandler {
     			board.getSquareAtLocation(fox.getBodyLocation()).removePiece();
     			square.removePiece();
     		}
-    		this.placeVericalFoxes(square);
+    		this.placeVerticalFoxes(square);
     		break;
     	case 4:
     		if (piece.getType() == PieceType.FOX) {
