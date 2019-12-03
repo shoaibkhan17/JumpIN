@@ -108,33 +108,46 @@ that way, all entire development team knows where the necessary constants for ou
 - Controller Class:
 
 ----------The controller class' purpose is to receive events that occur on the GUI and then
-handle these events.It handles the event by interpreting the kind of event that occurred and, calling
-the appropriate methods to adjust the board and update the view. 
+handle these events. It handles the event by interpreting the kind of event that occurred and, calling
+the appropriate methods to adjust the board and update the view. The reason that Controller implements Runnable interface
+is because we want to have multiple threads executing in parallel in our program, and this is used when we have 
+use the auto-solve feature, so that we can make the moves to solve the level one at a time so the user can see them 
+happen in sequence.
 
 - Fox Class:
 
 -----------Fox is a subclass of the abstract Animal class. It can be moved horizontally or vertically.
-It contains it's location as well as the location of it's body part. Fox is responsible for 
+It contains its location as well as the location of its body part. Fox is responsible for 
 handling the movement of the fox by updating its locations.
 
 - Hole Class:
 
 -----------Hole is a subclass of the abstract Piece class. It is stationary and cannot be moved. It can 
-contain a piece similarly to the way a square does.
+contain an Animal piece. The reason why hole can contain an Animal, but not a Piece, is because a general piece 
+cannot be inside a hole, because that would include things like mushrooms as well. But only something such as a Rabbit
+can be inside the Hole.
 
 - JumpIN Class:
 
-----------The text-based version of the game.
+----------The text-based version of the game. The reasoning for this game was because we didn't want the controller of 
+the game in the text-based version as well as the text-based view to be in the same class as the game logic. The 
+reasoning for this design decision is that we knew there would be a GUI in the 2nd iteration and beyond, and having 
+support for a text-based view and controller must be seperate from the logic, because the view and controller change, 
+but the model must be the same regardless. 
 
 - Location Class:
 
 -----------The Location class is used to create positions for the squares on the board. This class is also used
-to maintain and update the positions of pieces on the board. 
+to maintain and update the positions of pieces on the board. It has methods to get and set one or both of its coordinates,
+as well as important methods such as toString(), equals(), and compareTo(), which are used to represent, check for equality,
+and compare locations respectively. We choose to keep the coordinates as "int" because decimals are not relevant.s
 
 - Move Class:
 
------------The Move class creates an instance of a move on the board. It retains the piece moved and location
-it was moved to. This class is utilized by the undo/redo functionality to undo moves made by the player.
+-----------The Move class creates an instance of a move on the board. It retains the Animal piece moved and the location
+it was moved to. This class is utilized by the undo/redo functionality to undo moves made by the player. The decision
+we made was to not store the oldLocation as it is not necessary, because the Animal itself has its location stored 
+as an instance variable. 
 
 - MoveStack Class:
 
@@ -144,8 +157,9 @@ made. A stack uses the FIFO (first-in, first-out) principle, which does just tha
 
 - Mushroom Class:
 
-------------Mushroom is a subclass of the Piece class and cannot be moved or selected. It's only purpose is
-as an obstacle on the board. 
+------------Mushroom is a subclass of the Piece class and cannot be moved or selected. Its only purpose is
+as an obstacle on the board which the Rabbit can jump over. A Rabbit can jump over several mushrooms in one move 
+if they are all in a row. 
 
 
 - Parser Class:
