@@ -11,7 +11,7 @@ import java.io.*;
  * @author Shoaib Khan - 101033582
  */
 
-public class Controller implements Runnable {
+public class Controller implements Runnable, Serializable {
 
 	private Board board;
 	private View view;
@@ -117,6 +117,7 @@ public class Controller implements Runnable {
 			writer.close();			
 			return true;
 		} catch (IOException e1) {
+			e1.printStackTrace();
 			return false;
 		}
 	}
