@@ -581,8 +581,8 @@ PieceType</string>
 +View(board: Board)
 -init(): void
 -initFrame(): void
--createMenuItem(name: String, actionListener: ActionListener): JMenuItem
 -initMenu(): void
++BoardEventHandler(eventType: Constants.BoardEventType, square: Square): void
 -showLevelBuilderView(): void
 -reset(): void
 +resetView(): void
@@ -592,10 +592,8 @@ PieceType</string>
 -setButtonsEnabled(enabled: boolean): void
 -initView(): void
 -run(): void
--createButton(square: Square, cornerPiece: boolean): JButton
-#updateView(): void
-#imageHandler(square: Square): void
 #displayLevelCompletePopup(): void
+
 #highlightSelectedSquare(square: Square): void
 #unhighlightAllSquares(): void
 #clearHighlight(square: Square): void
