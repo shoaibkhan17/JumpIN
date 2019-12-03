@@ -163,6 +163,8 @@ extends Piece.
 - PieceType Class:
 
 -----------PieceType is used to declare an enum with all valid piece types such as RABBIT, FOX, HOLE, etc.
+The reasoning for using the PieceType class was so that we would decouple the logic in Piece from PieceType, 
+and if we want to change the acceptable types in the game, we have them organized in a neat fashion.
 
 - Rabbit Class:
 
@@ -173,12 +175,18 @@ A Rabbit also has a colour, which is important when distinguishing when there ar
 - Square Class:
 
 -----------The Square class extends JButton. Squares appear on the GUI as buttons. Each square retains its
-location and the piece on top of it.
+location and the piece on top of it. The reason square would extend JButton was a design decision in order to make in
+easy in the GUI, because when we initialize the squares, we create the buttons at the same time. 
 
 - View Class:
 
 ----------The View class is a class that builds and displays a visual representation of the model as a GUI. It has a controller, which it alerts when a button or 
-menu is clicked and, a Board which it uses to build the GUI. 
+menu is clicked and, a Board which it uses to build the GUI. The reason why view has a JFrame as an instance variable
+is that we can display the GUI. If we extended JFrame, we might be limiting ourselves, because it could be that 
+we need to have view extend something else in the future, and we can only do single-class inheritance.
+It should be noted that the view also has a reference to the model (board), as well as the the controller, as per
+the MVC pattern. Our design decision therefore was to use this well-known and easy to implement design pattern to 
+organize our classes. 
 
 - LevelBuilder Class:
 
