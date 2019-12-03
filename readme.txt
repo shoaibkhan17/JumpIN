@@ -87,6 +87,12 @@ and comparing game state. It does this by creating and searching through all the
 Each square has a location, and can contain a piece. After a move has been made the board 
 class checks if the game has been won by checking if all the rabbits on the board are in a hole.
 
+- BoardListener Class:
+ 
+---------The boardListener class is an interface which allows the view to listen to the board, in accordance with the MVC pattern.
+The model must be the one to update the view, not the controller. It is for this reason that the view implements the boardListener interface,
+so when the board changes state and the view is needed to update, the view can then update itself.
+
 - CombinedIcon Class:
 
 -----------CombinedIcon is a class that extends Icon and combines two icons together. It's purpose 
