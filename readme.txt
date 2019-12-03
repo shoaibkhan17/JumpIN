@@ -66,18 +66,20 @@ User Manual (For milestone 1):
 ---------------------------------------------------------------------------------------------------
 Design Decisions:
 
-- Overall: 
----------Separating the model, view and controller in accordance with the MVC model
+- Overall principles: 
+Separating the model, view and controller in accordance with the MVC model
 The Board is set to be complete once all the Rabbits are placed in the Holes.
 
 - Animal Class:
 -----------Animal class is the parent class of all moving pieces on the board (Fox and Rabbit). 
 Animals are selectable and movable. Classes that extend Animal must be responsible for handling their 
-own movement.
+own movement. This is delegation, because the board is not the one moving, it is the animal moving, so the animal
+themselves take care of whether they can move, and how they actually move.
 
 - AutoSolver Class:
 ---------The AutoSolver class is a class that attempts to solve a level of JumpIn by trying different moves
-and comparing game state. It does this by creating and searching through all the possible moves.
+and comparing game state. It does this by creating and searching through all the possible moves. See the AutoSolver 
+logic section below for more information about this class and how it works.
 
 - Board Class:
  
@@ -109,9 +111,9 @@ use the auto-solve feature, so that we can make the moves to solve the level one
 happen in sequence.
 
 - Fox Class:
------------Fox is a subclass of the abstract Animal class. It can be moved horizontally or vertically.
-It contains its location as well as the location of its body part. Fox is responsible for 
-handling the movement of the fox by updating its locations.
+-----------Fox is a subclass of the abstract Animal class. It can be moved only either horizontally or vertically,
+so this information was captured using a boolean as an instance variable (only 2 options). Fox contains its location 
+as well as the location of its body part. Fox is responsible for handling the movement of the fox by updating its locations.
 
 - Hole Class:
 -----------Hole is a subclass of the abstract Piece class. It is stationary and cannot be moved. It can 
@@ -152,8 +154,10 @@ as an obstacle on the board which the Rabbit can jump over. A Rabbit can jump ov
 if they are all in a row. 
 
 - Parser Class:
------------Used to parse user input for text-based version. It is used because it seperates processing 
-the user input from the actual game logic (decoupling)
+-----------Used to parse user input for text-based version. It is used because it separates processing 
+the user input from the actual game logic (decoupling). It was not necessary for Parser to have a reference to the board,
+because in the text-based version, the class called JumpIn has both a reference to a board and a parser, and simply
+uses the parser functionality and calls the functions on the board. 
 
 - Piece Class:
 -----------Piece class is the parent class of all pieces on the board. 
