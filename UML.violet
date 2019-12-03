@@ -664,7 +664,7 @@ PieceType</string>
      <void property="text">
       <string>-board: Board
 -view: View
--oldSelectSquare: Square</string>
+</string>
      </void>
     </void>
     <void property="methods">
@@ -678,7 +678,7 @@ PieceType</string>
 +redo(): Void
 +levelSelect(level: Integer): void
 +save(fileName: String): boolean
-+load(fileName: String): void
++load(fileName: String): Board
 +getLoadOptions(): String[]
 +getLevelOptions(): Integer[]
 +run(): void</string>
