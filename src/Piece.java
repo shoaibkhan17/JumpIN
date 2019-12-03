@@ -74,4 +74,10 @@ public abstract class Piece implements Serializable {
     public String toString() {
         return this.type.getType() + "";
     }
+    
+    /**
+     * Abstract XML generator method
+     * @return XML content of the piece
+     */
+    public abstract String toXML();
 }

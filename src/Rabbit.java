@@ -1,6 +1,6 @@
 /**
- * Rabbit is subclass of Piece class.
- * Rabbits can only jump if there is/are obstacles on their path.
+ * Rabbit is subclass of Piece class
+ * Rabbits can only jump if there is/are obstacles on their path
  * 
  * @author Khalil Aalab - 101070879
  * @author Kamaluddin Shakiri - 101054933
@@ -16,24 +16,17 @@ public class Rabbit extends Animal {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Rabbit color enum
-	 *
-	 */
-	public static enum RABBIT_COLORS {Gray, White, Brown}
-	
-	/**
 	 * Rabbit color
 	 */
-	protected RABBIT_COLORS rabbitColor;
+	protected Constants.RABBIT_COLORS rabbitColor;
 
 	/**
 	 * Default constructor
 	 */
-    public Rabbit(RABBIT_COLORS rabbitColor, Location pieceLocation) {
+    public Rabbit(Constants.RABBIT_COLORS rabbitColor, Location pieceLocation) {
         super(PieceType.RABBIT, pieceLocation);
         this.rabbitColor = rabbitColor;
     }
-
 
 	/**
 	 * Method that checks whether the move made by the Rabbit is valid or not
@@ -120,7 +113,40 @@ public class Rabbit extends Animal {
 	}
 	
 	/**
-	 * Method to check if an object is equal to this object.
+	 * Method to move the rabbit
+	 * @param newLocation of the rabbit to be moved to
+	 * @param board instance of board
+	 * @param userMove to add things in the undo stack
+	 * @param redo a move
+	 * @return true if a move can be made, else false if a move cannot be made
+	 */
+	public boolean move(Location newLocation, Board board, boolean userMove, boolean redo) {
+		int x = newLocation.getX();
+		int y = newLocation.getY();
+		Square[][] squares = board.getSquares();
+		
+		Piece locationPiece = squares[x][y].getPiece();
+		
+		if (locationPiece != null && locationPiece.getType() == PieceType.HOLE) {
+			Hole hole = (Hole) locationPiece;
+			board.undoRedoHandler(this.getPieceLocation(), this, userMove, redo);
+			board.removePiece(this.getPieceLocation());
+			this.setPieceLocation(newLocation);
+			hole.setPiece(userMove ? this : this);
+		}
+		
+		else {
+			board.undoRedoHandler(this.getPieceLocation(), this, userMove, redo);
+			board.removePiece(this.getPieceLocation());
+			this.setPieceLocation(newLocation);
+			squares[x][y].setPiece(this);
+		}
+		
+		return true;
+	}
+	
+	/**
+	 * Method to check if an object is equal to this object
 	 */
 	@Override
 	public boolean equals(Object obj) {
@@ -130,4 +156,15 @@ public class Rabbit extends Animal {
     	}
     	return false;
 	}
+	
+    /**
+     * Method to generate the XML structure of the object
+     */
+    public String toXML() {
+    	String xml = "    <Rabbit>\n";
+    	xml += "        <Coordinate1>" + pieceLocation.toStringNumeric() + "</Coordinate1>\n";
+    	xml += "        <Color>" + rabbitColor + "</Color>\n";
+    	xml += "    </Rabbit>";
+    	return xml;
+    }
 }

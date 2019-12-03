@@ -24,7 +24,7 @@ public class AnimalTest {
 	@Before
 	public void setUp() throws Exception {
 		loc = new Location(0, 0);
-		animal = new Rabbit(Rabbit.RABBIT_COLORS.Gray, loc);
+		animal = new Rabbit(Constants.RABBIT_COLORS.Gray, loc);
 	}
 
 	/**

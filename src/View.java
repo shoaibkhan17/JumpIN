@@ -1,12 +1,7 @@
-import javax.swing.border.Border;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 import javax.swing.*;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.event.ActionListener;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -20,29 +15,12 @@ import java.util.ArrayList;
  * @author Shoaib Khan - 101033582
  */
 
-public class View {
+public class View extends ViewBuilder implements BoardListener, Serializable {
 
 	private JFrame frame;
 	private Board board;
 	private Controller controller;
 	private ArrayList<Square> highlightedSquares;
-
-	private final static String GAME_INSTRUCTIONS = "Basic Information\r\n"
-			+ "- Currently five levels are developed.\r\n"
-			+ "- The goal of the game is to place all the rabbits inside the holes.\r\n"
-			+ "- Rabbits can jump over objects, including mushrooms, foxes and other rabbits\r\n"
-			+ "- Foxes can slide on empty spaces in the direction that the fox is oriented \r\n";
-
-	/**
-	 * Styling variables
-	 */
-	private final static Color MAIN_SQUARE_COLOR = new Color(2, 171, 80);
-	private final static Color CORNER_SQUARE_COLOR = new Color(37, 177, 73);
-	private final static Color SELECTED_SQUARE_COLOR = new Color(51, 204, 255);
-	private final static Border LINE = new LineBorder(Color.white);
-	private final static Border MARGIN = new EmptyBorder(5, 15, 5, 15);
-	private final static Border COMPOUND = new CompoundBorder(LINE, MARGIN);
-	private final static Dimension VIEW_DIMENSION = new Dimension(500, 550);
 
 	/**
 	 * Constructor to initialize the instance variables
@@ -72,6 +50,7 @@ public class View {
 		this.initFrame();
 		this.initMenu();
 		this.initView();
+		board.setBoardListener(this);
 	}
 
 	/**
@@ -79,25 +58,13 @@ public class View {
 	 */
 	private void initFrame() {
 		frame = new JFrame("JumpIN");
-		GridLayout grid = new GridLayout(Board.BOARD_SIZE, Board.BOARD_SIZE);
+		GridLayout grid = new GridLayout(Constants.BOARD_SIZE, Constants.BOARD_SIZE);
 		frame.setLayout(grid);
-		frame.setSize(VIEW_DIMENSION);
+		frame.setSize(Constants.VIEW_DIMENSION);
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
-	/**
-	 * Method to create the menu items.
-	 * @param name
-	 * @param actionListener
-	 * @return
-	 */
-	private JMenuItem createMenuItem(String name, ActionListener actionListener) {
-		JMenuItem item = new JMenuItem(name);
-		item.setBackground(Color.LIGHT_GRAY);
-		item.addActionListener(actionListener);
-		return item;
-	}
 
 	/**
 	 * Method to to initialize the Menu
@@ -122,7 +89,7 @@ public class View {
 		// Help Menu and Items
 		JMenu help = new JMenu("Help");
 		help.add(this.createMenuItem("Instructions",
-				(event) -> JOptionPane.showMessageDialog(frame, View.GAME_INSTRUCTIONS)));
+				(event) -> JOptionPane.showMessageDialog(frame, Constants.GAME_INSTRUCTIONS)));
 
 		// Level Option Menu and Items
 		JMenu levelSelect = new JMenu("Level Options");
@@ -141,6 +108,34 @@ public class View {
 		frame.setJMenuBar(menuBar);
 	}
 	
+	/**
+	 * Method to listen to all the board events dispatched from the model (board)
+	 */
+	@Override
+	public void BoardEventHandler(Constants.BoardEventType eventType, Square square) {
+		switch(eventType) {
+		case GameWon:
+			this.displayLevelCompeletePopup();
+			break;
+		case clearHighlight:
+			this.unhighlightAllSquares();
+			break;
+		case updateView:
+			this.updateView(board);
+			break;
+		case highlightSquare:
+			if (square != null) {
+				this.highlightSelectedSquare(square);
+			}
+			break;
+		default:
+			break;
+		}	
+	}
+	
+	/**
+	 * Method which shows the GUI for the level builder
+	 */	
 	private void showLevelBuilderView() {
 		LevelBuilderView levelBuilderView = new LevelBuilderView();
 		levelBuilderView.run();
@@ -165,19 +160,15 @@ public class View {
 	public void resetView() {
 		board.changeLevel(board.getLevel());
 		this.setButtonsEnabled(true);
-		this.updateView();
+		this.updateView(board);
 	}
 
 	/**
 	 * Method that allows the user to select the level of their choice
 	 */
-	public void levelSelect() {
-		Integer[] possibilities = new Integer[Board.TOTAL_LEVELS];
+	public void levelSelect() {	
+		Integer[] possibilities = controller.getLevelOptions();
 		
-		for (int i = 0; i < Board.TOTAL_LEVELS; i++) {
-			possibilities[i] = i + 1;
-		}
-
 		Integer level = (Integer) JOptionPane.showInputDialog(frame, "What Level would you like to play:",
 				"Level Select", JOptionPane.QUESTION_MESSAGE, null, possibilities, 1);
 
@@ -185,13 +176,16 @@ public class View {
 			boolean valid = controller.levelSelect(level);
 			if (!valid) {
 				JOptionPane.showMessageDialog(frame, "level" + level + ".xml does not contain a valid level.");
+				return;
 			}
+			this.setButtonsEnabled(true);
+			this.updateView(board);
 		}
 
 	}
 
 	/**
-	 * Displays a pop up which takes a file name from the user.
+	 * Displays a pop up which takes a file name from the user
 	 * If the file name is valid it calls controller.save(fileName)
 	 * which saves the state of the board
 	 */
@@ -217,7 +211,10 @@ public class View {
 		if (loadOptions.length != 0) {
 			String loadFile = (String) JOptionPane.showInputDialog(frame, "Which save would you like to load?", "Load", 
 					JOptionPane.QUESTION_MESSAGE, null, loadOptions, null);
-			controller.load(loadFile);
+			Board savedBoard = controller.load(loadFile);
+			if (savedBoard != null) {
+				this.setBoard(savedBoard);
+			}
 		} else {
 			JOptionPane.showMessageDialog(frame, "No save data to load.");
 		}
@@ -228,8 +225,8 @@ public class View {
 	 * @param enabled true or false to enable to disable the buttons
 	 */
 	private void setButtonsEnabled(boolean enabled) {
-		for (int y = 0; y < Board.BOARD_SIZE; y++) {
-			for (int x = 0; x < Board.BOARD_SIZE; x++) {
+		for (int y = 0; y < Constants.BOARD_SIZE; y++) {
+			for (int x = 0; x < Constants.BOARD_SIZE; x++) {
 				board.squares[x][y].setEnabled(enabled);
 			}
 		}
@@ -239,9 +236,9 @@ public class View {
 	 * Method which initializes the View of the game
 	 */
 	private void initView() {
-		for (int y = 0; y < Board.BOARD_SIZE; y++) {
-			for (int x = 0; x < Board.BOARD_SIZE; x++) {
-				frame.add(this.createButton(board.squares[x][y], x % 2 == 0 && y % 2 == 0));
+		for (int y = 0; y < Constants.BOARD_SIZE; y++) {
+			for (int x = 0; x < Constants.BOARD_SIZE; x++) {
+				frame.add(this.createButton(board.squares[x][y], x % 2 == 0 && y % 2 == 0, (event) -> controller.eventHandler(event)));
 			}
 		}
 	}
@@ -253,87 +250,6 @@ public class View {
 		frame.setVisible(true);
 	}
 
-	/**
-	 * Method to create Button on the GUI
-	 * @param square on the board used to set different attributes
-	 * @param cornerPiece variable used to check if it is a corner piece
-	 * @return square on the board
-	 */
-	private JButton createButton(Square square, boolean cornerPiece) {
-		square.setBorderPainted(cornerPiece);
-		square.setBackground(cornerPiece ? CORNER_SQUARE_COLOR : MAIN_SQUARE_COLOR);
-		square.setBorder(COMPOUND);
-		square.addActionListener((event) -> controller.eventHandler(event));
-		this.imageHandler(square);
-		return square;
-	}
-
-	/**
-	 * Method which updates the view of the board
-	 */
-	protected void updateView() {
-		for (int y = 0; y < Board.BOARD_SIZE; y++) {
-			for (int x = 0; x < Board.BOARD_SIZE; x++) {
-				this.imageHandler(board.squares[x][y]);
-			}
-		}
-	}
-
-	/**
-	 * Method to handle the image and the implementation of the switch cases
-	 * @param square on which the image is placed on, used to set the icon
-	 */
-
-	protected void imageHandler(Square square) {
-		String path = "src/assets/";
-		ImageIcon icon;
-		Piece piece = square.getPiece();
-
-		if (piece == null) {
-			icon = new ImageIcon(path + "empty.png");
-			square.setIcon(icon);
-			return;
-		}
-
-		switch (piece.getType()) {
-		case RABBIT:
-			Rabbit rabbit = (Rabbit) piece;
-			icon = new ImageIcon(path + "rabbit" + rabbit.rabbitColor + ".png");
-			square.setIcon(icon);
-			break;
-
-		case MUSHROOM:
-			icon = new ImageIcon(path + "mushroom.png");
-			square.setIcon(icon);
-			break;
-
-		case HOLE:
-			Hole hole = (Hole) piece;
-			Piece innerPiece = hole.getPiece();
-			ImageIcon frontIcon = null;
-
-			if (innerPiece != null) {
-				Rabbit innerRabbit = (Rabbit) innerPiece;
-				frontIcon = new ImageIcon(path + "rabbit" + innerRabbit.rabbitColor + ".png");
-			}
-
-			icon = new ImageIcon(path + "hole.png");
-			CombinedIcon combiedIcon = new CombinedIcon(frontIcon, icon);
-			square.setIcon(combiedIcon);
-			break;
-
-		case FOX:
-			Fox fox = (Fox) piece;
-			String direction = fox.isHorizontal() ? "Horizontal" : "Vertical";
-			String bodyPart = fox.isTail() ? "Tail" : "Head";
-			icon = new ImageIcon(path + "fox" + bodyPart + direction + ".png");
-			square.setIcon(icon);
-			break;
-
-		default:
-			break;
-		}
-	}
 
 	/**
 	 * Method to display the level complete popup dialog message
@@ -343,7 +259,7 @@ public class View {
 		JFrame popupFrame = new JFrame();
 		String message = "";
 
-		if (board.getLevel() < Board.TOTAL_LEVELS) {
+		if (board.getLevel() < Constants.TOTAL_LEVELS) {
 			message = "Congratulations on completing Level " + board.getLevel() + "!";
 			message += "\n";
 			message += "Press OK to play level " + (board.getLevel() + 1);
@@ -352,7 +268,7 @@ public class View {
 			if (!valid) {
 				JOptionPane.showMessageDialog(frame, "level" + board.getLevel() + ".xml does not contain a valid level.");
 			}
-			this.updateView();
+			this.updateView(board);
 		}
 
 		else {
@@ -368,7 +284,7 @@ public class View {
 	 * @param square of which the color is to be set
 	 */
 	protected void highlightSelectedSquare(Square square) {
-		square.setBackground(SELECTED_SQUARE_COLOR);
+		square.setBackground(Constants.SELECTED_SQUARE_COLOR);
 		highlightedSquares.add(square);
 	}
 
@@ -379,7 +295,7 @@ public class View {
 		for (Square square : highlightedSquares) {
 			Location squareLocation = square.getLoc();
 			boolean cornerPiece = squareLocation.getX() % 2 == 0 && squareLocation.getY() % 2 == 0;
-			square.setBackground(cornerPiece ? CORNER_SQUARE_COLOR : MAIN_SQUARE_COLOR);
+			square.setBackground(cornerPiece ? Constants.CORNER_SQUARE_COLOR : Constants.MAIN_SQUARE_COLOR);
 		}
 
 		highlightedSquares.clear();
@@ -392,11 +308,11 @@ public class View {
 	protected void clearHighlight(Square square) {
 		Location loc = square.getLoc();
 		boolean cornerPiece = loc.getX() % 2 == 0 && loc.getY() % 2 == 0;
-		square.setBackground(cornerPiece ? CORNER_SQUARE_COLOR : MAIN_SQUARE_COLOR);
+		square.setBackground(cornerPiece ? Constants.CORNER_SQUARE_COLOR : Constants.MAIN_SQUARE_COLOR);
 	}
 	
 	/**
-	 * Creates a new view based off a new board.
+	 * Creates a new view based off a new board
 	 * @param {Board} newBoard The board that will be used to create the new view.
 	 */
 	public void setBoard(Board newBoard) {

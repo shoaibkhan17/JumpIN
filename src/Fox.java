@@ -287,4 +287,46 @@ public class Fox extends Animal {
 
 		return false;
 	}
+	
+	/**
+	 * Method to move the fox
+	 * @param newLocation of the fox to be moved to
+	 * @param board instance of Board used to remove piece and call undoRedoHandler
+	 * @param userMove to add things in the undo stack
+	 * @param redo for redoing a move
+	 * @return true if a move can be made, else false if the move cannot be made
+	 */
+	public boolean move(Location newLocation, Board board, boolean userMove, boolean redo) {
+		Square[][] squares = board.getSquares();
+		Fox fox = (Fox) this;
+		Location oldLoc = new Location(fox.getPieceLocation());
+		board.removePiece(fox.getPieceLocation());
+		Location oldBodyLoc = new Location(fox.getBodyLocation());
+		Fox body = (Fox) squares[oldBodyLoc.getX()][oldBodyLoc.getY()].getPiece();
+		board.removePiece(oldBodyLoc);
+		String movementType = fox.calculatePieceLocation(newLocation, body);
+		board.undoRedoHandler(movementType.equals("head") ? oldLoc : oldBodyLoc, fox, userMove, redo);
+		Location foxLocation = new Location(fox.getPieceLocation());
+		squares[foxLocation.getX()][foxLocation.getY()].setPiece(this);
+		Location newBodyLoc = new Location(fox.getBodyLocation());
+		squares[newBodyLoc.getX()][newBodyLoc.getY()].setPiece(body);
+		return true;
+	}
+	
+    /**
+     * Method to generate the xml structure of the object
+     * @return String xml An XML representation of the fox
+     */
+    public String toXML() {
+    	if (tail) {
+    		return "";
+    	}
+    	
+    	String xml = "    <Fox>\n";
+    	xml += "        <Coordinate1>" + pieceLocation.toStringNumeric() + "</Coordinate1>\n";
+    	xml += "        <Coordinate2>" + bodyLocation.toStringNumeric() + "</Coordinate2>\n";
+    	xml += "        <Movement>" + (horizontalMovement ? "Horizontal" : "Veritcal") + "</Movement>\n";
+    	xml += "    </Fox>";
+    	return xml;
+    }
 }

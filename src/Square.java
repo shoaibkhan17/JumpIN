@@ -22,6 +22,7 @@ public class Square extends JButton implements Serializable {
 	
 	private Piece piece;
     private Location location;
+    private int counter;
 
     /**
      * Default constructor initializing instance variables
@@ -40,6 +41,22 @@ public class Square extends JButton implements Serializable {
 		this.setFocusPainted(false);
         this.piece = piece;
         this.location = location;
+    }
+    
+    /**
+     * Method that sets the counter
+     * @param counter this is the counter
+     */
+    public void setCounter(int counter) {
+    	this.counter = counter;
+    }
+    
+    /**
+     * Method that gets the value of the counter
+     * @return counter value
+     */
+    public int getCounter() {
+    	return counter;
     }
 
     /**
@@ -75,7 +92,7 @@ public class Square extends JButton implements Serializable {
     }
     
     /**
-     * Removes the specific piece from the square.
+     * Removes the specific piece from the square
      */
     public void removePiece() {
     	this.piece = null;
@@ -107,5 +124,15 @@ public class Square extends JButton implements Serializable {
      */
     public String toString() {
         return piece == null ? " " : piece.toString();
+    }
+    
+    /**
+     * Method to generate the xml structure of the object
+     */
+    public String toXML() {
+    	if (piece != null) {
+    		return piece.toXML();
+    	}
+    	return "";
     }
 }

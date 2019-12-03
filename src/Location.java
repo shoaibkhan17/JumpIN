@@ -117,7 +117,7 @@ public class Location implements Serializable {
      */
     public String toString() {
         if (x != -1 && y != -1) {
-            return "(" + Parser.PossibleRows.values()[x] + "," + (y + 1) + ")"; 
+            return "(" + Constants.PossibleRows.values()[x] + "," + (y + 1) + ")"; 
         }
 
         else {
@@ -130,7 +130,7 @@ public class Location implements Serializable {
      * @return String representation of the x and y coordinate
      */
     public String toStringNumeric() {
-        return "(" + x + "," + y + ")";
+        return x + "," + y;
     }
 
     /**

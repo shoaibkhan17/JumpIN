@@ -56,6 +56,8 @@ public abstract class Animal extends Piece {
 	
 	/**
 	 * Equals method implemented
+	 * @param Object o The object to compare with
+	 * @return true if the object is the same as this
 	 */
 	public boolean equals(Object o) {
 	    if (this == o)
@@ -71,10 +73,20 @@ public abstract class Animal extends Piece {
 	}
 
 	/** 
-	 * The following is an abstract method which is implemented by the Pieces that can move.
-	 * @param newLocation this is the new location of the piece.
-	 * @param squares this is a parameter board passed in as an instance of the Board class.
-	 * @return boolean returns true if the move has been made, else returns false.
+	 * The following is an abstract method which is implemented by the Pieces that can move
+	 * @param newLocation this is the new location of the piece
+	 * @param squares this is a parameter board passed in as an instance of the Board class
+	 * @return boolean returns true if the move has been made, else returns false
 	 */
 	public abstract boolean canMove(Location newLocation, Square[][] squares);
+	
+	/**
+	 * Abstract method to move the animal 
+	 * @param newLocation this is the new location to which the animal can move to
+	 * @param board instance of board
+	 * @param userMove whether the user can move
+	 * @param redo the move
+	 * @return true if move can be made, else false if move cannot be made 
+	 */
+	public abstract boolean move(Location newLocation, Board board, boolean userMove, boolean redo);
 }

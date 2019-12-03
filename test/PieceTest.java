@@ -25,7 +25,7 @@ public class PieceTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		piece = new Mushroom();
+		piece = new Mushroom(new Location(0, 0));
 	}
 
 	/**
@@ -43,7 +43,7 @@ public class PieceTest {
 	 */
 	@Test
 	public void testPiece() {
-		piece = new Rabbit(Rabbit.RABBIT_COLORS.Gray, new Location(0, 0));
+		piece = new Rabbit(Constants.RABBIT_COLORS.Gray, new Location(0, 0));
 		assertEquals(piece.getType(), PieceType.RABBIT);
 	}
 

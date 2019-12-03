@@ -18,7 +18,6 @@ public class AutoSolver {
 	private MoveStack moveHolder;
 	private ArrayList<String> visitedStates;
 	private ArrayList<Animal> animalsInGame;
-	public static final int SLEEP_TIMER = 100;
 	
 	/**
 	 * Default constructor initializing instance variables
@@ -57,7 +56,7 @@ public class AutoSolver {
 		case DOWN:
 			i = location.getY() + 1;
 			horizonal = false;
-			limit = Board.BOARD_SIZE;
+			limit = Constants.BOARD_SIZE;
 			break;
 		case LEFT:
 			i = 0;
@@ -67,7 +66,7 @@ public class AutoSolver {
 		case RIGHT:
 			i = location.getX() + 1;
 			horizonal = true;
-			limit = Board.BOARD_SIZE;
+			limit = Constants.BOARD_SIZE;
 			break;
 		default:
 			return null;
@@ -105,8 +104,8 @@ public class AutoSolver {
 	 */	
 	private void getAnimalsInGame() {
 		Animal animalPiece = null;
-		for (int x = 0; x < Board.BOARD_SIZE; x++) {
-			for (int y = 0; y < Board.BOARD_SIZE; y++) {
+		for (int x = 0; x < Constants.BOARD_SIZE; x++) {
+			for (int y = 0; y < Constants.BOARD_SIZE; y++) {
 				if (squares[x][y].getPiece() != null) {
 					if (squares[x][y].getPiece().getType() == PieceType.RABBIT || squares[x][y].getPiece().getType() == PieceType.FOX) {
 						animalPiece = (Animal) squares[x][y].getPiece();
@@ -129,8 +128,8 @@ public class AutoSolver {
 	
 	
 	/**
-	 * Method to filter all the possible moves.
-	 * @return
+	 * Method to filter all the possible moves 
+	 * @return filtedMoves stack containing the moves
 	 */
 	public MoveStack filterMoves() {
 		MoveStack filtedMoves = new MoveStack();
@@ -196,16 +195,22 @@ public class AutoSolver {
 	
 	/**
 	 * Method to auto solve the game
+	 * @param int sleepTimer The time in milliseconds the thread will sleep for
 	 * @return true if solved, else return false if cannot be solved
 	 */
 	public boolean autoSolve(int sleepTimer) {
 		visitedStates.add(board.getBoardState());
 		this.getAnimalsInGame();
-		int counter = 1;		
+		int counter = 1;
 		while (!board.isGameWon()) {		
 			try {
 				this.solve();
-				view.updateView();
+				if (view != null) {
+					// Auto solve is the only class that updates the view outside of board.
+					// This is done inside this function to make the view update on a seperate thread.
+					// This helps when the user wants to see an interactive movement of the auto solve.
+					view.updateView(board);
+				}
 				Thread.sleep(sleepTimer);
 				counter++;
 			} catch (Exception e) {

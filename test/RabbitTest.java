@@ -25,7 +25,7 @@ public class RabbitTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		rabbit = new Rabbit(Rabbit.RABBIT_COLORS.Brown, new Location(0, 2));
+		rabbit = new Rabbit(Constants.RABBIT_COLORS.Brown, new Location(0, 2));
 		board = new Board(1);
 	}
 
