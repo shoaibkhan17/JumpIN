@@ -185,6 +185,11 @@ It should be noted that the view also has a reference to the model (board), as w
 the MVC pattern. Our design decision therefore was to use this well-known and easy to implement design pattern to 
 organize our classes. 
 
+- ViewBuilder
+---------- The ViewBuilder class is a class that allows for a common way to build a view, which can be used for both 
+the Level Building GUI and the regular GUI. Following this approach allows for a common way to construct the view 
+without having to replicate the same code in both the main-game GUI and the level building GUI.
+
 - LevelBuilder Class:
 ----------The LevelBuilder class is the class which is used to allow the user to build a custom-made level and save it. It should 
 also be noted that the use of SAXParser is present in the LevelBuilder class, and the reason for that is because it is a tool that 
