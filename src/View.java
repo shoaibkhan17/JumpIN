@@ -1,7 +1,7 @@
 import javax.swing.*;
 import java.awt.Color;
 import java.awt.GridLayout;
-import java.awt.event.ActionListener;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * @author Shoaib Khan - 101033582
  */
 
-public class View {
+public class View extends ViewBuilder implements BoardListener, Serializable {
 
 	private JFrame frame;
 	private Board board;
@@ -50,6 +50,7 @@ public class View {
 		this.initFrame();
 		this.initMenu();
 		this.initView();
+		board.setBoardListener(this);
 	}
 
 	/**
@@ -64,18 +65,6 @@ public class View {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
-	/**
-	 * Method to create the menu items.
-	 * @param name
-	 * @param actionListener
-	 * @return
-	 */
-	private JMenuItem createMenuItem(String name, ActionListener actionListener) {
-		JMenuItem item = new JMenuItem(name);
-		item.setBackground(Color.LIGHT_GRAY);
-		item.addActionListener(actionListener);
-		return item;
-	}
 
 	/**
 	 * Method to to initialize the Menu
@@ -119,6 +108,34 @@ public class View {
 		frame.setJMenuBar(menuBar);
 	}
 	
+	/**
+	 * Method to listen to all the board events dispatched from the model (board)
+	 */
+	@Override
+	public void BoardEventHandler(Constants.BoardEventType eventType, Square square) {
+		switch(eventType) {
+		case GameWon:
+			this.displayLevelCompeletePopup();
+			break;
+		case clearHighlight:
+			this.unhighlightAllSquares();
+			break;
+		case updateView:
+			this.updateView(board);
+			break;
+		case highlightSquare:
+			if (square != null) {
+				this.highlightSelectedSquare(square);
+			}
+			break;
+		default:
+			break;
+		}	
+	}
+	
+	/**
+	 * Method which shows the GUI for the level builder
+	 */	
 	private void showLevelBuilderView() {
 		LevelBuilderView levelBuilderView = new LevelBuilderView();
 		levelBuilderView.run();
@@ -143,7 +160,7 @@ public class View {
 	public void resetView() {
 		board.changeLevel(board.getLevel());
 		this.setButtonsEnabled(true);
-		this.updateView();
+		this.updateView(board);
 	}
 
 	/**
@@ -159,13 +176,16 @@ public class View {
 			boolean valid = controller.levelSelect(level);
 			if (!valid) {
 				JOptionPane.showMessageDialog(frame, "level" + level + ".xml does not contain a valid level.");
+				return;
 			}
+			this.setButtonsEnabled(true);
+			this.updateView(board);
 		}
 
 	}
 
 	/**
-	 * Displays a pop up which takes a file name from the user.
+	 * Displays a pop up which takes a file name from the user
 	 * If the file name is valid it calls controller.save(fileName)
 	 * which saves the state of the board
 	 */
@@ -191,7 +211,10 @@ public class View {
 		if (loadOptions.length != 0) {
 			String loadFile = (String) JOptionPane.showInputDialog(frame, "Which save would you like to load?", "Load", 
 					JOptionPane.QUESTION_MESSAGE, null, loadOptions, null);
-			controller.load(loadFile);
+			Board savedBoard = controller.load(loadFile);
+			if (savedBoard != null) {
+				this.setBoard(savedBoard);
+			}
 		} else {
 			JOptionPane.showMessageDialog(frame, "No save data to load.");
 		}
@@ -215,7 +238,7 @@ public class View {
 	private void initView() {
 		for (int y = 0; y < Constants.BOARD_SIZE; y++) {
 			for (int x = 0; x < Constants.BOARD_SIZE; x++) {
-				frame.add(this.createButton(board.squares[x][y], x % 2 == 0 && y % 2 == 0));
+				frame.add(this.createButton(board.squares[x][y], x % 2 == 0 && y % 2 == 0, (event) -> controller.eventHandler(event)));
 			}
 		}
 	}
@@ -227,87 +250,6 @@ public class View {
 		frame.setVisible(true);
 	}
 
-	/**
-	 * Method to create Button on the GUI
-	 * @param square on the board used to set different attributes
-	 * @param cornerPiece variable used to check if it is a corner piece
-	 * @return square on the board
-	 */
-	private JButton createButton(Square square, boolean cornerPiece) {
-		square.setBorderPainted(cornerPiece);
-		square.setBackground(cornerPiece ? Constants.CORNER_SQUARE_COLOR : Constants.MAIN_SQUARE_COLOR);
-		square.setBorder(Constants.COMPOUND);
-		square.addActionListener((event) -> controller.eventHandler(event));
-		this.imageHandler(square);
-		return square;
-	}
-
-	/**
-	 * Method which updates the view of the board
-	 */
-	protected void updateView() {
-		for (int y = 0; y < Constants.BOARD_SIZE; y++) {
-			for (int x = 0; x < Constants.BOARD_SIZE; x++) {
-				this.imageHandler(board.squares[x][y]);
-			}
-		}
-	}
-
-	/**
-	 * Method to handle the image and the implementation of the switch cases
-	 * @param square on which the image is placed on, used to set the icon
-	 */
-
-	protected void imageHandler(Square square) {
-		String path = "src/assets/";
-		ImageIcon icon;
-		Piece piece = square.getPiece();
-
-		if (piece == null) {
-			icon = new ImageIcon(path + "empty.png");
-			square.setIcon(icon);
-			return;
-		}
-
-		switch (piece.getType()) {
-		case RABBIT:
-			Rabbit rabbit = (Rabbit) piece;
-			icon = new ImageIcon(path + "rabbit" + rabbit.rabbitColor + ".png");
-			square.setIcon(icon);
-			break;
-
-		case MUSHROOM:
-			icon = new ImageIcon(path + "mushroom.png");
-			square.setIcon(icon);
-			break;
-
-		case HOLE:
-			Hole hole = (Hole) piece;
-			Piece innerPiece = hole.getPiece();
-			ImageIcon frontIcon = null;
-
-			if (innerPiece != null) {
-				Rabbit innerRabbit = (Rabbit) innerPiece;
-				frontIcon = new ImageIcon(path + "rabbit" + innerRabbit.rabbitColor + ".png");
-			}
-
-			icon = new ImageIcon(path + "hole.png");
-			CombinedIcon combiedIcon = new CombinedIcon(frontIcon, icon);
-			square.setIcon(combiedIcon);
-			break;
-
-		case FOX:
-			Fox fox = (Fox) piece;
-			String direction = fox.isHorizontal() ? "Horizontal" : "Vertical";
-			String bodyPart = fox.isTail() ? "Tail" : "Head";
-			icon = new ImageIcon(path + "fox" + bodyPart + direction + ".png");
-			square.setIcon(icon);
-			break;
-
-		default:
-			break;
-		}
-	}
 
 	/**
 	 * Method to display the level complete popup dialog message
@@ -326,7 +268,7 @@ public class View {
 			if (!valid) {
 				JOptionPane.showMessageDialog(frame, "level" + board.getLevel() + ".xml does not contain a valid level.");
 			}
-			this.updateView();
+			this.updateView(board);
 		}
 
 		else {
@@ -370,7 +312,7 @@ public class View {
 	}
 	
 	/**
-	 * Creates a new view based off a new board.
+	 * Creates a new view based off a new board
 	 * @param {Board} newBoard The board that will be used to create the new view.
 	 */
 	public void setBoard(Board newBoard) {

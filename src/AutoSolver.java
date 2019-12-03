@@ -128,8 +128,8 @@ public class AutoSolver {
 	
 	
 	/**
-	 * Method to filter all the possible moves.
-	 * @return
+	 * Method to filter all the possible moves 
+	 * @return filtedMoves stack containing the moves
 	 */
 	public MoveStack filterMoves() {
 		MoveStack filtedMoves = new MoveStack();
@@ -195,6 +195,7 @@ public class AutoSolver {
 	
 	/**
 	 * Method to auto solve the game
+	 * @param int sleepTimer The time in milliseconds the thread will sleep for
 	 * @return true if solved, else return false if cannot be solved
 	 */
 	public boolean autoSolve(int sleepTimer) {
@@ -205,7 +206,10 @@ public class AutoSolver {
 			try {
 				this.solve();
 				if (view != null) {
-					view.updateView();
+					// Auto solve is the only class that updates the view outside of board.
+					// This is done inside this function to make the view update on a seperate thread.
+					// This helps when the user wants to see an interactive movement of the auto solve.
+					view.updateView(board);
 				}
 				Thread.sleep(sleepTimer);
 				counter++;

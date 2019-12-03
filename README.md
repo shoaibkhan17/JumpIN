@@ -1,7 +1,7 @@
 # JumpIN
 
 Java code for the JumpIN game
-Currently working towards Milestone 3
+Currently working towards Milestone 4
 **Deadline: Dec 2nd**
 
 ## For Developers

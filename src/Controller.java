@@ -11,12 +11,11 @@ import java.io.*;
  * @author Shoaib Khan - 101033582
  */
 
-public class Controller implements Runnable {
+public class Controller implements Runnable, Serializable {
 
 	private Board board;
 	private View view;
-	private Square oldSelectSquare;
-
+	
 	/**
 	 * Default constructor initializes instance variables
 	 * 
@@ -26,7 +25,6 @@ public class Controller implements Runnable {
 	public Controller(Board board, View view) {
 		this.board = board;
 		this.view = view;
-		oldSelectSquare = null;
 	}
 
 	/**
@@ -54,20 +52,7 @@ public class Controller implements Runnable {
 	public void select(ActionEvent event) {
 		Square square = (Square) event.getSource();
 		Location location = square.getLoc();
-		if (board.selectPiece(location)) {
-			view.highlightSelectedSquare(square);
-			oldSelectSquare = square;
-
-			Piece selectedPiece = square.getPiece();
-
-			// If the fox was moved.
-			// Update and render the entire view.
-			if (selectedPiece.getType() == PieceType.FOX) {
-				Fox fox = (Fox) selectedPiece;
-				Square foxBodySquare = board.getSquareAtLocation(fox.getBodyLocation());
-				view.highlightSelectedSquare(foxBodySquare);
-			}
-		}
+		board.selectPiece(location);
 	}
 
 	/**
@@ -78,39 +63,13 @@ public class Controller implements Runnable {
 	public void move(ActionEvent event) {
 		Square square = (Square) event.getSource();
 		Location location = square.getLoc();
-		if (board.move(location)) {
-			Piece selectedPiece = square.getPiece();
-
-			if (selectedPiece == null) {
-				return;
-			}
-
-			// If the fox was moved
-			// Update and render the entire view
-			else if (selectedPiece.getType() == PieceType.FOX) {
-				view.updateView();
-			}
-
-			// If the rabbit was moved
-			// Just update the squares rabbit hopped from and to
-			else {
-				view.imageHandler(oldSelectSquare);
-				view.imageHandler(square);
-			}
-
-			view.unhighlightAllSquares();
-
-			if (board.isGameWon()) {
-				view.displayLevelCompeletePopup();
-			}
-		}
+		board.move(location);
 	}
 
 	/**
 	 * Controller method for auto solving the game
 	 */
 	public void autoSolver() {
-		view.resetView();
 		Thread thread = new Thread(this);
 		thread.start();
 	}
@@ -120,7 +79,6 @@ public class Controller implements Runnable {
 	 */
 	public void undo() {
 		board.undo();
-		view.updateView();
 	}
 
 	/**
@@ -128,7 +86,6 @@ public class Controller implements Runnable {
 	 */
 	public void redo() {
 		board.redo();
-		view.updateView();
 	}
 
 	/**
@@ -139,7 +96,6 @@ public class Controller implements Runnable {
 	 */
 	public boolean levelSelect(Integer level) {
 		boolean valid = board.changeLevel(level);
-		view.updateView();
 		return valid;
 	}
 
@@ -148,6 +104,8 @@ public class Controller implements Runnable {
 	 * It does this by using serialization to write the state of the
 	 * board to file in the SavedGames folder
 	 * @param {String} fileName The name the save file will be saved as, given by user
+	 * @throws IOException if exception occurs
+	 * @return true if the save was successful
 	 */
 	public boolean save(String fileName) {
 		try {
@@ -159,6 +117,7 @@ public class Controller implements Runnable {
 			writer.close();			
 			return true;
 		} catch (IOException e1) {
+			e1.printStackTrace();
 			return false;
 		}
 	}
@@ -168,26 +127,31 @@ public class Controller implements Runnable {
 	 * by deserializing the board from the file then calling view.setBoard()
 	 * 
 	 * @param {String} fileName The name of the file to be loaded
+	 * @throws IOException if exception occurs
+     * @throws ClassNotFoundException if exception occurs
+	 * @returns the saved board
 	 */
-	public void load(String fileName) {
+	public Board load(String fileName) {
 		try {
 			FileInputStream file = new FileInputStream(Constants.SAVED_GAME_PATH + fileName);
 			ObjectInputStream in = new ObjectInputStream(file);
 
-			Board newBoard = (Board) in.readObject();
-			view.setBoard(newBoard);
+			Board savedBoard = (Board) in.readObject();
 			
 			in.close();
 			file.close();
+			
+			return savedBoard;
 		}
 
 		catch (IOException ex) {
-			System.out.println("something happened");
-			//Do nothing (user pressed cancel)
+			System.out.println("Serialized saved object is not in date with the current object.");
+			return null;
 		}
 
 		catch (ClassNotFoundException ex) {
 			System.out.println("ClassNotFoundException is caught");
+			return null;
 		}
 	}
 
@@ -234,7 +198,7 @@ public class Controller implements Runnable {
 		AutoSolver solver = new AutoSolver(board, view);
 		boolean sucessful = solver.autoSolve(Constants.SLEEP_TIMER);
 		if (sucessful) {
-			view.displayLevelCompeletePopup();
+			board.dispatchStandardBoardEvents();
 		}
 	}
 }

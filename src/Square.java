@@ -43,10 +43,18 @@ public class Square extends JButton implements Serializable {
         this.location = location;
     }
     
+    /**
+     * Method that sets the counter
+     * @param counter this is the counter
+     */
     public void setCounter(int counter) {
     	this.counter = counter;
     }
     
+    /**
+     * Method that gets the value of the counter
+     * @return counter value
+     */
     public int getCounter() {
     	return counter;
     }
@@ -84,7 +92,7 @@ public class Square extends JButton implements Serializable {
     }
     
     /**
-     * Removes the specific piece from the square.
+     * Removes the specific piece from the square
      */
     public void removePiece() {
     	this.piece = null;
