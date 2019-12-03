@@ -190,6 +190,7 @@ public class View implements BoardListener {
 				JOptionPane.showMessageDialog(frame, "level" + level + ".xml does not contain a valid level.");
 				return;
 			}
+			this.setButtonsEnabled(true);
 			this.updateView();
 		}
 
