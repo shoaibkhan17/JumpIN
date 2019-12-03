@@ -195,6 +195,7 @@ public class AutoSolver {
 	
 	/**
 	 * Method to auto solve the game
+	 * @param int sleepTimer The time in milliseconds the thread will sleep for
 	 * @return true if solved, else return false if cannot be solved
 	 */
 	public boolean autoSolve(int sleepTimer) {

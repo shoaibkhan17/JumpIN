@@ -75,7 +75,7 @@ public class Board implements Serializable {
 	
 	/**
 	 * Method to set the board listener
-	 * @param listener
+	 * @param BoardListener listener a class that listens/subscribes to the board class
 	 */
 	public void setBoardListener(BoardListener listener) {
 		this.listener = listener;
@@ -83,7 +83,7 @@ public class Board implements Serializable {
 
 	/**
 	 * Method to get the current level of the board.
-	 * @return currentLevel (int)
+	 * @return int currentLevel The current level the game is on
 	 */
 	public int getLevel() {
 		return currentLevel;
@@ -91,7 +91,7 @@ public class Board implements Serializable {
 	
 	/**
 	 * Method to get the turns taken to solve the level.
-	 * @return turnsTaken (int)
+	 * @return int turnsTaken the number of turns the player has taken
 	 */
 	public int getTurnsTaken() {
 		return turnsTaken;
@@ -362,7 +362,8 @@ public class Board implements Serializable {
 	}
 	
 	/**
-	 * Function to redo a move.
+	 * Function to redo a move
+	 * uses the MoveStack redoStack
 	 */
 	public void redo() {
 		Move move = redoStack.pop();
@@ -474,6 +475,7 @@ public class Board implements Serializable {
 	
     /**
      * Method to generate the xml structure of the object
+     * @return String xml An XML representation of the board 
      */
     public String toXML() {
     	

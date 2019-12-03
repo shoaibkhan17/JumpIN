@@ -56,6 +56,8 @@ public abstract class Animal extends Piece {
 	
 	/**
 	 * Equals method implemented
+	 * @param Object o The object to compare with
+	 * @return true if the object is the same as this
 	 */
 	public boolean equals(Object o) {
 	    if (this == o)
