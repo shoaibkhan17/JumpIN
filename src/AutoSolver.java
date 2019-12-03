@@ -208,7 +208,7 @@ public class AutoSolver {
 					// Auto solve is the only class that updates the view outside of board.
 					// This is done inside this function to make the view update on a seperate thread.
 					// This helps when the user wants to see an interactive movement of the auto solve.
-					view.updateView();
+					view.updateView(board);
 				}
 				Thread.sleep(sleepTimer);
 				counter++;
