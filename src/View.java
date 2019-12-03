@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -14,7 +15,7 @@ import java.util.ArrayList;
  * @author Shoaib Khan - 101033582
  */
 
-public class View extends ViewBuilder implements BoardListener {
+public class View extends ViewBuilder implements BoardListener, Serializable {
 
 	private JFrame frame;
 	private Board board;
