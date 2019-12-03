@@ -104,6 +104,8 @@ public class Controller implements Runnable {
 	 * It does this by using serialization to write the state of the
 	 * board to file in the SavedGames folder
 	 * @param {String} fileName The name the save file will be saved as, given by user
+	 * @throws IOException if exception occurs
+	 * @return true if the save was successful
 	 */
 	public boolean save(String fileName) {
 		try {
@@ -124,6 +126,8 @@ public class Controller implements Runnable {
 	 * by deserializing the board from the file then calling view.setBoard()
 	 * 
 	 * @param {String} fileName The name of the file to be loaded
+	 * @throws IOException if exception occurs
+     * @throws ClassNotFoundException if exception occurs
 	 * @returns the saved board
 	 */
 	public Board load(String fileName) {

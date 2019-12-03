@@ -315,6 +315,7 @@ public class Fox extends Animal {
 	
     /**
      * Method to generate the xml structure of the object
+     * @return String xml An XML representation of the fox
      */
     public String toXML() {
     	if (tail) {
