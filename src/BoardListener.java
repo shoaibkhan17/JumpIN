@@ -10,7 +10,7 @@
 public interface BoardListener {
 	/**
 	 * Interface method to handle the board events
-	 * @param eventType
+	 * @param eventType type of event
 	 * @param square if a square is required to be highlighted
 	 */
 	public void BoardEventHandler(Constants.BoardEventType eventType, Square square);
