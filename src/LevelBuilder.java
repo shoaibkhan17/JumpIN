@@ -305,7 +305,7 @@ public class LevelBuilder extends DefaultHandler {
      * @throws Exception if exception occurs
      */
     public void checkIfLevelIsSolvable() throws Exception {
-    	if (board.rabbitCount == 0 || board.rabbitCount > 5) {
+    	if (board.rabbitCount == 0 || board.rabbitCount > Constants.BOARD_SIZE) {
     		throw new Exception("The custom build level is not solvable.");
     	}
     	

@@ -12,7 +12,7 @@ Authors:
 User Manual (For milestone 1):
 
 -Basic Information
---Currently five levels are developed.
+--Currently 8 levels are developed.
 --The goal of the game is to place all the rabbits inside holes.
 --The game can be played as a text-based game only, or with the GUI
 --Rabbits can jump over objects, including mushrooms, foxes and other rabbits
@@ -94,8 +94,10 @@ is to combine the icon of a rabbit and a hole when a rabbit is in a hole.
 
 - Constants Class:
 
------------CombinedIcon is a class that extends Icon and combines two icons together. It's purpose 
-is to combine the icon of a rabbit and a hole when a rabbit is in a hole. 
+-----------The constants class is a class that we decided to use in order to group various constants that would be 
+used between various different classes in our game, such as the length of the board, the colours of the rabbits, file organization 
+information, and instructions on the game. Our decision was based on the fact that it is easier to develop this way because
+that way, all entire development team knows where the necessary constants for our project are stored, and we can access them easily.
 
 - Controller Class:
 
@@ -132,7 +134,7 @@ it was moved to. This class is utilized by the undo/redo functionality to undo m
 
 -----------The MoveStack class is used to make an instance of a stack that contains moves. A stack was used 
 because when undoing, you want to undo the last move made, and when redoing, you want to redo the last undo 
-made.
+made. A stack uses the FIFO (first-in, first-out) principle, which does just that.
 
 - Mushroom Class:
 
@@ -174,13 +176,24 @@ menu is clicked and, a Board which it uses to build the GUI.
 
 - LevelBuilder Class:
 
-----------The View class is a class that builds and displays a visual representation of the model as a GUI. It has a controller, which it alerts when a button or 
-menu is clicked and, a Board which it uses to build the GUI. 
+----------The LevelBuilder class is the class which is used to allow the user to build a custom-made level and save it. It should 
+also be noted that the use of SAXParser is present in the LevelBuilder class, and the reason for that is because it is a tool that 
+we have already learned in the labs, and saves us from having to write our own parser for XML. It is a design decision made by us 
+to save time and effort, and not re-invent the wheel. Another decision in this class is to use ByteArrayInput and ByteArrayOutput Streams
+when deep copying the board, which is necessary when we want to manipulate the board without actually changing the original board, 
+such as when we want to check if the board is solvable. The reason we made this decision was because this is an easy way to deep-copy,
+because we simply output then input the bytes, and we've got a deep copy of the board, without initializing each variable one by one.
+So, this was a good decision we made to improve efficiency.
 
 - LevelBuilderView Class:
 
-----------The View class is a class that builds and displays a visual representation of the model as a GUI. It has a controller, which it alerts when a button or 
-menu is clicked and, a Board which it uses to build the GUI. 
+----------The LevelBuilderView class is needed in order to display a frame besides the main game frame, and the frame for this class 
+allows for the user to build a custom level. Our decision was to allow the user to click on each button on the board, and this 
+would change what piece they want to put at that location. This was a decision we made, to separate the logic of the levelbuilder 
+from the view, which is somewhat along the lines of the MVC pattern, except that we do not have a separate controller. We made this 
+decision because we thought that creating another class for the controller would be overdoing it, because there would not be 
+significant enough benefit to use it. There only needed to be one view for the level builder, and one view for it, and so 
+introducing a controller just for the sake of the design pattern is not a logical thing to do; it would just complicate things more. 
 
 ---------------------------------------------------------------------------------------------------
 Changes since last iteration:
