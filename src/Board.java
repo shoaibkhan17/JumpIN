@@ -237,6 +237,10 @@ public class Board implements Serializable {
 	 * Method to dispatch the highlighting square board event
 	 */
 	private void dispatchHighlightSquareEvent() {
+		if (listener == null) {
+			return;
+		}
+		
 		if (selectedPiece != null) {
 			if (selectedPiece.getType() == PieceType.FOX) {
 				Fox fox = (Fox) selectedPiece;
