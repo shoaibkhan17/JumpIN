@@ -90,6 +90,7 @@ public class Hole extends Piece {
     
     /**
      * Method to generate the xml structure of the object
+     * @return String xml An xml representation of a hole
      */
     public String toXML() {
     	return "";
