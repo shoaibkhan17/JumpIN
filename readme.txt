@@ -201,6 +201,32 @@ decision because we thought that creating another class for the controller would
 significant enough benefit to use it. There only needed to be one view for the level builder, and one view for it, and so 
 introducing a controller just for the sake of the design pattern is not a logical thing to do; it would just complicate things more. 
 
+- Level builder logic 
+----------Level builder has a method that acts like an onclick event handler. When any square is click from the level builder view, it check if the square is empty
+if it is, then it added a mushroom on it. If that piece is clicked again, it adds a rabbit on it. If it is clicked again, it adds a horizontal fox, then a vertical 
+fox, then finally, it clears the piece. If a horizontal fox cannot be added, it skips and tries to add the vertical fox. If a vertical fox cannot be added, then it
+skips and clears the piece. If the selected piece is a hole, it check if it is empty. It is not empty, it clears the rabbit from the hole. It is empty, it added a
+rabbit in the hole. After building the level, it asks user to enter a level number to save the level. If that level already exits, it throws an error and asks the
+users to enter another level. Then, it checks if the level is solvable. If it is not, it throws another error. If the level is solvable, it generates the XML object
+from all the pieces in the board. Then, it writes the XML object to the file and saves it.
+
+- Level builder parsing XML logic
+----------For parsing the XML content from the file, DefaultHandler is used. When a tag is started, the tag is stored in a variable. When, the DefaultHandler is
+parsing the current tag - if it is a rabbit color, the color is saved. If it is coordinate, the coordinate is saved, and so.. Once, the DefaultHandler is parsing
+the end tags, we collect all the stored and necessary information of the end tag object and create the object. Then, the object is placed in the squares using 
+the coordinates as the location. After the parsing is complete, we add all the holes at specific locations. If the location contains any other objects besides
+a rabbit, the level is invalid. If it contains a rabbit, then the rabbit is added in the hole. XML parsing uses a current board and all the operations are done 
+on that board. So, there is no need to return and set a new board.
+
+- Auto solver logic 
+----------The auto solver starts by finding all the animals in the game. Then, it goes through each animal and finds all the possible moves. After finding all the
+possible moves for each animal, it filters the possible moves into moves to make stack. The filteration of the possible moves is simple. It moves all the pieces and
+gets the new game states. Then, it checks if the game state already exists in the tree or not. If it does, it discards the move. If it does not, it considers that 
+move. After the move is made, it added the recent move made's game state into the decision tree. If the auto solver hits a road block down the tree, it continues to 
+undo till the parent node it LAST branched off from. It continues till the game is solved. If by 1000 tries, the game is still not solved. It returns false. If the 
+game is solved, it returns true. The autosolver uses depth first search algorithm. Why DFS? because it will look like a human solving the game when the view updates 
+itself in the loop.
+
 ---------------------------------------------------------------------------------------------------
 Changes since last iteration:
 
