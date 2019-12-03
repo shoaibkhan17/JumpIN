@@ -67,12 +67,10 @@ User Manual (For milestone 1):
 Design Decisions:
 
 - Overall: 
-
 ---------Separating the model, view and controller in accordance with the MVC model
----------The Board is set to be complete once all the Rabbits are placed in the Holes.
+The Board is set to be complete once all the Rabbits are placed in the Holes.
 
 - Animal Class:
-
 -----------Animal class is the parent class of all moving pieces on the board (Fox and Rabbit). 
 Animals are selectable and movable. Classes that extend Animal must be responsible for handling their 
 own movement.
@@ -88,98 +86,97 @@ Each square has a location, and can contain a piece. After a move has been made 
 class checks if the game has been won by checking if all the rabbits on the board are in a hole.
 
 - BoardListener Class:
- 
 ---------The boardListener class is an interface which allows the view to listen to the board, in accordance with the MVC pattern.
 The model must be the one to update the view, not the controller. It is for this reason that the view implements the boardListener interface,
 so when the board changes state and the view is needed to update, the view can then update itself.
 
 - CombinedIcon Class:
-
 -----------CombinedIcon is a class that extends Icon and combines two icons together. It's purpose 
 is to combine the icon of a rabbit and a hole when a rabbit is in a hole. 
 
 - Constants Class:
-
 -----------The constants class is a class that we decided to use in order to group various constants that would be 
 used between various different classes in our game, such as the length of the board, the colours of the rabbits, file organization 
 information, and instructions on the game. Our decision was based on the fact that it is easier to develop this way because
 that way, all entire development team knows where the necessary constants for our project are stored, and we can access them easily.
 
 - Controller Class:
-
 ----------The controller class' purpose is to receive events that occur on the GUI and then
-handle these events.It handles the event by interpreting the kind of event that occurred and, calling
-the appropriate methods to adjust the board and update the view. 
+handle these events. It handles the event by interpreting the kind of event that occurred and, calling
+the appropriate methods to adjust the board and update the view. The reason that Controller implements Runnable interface
+is because we want to have multiple threads executing in parallel in our program, and this is used when we have 
+use the auto-solve feature, so that we can make the moves to solve the level one at a time so the user can see them 
+happen in sequence.
 
 - Fox Class:
-
 -----------Fox is a subclass of the abstract Animal class. It can be moved horizontally or vertically.
-It contains it's location as well as the location of it's body part. Fox is responsible for 
+It contains its location as well as the location of its body part. Fox is responsible for 
 handling the movement of the fox by updating its locations.
 
 - Hole Class:
-
 -----------Hole is a subclass of the abstract Piece class. It is stationary and cannot be moved. It can 
-contain a piece similarly to the way a square does.
+contain an Animal piece. The reason why hole can contain an Animal, but not a Piece, is because a general piece 
+cannot be inside a hole, because that would include things like mushrooms as well. But only something such as a Rabbit
+can be inside the Hole.
 
 - JumpIN Class:
 
-----------The text-based version of the game.
+----------The text-based version of the game. The reasoning for this game was because we didn't want the controller of 
+the game in the text-based version as well as the text-based view to be in the same class as the game logic. The 
+reasoning for this design decision is that we knew there would be a GUI in the 2nd iteration and beyond, and having 
+support for a text-based view and controller must be seperate from the logic, because the view and controller change, 
+but the model must be the same regardless. 
 
 - Location Class:
-
 -----------The Location class is used to create positions for the squares on the board. This class is also used
-to maintain and update the positions of pieces on the board. 
+to maintain and update the positions of pieces on the board. It has methods to get and set one or both of its coordinates,
+as well as important methods such as toString(), equals(), and compareTo(), which are used to represent, check for equality,
+and compare locations respectively. We choose to keep the coordinates as "int" because decimals are not relevant.s
 
 - Move Class:
 
------------The Move class creates an instance of a move on the board. It retains the piece moved and location
-it was moved to. This class is utilized by the undo/redo functionality to undo moves made by the player.
+-----------The Move class creates an instance of a move on the board. It retains the Animal piece moved and the location
+it was moved to. This class is utilized by the undo/redo functionality to undo moves made by the player. The decision
+we made was to not store the oldLocation as it is not necessary, because the Animal itself has its location stored 
+as an instance variable. 
 
 - MoveStack Class:
-
 -----------The MoveStack class is used to make an instance of a stack that contains moves. A stack was used 
 because when undoing, you want to undo the last move made, and when redoing, you want to redo the last undo 
 made. A stack uses the FIFO (first-in, first-out) principle, which does just that.
 
 - Mushroom Class:
 
-------------Mushroom is a subclass of the Piece class and cannot be moved or selected. It's only purpose is
-as an obstacle on the board. 
-
+------------Mushroom is a subclass of the Piece class and cannot be moved or selected. Its only purpose is
+as an obstacle on the board which the Rabbit can jump over. A Rabbit can jump over several mushrooms in one move 
+if they are all in a row. 
 
 - Parser Class:
-
 -----------Used to parse user input for text-based version. It is used because it seperates processing 
 the user input from the actual game logic (decoupling)
 
 - Piece Class:
-
 -----------Piece class is the parent class of all pieces on the board. 
 A piece has a type (RABBIT, MUSHROOM, etc..), a piece can either be selectable and movable, or unselectable
 and unmovable. All none moving pieces extend Piece (Hole and Mushroom). Moving pieces extend Animal which
 extends Piece.
 
 - PieceType Class:
-
 -----------PieceType is used to declare an enum with all valid piece types such as RABBIT, FOX, HOLE, etc.
 The reasoning for using the PieceType class was so that we would decouple the logic in Piece from PieceType, 
 and if we want to change the acceptable types in the game, we have them organized in a neat fashion.
 
 - Rabbit Class:
-
 -----------Rabbit is a subclass of the abstract Animal class. It can be moved by jumping over other obstacles.
 Rabbit contains it's location and is responsible for handing movement of the rabbit by updating it's location.
 A Rabbit also has a colour, which is important when distinguishing when there are multiple rabbits on the board
 
 - Square Class:
-
 -----------The Square class extends JButton. Squares appear on the GUI as buttons. Each square retains its
 location and the piece on top of it. The reason square would extend JButton was a design decision in order to make in
 easy in the GUI, because when we initialize the squares, we create the buttons at the same time. 
 
 - View Class:
-
 ----------The View class is a class that builds and displays a visual representation of the model as a GUI. It has a controller, which it alerts when a button or 
 menu is clicked and, a Board which it uses to build the GUI. The reason why view has a JFrame as an instance variable
 is that we can display the GUI. If we extended JFrame, we might be limiting ourselves, because it could be that 
@@ -189,7 +186,6 @@ the MVC pattern. Our design decision therefore was to use this well-known and ea
 organize our classes. 
 
 - LevelBuilder Class:
-
 ----------The LevelBuilder class is the class which is used to allow the user to build a custom-made level and save it. It should 
 also be noted that the use of SAXParser is present in the LevelBuilder class, and the reason for that is because it is a tool that 
 we have already learned in the labs, and saves us from having to write our own parser for XML. It is a design decision made by us 
@@ -200,7 +196,6 @@ because we simply output then input the bytes, and we've got a deep copy of the 
 So, this was a good decision we made to improve efficiency.
 
 - LevelBuilderView Class:
-
 ----------The LevelBuilderView class is needed in order to display a frame besides the main game frame, and the frame for this class 
 allows for the user to build a custom level. Our decision was to allow the user to click on each button on the board, and this 
 would change what piece they want to put at that location. This was a decision we made, to separate the logic of the levelbuilder 
@@ -243,13 +238,12 @@ Changes since last iteration:
 -Changing contents of design document to explain in detail our design decisions.
 -Updating the JUnit tests for the new classes
 -Modifying JMenuBar to have the new options such as level builder, level save/load etc.
-
----------------------------------------------------------------------------------------------------
-Optional Future Road Map (Not in Project Requirements): 
-
--Show all available locations user can move when they select a piece
--Allow hints to be given to the user within the GUI
--Provide sounds when game is won, and when any move is made
--These sounds can correspond to each animal (fox vs. rabbit)
+-Creating a different view for the level builder
+-Instead of the controller updating a view, the board dispatches an event lister for the view to update itself
+-Using serlization to save and load the board state
+-Auto solver uses a complete different logic (check design decisions for more details)
+-View and Level builder now extends the view builder class.
+-View builder class contains all the helper methods for the views
+-Constants class to hold all the constants
 
 ---------------------------------------------------------------------------------------------------
