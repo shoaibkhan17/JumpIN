@@ -29,6 +29,11 @@ public class Board implements Serializable {
 	private int turnsTaken;
 	
 	/**
+	 * Any single particular view that is listening to this model
+	 */
+	private BoardListener listener;
+	
+	/**
 	 * Default constructor with no params.
 	 * Initializes the object.
 	 */
@@ -68,6 +73,13 @@ public class Board implements Serializable {
 		} 
 	}
 	
+	/**
+	 * Method to set the board listener
+	 * @param listener
+	 */
+	public void setBoardListener(BoardListener listener) {
+		this.listener = listener;
+	}
 
 	/**
 	 * Method to get the current level of the board.
@@ -203,6 +215,7 @@ public class Board implements Serializable {
 
 				// Make that piece as the selected piece and store its location.
 				selectedPiece = hole.getPiece();
+				this.dispatchHighlightSquareEvent();
 				return true;
 			}
 
@@ -216,8 +229,43 @@ public class Board implements Serializable {
 
 		// get the selected piece from location x, y
 		selectedPiece = (Animal) squares[x][y].getPiece();
-
+		this.dispatchHighlightSquareEvent();
 		return true;
+	}
+	
+	/**
+	 * Method to dispatch the highlighting square board event
+	 */
+	private void dispatchHighlightSquareEvent() {
+		if (listener == null) {
+			return;
+		}
+		
+		if (selectedPiece != null) {
+			if (selectedPiece.getType() == PieceType.FOX) {
+				Fox fox = (Fox) selectedPiece;
+				
+				// Highlight the fox's body location square
+				listener.BoardEventHandler(Constants.BoardEventType.highlightSquare, this.getSquareAtLocation(fox.getBodyLocation()));
+			}
+			
+			// Hightlight the selected fox or rabbit
+			listener.BoardEventHandler(Constants.BoardEventType.highlightSquare, this.getSquareAtLocation(this.selectedPiece.getPieceLocation()));
+		}
+	}
+	
+	/**
+	 * Method to dispatch the standard board events and to notify the listener (view)
+	 */
+	protected void dispatchStandardBoardEvents() {
+		if (listener != null) {
+			listener.BoardEventHandler(Constants.BoardEventType.updateView, null);
+			listener.BoardEventHandler(Constants.BoardEventType.clearHighlight, null);
+			
+			if (this.isGameWon()) {
+				listener.BoardEventHandler(Constants.BoardEventType.GameWon, null);
+			}
+		}
 	}
 	
 	/**
@@ -270,7 +318,6 @@ public class Board implements Serializable {
 	 */
 	public boolean movePiece(Location newLocation, Animal animalPiece, boolean userMove, boolean redo) {
 
-
 		// If the new location is the same as the old location.
 		if (animalPiece.getPieceLocation().equals(newLocation)) {
 			return true;
@@ -292,6 +339,7 @@ public class Board implements Serializable {
 			if (this.movePiece(newLocation, selectedPiece, true, false)) {
 				selectedPiece = null;
 				turnsTaken++;
+				this.dispatchStandardBoardEvents();
 				return true;
 			}	
 		}
@@ -310,6 +358,7 @@ public class Board implements Serializable {
 		Location newLocation = move.getNewLocation();
 		Animal animalPiece = move.getPiece();
 		this.movePiece(newLocation, animalPiece, false, true);
+		this.dispatchStandardBoardEvents();
 	}
 	
 	/**
@@ -324,6 +373,7 @@ public class Board implements Serializable {
 		Location newLocation = move.getNewLocation();
 		Animal animalPiece = move.getPiece();
 		this.movePiece(newLocation, animalPiece, false, false);
+		this.dispatchStandardBoardEvents();
 	}
 	
 	/**

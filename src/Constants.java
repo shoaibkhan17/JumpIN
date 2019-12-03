@@ -112,6 +112,9 @@ public class Constants {
 			+ "- Rabbits can jump over objects, including mushrooms, foxes and other rabbits\r\n"
 			+ "- Foxes can slide on empty spaces in the direction that the fox is oriented \r\n";
 	
+	/**
+	 * Level builder instructions 
+	 */
 	public final static String LEVEL_BUILDER_INSTRUCTIONS = "Select a square to add a piece on the board.\n"
 			+ "Clicking on the same piece will toggle the piece.\n"
 			+ "Not all pieces can be added to every square.\n"
@@ -119,4 +122,10 @@ public class Constants {
 			+ "Once youre done, save the file.\nThen, close the builder and reopen the game.\n"
 			+ "Select your level from the level select option.\n"
 			+ "Enjoy!";
+	
+	/**
+	 * Enum of board events that are being dispatched from the board to the view
+	 *
+	 */
+	public enum BoardEventType {GameWon, updateView, clearHighlight, highlightSquare} 
 }

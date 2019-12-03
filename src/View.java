@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * @author Shoaib Khan - 101033582
  */
 
-public class View {
+public class View implements BoardListener {
 
 	private JFrame frame;
 	private Board board;
@@ -50,6 +50,7 @@ public class View {
 		this.initFrame();
 		this.initMenu();
 		this.initView();
+		board.setBoardListener(this);
 	}
 
 	/**
@@ -120,6 +121,31 @@ public class View {
 	}
 	
 	/**
+	 * Method to listen to all the board events dispatched from the model (board)
+	 */
+	@Override
+	public void BoardEventHandler(Constants.BoardEventType eventType, Square square) {
+		switch(eventType) {
+		case GameWon:
+			this.displayLevelCompeletePopup();
+			break;
+		case clearHighlight:
+			this.unhighlightAllSquares();
+			break;
+		case updateView:
+			this.updateView();
+			break;
+		case highlightSquare:
+			if (square != null) {
+				this.highlightSelectedSquare(square);
+			}
+			break;
+		default:
+			break;
+		}	
+	}
+	
+	/**
 	 * Method which shows the GUI for the level builder
 	 */	
 	private void showLevelBuilderView() {
@@ -162,7 +188,10 @@ public class View {
 			boolean valid = controller.levelSelect(level);
 			if (!valid) {
 				JOptionPane.showMessageDialog(frame, "level" + level + ".xml does not contain a valid level.");
+				return;
 			}
+			this.setButtonsEnabled(true);
+			this.updateView();
 		}
 
 	}
@@ -194,7 +223,10 @@ public class View {
 		if (loadOptions.length != 0) {
 			String loadFile = (String) JOptionPane.showInputDialog(frame, "Which save would you like to load?", "Load", 
 					JOptionPane.QUESTION_MESSAGE, null, loadOptions, null);
-			controller.load(loadFile);
+			Board savedBoard = controller.load(loadFile);
+			if (savedBoard != null) {
+				this.setBoard(savedBoard);
+			}
 		} else {
 			JOptionPane.showMessageDialog(frame, "No save data to load.");
 		}
